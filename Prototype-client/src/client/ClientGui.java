@@ -5,8 +5,8 @@
 package client;
 
 import ocsf.client.*;
-import common.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -17,7 +17,7 @@ import java.io.*;
  * @author Fran&ccedil;ois B&eacute;langer
  * @version July 2000
  */
-public class ChatClient extends AbstractClient
+public class ClientGui extends AbstractClient
 {
   //Instance variables **********************************************
   
@@ -25,7 +25,6 @@ public class ChatClient extends AbstractClient
    * The interface type variable.  It allows the implementation of 
    * the display method in the client.
    */
-  ChatIF clientUI; 
 
   
   //Constructors ****************************************************
@@ -38,16 +37,11 @@ public class ChatClient extends AbstractClient
    * @param clientUI The interface type variable.
    */
   
-  public ChatClient(String host, int port, ChatIF clientUI) 
+  public ClientGui(String host, int port) 
     throws IOException 
   {
     super(host, port); //Call the superclass constructor
-    System.out.println("3.1");
-    this.clientUI = clientUI;
-    System.out.println("3.2");
     openConnection();
-    System.out.println("3.3");
-
   }
 
   
@@ -60,7 +54,11 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-    clientUI.display(msg.toString());
+	  System.out.println("test");
+	  System.out.println(msg.getClass().getSimpleName());
+	  ArrayList<String> arr=(ArrayList<String>)msg;
+	  System.out.println(arr.get(0));
+    //clientUI.display(msg.toString());
   }
 
   /**
@@ -76,8 +74,7 @@ public class ChatClient extends AbstractClient
     }
     catch(IOException e)
     {
-      clientUI.display
-        ("Could not send message to server.  Terminating client.");
+      System.out.println("Could not send message to server.  Terminating client.");
       quit();
     }
   }
@@ -95,4 +92,4 @@ public class ChatClient extends AbstractClient
     System.exit(0);
   }
 }
-//End of ChatClient class
+//End of ClientGui class

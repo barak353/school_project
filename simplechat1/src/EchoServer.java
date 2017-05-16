@@ -5,8 +5,10 @@
 import java.io.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.ResultSet;
 import com.mysql.jdbc.Statement;
 
 import ocsf.server.*;
@@ -58,9 +60,32 @@ public class EchoServer extends AbstractServer
    */
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
-  {
+  {		
+	  try 
+	{
+      Class.forName("com.mysql.jdbc.Driver").newInstance();
+  } catch (Exception ex) {/* handle the error*/}
 	    System.out.println("Message received: " + msg + " from " + client);
-	    this.sendToAllClients(msg);
+	    ResultSet s = null;
+	    try {
+	    	msg=msg+" server ";
+			Statement stmt;
+			try {
+	            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
+
+				stmt = (Statement) con.createStatement();
+		    	//s=(ResultSet) stmt.executeQuery("");
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			client.sendToClient(new ArrayList<String>().add("Barak"));
+		} catch (IOException e) {
+			System.out.println("Unable to send msg to client from EchoServer.");
+			e.printStackTrace();
+		}
+	  //  this.sendToAllClients(msg);
 	  }
 
     

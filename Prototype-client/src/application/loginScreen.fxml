@@ -35,17 +35,22 @@
             <Image url="@../../img/DB.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="wrongTextID" fill="RED" layoutX="118.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.0">
+      <PasswordField fx:id="passwordID" layoutX="117.0" layoutY="218.0" />
+      <TextField fx:id="usernameID" layoutX="118.0" layoutY="146.0" />
+      <Text fx:id="successfulID" fill="#1a00ff" layoutX="54.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to the server was successful">
          <font>
-            <Font size="14.0" /> 
+            <Font size="18.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passwordID" layoutX="117.0" layoutY="218.0" />
-      <ImageView fitHeight="40.0" fitWidth="129.0" layoutX="227.0" layoutY="49.0">
+      <Text fx:id="wrongTextID" fill="RED" layoutX="177.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="14.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="32.0" fitWidth="114.0" layoutX="229.0" layoutY="53.0">
          <image>
-            <Image url="@../../../../Desktop/system_logo_header_final.png" />
+            <Image url="@../../img/System.png" />
          </image>
       </ImageView>
-      <TextField fx:id="usernameID" layoutX="118.0" layoutY="146.0" />
    </children>
 </AnchorPane>

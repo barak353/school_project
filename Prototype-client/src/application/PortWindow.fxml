@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.PortScreen">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PortScreen">
    <children>
       <Text layoutX="55.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter connection details:">
          <font>
@@ -31,5 +30,10 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Text fx:id="errorTextID" fill="RED" layoutX="151.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="213.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
