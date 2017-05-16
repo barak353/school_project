@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="840.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginScreen">
+   <children>
+      <ImageView fitHeight="50.0" fitWidth="147.0" layoutX="14.0" layoutY="14.0">
+         <image>
+            <Image url="@../../../../Desktop/system_logo_header_final.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="283.0" fitWidth="283.0" layoutX="650.0" layoutY="532.0">
+         <image>
+            <Image url="@../../../../Desktop/source-api.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="179.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome " wrappingWidth="621.197265625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
