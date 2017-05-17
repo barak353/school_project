@@ -54,7 +54,7 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
         if(showNextWindow==true){//if required field are ok then preform there code, else stay in these scene.
 	       // sendQueryToServer(strQuery,'U','L');
             String strQuery="SELECT password FROM users WHERE userID='"+username+"'";//Create new query for getting this username password.
-        	ControllerQuery.sendQueryToServer(strQuery);//Send query to server.
+        	//ControllerQuery.sendQueryToServer(strQuery);//Send query to server.
         	
 	         try {//change to login scene.
 	        	Parent login_screen_parent=FXMLLoader.load(getClass().getResource("teacherWindow.fxml"));
