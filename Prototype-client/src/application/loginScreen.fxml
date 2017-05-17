@@ -37,12 +37,12 @@
       </ImageView>
       <PasswordField fx:id="passwordID" layoutX="117.0" layoutY="218.0" />
       <TextField fx:id="usernameID" layoutX="118.0" layoutY="146.0" />
-      <Text fx:id="successfulID" fill="#1a00ff" layoutX="54.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to the server was successful">
+      <Text fx:id="successfulID" fill="#0022ff" layoutX="54.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to the server was successful">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="wrongTextID" fill="RED" layoutX="177.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="14.0">
+      <Text fx:id="wrongTextID" fill="RED" layoutX="37.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="325.0">
          <font>
             <Font size="18.0" />
          </font>

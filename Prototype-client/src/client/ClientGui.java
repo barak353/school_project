@@ -54,11 +54,12 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-	  System.out.println("test");
+	  System.out.println("6");
 	  System.out.println(msg.getClass().getSimpleName());
 	  ArrayList<String> arr=(ArrayList<String>)msg;
-	  System.out.println(arr.get(0));
+	  System.out.println(arr.get(0));//prints password to compare with. 
     //clientUI.display(msg.toString());
+	  
   }
 
   /**
@@ -68,9 +69,13 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromClientUI(String message)
   {
+  	System.out.println("2");
+
     try
     {
     	sendToServer(message);
+    	System.out.println("2.2");
+
     }
     catch(IOException e)
     {

@@ -43,21 +43,19 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
     
     @FXML
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
-    	ControllerQuery.sendQueryToServer("Hello");
 
     	//create query for searching for teacher user, and check if the password that was entered is correct.
         String username=usernameID.getText();
         String password=passwordID.getText();
         if(username.equals("") || password.equals("")){
-        	System.out.println("stay");
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
         }
-        String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
-        System.out.println("in loginIntoTheSystem");
         if(showNextWindow==true){//if required field are ok then preform there code, else stay in these scene.
 	       // sendQueryToServer(strQuery,'U','L');
-	       
+            String strQuery="SELECT password FROM users WHERE userID='"+username+"'";//Create new query for getting this username password.
+        	ControllerQuery.sendQueryToServer(strQuery);//Send query to server.
+        	
 	         try {//change to login scene.
 	        	Parent login_screen_parent=FXMLLoader.load(getClass().getResource("teacherWindow.fxml"));
 				Scene login_screen_scene=new Scene(login_screen_parent);

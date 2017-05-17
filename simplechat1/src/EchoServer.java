@@ -6,6 +6,7 @@ import java.io.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSet;
@@ -25,13 +26,20 @@ import ocsf.server.*;
  */
 public class EchoServer extends AbstractServer 
 {
+    //Constant variables *************************************************
+	final protected static String DEFUALT_HOST="root";//default DB host.
+	
+	final protected static int DEFUALT_PASS=123456;//default DB password.
     //Class variables *************************************************
 	/**
 	* stmt will be the Statment for creating SQL quering.
 	*/
-   static Statement stmt;
-  //Class variables *************************************************
-  
+   static Statement stmt;//This will save the Statement created in the connection to the DB.
+   /**
+    * This is the server connection to the DB.
+    */
+   protected static Connection conn=null;//This will save the connection created to the DB.
+
   /**
    * The default port to listen on.
    */
@@ -44,6 +52,8 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
+ 
+  
   public EchoServer(int port) 
   {
     super(port);
@@ -61,32 +71,40 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {		
-	  try 
-	{
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
-  } catch (Exception ex) {/* handle the error*/}
-	    System.out.println("Message received: " + msg + " from " + client);
-	    ResultSet s = null;
+	  System.out.println("4");
+	  ResultSet rs = null;
 	    try {
-	    	msg=msg+" server ";
-			Statement stmt;
-			try {
-	            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
+	  	  System.out.println("4.1");
 
-				stmt = (Statement) con.createStatement();
-		    	//s=(ResultSet) stmt.executeQuery("");
+			rs = (ResultSet) stmt.executeQuery((String) msg);
+		} catch (SQLException e1) {
+			System.out.println("Failed to execute query in handleMessageFromClient");
+			e1.printStackTrace();
+		}
+		  System.out.println("4.3");
+		  ArrayList<String> arr=new ArrayList<String>();
+		  try {
+			rs.next();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		  try {
+			arr.add(rs.getString(1));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    try{
+		client.sendToClient(arr);
+		  System.out.println("4.4");
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			client.sendToClient(new ArrayList<String>().add("Barak"));
-		} catch (IOException e) {
+	    }catch (IOException e) {
 			System.out.println("Unable to send msg to client from EchoServer.");
 			e.printStackTrace();
 		}
 	  //  this.sendToAllClients(msg);
-	  }
+  }
 
     
   /**
@@ -120,17 +138,27 @@ public class EchoServer extends AbstractServer
    */
   public static void main(String[] args) 
   {
-    int port = 0; //Port to listen on
-	 Connection conn=null;
+     Scanner scanner = new Scanner(System.in);
+	 System.out.println("Welcome to the server console.");
+	 System.out.println("Please enter DataBase host:");
+	 String host =(scanner.next());//get the host from the user.
+	 System.out.println("Please enter DataBase password:");
+	 int password =(scanner.nextInt());//get the port from the user.
+	 if(host.equals(""))host=DEFUALT_HOST;
+	 if(password==0)password=DEFUALT_PASS;
+	 System.out.println("Please enter server port:");
+	 int port =(scanner.nextInt());//get the port from the user.
+	 if(password==0)password=DEFAULT_PORT;
+
 	  try 
 		{
 	        Class.forName("com.mysql.jdbc.Driver").newInstance();
-	    } catch (Exception ex) {System.out.println("failed to registering the jdbc driver.");}
+	    } catch (Exception ex) {System.err.println("Failed to registering the jdbc driver.");ex.printStackTrace();}
 		try {
 			conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
 			
 		} catch (SQLException e1) {
-			System.out.println("Unable to connect to SQL database.");
+			System.err.println("Unable to connect to SQL database.");
 			e1.printStackTrace();
 		}//create connection with mysql DB.
 	try {
@@ -140,21 +168,13 @@ public class EchoServer extends AbstractServer
 		e1.printStackTrace();
 	}
    System.out.println("SQL connection succeed.");
-
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-    }
 	
     EchoServer sv = new EchoServer(port);
     
     try 
     {
       sv.listen(); //Start listening for connections
+      System.out.println("Server started listening to clients.");
     } 
     catch (Exception ex) 
     {
