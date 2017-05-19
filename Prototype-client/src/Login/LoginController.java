@@ -81,20 +81,18 @@ public class LoginController extends QueryController implements Initializable{//
             //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
             //ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
         	if(isUserExist==true){
-        		System.out.println("userPassword"+userPassword);
 	        	if(userPassword.equals(password)){
 			         try {//change to login scene.
 				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryWindow.fxml"));
 				        loader.setController(new SecretaryController("SecretaryController"));
 				        Pane login_screen_parent = loader.load();
-				        Scene login_screen_scene=new Scene(login_screen_parent);		
+				        Scene login_screen_scene=new Scene(login_screen_parent);	
 						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
 						app_stage.hide();
 						app_stage.setScene(login_screen_scene);
 						app_stage.show(); 
-						
 			         } catch (IOException e) {
-						System.out.println("Missing teacherWindow.fxml file");
+						System.out.println("Missing SecretaryWindow.fxml file");
 						e.printStackTrace();
 					}
 	            }else{
