@@ -43,7 +43,7 @@ public class LoginController extends QueryController implements Initializable{//
     @FXML
     private Button connectID;
     
-    private boolean showNextWindow = true;//this flag will say if we stay in this scene or if go to the next scene.
+    private boolean showNextWindow;//this flag will say if we stay in this scene or if go to the next scene.
     
     private static String username;
     
@@ -57,36 +57,50 @@ public class LoginController extends QueryController implements Initializable{//
     @FXML
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
     	//create query for searching for teacher user, and check if the password that was entered is correct.
+    	showNextWindow = true;
         username=usernameID.getText();
         password=passwordID.getText();
         if(username.equals("") || password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
         }
-        ArrayList<String> resultArray= transfferQueryToServer("SELECT password FROM users WHERE userID='"+username+"'");
-        String userPassword = resultArray.get(0);
-        System.out.println("userPassword: "+userPassword);
+        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT password FROM users WHERE userID='"+username+"'");
+        String userPassword = null;
+        boolean isUserExist=false;
+        if(resultArray.isEmpty()==false){//check if there is first row.
+        	ArrayList<String> row1=resultArray.get(0);//get first row.
+        		if(row1.isEmpty()==false){//check if there is first column.
+        		      userPassword = row1.get(0);//get first column.
+        		      isUserExist=true;
+        		}
+        }
+        
+        
+        
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
-            String strQuery="SELECT password FROM users WHERE userID='"+username+"'";//Create new query for getting this username password.
-            ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
-            if(userPassword.equals(password)){
-		         try {//change to login scene.
-			        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryWindow.fxml"));
-			        loader.setController(new SecretaryController("SecretaryController"));
-			        Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);		
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-					
-		         } catch (IOException e) {
-					System.out.println("Missing teacherWindow.fxml file");
-					e.printStackTrace();
-				}
-            }else{
-            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
-            }
+            //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
+            //ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
+        	if(isUserExist==true){
+        		System.out.println("userPassword"+userPassword);
+	        	if(userPassword.equals(password)){
+			         try {//change to login scene.
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryWindow.fxml"));
+				        loader.setController(new SecretaryController("SecretaryController"));
+				        Pane login_screen_parent = loader.load();
+				        Scene login_screen_scene=new Scene(login_screen_parent);		
+						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+						app_stage.hide();
+						app_stage.setScene(login_screen_scene);
+						app_stage.show(); 
+						
+			         } catch (IOException e) {
+						System.out.println("Missing teacherWindow.fxml file");
+						e.printStackTrace();
+					}
+	            }else{
+	            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
+	            }
+        	}
         }
     }
 

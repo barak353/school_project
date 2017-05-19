@@ -44,11 +44,10 @@ public class PortController {//Second window: connect to server...
 		    		hostID=DEFUALT_HOST;
 		    		portID=DEFUALT_PORT;
 	    	}
-	    	
 	    	try {
 				QueryController.connect(hostID, Integer.parseInt(portID));
 			}catch(NumberFormatException e){
-				errorTextID.setText("Port most contain just numbers. Please try again.");
+				errorTextID.setText("Port must contain just numbers. Please try again.");
 				showNextWindow=false;
 	    	} catch (IOException e1) {
 				errorTextID.setText("Invalid port or host details or server is not available. Please try again.");

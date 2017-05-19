@@ -27,13 +27,13 @@ public class QueryController{
 
     }
     
-    protected ArrayList<String> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
+    protected ArrayList<ArrayList<String>> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	chat.handleMessageFromClientUI((Object)packaged);
-    	System.out.println("send");
-    	while(isAnswered==false){System.out.println("|");}//wait for ResultArray from server.
-    	System.out.println("recieve");
-  	    ArrayList<String> resultArray=(ArrayList<String>) packaged.get("ResultArray");//Get the resultArray that returned from the server.      
+    	
+    	while(isAnswered==false){System.out.print("");}//wait for ResultArray from server.
+    	
+    	ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.      
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	packaged.remove("strQuery");//Remove strQuery from packaged.
         //System.out.println("resultArray.get(0): "+resultArray.get(0));
