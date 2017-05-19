@@ -1,25 +1,21 @@
 package application;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
-public class ControllerQuery{ 
+public class QueryController{ 
 	
 
     private boolean isAnswered=false;
 
     private static ClientGui chat;//Chat will old the connection to the server.
     
-    private String controllerID;//Get a number to represent this controller.
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
    
-    public static HashMap <String ,ControllerQuery> controllerHashMap;//This will hold all the controller by their ID.
+    public static HashMap <String ,QueryController> controllerHashMap;//This will hold all the controller by their ID.
     
-    public ControllerQuery(String controllerID){
-    	this.controllerID=controllerID;//set controller ID.
-		controllerHashMap=new HashMap <String ,ControllerQuery>();
+    public QueryController(String controllerID){
+		controllerHashMap=new HashMap <String ,QueryController>();
     	controllerHashMap.put(controllerID, this);//Save pointer to this controller in the HashMap.
 		packaged=new HashMap <String ,Object>();
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
@@ -42,11 +38,6 @@ public class ControllerQuery{
     	packaged.remove("strQuery");//Remove strQuery from packaged.
         //System.out.println("resultArray.get(0): "+resultArray.get(0));
     	return resultArray;
-    }
-    
-    
-    protected void setControllerID(String controllerID){//set controllerID.
-    	this.controllerID=controllerID;
     }
     
     protected void setIsAnswered(boolean isAnswered){//set isAnswered.

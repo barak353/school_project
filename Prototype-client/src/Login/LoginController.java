@@ -1,4 +1,4 @@
-package application;
+package Login;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.Timer;
 
+import Secretary.SecretaryController;
+import application.QueryController;
 import javafx.event.ActionEvent;
 //import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,11 +20,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class LoginScreen extends ControllerQuery implements Initializable{//Second window: login to system.
+public class LoginController extends QueryController implements Initializable{//Second window: login to system.
 
 
     @FXML
@@ -42,17 +45,20 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
     
     private boolean showNextWindow = true;//this flag will say if we stay in this scene or if go to the next scene.
     
-    public LoginScreen(){
-    	super("LoginScreen");
+    private static String username;
+    
+    private static String password;
+    
+    public LoginController(String controllerID){
+    	super(controllerID);
     }
     
     
     @FXML
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
-    	setControllerID("LoginScreen");//Set this controller ID.
     	//create query for searching for teacher user, and check if the password that was entered is correct.
-        String username=usernameID.getText();
-        String password=passwordID.getText();
+        username=usernameID.getText();
+        password=passwordID.getText();
         if(username.equals("") || password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
@@ -65,8 +71,10 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
             ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
             if(userPassword.equals(password)){
 		         try {//change to login scene.
-		        	Parent login_screen_parent=FXMLLoader.load(getClass().getResource("teacherWindow.fxml"));
-					Scene login_screen_scene=new Scene(login_screen_parent);
+			        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryWindow.fxml"));
+			        loader.setController(new SecretaryController("SecretaryController"));
+			        Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);		
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
 					app_stage.hide();
 					app_stage.setScene(login_screen_scene);
@@ -96,5 +104,9 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
         });
         t.setRepeats(false);
         t.start();
+	}
+	
+	public static String getUsernameID(){
+		return username;
 	}
 }

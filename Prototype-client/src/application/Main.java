@@ -7,8 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class Main extends Application {
- 
-
 
  @Override
  public void start(Stage stage) {
@@ -19,7 +17,7 @@ public class Main extends Application {
       stage.show();
       
   } catch(Exception e) {
-	  System.out.println("Unable to show PortWindow from Main.");
+	  System.out.println("Unable to show PortWindow.fxml from Main.");
      e.printStackTrace();
      }
  }

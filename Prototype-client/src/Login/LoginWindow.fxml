@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginScreen">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="connectID" layoutX="135.0" layoutY="263.0" mnemonicParsing="false" onAction="#loginIntoTheSystem" prefHeight="40.0" prefWidth="114.0" text="Connect">
          <font>
@@ -37,7 +37,7 @@
       </ImageView>
       <PasswordField fx:id="passwordID" layoutX="117.0" layoutY="218.0" />
       <TextField fx:id="usernameID" layoutX="118.0" layoutY="146.0" />
-      <Text fx:id="successfulID" fill="#0022ff" layoutX="54.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to the server was successful">
+      <Text fx:id="successfulID" fill="#0022ff" layoutX="54.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connecting to the server was successful">
          <font>
             <Font size="18.0" />
          </font>

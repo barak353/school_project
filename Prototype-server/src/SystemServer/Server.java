@@ -1,3 +1,4 @@
+package SystemServer;
 // This file contains material supporting section 3.7 of the textbook:
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
@@ -26,7 +27,7 @@ import ocsf.server.*;
  * @author Paul Holden
  * @version July 2000
  */
-public class EchoServer extends AbstractServer 
+public class Server extends AbstractServer 
 {
     //Constant variables *************************************************
 	final protected static String DEFUALT_HOST="root";//default DB host.
@@ -56,7 +57,7 @@ public class EchoServer extends AbstractServer
    */
  
   
-  public EchoServer(int port) 
+  public Server(int port) 
   {
     super(port);
   }
@@ -101,7 +102,7 @@ public class EchoServer extends AbstractServer
 	    	packaged.put("ResultArray", resultArray);
 		client.sendToClient((Object)packaged);
 	    }catch (IOException e) {
-			System.out.println("Unable to send msg to client from EchoServer.");
+			System.out.println("Unable to send msg to client from Server.");
 			e.printStackTrace();
 		}
   }
@@ -179,7 +180,7 @@ public class EchoServer extends AbstractServer
 	    {
 	      if(isOk==true){
 			System.out.println("SQL connection succeed.");
-			EchoServer sv = new EchoServer(port);
+			Server sv = new Server(port);
 	        sv.listen(); //Start listening for connections
 	        System.out.println("Server started listening to clients.");
 	      }
@@ -191,4 +192,4 @@ public class EchoServer extends AbstractServer
   	}
   }
 }
-//End of EchoServer class
+//End of Server class
