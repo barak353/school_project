@@ -3,7 +3,6 @@ package Secretary;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import Login.*;
 import application.QueryController;
 import javafx.event.ActionEvent;
@@ -18,6 +17,7 @@ public class SecretaryController extends QueryController implements Initializabl
     public SecretaryController(String controllerID) {
 		super(controllerID);
 	}
+
     @FXML
     private TextField teacherID;
 
@@ -27,18 +27,21 @@ public class SecretaryController extends QueryController implements Initializabl
     @FXML
     private Text userNameText;
 
+    @FXML
+    private Text resultTextID;
 
     @FXML
+    private Text errorTextID;
+    
+    @FXML
     void getDetails(ActionEvent event) {
-    	//errorTextID.setText("");
-    	//if(this.teacherID.getText()=="")errorTextID.setText("Field is empty. Please enter teacher ID.");
-    	//else{
-    		ArrayList<ArrayList<String>> resultArray=transfferQueryToServer("");
+    	errorTextID.setText("");
+    	if(this.teacherID.getText()=="")errorTextID.setText("Field is empty. Please enter teacher ID.");
+    	else{
+    		ArrayList<ArrayList<String>> resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+teacherID.getText()+"'");
     		ArrayList<String> row1=resultArray.get(0);
-    		System.out.println(row1.get(0));
-    		System.out.println(row1.get(1));
-    		System.out.println(row1.get(2));
-    //	}
+    		resultTextID.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
+    	}
     }
 
 	@Override
