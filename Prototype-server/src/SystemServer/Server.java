@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
 import ocsf.server.*;
@@ -79,31 +80,40 @@ public class Server extends AbstractServer
 	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that send from the client.
 	  packaged.remove("strQuery");
 	    try {
-
 			rs = (ResultSet) stmt.executeQuery((String) strQuery);//Execute the query from the client.
 		} catch (SQLException e1) {
 			System.out.println("Failed to execute query in handleMessageFromClient");
-			e1.printStackTrace();
 		}
-		  ArrayList<String> resultArray=new ArrayList<String>();//Create result array to send to the client.
-		  try {
-			rs.next();
-		} catch (SQLException e2) {
-			System.out.println("empty result");
-			e2.printStackTrace();
+		  ArrayList<ArrayList<String>> resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
+		  ResultSetMetaData rsmd;
+		int columnsNumber;
+		try {
+			rsmd = (ResultSetMetaData) rs.getMetaData();
+			columnsNumber = rsmd.getColumnCount();
+		} catch (SQLException e3) {
+			columnsNumber=-1;// there is no Columns.
+			System.err.println("result is empty, there is no Columns.");
 		}
-		  try {
-			  resultArray.add(rs.getString(1));
+		 int columnIndex;
+		 ArrayList<String> arr;
+	     try {
+		    while(rs.next()){//while there is still rows in the ResultSet.
+			    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
+			    columnIndex=1;//set to point to the first column.
+			    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
+				    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
+				    columnIndex++;//go to the next column in this row.
+			    }
+			    resultArray.add(resultRow);//add the resultRow to the ResultArray		  
+		  }
 		} catch (SQLException e1) {
-			System.out.println("empty rs.getString(1)");
-			e1.printStackTrace();
+			System.out.println("error in creating ResultArray");
 		}
 	    try{
 	    	packaged.put("ResultArray", resultArray);
-		client.sendToClient((Object)packaged);
+	    	client.sendToClient((Object)packaged);
 	    }catch (IOException e) {
 			System.out.println("Unable to send msg to client from Server.");
-			e.printStackTrace();
 		}
   }
 
