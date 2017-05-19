@@ -2,11 +2,12 @@
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
-package client;
+package application;
 
 import ocsf.client.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -54,32 +55,31 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-	  System.out.println("6");
-	  System.out.println(msg.getClass().getSimpleName());
-	  ArrayList<String> arr=(ArrayList<String>)msg;
-	  System.out.println(arr.get(0));//prints password to compare with. 
-    //clientUI.display(msg.toString());
-	  
+	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;//returned packaged from server.
+	  String controllerID=(String)packaged.get("controllerID");//Get the controller ID that send this packaged to server.
+	  ControllerQuery cq = (ControllerQuery)ControllerQuery.controllerHashMap.get(controllerID);//Get the controller that send this packaged to server.
+  	
+	  ArrayList<String> resultArray=(ArrayList<String>) packaged.get("ResultArray");//Get the resultArray that returned from the server.
+      System.out.println("resultArray.get(0): "+resultArray.get(0));
+
+      
+	  cq.setPackaged(packaged);
+	  cq.setIsAnswered(true);	  
   }
 
   /**
    * This method handles all data coming from the UI            
    *
-   * @param message The message from the UI.    
+   * @param packaged The message from the UI.    
    */
-  public void handleMessageFromClientUI(String message)
+  public void handleMessageFromClientUI(Object packaged)
   {
-  	System.out.println("2");
-
     try
     {
-    	sendToServer(message);
-    	System.out.println("2.2");
-
+    	sendToServer(packaged);
     }
     catch(IOException e)
     {
-      System.out.println("Could not send message to server.  Terminating client.");
       quit();
     }
   }

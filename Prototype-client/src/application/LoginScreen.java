@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.Timer;
@@ -41,9 +42,14 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
     
     private boolean showNextWindow = true;//this flag will say if we stay in this scene or if go to the next scene.
     
+    public LoginScreen(){
+    	super("LoginScreen");
+    }
+    
+    
     @FXML
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
-
+    	setControllerID("LoginScreen");//Set this controller ID.
     	//create query for searching for teacher user, and check if the password that was entered is correct.
         String username=usernameID.getText();
         String password=passwordID.getText();
@@ -51,23 +57,28 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
         }
-        if(showNextWindow==true){//if required field are ok then preform there code, else stay in these scene.
-	       // sendQueryToServer(strQuery,'U','L');
+        ArrayList<String> resultArray= transfferQueryToServer("SELECT password FROM users WHERE userID='"+username+"'");
+        String userPassword = resultArray.get(0);
+        System.out.println("userPassword: "+userPassword);
+        if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
             String strQuery="SELECT password FROM users WHERE userID='"+username+"'";//Create new query for getting this username password.
-        	//ControllerQuery.sendQueryToServer(strQuery);//Send query to server.
-        	
-	         try {//change to login scene.
-	        	Parent login_screen_parent=FXMLLoader.load(getClass().getResource("teacherWindow.fxml"));
-				Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-				
-	         } catch (IOException e) {
-				System.out.println("Missing teacherWindow.fxml file");
-				e.printStackTrace();
-			}
+            ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
+            if(userPassword.equals(password)){
+		         try {//change to login scene.
+		        	Parent login_screen_parent=FXMLLoader.load(getClass().getResource("teacherWindow.fxml"));
+					Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+					
+		         } catch (IOException e) {
+					System.out.println("Missing teacherWindow.fxml file");
+					e.printStackTrace();
+				}
+            }else{
+            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
+            }
         }
     }
 
@@ -76,7 +87,11 @@ public class LoginScreen extends ControllerQuery implements Initializable{//Seco
         Timer t = new Timer(4000, new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-            	successfulID.setText(null);// make successfulID disappear after 4 seconds.
+            	try{
+            	successfulID.setText("");// make successfulID disappear after 4 seconds.
+            	}catch(java.lang.NullPointerException e1){
+            		//This is happen becouse we moved to fast to the other screen
+            	}
             }
         });
         t.setRepeats(false);
