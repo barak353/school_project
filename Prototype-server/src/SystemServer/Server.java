@@ -79,7 +79,7 @@ public class Server extends AbstractServer
 	  boolean isUpdate=false;
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
 	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
-		System.out.println("strQuery: "+strQuery);
+	  System.out.println("executing query: "+strQuery);
 	  packaged.remove("strQuery");
 	    try {
 	    	if(strQuery.substring(0,6).equals("SELECT"))

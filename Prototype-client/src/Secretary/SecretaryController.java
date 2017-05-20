@@ -70,6 +70,8 @@ public class SecretaryController extends QueryController implements Initializabl
     		if(resultArray.isEmpty()==false){//if there is no rows returned in the result.
 	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
 	    		resultTextID.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
+    		}else{
+    			errorTextID.setText("'teacher ID' is no exist.");
     		}
     	}
     }
@@ -81,7 +83,6 @@ public class SecretaryController extends QueryController implements Initializabl
     	updateTeacherDetailsText.setText("");
     	if(this.updateTeacherIDTextField.getText()=="")updateTeacherDetailsError.setText("Field 'teacher ID' is empty. Please enter teacher ID.");
     	if(this.updateTeacherDetailTextField.getText()=="")updateTeacherDetailsError.setText("Field 'detail' is empty. Please enter teacher ID.");
-    	System.out.println("SelectedIndex: "+SelectedIndex);
     	switch(SelectedIndex){
     	case 0://Update unit teaching
     		 transfferQueryToServer("UPDATE teachers SET unit='"+updateTeacherDetailTextField.getText()+"' WHERE id='"+updateTeacherIDTextField.getText()+"'");
