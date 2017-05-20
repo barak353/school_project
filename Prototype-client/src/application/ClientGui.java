@@ -55,7 +55,7 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;//returned packaged from server.
+	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;//the returned packaged from server.
 	  String controllerID=(String)packaged.get("controllerID");//Get the controller ID that send this packaged to server.
 	  QueryController cq = (QueryController)QueryController.controllerHashMap.get(controllerID);//Get the controller that send this packaged to server.
 	  ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.

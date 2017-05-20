@@ -34,13 +34,15 @@ public class SecretaryController extends QueryController implements Initializabl
     private Text errorTextID;
     
     @FXML
-    void getDetails(ActionEvent event) {
+    void getDetails(ActionEvent event) {//enter teacher ID and get her details.
     	errorTextID.setText("");
     	if(this.teacherID.getText()=="")errorTextID.setText("Field is empty. Please enter teacher ID.");
     	else{
     		ArrayList<ArrayList<String>> resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+teacherID.getText()+"'");
-    		ArrayList<String> row1=resultArray.get(0);
-    		resultTextID.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
+    		if(resultArray.isEmpty()==false){//if there is no rows returned in the result.
+	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
+	    		resultTextID.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
+    		}
     	}
     }
 

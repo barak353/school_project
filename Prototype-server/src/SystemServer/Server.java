@@ -77,7 +77,7 @@ public class Server extends AbstractServer
   {		
 	  ResultSet rs = null;
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
-	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that send from the client.
+	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
 	  packaged.remove("strQuery");
 	    try {
 			rs = (ResultSet) stmt.executeQuery((String) strQuery);//Execute the query from the client.
@@ -104,7 +104,7 @@ public class Server extends AbstractServer
 				    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
 				    columnIndex++;//go to the next column in this row.
 			    }
-			    resultArray.add(resultRow);//add the resultRow to the ResultArray		  
+			    resultArray.add(resultRow);//add the resultRow to the ResultArray		
 		  }
 		} catch (SQLException e1) {
 			System.out.println("error in creating ResultArray");
