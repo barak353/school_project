@@ -63,7 +63,8 @@ public class SecretaryController extends QueryController implements Initializabl
     @FXML
     void getDetails(ActionEvent event) {//enter teacher ID and get her details.
     	errorTextID.setText("");
-    	if(this.teacherID.getText()=="")errorTextID.setText("Field is empty. Please enter teacher ID.");
+    	resultTextID.setText("");
+    	if(this.teacherID.getText()=="")errorTextID.setText("Field 'teacher ID' is empty. Please enter teacher ID.");
     	else{
     		ArrayList<ArrayList<String>> resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+teacherID.getText()+"'");
     		if(resultArray.isEmpty()==false){//if there is no rows returned in the result.
@@ -74,8 +75,12 @@ public class SecretaryController extends QueryController implements Initializabl
     }
     
     @FXML
-    void setUpdateDetails(ActionEvent event) {
+    void UpdateDetails(ActionEvent event) {
     	ArrayList<ArrayList<String>> resultArray;
+    	updateTeacherDetailsError.setText("");
+    	updateTeacherDetailsText.setText("");
+    	if(this.updateTeacherIDTextField.getText()=="")updateTeacherDetailsError.setText("Field 'teacher ID' is empty. Please enter teacher ID.");
+    	if(this.updateTeacherDetailTextField.getText()=="")updateTeacherDetailsError.setText("Field 'detail' is empty. Please enter teacher ID.");
     	switch(SelectedIndex){
     	case 0://Update unit teaching
     		System.out.println("0");
@@ -89,8 +94,9 @@ public class SecretaryController extends QueryController implements Initializabl
     	case 1://Update Teacher name
     		System.out.println("1");
     		
-    		resultArray=transfferQueryToServer("UPDATE teachers SET name='"+updateTeacherDetailTextField.getText()+"' WHERE id='"+updateTeacherIDTextField.getText()+"'");
+    		transfferQueryToServer("UPDATE teachers SET name='"+updateTeacherDetailTextField.getText()+"' WHERE id='"+updateTeacherIDTextField.getText()+"'");
     		System.out.println("2");
+    		resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+updateTeacherIDTextField.getText()+"'");
     		if(resultArray!=null && resultArray.isEmpty()==false){//if there is no rows returned in the result.
         		System.out.println("3");
 	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
