@@ -76,44 +76,68 @@ public class Server extends AbstractServer
     (Object msg, ConnectionToClient client)
   {		
 	  ResultSet rs = null;
+	  boolean isUpdate=false;
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
 	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
+		System.out.println("strQuery: "+strQuery);
 	  packaged.remove("strQuery");
 	    try {
-			rs = (ResultSet) stmt.executeQuery((String) strQuery);//Execute the query from the client.
+	    	if(strQuery.substring(0,6).equals("SELECT"))
+	    	{
+	    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
+	    	}
+	    	else if(strQuery.substring(0,6).equals("UPDATE"))
+	    			{
+	    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+	    		    	//packaged.put("ResultArray", null);
+	    		    	//try {
+							//client.sendToClient((Object)packaged);
+							isUpdate=true;
+						//} catch (IOException e) {
+						//	System.out.println("Unable to send Update msg to client from Server.");
+						//	e.printStackTrace();
+						//}
+	    			}
 		} catch (SQLException e1) {
 			System.out.println("Failed to execute query in handleMessageFromClient");
+			e1.printStackTrace();
 		}
-		  ArrayList<ArrayList<String>> resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
-		  ResultSetMetaData rsmd;
-		int columnsNumber;
-		try {
-			rsmd = (ResultSetMetaData) rs.getMetaData();
-			columnsNumber = rsmd.getColumnCount();
-		} catch (SQLException e3) {
-			columnsNumber=-1;// there is no Columns.
-			System.err.println("result is empty, there is no Columns.");
-		}
-		 int columnIndex;
-		 ArrayList<String> arr;
-	     try {
-		    while(rs.next()){//while there is still rows in the ResultSet.
-			    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
-			    columnIndex=1;//set to point to the first column.
-			    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
-				    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
-				    columnIndex++;//go to the next column in this row.
-			    }
-			    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+	    ArrayList<ArrayList<String>> resultArray;
+		  if(isUpdate==false){
+		  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
+			  ResultSetMetaData rsmd;
+			int columnsNumber;
+			try {
+				rsmd = (ResultSetMetaData) rs.getMetaData();
+				columnsNumber = rsmd.getColumnCount();
+			} catch (SQLException e3) {
+				columnsNumber=-1;// there is no Columns.
+				System.err.println("result is empty, there is no Columns.");
+			}
+			 int columnIndex;
+			 ArrayList<String> arr;
+		     try {
+			    while(rs.next()){//while there is still rows in the ResultSet.
+				    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
+				    columnIndex=1;//set to point to the first column.
+				    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
+					    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
+					    columnIndex++;//go to the next column in this row.
+				    }
+				    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+			  }
+			} catch (SQLException e1) {
+				System.out.println("error in creating ResultArray");
+			}
+		  }else{
+			  resultArray=null;
 		  }
-		} catch (SQLException e1) {
-			System.out.println("error in creating ResultArray");
-		}
+		  
 	    try{
 	    	packaged.put("ResultArray", resultArray);
 	    	client.sendToClient((Object)packaged);
 	    }catch (IOException e) {
-			System.out.println("Unable to send msg to client from Server.");
+			System.out.println("Unable to send Select msg to client from Server.");
 		}
   }
 

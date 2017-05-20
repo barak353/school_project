@@ -55,12 +55,19 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
+	  	if(AbstractClient.ac.clientSocket==null)System.out.println("handleMessageFromServer: AbstractClient.clientSocket=null");
+	  	else
+	  		System.out.println("handleMessageFromServer: AbstractClient.clientSocket=not null");
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;//the returned packaged from server.
 	  String controllerID=(String)packaged.get("controllerID");//Get the controller ID that send this packaged to server.
 	  QueryController cq = (QueryController)QueryController.controllerHashMap.get(controllerID);//Get the controller that send this packaged to server.
-	  ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.
+	  //ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.
+		System.out.println("handleMessageFromServer:1");
 	  cq.setPackaged(packaged);
 	  cq.setIsAnswered(true);	  
+	  	if(AbstractClient.ac.clientSocket==null)System.out.println("handleMessageFromServer: AbstractClient.clientSocket=null");
+	  	else
+	  		System.out.println("handleMessageFromServer: AbstractClient.clientSocket=not null");
   }
 
   /**
@@ -70,13 +77,17 @@ public class ClientGui extends AbstractClient
    */
   public void handleMessageFromClientUI(Object packaged)
   {
+  	if(AbstractClient.ac.clientSocket==null)System.out.println("handleMessageFromClientUI:AbstractClient.clientSocket=null");
+  	else
+  		System.out.println("handleMessageFromClientUI:AbstractClient.clientSocket=not null");
     try
     {
     	sendToServer(packaged);
     }
     catch(IOException e)
     {
-      quit();
+    	System.out.println("Error send packaged to server from handleMessageFromClientUI");
+    	e.printStackTrace();
     }
   }
   
