@@ -6,11 +6,7 @@ import java.util.HashMap;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
 	
-
-    private boolean isAnswered=false;
-
-    private static ClientGui chat;//Chat will old the connection to the server.
-    
+    private static ClientGui connection;//connection will old the connection to the server.
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
    
@@ -24,23 +20,22 @@ public class QueryController{
     }
     
     static void connect(String host, int port) throws IOException{//in this method we connect to the server.
-			chat = new ClientGui(host, port);
-			
-
+			connection = new ClientGui(host, port);
     }
     
     protected ArrayList<ArrayList<String>> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
-    	chat.handleMessageFromClientUI((Object)packaged);
-    	while(isAnswered==false){System.out.print("");}//wait for ResultArray from server.
-    	isAnswered=false;//for the next query.
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    			try{
+    				connection.wait();
+    			}catch(InterruptedException e){
+    				e.printStackTrace();
+    			}
+    	}
     	ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.    
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	return resultArray;
-    }
-    
-    protected void setIsAnswered(boolean isAnswered){//set isAnswered.
-    	this.isAnswered=isAnswered;
     }
     
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.

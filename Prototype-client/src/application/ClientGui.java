@@ -59,8 +59,9 @@ public class ClientGui extends AbstractClient
 	  String controllerID=(String)packaged.get("controllerID");//Get the controller ID that send this packaged to server.
 	  QueryController cq = (QueryController)QueryController.controllerHashMap.get(controllerID);//Get the controller that send this packaged to server.
 	  cq.setPackaged(packaged);
-	  cq.setIsAnswered(true);	  
-
+	  synchronized(this){
+		  notify();
+	  }
   }
 
   /**
