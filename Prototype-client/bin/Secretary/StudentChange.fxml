@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="442.0" prefWidth="714.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <ImageView fitHeight="442.0" fitWidth="720.0" layoutX="-7.0">
+         <image>
+            <Image url="@../../../../../Desktop/light-blue-background.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="135.0" layoutY="28.0" text="Insert\Delete Student" textFill="#6100a1">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <Label layoutX="216.0" layoutY="123.0" text="StudentID:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="216.0" layoutY="174.0" text="Class:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="216.0" layoutY="222.0" text="Course:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField layoutX="310.0" layoutY="120.0" />
+      <TextField layoutX="310.0" layoutY="171.0" />
+      <TextField layoutX="310.0" layoutY="219.0" />
+      <ComboBox layoutX="310.0" layoutY="272.0" prefWidth="150.0" promptText="Choose Type" />
+      <Label layoutX="216.0" layoutY="275.0" text="Type:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Button layoutX="344.0" layoutY="341.0" mnemonicParsing="false" text="Save" textFill="#54009e">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <InnerShadow color="#5b00b5" />
+         </effect>
+      </Button>
+      <ImageView fitHeight="95.0" fitWidth="169.0" layoutX="515.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Desktop/images%20(1).jpg" />
+         </image>
+         <effect>
+            <ColorAdjust />
+         </effect>
+      </ImageView>
+      <Button layoutX="687.0" mnemonicParsing="false" text="X">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <ColorAdjust saturation="1.0" />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
