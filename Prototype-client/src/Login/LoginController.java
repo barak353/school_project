@@ -7,10 +7,11 @@ import java.util.ResourceBundle;
 
 import javax.swing.Timer;
 
-import Secretary.SecretaryController;
+import Secretary.AskRequestFormController;
+import Secretary.SecretaryMainController;
 import application.QueryController;
 import javafx.event.ActionEvent;
-//import javafx.event.ActionEvent;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -75,16 +76,14 @@ public class LoginController extends QueryController implements Initializable{//
         		}
         }
         
-        
-        
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
             //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
             //ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
 			         try {//change to login scene.
-				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryWindow.fxml"));
-				        loader.setController(new SecretaryController("SecretaryController"));
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryMainWindow.fxml"));
+				        loader.setController(new SecretaryMainController("SecretaryMainID"));
 				        Pane login_screen_parent = loader.load();
 				        Scene login_screen_scene=new Scene(login_screen_parent);	
 						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -92,7 +91,7 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.setScene(login_screen_scene);
 						app_stage.show(); 
 			         } catch (IOException e) {
-						System.out.println("Missing SecretaryWindow.fxml file");
+						System.out.println("Missing fxml file");
 						e.printStackTrace();
 					}
 	            }else{
@@ -110,7 +109,7 @@ public class LoginController extends QueryController implements Initializable{//
             	try{
             	successfulID.setText("");// make successfulID disappear after 4 seconds.
             	}catch(java.lang.NullPointerException e1){
-            		//This is happen becouse we moved to fast to the other screen
+            		//This is happen because we moved to fast to the other screen
             	}
             }
         });
