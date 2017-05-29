@@ -85,8 +85,8 @@ public class LoginController extends QueryController implements Initializable{//
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
 			         try {//change to login scene.
-				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/screen.fxml"));
-				        loader.setController(new screenController("screenController"));
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ParentMain.fxml"));
+				        loader.setController(new ParentMainController("ParentMainController"));
 				        Pane login_screen_parent = loader.load();
 				        Scene login_screen_scene=new Scene(login_screen_parent);	
 						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.

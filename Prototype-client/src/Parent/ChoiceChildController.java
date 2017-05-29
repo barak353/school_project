@@ -2,7 +2,7 @@ package Parent;
 
 import java.io.IOException;
 import Login.LoginController;
-//import Parent.ChiidDetails;
+//import Parent.ParentMainController;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,21 +17,28 @@ import javafx.stage.Stage;
 
 public class ChoiceChildController extends QueryController {
 	
-	//------------------------------------------------//
+	//-----------------------------------------------------------//
+
 	public ChoiceChildController (String controllerID)
 	{
 			super(controllerID);
 	} 
-	//------------------------------------------------// 
+
+	//-----------------------------------------------------------//
 
     @FXML
-    private Button View;
+    private Button logout;
+
+    @FXML
+    private Button view;
+
+    @FXML
+    private Button back;
+
+    @FXML
+    private Text userID;
     
-    @FXML
-    private Button Back;
-
-    @FXML
-    private Button X;
+	//-----------------------------------------------------------//
 
 	
     @FXML
@@ -51,41 +58,51 @@ public class ChoiceChildController extends QueryController {
 			e.printStackTrace();
 		}
 	}  
-/*
-    void BackChoiceChild(ActionEvent event){
-    	try {
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ParentMain.fxml"));
-	        loader.setController(new ParentMainController("ParentMainController"));
-			Pane login_screen_parent = loader.load();
-			Scene login_screen_scene=new Scene(login_screen_parent);
-			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-			app_stage.hide();
-			app_stage.setScene(login_screen_scene);
-			app_stage.show(); 
-		} 
-    	catch (IOException e) {
-			System.err.println("Missing ParentMain.fxml file");
-			e.printStackTrace();
-		}
-	}  
-*/
+
     
     @FXML
-    void Exit(ActionEvent event){
-    	try {
-		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-	        loader.setController(new LoginController("LoginController"));
-			Pane login_screen_parent = loader.load();
-			Scene login_screen_scene=new Scene(login_screen_parent);
-			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-			app_stage.hide();
-			app_stage.setScene(login_screen_scene);
-			app_stage.show(); 
-		} 
-    	catch (IOException e) {
-			System.err.println("Missing StudentChange.fxml file");
-			e.printStackTrace();
-		}
-	}  
+    void Back(ActionEvent event) {
+		 try 
+		 {
+			
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ParentMain.fxml"));
+		        loader.setController(new ParentMainController("ParentMainController"));
+			    Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } 
+		 catch (IOException e) {
+				System.err.println("Missing StudentChange.fxml file");
+				e.printStackTrace();
+				}
+    }
+
+    
+
+    @FXML
+    void LogOut(ActionEvent event) {
+		 try 
+		 {
+			
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
+		        loader.setController(new LoginController("LoginController"));
+			    Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } 
+		 catch (IOException e) {
+				System.err.println("Missing StudentChange.fxml file");
+				e.printStackTrace();
+				}
+    }
+    
+	//-----------------------------------------------------------//
+
 
 }
