@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -10,7 +8,7 @@
 
 <AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text=".מ.א.ת">
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -20,7 +18,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#ViewChildPersonalDetails" text="LogOut">
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#Logout" text="LogOut">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -30,19 +28,19 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0F8FF;">
+      <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="180.0" layoutY="30.0" text="Parent Main" textFill="#1205ff">
+            <Label layoutX="180.0" layoutY="30.0" text="name screen" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="ViewChildPersonalDetails" layoutX="227.0" layoutY="127.0" mnemonicParsing="false" onAction="#ViewChildPersonalDetails" text="view child personal details" />
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#ViewChildPersonalDetails" text="Back">
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#Back" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Button fx:id="ButtonNew" layoutX="271.0" layoutY="108.0" mnemonicParsing="false" onAction="#Button1" text="Button" />
          </children>
       </Pane>
    </children>

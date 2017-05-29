@@ -51,6 +51,7 @@ public class ParentMainController extends QueryController {
     void Exit(ActionEvent event) {
 		 try 
 		 {
+			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
