@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="465.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="X" layoutX="583.0" mnemonicParsing="false" onAction="#Exit" text="X">
+         <effect>
+            <ColorAdjust saturation="1.0" />
+         </effect>
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="181.0" layoutY="58.0" text="Parent Main" textFill="#6100a1">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <Button fx:id="ViewChildPersonalDetails" layoutX="228.0" layoutY="175.0" mnemonicParsing="false" text="view child personal details" />
+      <Label layoutX="118.0" layoutY="325.0" text="Blocked user, you cannot view child details! " textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

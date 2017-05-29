@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField layoutX="262.0" layoutY="166.0" />
+      <Label layoutX="175.0" layoutY="169.0" text="ChildID :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="133.0" layoutY="50.0" text="Choosing a child" textFill="#6100a1">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <Button fx:id="View" layoutX="539.0" layoutY="357.0" mnemonicParsing="false" onAction="#ViewChoiceChild" text="View" textFill="#54009e">
+         <effect>
+            <InnerShadow color="#5b00b5" />
+         </effect>
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="X" layoutX="573.0" mnemonicParsing="false" onAction="#Exit" text="X">
+         <effect>
+            <ColorAdjust saturation="1.0" />
+         </effect>
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+
+   </children>
+</AnchorPane>
