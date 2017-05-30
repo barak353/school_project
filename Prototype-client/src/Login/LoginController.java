@@ -68,7 +68,7 @@ public class LoginController extends QueryController implements Initializable{//
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
         }
-        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT password FROM users WHERE userID='"+username+"'");
+        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT password,type FROM users WHERE userID='"+username+"'");
         String userPassword = null;
         boolean isUserExist=false;
         if(resultArray.isEmpty()==false){//check if there is first row.
@@ -78,15 +78,28 @@ public class LoginController extends QueryController implements Initializable{//
         		      isUserExist=true;
         		}
         }
+        String nextScreen=(resultArray.get(0)).get(1);
+        Object nextController = null;
+        switch(nextScreen)
+        {
+         case "P":
+        	 nextScreen="/Parent/ParentMain.fxml";
+        	 nextController=new ParentMainController("ParentMainController");
+        	 break;
+         case "S":
+        	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
+        	 nextController=new SecretaryMainController("SecretaryMainController");
+        	 break;
         
+        }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
             //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
             //ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
 			         try {//change to login scene.
-				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ParentMain.fxml"));
-				        loader.setController(new ParentMainController("ParentMainController"));
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
+				        loader.setController(nextController);
 				        Pane login_screen_parent = loader.load();
 				        Scene login_screen_scene=new Scene(login_screen_parent);	
 						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
