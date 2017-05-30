@@ -37,10 +37,10 @@ public class PortController {//Second window: connect to server...
     	String hostID;
     	String portID;
 	    	showNextWindow=true;
-    		hostID=this.hostID.getText();//get host from user.
-	    	portID=this.portID.getText();//get port from user.
+    		hostID=this.hostID.getText();//get host from User.
+	    	portID=this.portID.getText();//get port from User.
 
-	    	if(hostID.equals("") && portID.equals("")){//If user didn't enter port and host, then use the default host and default port..
+	    	if(hostID.equals("") && portID.equals("")){//If User didn't enter port and host, then use the default host and default port..
 		    		hostID=DEFUALT_HOST;
 		    		portID=DEFUALT_PORT;
 	    	}

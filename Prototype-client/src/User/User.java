@@ -1,20 +1,30 @@
 package User;
 
-public class user {
+public class User {
 
 	private int UserId;
 	private String UserName;
-	private int UserPassword;
+	private String UserPassword;
 	private int status;
 	private String Email;
+	private static User currentLoggedIn=null;
 	//-------------------------------------------------------------------//
-	public user(int ID, String UName, int Upssw, int s, String E)
+	public User(int ID, String UName, String Upssw, int s, String E)
 	{
 		UserId=ID;
 		UserName=UName;
 		UserPassword=Upssw;
 		status=s;
 		Email=E;
+	}
+	
+	public static void setCurrentLoggedIn(User currentLoggedIn){
+		User.currentLoggedIn = currentLoggedIn;
+	}
+	
+	
+	public static User getCurrentLoggedIn(){
+		return currentLoggedIn;
 	}
 	//-------------------------------------------------------------------//
 	public int GetID()
@@ -27,7 +37,7 @@ public class user {
 		return this.UserName;
 	}
 	//-------------------------------------------------------------------//
-	public int GetUserPassword()
+	public String GetUserPassword()
 	{
 		return this.UserPassword;
 	}
@@ -57,7 +67,7 @@ public class user {
 		this.UserName=UName;
 	}
 	//-------------------------------------------------------------------//
-	public void SetUserPassword(int pssw)
+	public void SetUserPassword(String pssw)
 	{
 		this.UserPassword=pssw;
 	}

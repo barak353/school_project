@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import Login.*;
+import User.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,9 @@ public class SecretaryController extends QueryController implements Initializabl
 		super(controllerID);
 	}
 
+    @FXML
+    private Text userID;
+    
     @FXML
     private TextField teacherID;
 
@@ -56,7 +60,7 @@ public class SecretaryController extends QueryController implements Initializabl
     
     @FXML
     void chooseUpdateOperation(ActionEvent event) {
-    	SelectedIndex=comboBoxID.getSelectionModel().getSelectedIndex();//save the number of row in the comboBox that the user choose.
+    	SelectedIndex=comboBoxID.getSelectionModel().getSelectedIndex();//save the number of row in the comboBox that the User choose.
     }
     
     

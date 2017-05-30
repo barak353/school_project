@@ -87,7 +87,7 @@ protected void Back(String window, Object nextController,ActionEvent event)
 				app_stage.setScene(login_screen_scene);
 				app_stage.show(); 
 	        } catch (IOException e) {
-				System.err.println("Missing TeacherPlacement.fxml file");
+				System.err.println("Missing BackWindow.fxml file");
 				e.printStackTrace();
 			}
 } 

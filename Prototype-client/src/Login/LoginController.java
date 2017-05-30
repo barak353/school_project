@@ -13,6 +13,7 @@ import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
+import User.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -61,7 +62,7 @@ public class LoginController extends QueryController implements Initializable{//
     
     @FXML
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
-    	//create query for searching for teacher user, and check if the password that was entered is correct.
+    	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
         username=usernameID.getText();
         password=passwordID.getText();
@@ -97,10 +98,11 @@ public class LoginController extends QueryController implements Initializable{//
         	 break;
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
-            //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
-            //ArrayList<String> resultList=transfferQueryToServer(strQuery);//Send query to server.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
+		         	//set current logged in user.
+		         	User currentUser = new User(123,username,password,1,"aliaho@gmail.com");
+		         	User.setCurrentLoggedIn(currentUser);
 			         try {//change to login scene.
 				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
 				        loader.setController(nextController);
@@ -115,12 +117,11 @@ public class LoginController extends QueryController implements Initializable{//
 						e.printStackTrace();
 					}
 	            }else{
-	            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
+	            	wrongTextID.setText("Wrong User password, please try again.");//show error message.
 	            }
         	}
         }
     }
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method preform when this controller scene is showing up.
         Timer t = new Timer(4000, new java.awt.event.ActionListener() {

@@ -1,12 +1,19 @@
 package Parent;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javax.swing.Timer;
+
 import Login.LoginController;
+import User.User;
 //import Parent.ChiidDetails;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class ChildDetailsController extends QueryController {
+public class ChildDetailsController extends QueryController implements Initializable{
 
 	//-----------------------------------------------------------//
 
@@ -83,5 +90,12 @@ public class ChildDetailsController extends QueryController {
     
 	//-----------------------------------------------------------//
 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
+		User user = User.getCurrentLoggedIn();
+		userID.setText(user.GetUserName());
+	}
+    
+    
 }
 
