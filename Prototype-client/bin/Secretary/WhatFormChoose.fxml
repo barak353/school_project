@@ -8,40 +8,56 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="252.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="309.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="254.0" fitWidth="468.0">
-         <image>
-            <Image url="@../../../../../Desktop/i2FNGsX.jpg" />
-         </image>
-      </ImageView>
-      <Button fx:id="TeacherID" layoutX="47.0" layoutY="168.0" mnemonicParsing="false" onAction="#TeacherChangeForm" prefHeight="42.0" prefWidth="116.0" text="Teacher Change">
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button fx:id="ADDID" layoutX="185.0" layoutY="168.0" mnemonicParsing="false" onAction="#AddStudent" prefHeight="42.0" prefWidth="116.0" text="Add Student">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button fx:id="DeleteID" layoutX="319.0" layoutY="168.0" mnemonicParsing="false" onAction="#AddStudent" prefHeight="42.0" prefWidth="122.0" text="Delete Student">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button layoutX="442.0" mnemonicParsing="false" onAction="#Exit" text="X">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-         <effect>
-            <ColorAdjust saturation="1.0" />
-         </effect>
-      </Button>
-      <Label layoutX="67.0" layoutY="59.0" prefHeight="50.0" prefWidth="351.0" text="Choose Form Please:">
-         <font>
-            <Font name="System Bold" size="34.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Pane layoutX="2.0" layoutY="56.0" prefHeight="276.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="83.0" layoutY="54.0" text="Choose a form please:" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="20.0" layoutY="222.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="TeacherID" layoutX="83.0" layoutY="149.0" mnemonicParsing="false" onAction="#TeacherChangeForm" prefHeight="39.0" prefWidth="119.0" text="Teacher Change">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="ADDID" layoutX="246.0" layoutY="149.0" mnemonicParsing="false" onAction="#AddStudent" prefHeight="39.0" prefWidth="119.0" text="Add Student">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="DeleteID" layoutX="416.0" layoutY="149.0" mnemonicParsing="false" onAction="#AddStudent" prefHeight="39.0" prefWidth="119.0" text="Delete Student">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

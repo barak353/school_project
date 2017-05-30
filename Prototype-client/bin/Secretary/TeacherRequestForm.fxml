@@ -7,50 +7,73 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="535.0" prefWidth="421.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="655.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField layoutX="162.0" layoutY="76.0" prefHeight="25.0" prefWidth="191.0" />
-      <TextField layoutX="162.0" layoutY="136.0" prefHeight="25.0" prefWidth="191.0" />
-      <TextField layoutX="162.0" layoutY="193.0" prefHeight="25.0" prefWidth="191.0" />
-      <Label layoutX="70.0" layoutY="79.0" text="Teacher ID:">
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="139.0" text="Class:">
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="196.0" text="Course:">
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
          <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <TextArea layoutX="162.0" layoutY="243.0" prefHeight="225.0" prefWidth="191.0" />
-      <Label layoutX="76.0" layoutY="243.0" text="Message:">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Button layoutX="411.0" mnemonicParsing="false" text="X">
-         <effect>
-            <ColorAdjust saturation="1.0" />
-         </effect>
-         <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="217.0" layoutY="481.0" mnemonicParsing="false" text="Send">
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font size="14.0" />
          </font>
-      </Button>
-      <Label layoutX="14.0" layoutY="6.0" prefHeight="38.0" prefWidth="277.0" text="Teacher Change Form" textFill="RED">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
+      </Text>
+      <Pane layoutY="46.0" prefHeight="611.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="92.0" layoutY="20.0" text="Teacher Change Form" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="23.0" layoutY="543.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="163.0" layoutY="127.0" text="Teacher ID:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="163.0" layoutY="180.0" text="Class:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="163.0" layoutY="231.0" text="Course:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="157.0" layoutY="282.0" text="Message:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField layoutX="270.0" layoutY="124.0" />
+            <TextField layoutX="270.0" layoutY="177.0" />
+            <TextField layoutX="270.0" layoutY="238.0" />
+            <TextArea layoutX="234.0" layoutY="282.0" prefHeight="200.0" prefWidth="200.0" />
+            <Button layoutX="305.0" layoutY="503.0" mnemonicParsing="false" text="Save">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <effect>
+                  <InnerShadow color="#4400ff" />
+               </effect>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -24,7 +24,7 @@ public SecretaryMainController (String controllerID)
 		super(controllerID);
 } 
 //------------------------------------------------// 
-	
+Object nextController=null;	
 @FXML
 private Button OpenNewID;
 @FXML
@@ -36,7 +36,9 @@ private Button StudentChangeID;
 @FXML
 private Button ClassDefineID;  
 @FXML
-private Button XID; 
+private Button logout;
+@FXML
+private Button back;
 @FXML
 void SendRequest(ActionEvent event)
 {
@@ -94,6 +96,8 @@ void StudentChange(ActionEvent event)
 @FXML
 void TurningBack(ActionEvent event)
 {
-	this.Back("/Secretary/StudentChange.fxml", new LoginController("LoginController"), event);
-} 
+	this.nextController = new LoginController("SecretaryLoginController");
+	this.Back("/Login/LoginWindow.fxml",nextController, event);
+}
+//-------------------------------------------------------------------------------------------------//
 }
