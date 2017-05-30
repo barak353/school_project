@@ -12,6 +12,7 @@ import Parent.ChoiceChildController;
 
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
+import Teacher.TeacherMainController;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -90,7 +91,10 @@ public class LoginController extends QueryController implements Initializable{//
         	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
         	 nextController=new SecretaryMainController("SecretaryMainController");
         	 break;
-        
+         case "T":
+        	 nextScreen="/Teacher/TeacherMain.fxml";
+        	 nextController=new TeacherMainController("TeacherController");
+        	 break;
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
             //String strQuery="SELECT password FROM users WHERE userID='"+username+"'";
