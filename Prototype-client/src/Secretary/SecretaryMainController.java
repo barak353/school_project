@@ -3,6 +3,7 @@ package Secretary;
 import java.io.IOException;
 
 import Login.LoginController;
+import Parent.ParentMainController;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -91,21 +92,8 @@ void StudentChange(ActionEvent event)
 } 
 //-------------------------------------------------------------------------------------------------//
 @FXML
-void Exit(ActionEvent event)
+void TurningBack(ActionEvent event)
 {
-			 try {
-				    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-			        loader.setController(new LoginController("LoginController"));
-				    Pane login_screen_parent = loader.load();
-				        Scene login_screen_scene=new Scene(login_screen_parent);
-						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-						app_stage.hide();
-						app_stage.setScene(login_screen_scene);
-						app_stage.show(); 
-			        } catch (IOException e) {
-						System.err.println("Missing StudentChange.fxml file");
-						e.printStackTrace();
-					}
+	this.Back("/Secretary/StudentChange.fxml", new LoginController("LoginController"), event);
 } 
-//-------------------------------------------------------------------------------------------------//
 }

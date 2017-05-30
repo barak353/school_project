@@ -8,66 +8,72 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="442.0" prefWidth="714.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="442.0" fitWidth="720.0" layoutX="-7.0">
-         <image>
-            <Image url="@../../../../../Desktop/light-blue-background.jpg" />
-         </image>
-      </ImageView>
-      <Label layoutX="135.0" layoutY="28.0" text="Insert\Delete Student" textFill="#6100a1">
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
-            <Font name="System Bold" size="43.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="216.0" layoutY="123.0" text="StudentID:">
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="216.0" layoutY="174.0" text="Class:">
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
-      </Label>
-      <Label layoutX="216.0" layoutY="222.0" text="Course:">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <TextField layoutX="310.0" layoutY="120.0" />
-      <TextField layoutX="310.0" layoutY="171.0" />
-      <TextField layoutX="310.0" layoutY="219.0" />
-      <ComboBox layoutX="310.0" layoutY="272.0" prefWidth="150.0" promptText="Choose Type" />
-      <Label layoutX="216.0" layoutY="275.0" text="Type:">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Button layoutX="344.0" layoutY="341.0" mnemonicParsing="false" text="Save" textFill="#54009e">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-         <effect>
-            <InnerShadow color="#5b00b5" />
-         </effect>
       </Button>
-      <ImageView fitHeight="95.0" fitWidth="169.0" layoutX="515.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Desktop/images%20(1).jpg" />
-         </image>
-         <effect>
-            <ColorAdjust />
-         </effect>
-      </ImageView>
-      <Button layoutX="687.0" mnemonicParsing="false" text="X">
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font size="14.0" />
          </font>
-         <effect>
-            <ColorAdjust saturation="1.0" />
-         </effect>
-      </Button>
+      </Text>
+      <Pane layoutX="2.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="93.0" layoutY="30.0" text="Insert\Delete Student" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="ButtonNew" layoutX="291.0" layoutY="322.0" mnemonicParsing="false" text="Save">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <effect>
+                  <InnerShadow color="#4202b2" />
+               </effect></Button>
+            <Label layoutX="181.0" layoutY="113.0" text="StudentID:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="180.0" layoutY="161.0" text="Class:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="180.0" layoutY="215.0" text="Course:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="180.0" layoutY="260.0" text="Type:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField layoutX="259.0" layoutY="110.0" />
+            <TextField layoutX="259.0" layoutY="158.0" />
+            <TextField layoutX="259.0" layoutY="212.0" />
+            <ComboBox layoutX="258.0" layoutY="257.0" prefWidth="150.0" promptText="Choose Type" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
