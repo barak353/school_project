@@ -39,7 +39,7 @@ public class AskRequestFormController extends QueryController {
     {
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/TeacherRequestForm.fxml"));
-			   //loader.setController(new LoginController("LoginController"));
+			   loader.setController(new TeacherRequestFormController("TeacherRequestFormController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -47,7 +47,7 @@ public class AskRequestFormController extends QueryController {
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {//problem with the teacherWindow.xml file.
-					System.err.println("Missing LoginWindows.fxml file");
+					System.err.println("Missing TeacherRequestForm.fxml file");
 					e.printStackTrace();
 				}
     }
@@ -57,7 +57,7 @@ public class AskRequestFormController extends QueryController {
     {
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/StudentRequestForm.fxml"));
-			   //loader.setController(new LoginController("LoginController"));
+			   loader.setController(new StudentRequestFormController("StudentRequestFormController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
