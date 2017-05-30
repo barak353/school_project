@@ -52,43 +52,6 @@ public class QueryController{
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.
     	this.packaged=packaged;
     }
-    
-    void Button1(ActionEvent event) {
-		 try {
-			 //צריך לעדכן את הכפתור בהתאם למסך ולקונטרולר שלו
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-		        loader.setController(new LoginController("LoginController"));
-			    Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		 } 
-		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
-				e.printStackTrace();
-		 }
-    }
-
- 
- @FXML
-    void Logout(ActionEvent event) {
-		 try {
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-		        loader.setController(new LoginController("LoginController"));
-			    Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		 } 
-		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
-				e.printStackTrace();
-		 }
-    }
  
  	void setbackScreen(String backScreen){
  		this.backScreen=backScreen;
