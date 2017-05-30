@@ -11,46 +11,55 @@ import javafx.stage.Stage;
 public class PortController {
 
     @FXML
-    protected PasswordField passwordID;
+    protected TextField DBuserID;
 
     @FXML
-    protected TextField hostID;	
+    protected TextField serverPortD;
 
     @FXML
-    protected TextField portID;
+    protected TextField DBhostID;
+
+    @FXML
+    protected TextField DBschemaID;
+
+    @FXML
+    protected Button connectID;
 
     @FXML
     protected Text errorTextID;
 
-	@FXML
-	protected Button closeButton;
-
     @FXML
-    protected boolean isError=true;
-
-    @FXML
-    protected Button connectID;
+    protected PasswordField DBpasswordID;
     
     
     @FXML
     void connect(ActionEvent event) {
     	String errorMessage="Please provide: ";
     	boolean isvalid = true;
-        if(hostID.getText().equals("")){
-  	   	errorMessage+=" host name,";
-    	    errorTextID.setText(errorMessage);
-    	    isvalid = false;
-    	}
-        if(portID.getText().equals("")){
-  	   	errorMessage+=" port number,";
+        if(DBuserID.getText().equals("")){
+  	   	errorMessage+=" DB user,";
     	errorTextID.setText(errorMessage);
 	    isvalid = false;
-
     	}
-        if(passwordID.getText().equals("")){
-    	    errorMessage+=" password.";
+        if(serverPortD.getText().equals("")){
+    	    errorMessage+=" Server port.";
     	    errorTextID.setText(errorMessage);
     	    isvalid = false;
+    	}
+        if(DBhostID.getText().equals("")){
+  	   	errorMessage+=" DB host,";
+    	    errorTextID.setText(errorMessage);
+    	    isvalid = false;
+    	}
+        if(DBschemaID.getText().equals("")){
+  	   	errorMessage+=" DB schema,";
+    	errorTextID.setText(errorMessage);
+	    isvalid = false;
+    	}
+        if(DBpasswordID.getText().equals("")){
+  	   	errorMessage+=" DB password,";
+    	errorTextID.setText(errorMessage);
+	    isvalid = false;
     	}
         if(isvalid){
         	SchoolServer.startServer(this);

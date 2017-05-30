@@ -6,40 +6,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PortController">
+<AnchorPane prefHeight="659.0" prefWidth="555.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PortController">
    <children>
-      <Text layoutX="25.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the DB connection details:">
+      <Text fill="#9900ff" layoutX="104.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the DB and server connection details:" wrappingWidth="347.359375">
          <font>
-            <Font size="36.0" />
+            <Font size="32.0" />
          </font>
       </Text>
-      <TextField fx:id="hostID" layoutX="199.0" layoutY="143.0" promptText="enter DB host" />
-      <Text layoutX="197.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text layoutX="199.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port:">
+      <TextField fx:id="DBuserID" layoutX="185.0" layoutY="143.0" prefHeight="25.0" prefWidth="185.0" promptText="try to enter &quot;root&quot;" />
+      <Text layoutX="182.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DB user name:">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="connectID" layoutX="228.0" layoutY="330.0" mnemonicParsing="false" onAction="#connect" text="Connect">
+      <Text layoutX="186.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="server port:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="connectID" layoutX="224.0" layoutY="470.0" mnemonicParsing="false" onAction="#connect" text="Connect">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Text fx:id="errorTextID" fill="RED" layoutX="157.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="242.0">
+      <Text fx:id="errorTextID" fill="RED" layoutX="160.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="242.0">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="portID" layoutX="199.0" layoutY="294.0" promptText="enter DB port" />
-      <Text layoutX="199.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="170.0">
+      <TextField fx:id="serverPortD" layoutX="185.0" layoutY="425.0" prefHeight="25.0" prefWidth="185.0" promptText="try  to enter &quot;5555&quot;" />
+      <Text layoutX="184.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DB password:" wrappingWidth="170.0">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passwordID" layoutX="199.0" layoutY="219.0" promptText="enter DB password" />
+      <PasswordField fx:id="DBpasswordID" layoutX="185.0" layoutY="213.0" prefHeight="25.0" prefWidth="185.0" promptText="try yo enter &quot;123456&quot;" />
+      <Text layoutX="182.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DB host name:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="DBhostID" layoutX="185.0" layoutY="287.0" prefHeight="25.0" prefWidth="185.0" promptText="try to enter &quot;localhost&quot;" />
+      <Text layoutX="184.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DB schema:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="DBschemaID" layoutX="182.0" layoutY="358.0" prefHeight="25.0" prefWidth="191.0" promptText="try to enter &quot;test&quot;" />
    </children>
 </AnchorPane>
