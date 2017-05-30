@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PortController">
+   <children>
+      <Text layoutX="25.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the DB connection details:">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <TextField fx:id="hostID" layoutX="199.0" layoutY="143.0" promptText="enter DB host" />
+      <Text layoutX="197.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="199.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="connectID" layoutX="228.0" layoutY="330.0" mnemonicParsing="false" onAction="#connect" text="Connect">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Text fx:id="errorTextID" fill="RED" layoutX="157.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="242.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="portID" layoutX="199.0" layoutY="294.0" promptText="enter DB port" />
+      <Text layoutX="199.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="170.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <PasswordField fx:id="passwordID" layoutX="199.0" layoutY="219.0" promptText="enter DB password" />
+   </children>
+</AnchorPane>
