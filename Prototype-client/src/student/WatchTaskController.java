@@ -2,6 +2,7 @@ package student;
 
 import java.io.IOException;
 
+import Secretary.SecretaryMainController;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ public class WatchTaskController extends QueryController {
 		super(controllerID);
 		
 	}
+
+	Object nextController=null;
 	
 	void WatchSpecificT (ActionEvent event)
 	{
@@ -34,6 +37,12 @@ public class WatchTaskController extends QueryController {
 							e.printStackTrace();
 						}
 	}
+	
+	  void TurningBack(ActionEvent event)
+	    {
+	    	this.nextController = new SecretaryMainController("StudentMainController");
+	    	this.Back("/Secretary/MainWindowStudent.fxml",nextController, event);
+	    } 
 
 }
 

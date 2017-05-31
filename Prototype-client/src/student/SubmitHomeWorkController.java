@@ -1,6 +1,7 @@
 package student;
 
 import application.QueryController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import Secretary.AskRequestFormController;
+import Secretary.SecretaryMainController;
 
 public class SubmitHomeWorkController extends QueryController  {
 
@@ -20,6 +22,8 @@ public class SubmitHomeWorkController extends QueryController  {
 		super(controllerID);
 		
 	}
+	
+	Object nextController=null;	
 	void SubmitSpecificTask(ActionEvent event)
 	{
 				 try {
@@ -37,6 +41,11 @@ public class SubmitHomeWorkController extends QueryController  {
 						}
 	}
 	
+    void TurningBack(ActionEvent event)
+    {
+    	this.nextController = new SecretaryMainController("StudentMainController");
+    	this.Back("/Secretary/MainWindowStudent.fxml",nextController, event);
+    } 
 
 	
 
