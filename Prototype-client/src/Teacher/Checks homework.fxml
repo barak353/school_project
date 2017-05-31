@@ -23,14 +23,14 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Text fx:id="userID" layoutX="194.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="180.0" layoutY="30.0" text="Teacher Main" textFill="#1205ff">
+            <Label layoutX="121.0" layoutY="28.0" text="Checks homework" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -40,20 +40,23 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="SetUpTask" layoutX="220.0" layoutY="116.0" mnemonicParsing="false" onAction="#SetUpTask" prefHeight="30.0" prefWidth="171.0" text="Set up task">
+            <ComboBox fx:id="CourseList" layoutX="241.0" layoutY="114.0" prefWidth="150.0" />
+            <Label layoutX="179.0" layoutY="116.0" text="Course">
                <font>
                   <Font name="System Bold" size="14.0" />
-               </font></Button>
-            <Button fx:id="ChecksHomework" layoutX="220.0" layoutY="172.0" mnemonicParsing="false" onAction="#ChecksHomework" prefHeight="30.0" prefWidth="171.0" text="Checks homework">
+               </font>
+            </Label>
+            <Button fx:id="Continue" layoutX="265.0" layoutY="235.0" mnemonicParsing="false" onAction="#ContinueScreen" text="Continue">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="FillFinalEvaluation" layoutX="220.0" layoutY="227.0" mnemonicParsing="false" onAction="#FillFinalEvaluation" prefHeight="30.0" prefWidth="171.0" text="Fill final evaluation">
+            <ComboBox fx:id="TaskList" layoutX="241.0" layoutY="170.0" prefWidth="150.0" />
+            <Label layoutX="188.0" layoutY="173.0" text="Task">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
-            </Button>
+            </Label>
          </children>
       </Pane>
    </children>

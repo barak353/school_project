@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -23,14 +24,14 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Text fx:id="userID" layoutX="194.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="180.0" layoutY="30.0" text="Teacher Main" textFill="#1205ff">
+            <Label layoutX="149.0" layoutY="28.0" text="Task of student" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -40,16 +41,24 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="SetUpTask" layoutX="220.0" layoutY="116.0" mnemonicParsing="false" onAction="#SetUpTask" prefHeight="30.0" prefWidth="171.0" text="Set up task">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font></Button>
-            <Button fx:id="ChecksHomework" layoutX="220.0" layoutY="172.0" mnemonicParsing="false" onAction="#ChecksHomework" prefHeight="30.0" prefWidth="171.0" text="Checks homework">
+            <Button fx:id="openFile" layoutX="266.0" layoutY="170.0" mnemonicParsing="false" onAction="#saveB" text="open file">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="FillFinalEvaluation" layoutX="220.0" layoutY="227.0" mnemonicParsing="false" onAction="#FillFinalEvaluation" prefHeight="30.0" prefWidth="171.0" text="Fill final evaluation">
+            <ComboBox fx:id="StudentList" layoutX="239.0" layoutY="116.0" prefWidth="150.0" />
+            <Label layoutX="182.0" layoutY="118.0" text="student">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="219.0" layoutY="229.0" prefHeight="138.0" prefWidth="222.0" />
+            <Label layoutX="81.0" layoutY="229.0" text="write comments">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="save" layoutX="529.0" layoutY="367.0" mnemonicParsing="false" onAction="#saveB" text="save">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

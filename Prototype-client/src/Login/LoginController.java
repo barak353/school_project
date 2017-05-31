@@ -94,7 +94,7 @@ public class LoginController extends QueryController implements Initializable{//
         	 break;
          case "T":
         	 nextScreen="/Teacher/TeacherMain.fxml";
-        	 nextController=new TeacherMainController("TeacherController");
+        	 nextController=new TeacherMainController("TeacherMainController");
         	 break;
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
