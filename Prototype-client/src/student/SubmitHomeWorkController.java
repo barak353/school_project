@@ -41,11 +41,11 @@ public class SubmitHomeWorkController extends QueryController  {
 						}
 	}
 	
-    void TurningBack(ActionEvent event)
-    {
-    	this.nextController = new SecretaryMainController("StudentMainController");
-    	this.Back("/Secretary/MainWindowStudent.fxml",nextController, event);
-    } 
+	  void TurningBack(ActionEvent event)
+	    {
+	    	this.nextController = new SecretaryMainController("StudentMainController");
+	    	this.Back("/Secretary/MainWindowStudent.fxml",nextController, event);
+	    } 
 
 	
 

@@ -41,9 +41,9 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="ButtonNew" layoutX="216.0" layoutY="151.0" mnemonicParsing="false" onAction="#Button1" prefHeight="25.0" prefWidth="139.0" text="Watch Task" />
+            <Button fx:id="ButtonNew" layoutX="216.0" layoutY="151.0" mnemonicParsing="false" onAction="#WatchT" prefHeight="25.0" prefWidth="139.0" text="Watch Task" />
             <Button layoutX="216.0" layoutY="209.0" mnemonicParsing="false" onAction="#SubmitHomeWork" prefHeight="25.0" prefWidth="139.0" text="Submit HomeWork" />
-            <Button layoutX="219.0" layoutY="261.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Watch Personal folder" />
+            <Button layoutX="219.0" layoutY="261.0" mnemonicParsing="false" onAction="#WatchPersonalFolder" prefHeight="25.0" prefWidth="139.0" text="Watch Personal folder" />
          </children>
       </Pane>
    </children>
