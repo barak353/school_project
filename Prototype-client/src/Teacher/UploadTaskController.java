@@ -29,7 +29,7 @@ public class UploadTaskController extends QueryController implements Initializab
 	{
 			super(controllerID);
 	}
- 
+	//-----------------------------------------------------------//
     @FXML
     private Button logout;
 
@@ -45,7 +45,7 @@ public class UploadTaskController extends QueryController implements Initializab
     @FXML
     private TextField TaskName;
 
-    
+	//-----------------------------------------------------------//
 	void TurningBack(ActionEvent event) {
     	this.nextController = new SetUpTaskController("SetUpTaskController");
     	this.Back("/Teacher/SetUpTask.fxml",nextController, event);
