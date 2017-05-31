@@ -1,6 +1,7 @@
 package student;
 
 import application.QueryController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import Secretary.AskRequestFormController;
+import Secretary.SecretaryMainController;
 
 public class SubmitHomeWorkController extends QueryController  {
 
@@ -20,6 +22,8 @@ public class SubmitHomeWorkController extends QueryController  {
 		super(controllerID);
 		
 	}
+	
+	Object nextController=null;	
 	void SubmitSpecificTask(ActionEvent event)
 	{
 				 try {
@@ -37,22 +41,12 @@ public class SubmitHomeWorkController extends QueryController  {
 						}
 	}
 	
-	void WatchSpecificTask (ActionEvent event)
-	{
-				 try {
-					   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchTask.fxml"));
-					   loader.setController(new WatchTaskController("watchTask"));
-					   Pane login_screen_parent = loader.load();
-					        Scene login_screen_scene=new Scene(login_screen_parent);
-							Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-							app_stage.hide();
-							app_stage.setScene(login_screen_scene);
-							app_stage.show(); 
-				        } catch (IOException e) {
-							System.err.println("SubmissionOfAspecificTask.fxml file");
-							e.printStackTrace();
-						}
-	}
+	  void TurningBack(ActionEvent event)
+	    {
+	    	this.nextController = new SecretaryMainController("StudentMainController");
+	    	this.Back("/Secretary/MainWindowStudent.fxml",nextController, event);
+	    } 
+
 	
 
 }
