@@ -37,22 +37,7 @@ public class SubmitHomeWorkController extends QueryController  {
 						}
 	}
 	
-	void WatchSpecificTask (ActionEvent event)
-	{
-				 try {
-					   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchTask.fxml"));
-					   loader.setController(new WatchTaskController("watchTask"));
-					   Pane login_screen_parent = loader.load();
-					        Scene login_screen_scene=new Scene(login_screen_parent);
-							Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-							app_stage.hide();
-							app_stage.setScene(login_screen_scene);
-							app_stage.show(); 
-				        } catch (IOException e) {
-							System.err.println("SubmissionOfAspecificTask.fxml file");
-							e.printStackTrace();
-						}
-	}
+
 	
 
 }

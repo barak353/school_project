@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import student.MainWindowStudentController;
 
 
 public class LoginController extends QueryController implements Initializable{//Second window: login to system.
@@ -96,6 +97,12 @@ public class LoginController extends QueryController implements Initializable{//
         	 nextScreen="/Teacher/TeacherMain.fxml";
         	 nextController=new TeacherMainController("TeacherController");
         	 break;
+        	 
+         case "A":
+        	 nextScreen="/student/ MainWindowStudent.fxml";
+        	 nextController=new MainWindowStudentController("StudentController");
+        	 break;
+     
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){

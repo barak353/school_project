@@ -16,7 +16,7 @@ public class SubmissionOfAspecificTask extends QueryController {
 	public SubmissionOfAspecificTask(String controllerID) 
 	{
 		super(controllerID);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	
