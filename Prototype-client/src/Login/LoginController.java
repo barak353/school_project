@@ -71,7 +71,7 @@ public class LoginController extends QueryController implements Initializable{//
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter Username and Password.");//show error message.
         }
-        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT password,type FROM users WHERE userID='"+username+"'");
+        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT userPSW,type FROM user WHERE userID='"+username+"'");
         String userPassword = null;
         boolean isUserExist=false;
         if(resultArray.isEmpty()==false){//check if there is first row.
