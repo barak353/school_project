@@ -127,8 +127,13 @@ void TurningBack(ActionEvent event)
 //-------------------------------------------------------------------------------------------------//
 
 public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
+	System.out.println("1");
 	User user = User.getCurrentLoggedIn();
+	System.out.println("2");
+
 	userID.setText(user.GetUserName());
+	System.out.println("3");
+
 }
 //-------------------------------------------------------------------------------------------------//
 }

@@ -52,7 +52,7 @@ public class LoginController extends QueryController implements Initializable{//
     
     private boolean showNextWindow;//this flag will say if we stay in this scene or if go to the next scene.
     
-    private static String username;
+    private static String userName;
     
     private static String password;
     
@@ -65,9 +65,10 @@ public class LoginController extends QueryController implements Initializable{//
     void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
-        username=usernameID.getText();
+    	String userID = usernameID.getText();
+    	System.out.println("userID: "+userID);
         password=passwordID.getText();
-        if(username.equals("")){
+        if(userID.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter username");//show error message.
         }
@@ -75,13 +76,14 @@ public class LoginController extends QueryController implements Initializable{//
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
         }
-        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT userPSW,type FROM user WHERE userID='"+username+"'");
+        ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT * FROM user WHERE userID='" + userID + "'");
         String userPassword = null;
         boolean isUserExist = false;
+        ArrayList<String> userDetails = null;
         if(resultArray.isEmpty() == false){//check if there is first row.
-        	ArrayList<String> row1=resultArray.get(0);//get first row.
-        		if(row1.isEmpty() == false){//check if there is first column.
-        		      userPassword = row1.get(0);//get first column.
+        			userDetails=resultArray.get(0);//get first row.
+        		if(userDetails.isEmpty() == false){//check if there is first column.
+        		      userPassword = userDetails.get(2);//get first userPSW.
         		      isUserExist = true;
         		}else{wrongTextID.setText("Please enter password.");//show error message.
         			showNextWindow = false;
@@ -89,11 +91,11 @@ public class LoginController extends QueryController implements Initializable{//
         }else{
 			showNextWindow = false;
         }
-
+        System.out.println("userDetails: "+userDetails);
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
-	        		String nextScreen=(resultArray.get(0)).get(1);
+	        		String nextScreen=(resultArray.get(0)).get(3);
 	                Object nextController = null;
 	                switch(nextScreen)
 	                {
@@ -116,10 +118,10 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 break;
 	                }
 		         	//set current logged in user.
-		         	User currentUser = new User(123,username,password,1,"aliaho@gmail.com");
+		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4));
 		         	User.setCurrentLoggedIn(currentUser);
 			         try {//change to login scene.
-				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryMainWindow.fxml"));
 				        loader.setController(nextController);
 				        Pane login_screen_parent = loader.load();
 				        Scene login_screen_scene=new Scene(login_screen_parent);	
@@ -145,7 +147,7 @@ public class LoginController extends QueryController implements Initializable{//
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
             	try{
-            	successfulID.setText("");// make successfulID disappear after 4 seconds.
+            		successfulID.setText("");// make successfulID disappear after 4 seconds.
             	}catch(java.lang.NullPointerException e1){
             		//This is happen because we moved to fast to the other screen
             	}
@@ -156,6 +158,6 @@ public class LoginController extends QueryController implements Initializable{//
 	}
 	
 	public static String getUsernameID(){
-		return username;
+		return userName;
 	}
 }

@@ -38,9 +38,6 @@ public class QueryController{
     }
     
     protected ArrayList<ArrayList<String>> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
-    	System.out.println("-----------------------------------");
-    	System.out.println("enter-transffer, packaged= "+packaged+", controllerHashMap = "+controllerHashMap);
-
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
@@ -52,7 +49,6 @@ public class QueryController{
     	}
     	ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.    
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
-    	System.out.println("exit-transffer, packaged= "+packaged+", controllerHashMap = "+controllerHashMap);
 
     	return resultArray;
     }

@@ -2,19 +2,19 @@ package User;
 
 public class User {
 
-	private int UserId;
-	private String UserName;
-	private String UserPassword;
-	private int status;
+	private String userId;
+	private String userName;
+	private String userPSW;
+	private char Type;
 	private String Email;
 	private static User currentLoggedIn=null;
 	//-------------------------------------------------------------------//
-	public User(int ID, String UName, String Upssw, int s, String E)
+	public User(String userId, String userName, String userPSW, String Type, String E)
 	{
-		UserId=ID;
-		UserName=UName;
-		UserPassword=Upssw;
-		status=s;
+		this.userId = userId;
+		this.userName = userName;
+		this.userPSW = userPSW;
+		this.Type = Type.charAt(0);
 		Email=E;
 	}
 	
@@ -27,24 +27,24 @@ public class User {
 		return currentLoggedIn;
 	}
 	//-------------------------------------------------------------------//
-	public int GetID()
+	public String GetID()
 	{
-		return this.UserId;
+		return this.userId;
 	}
 	//-------------------------------------------------------------------//
 	public String GetUserName()
 	{
-		return this.UserName;
+		return this.userName;
 	}
 	//-------------------------------------------------------------------//
 	public String GetUserPassword()
 	{
-		return this.UserPassword;
+		return this.userPSW;
 	}
 	//-------------------------------------------------------------------//
-	public int Getstatus()
+	public char Getstatus()
 	{
-		return this.status;
+		return this.Type;
 	}
 	//-------------------------------------------------------------------//
 	public String GetEmail()
@@ -52,29 +52,33 @@ public class User {
 		return this.Email;
 	}
 	//-------------------------------------------------------------------//
-	public void SetEmail(String E)
+	public void SetEmail(String Email)
 	{
-		this.Email=E;
+		this.Email=Email;
 	}
 	//-------------------------------------------------------------------//
-	public void SetUserId(int UID)
+	public void SetUserId(String userId)
 	{
-		this.UserId=UID;
+		this.userId=userId;
 	}
 	//-------------------------------------------------------------------//
-	public void SetUserName(String UName)
+	public void SetUserName(String userName)
 	{
-		this.UserName=UName;
+		this.userName = userName;
 	}
 	//-------------------------------------------------------------------//
 	public void SetUserPassword(String pssw)
 	{
-		this.UserPassword=pssw;
+		this.userPSW=pssw;
 	}
 	//-------------------------------------------------------------------//
-	public void SetStatus(int s)
+	public void SetType(char Type)
 	{
-		this.status=s;
+		this.Type=Type;
 	}
-	//-------------------------------------------------------------------//
+	 //-------------------------------------------------------------------//
+	public String toString(){
+		return String.format("userID: %s, userName: %s, userPSW: %s, Type: %c, Email: %s",this.userId,this.userName,this.userPSW,this.Type,this.Email);
+		
+	}
 }
