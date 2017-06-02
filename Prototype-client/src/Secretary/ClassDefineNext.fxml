@@ -40,9 +40,18 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="SaveAndExit" layoutX="180.0" layoutY="184.0" mnemonicParsing="false" text="Save And Exit" />
-            <Button fx:id="AddMore" layoutX="345.0" layoutY="184.0" mnemonicParsing="false" text="Add More" />
-            <Label layoutX="196.0" layoutY="117.0" text="StudentID:" />
+            <Button fx:id="SaveAndExit" layoutX="201.0" layoutY="184.0" mnemonicParsing="false" text="Save And Exit">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Button fx:id="AddMore" layoutX="373.0" layoutY="184.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="101.0" text="Add More">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Label layoutX="196.0" layoutY="117.0" text="StudentID:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
             <TextField fx:id="StudentID" layoutX="271.0" layoutY="113.0" />
          </children>
       </Pane>

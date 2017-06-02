@@ -104,10 +104,12 @@ void StudentChange(ActionEvent event)
 void ClassDefine(ActionEvent event)
 {
 			
-	Object result = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (1,'A')");
-	if(result instanceof Integer){
+	Object result = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (2,'A')");
+	Object result2 = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (3,'B')");
+	Object result3 = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (4,'C')");
+	/*if(result instanceof Integer){
 		System.out.println("error");
-	}
+	}*/
 			 try {
 				   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/ClassDefine.fxml"));
 				   loader.setController(new ClassDefineController("ClassDefineController"));

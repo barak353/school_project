@@ -2,6 +2,7 @@ package Secretary;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import User.User;
@@ -30,10 +31,14 @@ public class ClassDefineController extends QueryController implements Initializa
 	private Button OK;
 	@FXML
 	private Button NEXT;
+    @FXML
+    private Text ErrorMSG;
 	@FXML
 	private TextField ClassName;
 	@FXML
 	private TextField ClassNum;
+	private static String CLASSNAME;  
+	private static String CLASSNUM;
 	Object nextController=null;
 	//------------------------------------------------//
 	public ClassDefineController(String controllerID)
@@ -71,5 +76,29 @@ public class ClassDefineController extends QueryController implements Initializa
     						e.printStackTrace();
     					}
     }  
+    //--------------------------------------------//
+    @FXML
+    void OK (ActionEvent event)
+    {
+    	CLASSNAME=ClassName.getText();
+    	CLASSNUM=ClassNum.getText();
+    	//-----------------------------------------//
+        if(CLASSNAME.equals("")){
+        	ErrorMSG.setText("Please Enter Class Name");//show error message.
+        }
+        if(CLASSNUM.equals("")){
+        	ErrorMSG.setText("Please Enter Class Num");//show error message.
+        }
+        //-----------------------------------------//
+        ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE classNum='" + CLASSNUM + "' AND className='" + CLASSNAME + "'");
+        if(resultArray.isEmpty() == true)
+        {
+        	ErrorMSG.setText("There is NO such class");//show error message.
+        }
+        else
+        {
+        	ErrorMSG.setText("There is NO such class");//show error message.
+        }
+    }
     //--------------------------------------------//
 }

@@ -31,7 +31,7 @@
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="172.0" layoutY="30.0" text="Define Class" textFill="#1205ff">
+            <Label layoutX="172.0" layoutY="30.0" text="Enter Class" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button fx:id="OK" layoutX="270.0" layoutY="228.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="48.0" text="OK">
+            <Button fx:id="OK" layoutX="270.0" layoutY="228.0" mnemonicParsing="false" onAction="#OK" prefHeight="29.0" prefWidth="48.0" text="OK">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -66,6 +66,11 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="17.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="576.5419921875">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
