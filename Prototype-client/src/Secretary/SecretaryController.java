@@ -70,7 +70,7 @@ public class SecretaryController extends QueryController implements Initializabl
     	resultTextID.setText("");
     	if(this.teacherID.getText()=="")errorTextID.setText("Field 'teacher ID' is empty. Please enter teacher ID.");
     	else{
-    		ArrayList<ArrayList<String>> resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+teacherID.getText()+"'");
+    		ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+teacherID.getText()+"'");
     		if(resultArray.isEmpty()==false){//if there is no rows returned in the result.
 	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
 	    		resultTextID.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
@@ -90,7 +90,7 @@ public class SecretaryController extends QueryController implements Initializabl
     	switch(SelectedIndex){
     	case 0://Update unit teaching
     		 transfferQueryToServer("UPDATE teachers SET unit='"+updateTeacherDetailTextField.getText()+"' WHERE id='"+updateTeacherIDTextField.getText()+"'");
-     		 resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+updateTeacherIDTextField.getText()+"'");
+     		 resultArray=(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+updateTeacherIDTextField.getText()+"'");
     		 if(resultArray!=null && resultArray.isEmpty()==false){//if there is no rows returned in the result.
  	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
  	    		updateTeacherDetailsText.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));
@@ -100,7 +100,7 @@ public class SecretaryController extends QueryController implements Initializabl
  	    	break;
     	case 1://Update Teacher name
     		transfferQueryToServer("UPDATE teachers SET name='"+updateTeacherDetailTextField.getText()+"' WHERE id='"+updateTeacherIDTextField.getText()+"'");
-    		resultArray=transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+updateTeacherIDTextField.getText()+"'");
+    		resultArray=(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT id,name,unit FROM teachers WHERE id='"+updateTeacherIDTextField.getText()+"'");
     		if(resultArray!=null && resultArray.isEmpty()==false){//if there is no rows returned in the result.
 	    		ArrayList<String> row1=resultArray.get(0);//return empty result in second time
 	    		updateTeacherDetailsText.setText("Teacher Details:\nTeacher ID: "+row1.get(0)+"\nTeacher name: "+row1.get(1)+"\nTeaching Unit: "+row1.get(2));

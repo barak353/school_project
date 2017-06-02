@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
 	
-    private static ClientGui connection;//connection will old the connection to the server.
+
+	private static ClientGui connection;//connection will old the connection to the server.
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
    
@@ -37,7 +38,7 @@ public class QueryController{
 			connection = new ClientGui(host, port);
     }
     
-    protected ArrayList<ArrayList<String>> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
+    protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
@@ -47,10 +48,9 @@ public class QueryController{
     				e.printStackTrace();
     			}
     	}
-    	ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.    
+    	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
-
-    	return resultArray;
+    	return result;
     }
     
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.

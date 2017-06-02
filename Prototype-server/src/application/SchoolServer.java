@@ -77,6 +77,7 @@ public class SchoolServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {		
+	  boolean isAlreadyInserted = false;
 	  ResultSet rs = null;
 	  boolean isUpdate=false;
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
@@ -91,24 +92,22 @@ public class SchoolServer extends AbstractServer
 	    	else if(strQuery.substring(0,6).equals("UPDATE"))
 	    	{
 	    		stmt.executeUpdate(strQuery);//Execute the query from the client.
-	    		    	//packaged.put("ResultArray", null);
-	    		    	//try {
-							//client.sendToClient((Object)packaged);
 							isUpdate=true;
-						//} catch (IOException e) {
-						//	System.out.println("Unable to send Update msg to client from Server.");
-						//	e.printStackTrace();
-						//}
 	    	}
 	    	else if (strQuery.substring(0,6).equals("INSERT"))
 	    	{
+	    		try{
 	    		stmt.executeUpdate(strQuery);
+	    		}catch(SQLException e2){
+	    			isAlreadyInserted = true ;
+	    		}
 	    		isUpdate=true;
 	    	}
 		} catch (SQLException e1) {
 			System.out.println("Failed to execute query in handleMessageFromClient");
 			e1.printStackTrace();
 		}
+	    Object result = null;
 	    ArrayList<ArrayList<String>> resultArray;
 		  if(isUpdate == false){
 		  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
@@ -132,16 +131,19 @@ public class SchoolServer extends AbstractServer
 					    columnIndex++;//go to the next column in this row.
 				    }
 				    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+				    result = resultArray;
 			  }
 			} catch (SQLException e1) {
 				System.out.println("error in creating ResultArray");
 			}
 		  }else{
-			  resultArray = null;
+			  result = null;
 		  }
-		  
+		  if( isAlreadyInserted == true){
+			  result = new Integer(-1);
+		  }
 	    try{
-	    	packaged.put("ResultArray", resultArray);
+	    	packaged.put("ResultArray", result);
 	    	client.sendToClient((Object)packaged);
 	    }catch (IOException e) {
 			System.out.println("Unable to send Select msg to client from Server.");

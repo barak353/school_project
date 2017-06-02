@@ -104,7 +104,10 @@ void StudentChange(ActionEvent event)
 void ClassDefine(ActionEvent event)
 {
 			
-	transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (1,'A')");
+	Object result = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (1,'A')");
+	if(result instanceof Integer){
+		System.out.println("error");
+	}
 			 try {
 				   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/ClassDefine.fxml"));
 				   loader.setController(new ClassDefineController("ClassDefineController"));
