@@ -1,4 +1,4 @@
-package Login;
+package student;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,10 +36,7 @@ public class ControllerExampleUseThis extends QueryController implements Initial
     private Text userID;
 
 
-    @FXML
-    void Button1(ActionEvent event) {
 
-    }
     
 	 //-----------------------------------------------------------// 
 		//-----------------------------------------------------------//
