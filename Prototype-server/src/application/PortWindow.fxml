@@ -52,6 +52,6 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <TextField fx:id="DBschemaID" layoutX="182.0" layoutY="358.0" prefHeight="25.0" prefWidth="191.0" promptText="try to enter &quot;test&quot;" />
+      <TextField fx:id="DBschemaID" layoutX="182.0" layoutY="358.0" prefHeight="25.0" prefWidth="191.0" promptText="try to enter &quot;school&quot;" />
    </children>
 </AnchorPane>
