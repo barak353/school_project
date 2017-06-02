@@ -89,7 +89,7 @@ public class SchoolServer extends AbstractServer
 	    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
 	    	}
 	    	else if(strQuery.substring(0,6).equals("UPDATE"))
-	    			{
+	    	{
 	    		stmt.executeUpdate(strQuery);//Execute the query from the client.
 	    		    	//packaged.put("ResultArray", null);
 	    		    	//try {
@@ -99,13 +99,18 @@ public class SchoolServer extends AbstractServer
 						//	System.out.println("Unable to send Update msg to client from Server.");
 						//	e.printStackTrace();
 						//}
-	    			}
+	    	}
+	    	else if (strQuery.substring(0,6).equals("INSERT"))
+	    	{
+	    		stmt.executeUpdate(strQuery);
+	    		isUpdate=true;
+	    	}
 		} catch (SQLException e1) {
 			System.out.println("Failed to execute query in handleMessageFromClient");
 			e1.printStackTrace();
 		}
 	    ArrayList<ArrayList<String>> resultArray;
-		  if(isUpdate==false){
+		  if(isUpdate == false){
 		  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
 			  ResultSetMetaData rsmd;
 			int columnsNumber;
@@ -132,7 +137,7 @@ public class SchoolServer extends AbstractServer
 				System.out.println("error in creating ResultArray");
 			}
 		  }else{
-			  resultArray=null;
+			  resultArray = null;
 		  }
 		  
 	    try{
