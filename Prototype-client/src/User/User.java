@@ -9,13 +9,13 @@ public class User {
 	private String Email;
 	private static User currentLoggedIn=null;
 	//-------------------------------------------------------------------//
-	public User(String userId, String userName, String userPSW, String Type, String E)
+	public User(String userId, String userName, String userPSW, String Type, String Email)
 	{
 		this.userId = userId;
 		this.userName = userName;
 		this.userPSW = userPSW;
 		this.Type = Type.charAt(0);
-		Email=E;
+		this.Email=Email;
 	}
 	
 	public static void setCurrentLoggedIn(User currentLoggedIn){
