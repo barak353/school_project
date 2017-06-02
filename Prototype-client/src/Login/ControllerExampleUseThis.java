@@ -1,4 +1,4 @@
-package Login;
+package student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,17 +30,42 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 	
 	//-----------------------------------------------------------// 
 
-	 @FXML
-	 private Button logout;
-	 
-	 @FXML
-	 private Button back;
-	 
-	 @FXML
-	 private Text userID;
-	 
-	 @FXML
-	 private Button ButtonNew;	 
+	Object nextController=null;	
+	
+    @FXML
+    private Button logout;
+
+    @FXML
+    private Button WatchPersonalFolder;
+
+    @FXML
+    private Button SubmitHomeWork;
+
+    @FXML
+    private Button back;
+
+    @FXML
+    private Button ButtonNew;
+
+    @FXML
+    private Text userID;
+
+
+
+    @FXML
+    void WatchT(ActionEvent event) {
+
+    }
+
+    @FXML
+    void SubmitHomeWork(ActionEvent event) {
+
+    }
+
+    @FXML
+    void WatchPersonalFolder(ActionEvent event) {
+
+    } 
 	 //-----------------------------------------------------------// 
 		//-----------------------------------------------------------//
 		@Override
@@ -48,11 +73,10 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 		}
+		@FXML
+		void TurningBack(ActionEvent event)
+		{
+			this.nextController = new LoginController("SecretaryLoginController");
+			this.Back("/Login/LoginWindow.fxml",nextController, event);
+		}
  }
-	    
-
-
-
-	 //-----------------------------------------------------------// 
-
-

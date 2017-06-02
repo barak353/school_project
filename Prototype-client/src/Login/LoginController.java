@@ -91,7 +91,6 @@ public class LoginController extends QueryController implements Initializable{//
         }else{
 			showNextWindow = false;
         }
-        System.out.println("userDetails: "+userDetails);
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
@@ -113,7 +112,7 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 break;
 	                	 
 	                 case "ST":
-	                	 nextScreen="/student/ MainWindowStudent.fxml";
+	                	 nextScreen="/student/MainWindowStudent.fxml";
 	                	 nextController=new MainWindowStudentController("StudentController");
 	                	 break;
 	                }
@@ -121,7 +120,7 @@ public class LoginController extends QueryController implements Initializable{//
 		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4));
 		         	User.setCurrentLoggedIn(currentUser);
 			         try {//change to login scene.
-				        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryMainWindow.fxml"));
+				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
 				        loader.setController(nextController);
 				        Pane login_screen_parent = loader.load();
 				        Scene login_screen_scene=new Scene(login_screen_parent);	
@@ -131,7 +130,6 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.show(); 
 			         } catch (IOException e) {
 						System.out.println("Missing fxml file");
-						e.printStackTrace();
 					}
 	            }else{
 	            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
