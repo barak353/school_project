@@ -1,16 +1,21 @@
 package application;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import Login.LoginController;
+import Secretary.SecretaryMainController;
 import Secretary.TeacherPlacementController;
+import User.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
@@ -25,7 +30,7 @@ public class QueryController{
     private String backScreen="";
         
     private String controllerID;
-    
+        
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
 		controllerHashMap=new HashMap <String ,QueryController>();
@@ -100,5 +105,7 @@ public class QueryController{
     	controllerHashMap.put(controllerID, this);//remove this key from the HashMap.
 		packaged.remove("controllerID");//remove this key from the packaged.
 	}
+	
+
 //-----------------------------------------------------------------------//
 }

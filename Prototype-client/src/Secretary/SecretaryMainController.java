@@ -138,5 +138,7 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 	userID.setText(user.GetUserName());
 
 }
+
+
 //-------------------------------------------------------------------------------------------------//
 }
