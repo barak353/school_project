@@ -23,7 +23,10 @@ public class QueryController{
     
     private String backScreen="";
         
+    private String controllerID;
+    
     public QueryController(String controllerID){
+    	this.controllerID = controllerID;
 		controllerHashMap=new HashMap <String ,QueryController>();
     	controllerHashMap.put(controllerID, this);//Save pointer to this controller in the HashMap.
 		packaged=new HashMap <String ,Object>();
@@ -35,6 +38,9 @@ public class QueryController{
     }
     
     protected ArrayList<ArrayList<String>> transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
+    	System.out.println("-----------------------------------");
+    	System.out.println("enter-transffer, packaged= "+packaged+", controllerHashMap = "+controllerHashMap);
+
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
@@ -46,6 +52,8 @@ public class QueryController{
     	}
     	ArrayList<ArrayList<String>> resultArray=(ArrayList<ArrayList<String>>) packaged.get("ResultArray");//Get the resultArray that returned from the server.    
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
+    	System.out.println("exit-transffer, packaged= "+packaged+", controllerHashMap = "+controllerHashMap);
+
     	return resultArray;
     }
     
@@ -56,40 +64,45 @@ public class QueryController{
  	void setbackScreen(String backScreen){
  		this.backScreen=backScreen;
  	}
-//-----------------------------------------------------------------------// 	
-@FXML
-void LogOutScreen(ActionEvent event)
-{
-	try {
- 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
- 		        loader.setController(new LoginController("LoginController"));
- 		        Pane login_screen_parent = loader.load();
- 				Scene login_screen_scene=new Scene(login_screen_parent);
- 				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
- 				app_stage.hide();
- 				app_stage.setScene(login_screen_scene);
- 				app_stage.show(); 
- 				} catch (IOException e) {
- 					System.err.println("Missing StudentChange.fxml file");
- 					e.printStackTrace();
- 				}
-} 
-//-----------------------------------------------------------------------//
-protected void Back(String window, Object nextController,ActionEvent event)
-{
-	 try {
-		   FXMLLoader loader = new FXMLLoader(getClass().getResource(window));
-		   loader.setController(nextController);
-		   Pane login_screen_parent = loader.load();
-		        Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-	        } catch (IOException e) {
-				System.err.println("Missing BackWindow.fxml file");
-				e.printStackTrace();
-			}
-} 
+	//-----------------------------------------------------------------------// 	
+	@FXML
+	void LogOutScreen(ActionEvent event)
+	{
+		try {
+	 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
+	 		        loader.setController(new LoginController("LoginController"));
+	 		        Pane login_screen_parent = loader.load();
+	 				Scene login_screen_scene=new Scene(login_screen_parent);
+	 				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+	 				app_stage.hide();
+	 				app_stage.setScene(login_screen_scene);
+	 				app_stage.show(); 
+	 				} catch (IOException e) {
+	 					System.err.println("Missing StudentChange.fxml file");
+	 					e.printStackTrace();
+	 				}
+	} 
+	//-----------------------------------------------------------------------//
+	protected void Back(String window, Object nextController,ActionEvent event)
+	{
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource(window));
+			   loader.setController(nextController);
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {
+					System.err.println("Missing BackWindow.fxml file");
+					e.printStackTrace();
+				}
+	} 
+	
+	protected void finalize(){
+    	controllerHashMap.put(controllerID, this);//remove this key from the HashMap.
+		packaged.remove("controllerID");//remove this key from the packaged.
+	}
 //-----------------------------------------------------------------------//
 }

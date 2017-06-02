@@ -67,46 +67,54 @@ public class LoginController extends QueryController implements Initializable{//
     	showNextWindow = true;
         username=usernameID.getText();
         password=passwordID.getText();
-        if(username.equals("") || password.equals("")){
+        if(username.equals("")){
         	showNextWindow=false;//stay in this scene.
-        	wrongTextID.setText("Please enter Username and Password.");//show error message.
+        	wrongTextID.setText("Please enter username");//show error message.
+        }
+        if(password.equals("")){
+        	showNextWindow=false;//stay in this scene.
+        	wrongTextID.setText("Please enter password.");//show error message.
         }
         ArrayList<ArrayList<String>> resultArray= transfferQueryToServer("SELECT userPSW,type FROM user WHERE userID='"+username+"'");
         String userPassword = null;
-        boolean isUserExist=false;
-        if(resultArray.isEmpty()==false){//check if there is first row.
+        boolean isUserExist = false;
+        if(resultArray.isEmpty() == false){//check if there is first row.
         	ArrayList<String> row1=resultArray.get(0);//get first row.
-        		if(row1.isEmpty()==false){//check if there is first column.
+        		if(row1.isEmpty() == false){//check if there is first column.
         		      userPassword = row1.get(0);//get first column.
-        		      isUserExist=true;
+        		      isUserExist = true;
+        		}else{wrongTextID.setText("Please enter password.");//show error message.
+        			showNextWindow = false;
         		}
+        }else{
+			showNextWindow = false;
         }
-        String nextScreen=(resultArray.get(0)).get(1);
-        Object nextController = null;
-        switch(nextScreen)
-        {
-         case "P":
-        	 nextScreen="/Parent/ParentMain.fxml";
-        	 nextController=new ParentMainController("ParentMainController");
-        	 break;
-         case "S":
-        	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
-        	 nextController=new SecretaryMainController("SecretaryMainController");
-        	 break;
-         case "T":
-        	 nextScreen="/Teacher/TeacherMain.fxml";
-        	 nextController=new TeacherMainController("TeacherMainController");
-        	 break;
-        	 
-         case "A":
-        	 nextScreen="/student/ MainWindowStudent.fxml";
-        	 nextController=new MainWindowStudentController("StudentController");
-        	 break;
-     
-        }
+
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
+	        		String nextScreen=(resultArray.get(0)).get(1);
+	                Object nextController = null;
+	                switch(nextScreen)
+	                {
+	                 case "P":
+	                	 nextScreen="/Parent/ParentMain.fxml";
+	                	 nextController=new ParentMainController("ParentMainController");
+	                	 break;
+	                 case "S":
+	                	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
+	                	 nextController=new SecretaryMainController("SecretaryMainController");
+	                	 break;
+	                 case "T":
+	                	 nextScreen="/Teacher/TeacherMain.fxml";
+	                	 nextController=new TeacherMainController("TeacherMainController");
+	                	 break;
+	                	 
+	                 case "A":
+	                	 nextScreen="/student/ MainWindowStudent.fxml";
+	                	 nextController=new MainWindowStudentController("StudentController");
+	                	 break;
+	                }
 		         	//set current logged in user.
 		         	User currentUser = new User(123,username,password,1,"aliaho@gmail.com");
 		         	User.setCurrentLoggedIn(currentUser);
@@ -124,11 +132,13 @@ public class LoginController extends QueryController implements Initializable{//
 						e.printStackTrace();
 					}
 	            }else{
-	            	wrongTextID.setText("Wrong User password, please try again.");//show error message.
+	            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
 	            }
-        	}
+            }
         }
     }
+
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method preform when this controller scene is showing up.
         Timer t = new Timer(4000, new java.awt.event.ActionListener() {
