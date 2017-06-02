@@ -101,6 +101,24 @@ void StudentChange(ActionEvent event)
 } 
 //-------------------------------------------------------------------------------------------------//
 @FXML
+void ClassDefine(ActionEvent event)
+{
+			 try {
+				   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/ClassDefine.fxml"));
+				   loader.setController(new ClassDefineController("ClassDefineController"));
+				   Pane login_screen_parent = loader.load();
+				        Scene login_screen_scene=new Scene(login_screen_parent);
+						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+						app_stage.hide();
+						app_stage.setScene(login_screen_scene);
+						app_stage.show(); 
+			        } catch (IOException e) {
+						System.err.println("Missing ClassDefine.fxml file");
+						e.printStackTrace();
+					}
+} 
+//-------------------------------------------------------------------------------------------------//
+@FXML
 void TurningBack(ActionEvent event)
 {
 	this.nextController = new LoginController("SecretaryLoginController");
@@ -112,4 +130,5 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 	User user = User.getCurrentLoggedIn();
 	userID.setText(user.GetUserName());
 }
+//-------------------------------------------------------------------------------------------------//
 }

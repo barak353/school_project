@@ -22,7 +22,7 @@ public class User {
 		User.currentLoggedIn = currentLoggedIn;
 	}
 	
-	
+	//-------------------------------------------------------------------//
 	public static User getCurrentLoggedIn(){
 		return currentLoggedIn;
 	}

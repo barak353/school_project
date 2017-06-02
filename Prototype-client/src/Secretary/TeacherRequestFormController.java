@@ -8,11 +8,16 @@ import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 public class TeacherRequestFormController extends QueryController implements Initializable{
 	@FXML
 	private Text userID;
+	@FXML
+	private Button logout;
+	@FXML
+	private Button back;
 	Object nextController=null;
 	//------------------------------------------------//
 	public TeacherRequestFormController(String controllerID)
