@@ -114,7 +114,7 @@ public class MainWindowStudentController extends QueryController implements Init
 		@FXML
 		void TurningBack(ActionEvent event)
 		{
-			this.nextController = new LoginController("SecretaryLoginController");
+			this.nextController = new LoginController("StudentLoginController");
 			this.Back("/Login/LoginWindow.fxml",nextController, event);
 		}
  }

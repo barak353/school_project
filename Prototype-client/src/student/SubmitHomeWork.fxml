@@ -37,16 +37,12 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="ButtonNew" layoutX="241.0" layoutY="293.0" mnemonicParsing="false" onAction="#SubmitSpecificTask" text="SubmitTask" />
+            <Button fx:id="ButtonNew" layoutX="241.0" layoutY="293.0" mnemonicParsing="false" onAction="#Specific" text="Next" />
             <Label layoutX="201.0" layoutY="104.0" prefHeight="17.0" prefWidth="265.0" text="Please choose a course" />
             <ComboBox layoutX="204.0" layoutY="132.0" prefWidth="150.0" />
             <Label layoutX="202.0" layoutY="191.0" prefHeight="17.0" prefWidth="138.0" text="Please select a task" />
             <ComboBox layoutX="204.0" layoutY="222.0" prefWidth="150.0" />
+            <Button layoutX="23.0" layoutY="373.0" mnemonicParsing="false" onAction="#TurningBack" text="Back" />
          </children>
       </Pane>
    </children>
