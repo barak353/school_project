@@ -80,7 +80,8 @@ public class LoginController extends QueryController implements Initializable{//
         String userPassword = null;
         boolean isUserExist = false;
         ArrayList<String> userDetails = null;
-        if(resultArray.isEmpty() == false){//check if there is first row.
+        if(resultArray == null){showNextWindow = false; wrongTextID.setText("User is not exist.");}
+        else if(resultArray.isEmpty() == false){//check if there is first row.
         			userDetails=resultArray.get(0);//get first row.
         		if(userDetails.isEmpty() == false){//check if there is first column.
         		      userPassword = userDetails.get(2);//get first userPSW.
@@ -132,7 +133,7 @@ public class LoginController extends QueryController implements Initializable{//
 						System.out.println("Missing fxml file");
 					}
 	            }else{
-	            	wrongTextID.setText("Wrong user password, please try again.");//show error message.
+	            	wrongTextID.setText("Wrong password, please try again.");//show error message.
 	            }
             }
         }
