@@ -1,4 +1,5 @@
-package Secretary;
+package student;
+
 
 import User.User;
 
@@ -11,3 +12,4 @@ public class Student extends User {
 	}
 	//-------------------------------------------------//
 }
+

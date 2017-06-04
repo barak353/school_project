@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
+import Secretary.AddStudentToClassController;
 import Secretary.SecretaryMainController;
 import Secretary.TeacherPlacementController;
 import User.User;
@@ -67,7 +68,7 @@ public class QueryController{
  	}
 	//-----------------------------------------------------------------------// 	
 	@FXML
-	void LogOutScreen(ActionEvent event)
+	protected void LogOutScreen(ActionEvent event)
 	{
 		try {
 	 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));

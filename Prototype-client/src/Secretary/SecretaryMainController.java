@@ -104,9 +104,10 @@ void StudentChange(ActionEvent event)
 void ClassDefine(ActionEvent event)
 {
 			
-	Object result = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (2,'A')");
-	Object result2 = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (3,'B')");
-	Object result3 = transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (4,'C')");
+	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (2,'A')");
+	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (3,'B')");
+	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (4,'C')");
+	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (5,'C')");
 	/*if(result instanceof Integer){
 		System.out.println("error");
 	}*/

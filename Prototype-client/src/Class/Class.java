@@ -2,19 +2,19 @@ package Class;
 
 import java.util.ArrayList;
 
-import Secretary.Student;
+import student.Student;
 
 public class Class {
 
 	private String ClassName;
-	private int ClassNum;
-	private ArrayList<Student> StudentsArray;
+	private String ClassNum;
+	private ArrayList<String> StudentsArray;
 	//--------------------------------------//
-	public Class(String name, int num)
+	public Class(String name, String num)
 	{
 		ClassName=name;
 		ClassNum=num;
-		StudentsArray=new ArrayList<Student>();
+		StudentsArray=new ArrayList<String>();
 	}
 	//--------------------------------------//
 	public void SetName (String name)
@@ -22,12 +22,12 @@ public class Class {
 		this.ClassName=name;
 	}
 	//--------------------------------------//
-	public void SetNum (int num)
+	public void SetNum (String num)
 	{
 		this.ClassNum=num;
 	}
 	//--------------------------------------//
-	public int GetNum ()
+	public String GetNum ()
 	{
 		return this.ClassNum;
 	}
@@ -37,12 +37,12 @@ public class Class {
 		return this.ClassName;
 	}
 	//--------------------------------------//
-	public void SetStudent(Student S)
+	public void SetStudent(String S)
 	{
 		StudentsArray.add(S);
 	}
 	//--------------------------------------//
-	public ArrayList<Student> GetStudent()
+	public ArrayList<String> GetStudent()
 	{
 		return StudentsArray;
 	}

@@ -71,6 +71,10 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+            <Text fx:id="successMSG" fill="#fc2497" layoutX="22.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="566.13671875">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Text>
          </children>
       </Pane>
    </children>

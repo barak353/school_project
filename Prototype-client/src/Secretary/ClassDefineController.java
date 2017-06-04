@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import Class.Class;;
 public class ClassDefineController extends QueryController implements Initializable{
 	
 	@FXML
@@ -33,6 +33,8 @@ public class ClassDefineController extends QueryController implements Initializa
 	private Button NEXT;
     @FXML
     private Text ErrorMSG;
+    @FXML
+    private Text successMSG;
 	@FXML
 	private TextField ClassName;
 	@FXML
@@ -80,25 +82,44 @@ public class ClassDefineController extends QueryController implements Initializa
     @FXML
     void OK (ActionEvent event)
     {
+    	int flag=0;
     	CLASSNAME=ClassName.getText();
     	CLASSNUM=ClassNum.getText();
     	//-----------------------------------------//
-        if(CLASSNAME.equals("")){
+        if(CLASSNAME.equals("")==true){
         	ErrorMSG.setText("Please Enter Class Name");//show error message.
+        	successMSG.setText("");
+        	flag=1;
         }
-        if(CLASSNUM.equals("")){
+        if(CLASSNUM.equals("")==true){
         	ErrorMSG.setText("Please Enter Class Num");//show error message.
+        	successMSG.setText("");
+        	flag=1;
         }
         //-----------------------------------------//
-        ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE classNum='" + CLASSNUM + "' AND className='" + CLASSNAME + "'");
-        if(resultArray.isEmpty() == true)
+        if (flag==0)
         {
-        	ErrorMSG.setText("There is NO such class");//show error message.
-        }
-        else
-        {
-        	ErrorMSG.setText("There is NO such class");//show error message.
+        	ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE classNum='" + CLASSNUM + "' AND className='" + CLASSNAME + "'");
+       
+        	if(resultArray==null)
+        	{
+        		ErrorMSG.setText("There is NO such class");//show error message.
+        		successMSG.setText("");
+        	}	
+        	else
+        	{
+        		successMSG.setText("The class:  "+CLASSNAME+CLASSNUM+"  was selected\nPress Next to continue...");
+        		ErrorMSG.setText("");
+        	}
         }
     }
     //--------------------------------------------//
+	public static String GetClassName(){
+		return CLASSNAME;
+	}
+    //--------------------------------------------//
+	public static String GetClassNum(){
+		return CLASSNUM;
+	}
+   //--------------------------------------------//
 }
