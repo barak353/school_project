@@ -24,5 +24,6 @@ public class Main extends Application {
 
  public static void main(String[] args) {//Here we start the Client.
   launch(args);
+  System.out.println("test");
  }
 }
