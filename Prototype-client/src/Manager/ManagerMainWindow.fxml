@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נוסיף פה את השם של מי שמחובר" wrappingWidth="221.7607421875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="143.0" layoutY="27.0" text="Manager menu" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="newID" layoutX="245.0" layoutY="224.0" mnemonicParsing="false" onAction="#addNewCourse" text="Add new course" />
+            <TextField fx:id="courseID" layoutX="222.0" layoutY="164.0" promptText="Enter new course" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

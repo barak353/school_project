@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javax.swing.Timer;
-
+import Manager.ManagerMainController;
 import Parent.ParentMainController;
 import Parent.ChoiceChildController;
-
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
@@ -62,7 +60,7 @@ public class LoginController extends QueryController implements Initializable{//
     
     
     @FXML
-    void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
+    void loginIntoTheSystem(ActionEvent event) throws IOException {//Handler of the login button.
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
     	String userID = usernameID.getText();
@@ -105,16 +103,20 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 break;
 	                 case "S":
 	                	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
-	                	 nextController=new SecretaryMainController("SecretaryMainController");
+	                	 nextController=new SecretaryMainController("SecretaryMainControllerID");
 	                	 break;
 	                 case "T":
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
-	                	 nextController=new TeacherMainController("TeacherMainController");
+	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
 	                	 
 	                 case "ST":
 	                	 nextScreen="/student/MainWindowStudent.fxml";
-	                	 nextController=new MainWindowStudentController("StudentController");
+	                	 nextController=new MainWindowStudentController("StudentControllerID");
+	                	 break;
+	                 case "M":
+	                	 nextScreen="/Manager/ManagerMainWindow.fxml";
+	                	 nextController=new ManagerMainController("ManagerControllerID");
 	                	 break;
 	                }
 		         	//set current logged in user.
@@ -131,6 +133,7 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.show(); 
 			         } catch (IOException e) {
 						System.out.println("Missing fxml file");
+						throw e;
 					}
 	            }else{
 	            	wrongTextID.setText("Wrong password, please try again.");//show error message.
