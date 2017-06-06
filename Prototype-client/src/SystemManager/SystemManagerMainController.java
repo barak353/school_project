@@ -1,4 +1,4 @@
-package Manager;
+package SystemManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.Timer;
 import Login.LoginController;
+import SystemManager.SystemManagerAddCourseController;
 import Parent.ParentMainController;
 import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
@@ -61,7 +62,7 @@ public class SystemManagerMainController extends QueryController implements Init
     @FXML
     void addNewCourse(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Manager/SystemManagerAddCourseWindow.fxml"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddCourseWindow.fxml"));
 			   loader.setController(new SystemManagerAddCourseController("SystemManagerAddCourseControllerID"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);

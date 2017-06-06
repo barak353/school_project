@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.Timer;
-import Manager.SystemManagerMainController;
+import SystemManager.SystemManagerMainController;
 import Parent.ParentMainController;
 import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
@@ -115,7 +115,7 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextController=new MainWindowStudentController("StudentControllerID");
 	                	 break;
 	                 case "SM":
-	                	 nextScreen="/Manager/SystemManagerMainWindow.fxml";
+	                	 nextScreen="/SystemManager/SystemManagerMainWindow.fxml";
 	                	 nextController=new SystemManagerMainController("SystemManagerControllerID");
 	                	 break;
 	                }
