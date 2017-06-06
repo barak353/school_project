@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.Timer;
 import Login.LoginController;
-import Manager.ManagerMainController;
 import Parent.ParentMainController;
 import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
+import Secretary.TeacherRequestFormController;
 import Teacher.TeacherMainController;
 import User.User;
 import application.QueryController;
@@ -30,11 +30,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import student.MainWindowStudentController;
 
-public class ManagerMainController extends QueryController implements Initializable{
+public class SystemManagerMainController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
 	
-	public ManagerMainController (String controllerID)
+	public SystemManagerMainController (String controllerID)
 	{
 			super(controllerID);
 	}
@@ -52,11 +52,7 @@ public class ManagerMainController extends QueryController implements Initializa
 
     
     @FXML
-    private Button newID;
-    
-    @FXML
-    private TextField courseID;
-
+    private Button addNewCourseButton;
 
     @FXML
     private Text userID;
@@ -64,15 +60,25 @@ public class ManagerMainController extends QueryController implements Initializa
 
     @FXML
     void addNewCourse(ActionEvent event) {
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT pre FROM precourses WHERE curr=1164");
-    	if( res != null) System.out.println("res: "+res);
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Manager/SystemManagerAddCourseWindow.fxml"));
+			   loader.setController(new SystemManagerAddCourseController("SystemManagerAddCourseControllerID"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("Missing SystemManagerAddCourse.fxml file");
+					e.printStackTrace();
+				}
     }
     
 	 //-----------------------------------------------------------// 
 		//-----------------------------------------------------------//
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
-			System.out.println("hey");
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 		}
