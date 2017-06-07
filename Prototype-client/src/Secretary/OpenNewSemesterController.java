@@ -17,10 +17,13 @@ import Entity.Semester;
 import SystemManager.SystemManagerAddCourseController;
 import Entity.User;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -69,6 +72,9 @@ public class OpenNewSemesterController extends QueryController implements Initia
     private Text errorText;
     
     @FXML
+    private ComboBox<String> couseList;
+    
+    @FXML
     void openSemester(ActionEvent event) {
     	errorText.setText("");
     	boolean isValidInput = true;
@@ -77,7 +83,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	Object obj = null;
     	int r = 0;
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses");
-        System.out.println("resultArray: "+resultArray);
+    	if(resultArray == null){errorText.setText("There is no courses saved in the DB."); isValidInput = false;}
     	if(isValidInput == true){
     		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
     		LocalDateTime now = LocalDateTime.now();
@@ -89,39 +95,15 @@ public class OpenNewSemesterController extends QueryController implements Initia
     		dialogID.setVisible(true);
     	    doneButton.setVisible(true);
     	    addButton.setVisible(true);
+    	    ArrayList<String> list = new ArrayList<String>();
+    	    for(ArrayList<String> arr : resultArray){
+    	    	list.add("("+arr.get(0)+")"+arr.get(1));
+    	    }
+    	    couseList.setVisible(true);
+    	    ObservableList obList= FXCollections.observableList(list);;
+    	    couseList.setItems(obList);
     	}
-    	
-	 	//if(isValidInput == true){obj =  transfferQueryToServer("INSERT INTO semester VALUES ("+currentdate+","+",1)");}
-    	//if(isValidInput && obj != null) r = (int) obj;//we want to check if the query was successful.
-   	 	//if(isValidInput && r != -1){//show add pre-course screen if the course was added successful.
-    	
-   	 	}
-    /*	boolean isValidInput = true;
-		errorID.setText("");
-    	lastCourse = course.getText();//save the course that was added to the DB.
-    	if( lastCourse == "" ){errorID.setText("Please insert valid course ID.");isValidInput = false;}
-    	else if (lastCourse.length() > 5){errorID.setText("Course ID can be longer then 5 digits.");isValidInput = false;}
-    	try{//check if the course ID is only numbers.
-    		Integer.parseInt(lastCourse);
-    	}catch(NumberFormatException e){errorID.setText("Course ID most contain only numbers."); isValidInput = false;}
-    	int r = 0;
-    	Object obj = null;
-	 	if(isValidInput == true){obj =  transfferQueryToServer("INSERT INTO courses VALUES ("+course.getText()+",'"+courseName.getText()+"',"+TeachingUnit.getText()+","+hours.getText()+")");}
-    	if(isValidInput && obj != null) r = (int) obj;//we want to check if the query was successful.
-   	 	if(isValidInput && r != -1){//show add pre-course screen if the course was added successful.
-	    	addPrecourse.setVisible(true);
-	    	preCourses.setVisible(true);
-	    	preCourses.setVisible(true);
-	    	doneButton.setVisible(true);
-	    	pleaseAdd.setVisible(true);
-	    	addButton.setVisible(true);
-    	}else{//if the course encounter some error so let's check which error is it.
-    		if(isValidInput == true){//check if the course ID is less then 5 digits.
-	        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+course.getText());
-	    		if(res != null)errorID.setText("ERROR: this course ID is already in DB.");
-	    		else errorID.setText("ERROR: Teaching unit is not exist in the DB.");
-    		}// check if the course ID is already exist in the DB or the course ID is not exist.
-    	 }*/
+    }
     
     
 
@@ -136,6 +118,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	    doneButton.setVisible(false);
     	    doneButton.setVisible(false);
     	    addButton.setVisible(false);
+    	    couseList.setVisible(false);
 	    }//hide the add courses window when done as pressed.
 
 		@FXML
@@ -145,6 +128,14 @@ public class OpenNewSemesterController extends QueryController implements Initia
 			this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
 		}
 
+		
+	    @FXML
+	    void addCourseToSemester(ActionEvent event) {
+	    	String s = couseList.getValue();//get the item that was pressed in the combo box.
+	    	String requiredString = s.substring(s.indexOf("(") + 1, s.indexOf(")"));//get the idcourses that is inside a ( ).
+	    	
+	    }
+	    
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
