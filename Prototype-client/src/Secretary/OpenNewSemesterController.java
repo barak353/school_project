@@ -133,7 +133,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
 	    void addCourseToSemester(ActionEvent event) {
 	    	String s = couseList.getValue();//get the item that was pressed in the combo box.
 	    	String requiredString = s.substring(s.indexOf("(") + 1, s.indexOf(")"));//get the idcourses that is inside a ( ).
-	    	
+	    	//transfferQueryToServer("INSERT INTO studentinclass (ClassNumber,StudID,CLetter) VALUES ('" + ClassN + "','" + id + "','" + Name + "')");
 	    }
 	    
 		@Override

@@ -53,24 +53,24 @@ public class TeacherMainController extends QueryController implements Initializa
 
 	
 	//-----------------------------------------------------------// 
-	    
+	    @FXML
 	    void FillFinalEvaluation(ActionEvent event)
 	    {
 	    	try {
-	     			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/FillFinalEvaluation.fxml"));
-	     		        loader.setController(new FillFinalEvaluationController("FillFinalEvaluationController"));
-	     		        Pane login_screen_parent = loader.load();
-	     				Scene login_screen_scene=new Scene(login_screen_parent);
-	     				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-	     				app_stage.hide();
-	     				app_stage.setScene(login_screen_scene);
-	     				app_stage.show(); 
-	     				} catch (IOException e) {
-	     					System.err.println("Missing FillFinalEvaluation.fxml file");
-	     					e.printStackTrace();
-	     				}
+	     		   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/FillFinalEvaluation.fxml"));
+	     	       loader.setController(new FillFinalEvaluationController("FillFinalEvaluationController"));
+	     		   Pane login_screen_parent = loader.load();
+	     			Scene login_screen_scene=new Scene(login_screen_parent);
+	     			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+	     			app_stage.hide();
+	     			app_stage.setScene(login_screen_scene);
+	     			app_stage.show(); 
+	     			} catch (IOException e) {
+	     				System.err.println("Missing FillFinalEvaluation.fxml file");
+	     				e.printStackTrace();
+	     			}
 	    } 
-  
+	    @FXML
 	    void SetUpTask(ActionEvent event)
 	    {
 	    	try {
@@ -89,7 +89,7 @@ public class TeacherMainController extends QueryController implements Initializa
 	    } 
 
 
-	    
+	    @FXML
 	    void ChecksHomework(ActionEvent event)
 	    {
 	    	try {
@@ -118,6 +118,7 @@ public class TeacherMainController extends QueryController implements Initializa
 	    	User user = User.getCurrentLoggedIn();
 	    	userID.setText(user.GetUserName());
 	    }
+	    
 	    @FXML
 	    void LogOut(ActionEvent event) {
 			 try 

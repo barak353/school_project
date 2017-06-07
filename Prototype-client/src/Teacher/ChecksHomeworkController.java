@@ -27,7 +27,6 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	Object nextController=null;	
 	
 	//-----------------------------------------------------------//
-	
 	public ChecksHomeworkController(String controllerID)
 	{
 			super(controllerID);
@@ -51,18 +50,18 @@ public class ChecksHomeworkController extends QueryController implements Initial
     @FXML
     private Text userID;
 
-    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
     }
+    
     @FXML
     void TurningBack(ActionEvent event) {
     	this.nextController = new TeacherMainController("TeacherMainController");
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
-    @FXML
     
+    @FXML
     void ContinueScreen(ActionEvent event) {
     	try {
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/TaskOfStudent.fxml"));
