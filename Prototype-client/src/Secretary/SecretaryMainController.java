@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import Login.LoginController;
 import Parent.ParentMainController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +46,25 @@ private Button ClassDefineID;
 private Button logout;
 @FXML
 private Button back;
+
+@FXML
+void openSemester(ActionEvent event) {
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/OpenNewSemesterWindow.fxml"));
+			   loader.setController(new OpenNewSemesterController("openNewSemesterControllerID"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {
+					System.err.println("Missing openNewSemesterWindow.fxml file");
+					e.printStackTrace();
+				}
+}
+
+
 @FXML
 void SendRequest(ActionEvent event)
 {

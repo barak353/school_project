@@ -33,7 +33,7 @@
       </Text>
       <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="180.0" layoutY="30.0" text="Add new course" textFill="#1205ff">
+            <Label layoutX="152.0" layoutY="14.0" text="Add new course" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -43,31 +43,31 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="addCourseButton" layoutX="276.0" layoutY="331.0" mnemonicParsing="false" onAction="#addCourse" text="Add course" />
-            <Text layoutX="253.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="couse ID:">
+            <Button fx:id="addCourseButton" layoutX="230.0" layoutY="342.0" mnemonicParsing="false" onAction="#addCourse" text="Add course" />
+            <Text layoutX="207.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="course ID:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="253.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
+            <Text layoutX="211.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="253.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
+            <Text layoutX="202.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="253.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
+            <Text layoutX="203.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="course" layoutX="253.0" layoutY="129.0" promptText="course ID" />
-            <TextField fx:id="courseName" layoutX="253.0" layoutY="184.0" promptText="couse name" />
-            <TextField fx:id="TeachingUnit" layoutX="253.0" layoutY="233.0" promptText="teaching unit" />
-            <TextField fx:id="hours" layoutX="253.0" layoutY="287.0" promptText="hours per week" />
+            <TextField fx:id="course" layoutX="207.0" layoutY="129.0" promptText="course ID" />
+            <TextField fx:id="courseName" layoutX="207.0" layoutY="182.0" promptText="couse name" />
+            <TextField fx:id="TeachingUnit" layoutX="202.0" layoutY="241.0" promptText="teaching unit" />
+            <TextField fx:id="hours" layoutX="202.0" layoutY="297.0" promptText="hours per week" />
             <DialogPane fx:id="addPrecourse" layoutX="93.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="442.0" visible="false">
                 <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" visible="false" />
@@ -98,6 +98,11 @@
                </font>
             </Text>
             <Text fx:id="errorIDdialog" fill="#f50000" layoutX="253.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="148.5078061670065" />
+            <Text fx:id="currentSemester" layoutX="194.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

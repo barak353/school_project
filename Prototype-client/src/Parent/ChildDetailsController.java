@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.swing.Timer;
 
 import Login.LoginController;
-import User.User;
+import Entity.User;
 //import Parent.ChiidDetails;
 import application.QueryController;
 import javafx.event.ActionEvent;

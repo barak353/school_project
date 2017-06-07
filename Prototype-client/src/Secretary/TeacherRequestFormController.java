@@ -3,7 +3,7 @@ package Secretary;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

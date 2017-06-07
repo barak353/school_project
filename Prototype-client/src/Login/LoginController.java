@@ -11,7 +11,7 @@ import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import student.MainWindowStudentController;
+import Student.MainWindowStudentController;
 
 
 public class LoginController extends QueryController implements Initializable{//Second window: login to system.

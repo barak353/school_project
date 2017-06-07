@@ -1,9 +1,9 @@
-package student;
+package Student;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import Login.LoginController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
-import User.User;
+import Entity.User;
 //import Parent.ChoiceChildController;
 import application.QueryController;
 import javafx.event.ActionEvent;

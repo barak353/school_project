@@ -1,4 +1,4 @@
-package student;
+package Student;
 
 import application.QueryController;
 
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
-import User.User;
+import Entity.User;
 
 public class SubmitHomeWorkController extends QueryController implements Initializable {
 

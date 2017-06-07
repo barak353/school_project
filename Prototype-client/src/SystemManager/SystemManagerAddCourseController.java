@@ -1,11 +1,15 @@
 package SystemManager;
 
 import java.net.URL;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import Entity.Course;
+import Entity.Semester;
 import Login.LoginController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,6 +56,9 @@ public class SystemManagerAddCourseController extends QueryController implements
     @FXML
     private DialogPane addPrecourse;
 
+
+    @FXML
+    private Text currentDate;
     
     @FXML
     private Text pleaseAdd;
@@ -72,6 +79,9 @@ public class SystemManagerAddCourseController extends QueryController implements
     private TextField preCourses;
     
     private String lastCourse = "";
+    
+    @FXML
+    private Text currentSemester;
     
     @FXML
     void addCourse(ActionEvent event) {
@@ -97,8 +107,8 @@ public class SystemManagerAddCourseController extends QueryController implements
     	}else{//if the course encounter some error so let's check which error is it.
     		if(isValidInput == true){//check if the course ID is less then 5 digits.
 	        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+course.getText());
-	    		if(res != null)errorID.setText("ERROR: this course ID is already in DB.");
-	    		else errorID.setText("ERROR: Teaching unit is not exist in the DB.");
+	    		if(res != null){errorID.setText("ERROR: this course ID is already in DB."); isValidInput = false;}
+	    		else {errorID.setText("ERROR: Teaching unit is not exist in the DB."); isValidInput = false;}
     		}// check if the course ID is already exist in the DB or the course ID is not exist.
     	 }
     }
@@ -152,6 +162,7 @@ public class SystemManagerAddCourseController extends QueryController implements
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
+			
 		}
 	    
  }

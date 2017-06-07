@@ -13,7 +13,7 @@ import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Secretary.TeacherRequestFormController;
 import Teacher.TeacherMainController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -29,7 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import student.MainWindowStudentController;
+import Student.MainWindowStudentController;
 
 public class SystemManagerMainController extends QueryController implements Initializable{
 	
@@ -71,7 +71,7 @@ public class SystemManagerMainController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {//problem with the teacherWindow.xml file.
-					System.err.println("Missing SystemManagerAddCourse.fxml file");
+					System.err.println("Missing SystemManagerAddCourseWindow.fxml file");
 					e.printStackTrace();
 				}
     }

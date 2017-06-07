@@ -2,7 +2,7 @@ package Class;
 
 import java.util.ArrayList;
 
-import student.Student;
+import Entity.Student;
 
 public class Class {
 

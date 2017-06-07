@@ -9,7 +9,7 @@ import Login.LoginController;
 import Secretary.AddStudentToClassController;
 import Secretary.SecretaryMainController;
 import Secretary.TeacherPlacementController;
-import User.User;
+import Entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

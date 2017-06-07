@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נוסיף פה את השם של מי שמחובר" wrappingWidth="221.7607421875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Pane layoutX="1.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="98.0" layoutY="36.0" text="Open new semester" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="addCourseButton" layoutX="245.0" layoutY="233.0" mnemonicParsing="false" onAction="#openSemester" text="Open semester" />
+            <Text fx:id="currentDate" fill="#ff00dd" layoutX="91.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="open new semester for the current date: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="219.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="errorText" fill="RED" layoutX="182.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="227.7607366144657">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField fx:id="type" layoutX="219.0" layoutY="185.0" promptText="Semester 'A', 'B' or 'C'" />
+            <DialogPane fx:id="dialogID" layoutX="47.0" layoutY="42.0" prefHeight="332.0" prefWidth="521.0" visible="false" />
+            <Text fx:id="dialogText" fill="#bf00ff" layoutX="174.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose from the comboBox which course you want to add to semster: " visible="false" wrappingWidth="262.509765625">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Button fx:id="doneButton" layoutX="127.0" layoutY="270.0" mnemonicParsing="false" onAction="#done" prefHeight="30.0" prefWidth="69.0" text="done" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="addButton" layoutX="437.0" layoutY="270.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="30.0" prefWidth="51.0" text="add" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
