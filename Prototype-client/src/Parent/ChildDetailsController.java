@@ -47,13 +47,15 @@ public class ChildDetailsController extends QueryController implements Initializ
 
 	  
     @FXML
-    void Back(ActionEvent event) {
+    void Back(ActionEvent event) {			//hellooooooo
+
 		 try 
 		 {
 			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
 		        loader.setController(new ChoiceChildController("ChoiceChildController"));
-			    Pane login_screen_parent = loader.load();
+			    Pane login_screen_parent = loader.load();			//hellooooooo
+
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
 					app_stage.hide();

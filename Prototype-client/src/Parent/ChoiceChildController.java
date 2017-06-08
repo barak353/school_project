@@ -33,7 +33,13 @@ public class ChoiceChildController extends QueryController implements Initializa
 
     @FXML
     private Button logout;
-
+	//hellooooooo2
+	//hellooooooo2
+	//hellooooooo2
+	//hellooooooo2	//hellooooooo2
+	//hellooooooo2
+	//hellooooooo2
+	//hellooooooo2
     @FXML
     private Button view;
 
@@ -46,7 +52,8 @@ public class ChoiceChildController extends QueryController implements Initializa
 	//-----------------------------------------------------------//
 
 	
-    @FXML
+    @FXML			//hellooooooo
+
     void ViewChoiceChild(ActionEvent event){
     	try {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChildDetails.fxml"));
