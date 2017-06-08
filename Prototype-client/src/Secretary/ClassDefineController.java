@@ -44,6 +44,8 @@ public class ClassDefineController extends QueryController implements Initializa
 	public ClassDefineController(String controllerID)
 	{
 			super(controllerID);
+			System.out.println();
+
 	} 
 	//------------------------------------------------//
 	@Override

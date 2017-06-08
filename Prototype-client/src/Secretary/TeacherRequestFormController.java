@@ -14,10 +14,12 @@ import javafx.scene.text.Text;
 public class TeacherRequestFormController extends QueryController implements Initializable{
 	@FXML
 	private Text userID;
-	@FXML
+	@FXML			//hellooooooo
+
 	private Button logout;
 	@FXML
-	private Button back;
+	private Button back;			//hellooooooo
+
 	Object nextController=null;
 	//------------------------------------------------//
 	public TeacherRequestFormController(String controllerID)
@@ -27,9 +29,13 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	//------------------------------------------------// 
     @FXML
     void TurningBack(ActionEvent event)
-    {
+    {			//hellooooooo
+
     	this.nextController = new AskRequestFormController("AskRequestFormController");
     	this.Back("/Secretary/WhatFormChoose.fxml",nextController, event);
+		System.out.println();
+		//hellooooooo
+
     } 
     //-------------------------------------------------------------------------------------------//
     
@@ -37,5 +43,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+		System.out.println();
+
 	}
 }

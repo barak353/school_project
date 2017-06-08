@@ -42,6 +42,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
     @FXML
     void TurningBack(ActionEvent event)
     {
+    	System.out.println();
     	this.nextController = new ClassDefineController("ClassDefineController");
     	this.Back("/Secretary/ClassDefine.fxml",nextController, event);
     } 
