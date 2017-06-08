@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public class Semester {
 	
-	private String year;
-	
-	private String type;
+	private String idSemester;
 	
 	private boolean status;
 	
@@ -23,27 +21,18 @@ public class Semester {
 		return courseList;
     }
 	
-	public Semester(String year, String type, boolean status) {
+	public Semester(String idSemester, boolean status) {
 		super();
-		this.year = year;
-		this.type = type;
+		this.idSemester = idSemester;
 		this.status = status;
 	}
 
-	public String getYear() {
-		return year;
+	public String getidSemester() {
+		return idSemester;
 	}
 
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	public void setidSemester(String idSemester) {
+		this.idSemester = idSemester;
 	}
 
 	public boolean isStatus() {

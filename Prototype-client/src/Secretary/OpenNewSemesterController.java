@@ -88,8 +88,8 @@ public class OpenNewSemesterController extends QueryController implements Initia
     		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
     		LocalDateTime now = LocalDateTime.now();
             System.out.println(dtf.format(now));
-    		Semester sem = new Semester(dtf.format(now),this.type.getText(),true);
-    		dialogText.setText("Choose from the comboBox which course you want to add to semester: Year: "+sem.getYear()+" Type: " + sem.getType());
+    		Semester sem = new Semester(dtf.format(now)+":"+this.type.getText(),true);
+    		dialogText.setText("Choose from the comboBox which course you want to add to semester:  "+sem.getidSemester());
     		Semester.setCurrentSemester(sem);
     		dialogText.setVisible(true);
     		dialogID.setVisible(true);
@@ -102,15 +102,26 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	    couseList.setVisible(true);
     	    ObservableList obList= FXCollections.observableList(list);;
     	    couseList.setItems(obList);
+    	    //insert new semester detail to DB.
+        	String query = "INSERT INTO semester (idsemester,status) VALUES ('" + Semester.getCurrentSemester().getidSemester() + "','true')";
+        	System.out.println("query: "+ query);
+        	transfferQueryToServer(query);
     	}
+
     }
     
     
 
 	    @FXML
 	    void addCourse(ActionEvent event) {
-
+	    	String course = couseList.getValue();
+	    	String idcourses = course.substring(course.indexOf("(") + 1, course.indexOf(")"));//get the idcourses that is inside a ( ).
+	    	String query = "INSERT INTO courseinsemester (idcourseinsemester,cid) VALUES ('" + Semester.getCurrentSemester().getidSemester() + "','"+idcourses+"')";
+	    	System.out.println("query: "+ query);
+	    	System.out.println("idcourses: "+idcourses+"Semester.getCurrentSemester().getidSemester(): "+Semester.getCurrentSemester().getidSemester());
+	    	transfferQueryToServer(query);
 	    }
+	    
 	    @FXML
 	    void done(ActionEvent event) {
     		dialogText.setVisible(false);
@@ -131,9 +142,6 @@ public class OpenNewSemesterController extends QueryController implements Initia
 		
 	    @FXML
 	    void addCourseToSemester(ActionEvent event) {
-	    	String s = couseList.getValue();//get the item that was pressed in the combo box.
-	    	String requiredString = s.substring(s.indexOf("(") + 1, s.indexOf(")"));//get the idcourses that is inside a ( ).
-	    	//transfferQueryToServer("INSERT INTO studentinclass (ClassNumber,StudID,CLetter) VALUES ('" + ClassN + "','" + id + "','" + Name + "')");
 	    }
 	    
 		@Override

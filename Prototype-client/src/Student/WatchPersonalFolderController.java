@@ -29,17 +29,14 @@ public class WatchPersonalFolderController extends QueryController implements In
     @FXML
     private Button logout;
 
-
     @FXML
     private Button back;
-
 
     @FXML
     private Text userID;
 
     @FXML
     private Text StudentName;
-    
     
     @FXML
     private Text StudentId;
