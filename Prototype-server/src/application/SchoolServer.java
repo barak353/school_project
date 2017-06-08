@@ -99,6 +99,7 @@ public class SchoolServer extends AbstractServer
 	    		try{
 	    		stmt.executeUpdate(strQuery);
 	    		}catch(SQLException e2){
+	    			System.out.println("Query did nothing becouse data is already in DB.");
 	    			isAlreadyInserted = true ;
 	    		}
 	    		isUpdate=true;
@@ -193,19 +194,20 @@ public class SchoolServer extends AbstractServer
 	String DBpassword = portController.DBpasswordID.getText();//get the DB password.
 	String DBhost = portController.DBhostID.getText();//get the DB host.
     String DBschema = portController.DBschemaID.getText();//get the DB schema.
-	try{
+	/*try{
 	port = Integer.parseInt(portController.serverPortD.getText());//get the port of the server to be listening on.
 	}catch(RuntimeException e){
 		portController.errorTextID.setText("Server port most contain only digit's.");
 		return;
-	}
+	}*/
 	try 
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 	} catch (Exception ex) {
 		portController.errorTextID.setText("Failed to registering the jdbc driver. Register the jdbc driver and try again."); return;}
 	try {
-		conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
+		conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
+		//conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("Unable to connect to SQL database. Please try other details or start your database.");
 		return;
@@ -219,7 +221,8 @@ public class SchoolServer extends AbstractServer
 	try 
 	{
 		System.out.println("SQL connection succeed.");
-		SchoolServer sv = new SchoolServer(port);
+		//SchoolServer sv = new SchoolServer(port);
+		SchoolServer sv = new SchoolServer(5555);
 		sv.listen(); //Start listening for connections
 		System.out.println("Server started listening to clients.");
 	} 

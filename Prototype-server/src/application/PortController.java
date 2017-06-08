@@ -34,7 +34,8 @@ public class PortController {
     
     @FXML
     void connect(ActionEvent event) {
-    	String errorMessage="Please provide: ";
+        
+    	/*String errorMessage="Please provide: ";
     	boolean isvalid = true;
         if(DBuserID.getText().equals("")){
   	   	errorMessage+=" DB user,";
@@ -62,8 +63,9 @@ public class PortController {
 	    isvalid = false;
     	}
         if(isvalid){
-        	SchoolServer.startServer(this);
-        }
+        }*/
+    	SchoolServer.startServer(this);
+
     }
  
 }

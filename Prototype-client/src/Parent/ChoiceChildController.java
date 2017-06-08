@@ -32,14 +32,7 @@ public class ChoiceChildController extends QueryController implements Initializa
 	//-----------------------------------------------------------//
 
     @FXML
-    private Button logout;			//hellooooooo
-
-	//hellooooooo
-	//hellooooooo
-	//hellooooooo
-	//hellooooooo
-	//hellooooooo
-	//hellooooooo
+    private Button logout;
 
     @FXML
     private Button view;
