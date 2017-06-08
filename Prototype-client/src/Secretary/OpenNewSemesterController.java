@@ -139,34 +139,44 @@ public class OpenNewSemesterController extends QueryController implements Initia
 	@FXML
 	void addCourse(ActionEvent event)
 	{	
+			boolean flag=true;
 	     	ArrayList<ArrayList<String>> res=null;
 			Semester semester=Semester.getCurrentSemester();
 			String choise =  (String) courseList.getValue();//get the item that was pressed in the combo box.
-	    	String requiredString = choise.substring(choise.indexOf("(") + 1, choise.indexOf(")"));//get the idcourses that is inside a ( ).
-	    	res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Cid='" + requiredString + "' AND Sem='" + semester.getYear() + ":" + semester.getType() + "'");
-	    	if (res!=null)
+	    	if (choise==null)
 	    	{
 	    		text.setText("");
-	    		t.setText("The course is already in this semester");
+	    		t.setText("Please fill all the details");
+	    		flag=false;
 	    	}
-	    	else
+	    	else if (flag==true)
 	    	{
-	    		semester.setCourseList(choise);
-	    		transfferQueryToServer("INSERT INTO coursesinsemester (Cid,Sem) VALUES ('" + requiredString + "','" + semester.getYear() + ":" + semester.getType() + "')");
-	    		t.setText("");
-	    		text.setText("The course added successfully");
-	    		Timer t = new Timer(1000, new java.awt.event.ActionListener() {
-	                @Override
-	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	                	try{
-	                		text.setText("");
-	                	}catch(java.lang.NullPointerException e1){
-	                		
-	                	}
-	                }
-	            });
-	            t.setRepeats(false);
-	            t.start();
+	    		String requiredString = choise.substring(choise.indexOf("(") + 1, choise.indexOf(")"));//get the idcourses that is inside a ( ).
+		    	res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Cid='" + requiredString + "' AND Sem='" + semester.getYear() + ":" + semester.getType() + "'");
+		    	if (res!=null)
+		    	{
+		    		text.setText("");
+		    		t.setText("The course is already in this semester");
+		    	}
+		    	else
+		    	{
+		    		semester.setCourseList(choise);
+		    		transfferQueryToServer("INSERT INTO coursesinsemester (Cid,Sem) VALUES ('" + requiredString + "','" + semester.getYear() + ":" + semester.getType() + "')");
+		    		t.setText("");
+		    		text.setText("The course added successfully");
+		    		Timer t = new Timer(1000, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                	try{
+		                		text.setText("");
+		                	}catch(java.lang.NullPointerException e1){
+		                		
+		                	}
+		                }
+		            });
+		            t.setRepeats(false);
+		            t.start();
+		    	}
 	    	}
 	}
 	//-------------------------------------------------------------------------------------------//
