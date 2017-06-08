@@ -99,7 +99,7 @@ public class ClassDefineController extends QueryController implements Initializa
         //-----------------------------------------//
         if (flag==0)
         {
-        	ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE classNum='" + CLASSNUM + "' AND className='" + CLASSNAME + "'");
+        	ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE ClassID='"+CLASSNAME +CLASSNUM+"'");
        
         	if(resultArray==null)
         	{

@@ -123,10 +123,10 @@ void StudentChange(ActionEvent event)
 void ClassDefine(ActionEvent event)
 {
 			
-	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (2,'A')");
-	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (3,'B')");
-	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (4,'C')");
-	 transfferQueryToServer("INSERT INTO class (classNum,className) VALUES (5,'C')");
+	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('A2')");
+	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('B3')");
+	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('C4')");
+	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('C5')");
 	/*if(result instanceof Integer){
 		System.out.println("error");
 	}*/
