@@ -36,7 +36,7 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#Back" text="Back">
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField layoutX="274.0" layoutY="133.0" />
+            <ComboBox fx:id="childlist" layoutX="268.0" layoutY="133.0" onAction="#chooseChild" prefWidth="150.0" />
          </children>
       </Pane>
    </children>

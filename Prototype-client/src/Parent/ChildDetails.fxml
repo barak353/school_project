@@ -36,11 +36,57 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#Back" text="Back">
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <ComboBox layoutX="264.0" layoutY="213.0" prefWidth="150.0" />
+            <Label layoutX="191.0" layoutY="216.0" prefHeight="19.0" prefWidth="69.0" text="Course :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="143.0" prefHeight="19.0" prefWidth="69.0" text="Child ID :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="339.0" layoutY="145.0" prefHeight="19.0" prefWidth="92.0" text="Child Name :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="191.0" layoutY="251.0" prefHeight="19.0" prefWidth="69.0" text="GPA :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Text fx:id="Sid" layoutX="208.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תז ילד" wrappingWidth="43.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="Sname" layoutX="422.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם ילד" wrappingWidth="60.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="gpa" layoutX="261.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ממוצע" wrappingWidth="51.0556640625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="semester" layoutX="264.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="סמסטר" wrappingWidth="51.0556640625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Label layoutX="191.0" layoutY="182.0" prefHeight="19.0" prefWidth="69.0" text="Semester :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

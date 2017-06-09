@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javax.swing.Timer;
 import SystemManager.SystemManagerMainController;
 import Parent.ParentMainController;
+import SchoolManager.SchoolManagerMainController;
 import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
@@ -117,6 +118,10 @@ public class LoginController extends QueryController implements Initializable{//
 	                 case "SM":
 	                	 nextScreen="/SystemManager/SystemManagerMainWindow.fxml";
 	                	 nextController=new SystemManagerMainController("SystemManagerControllerID");
+	                	 break;
+	                 case "M":
+	                	 nextScreen="/SchoolManager/SchoolManagerMainWindow.fxml";
+	                	 nextController=new SchoolManagerMainController("SchoolManagerMainControllerID");
 	                	 break;
 	                }
 		         	//set current logged in user.

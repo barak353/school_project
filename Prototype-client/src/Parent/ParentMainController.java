@@ -30,7 +30,8 @@ public class ParentMainController extends QueryController implements Initializab
 	} 
 	
 	//-----------------------------------------------------------//
-	
+	Object nextController=null;	
+
     @FXML
     private Button logout;
 
@@ -39,14 +40,16 @@ public class ParentMainController extends QueryController implements Initializab
 
     @FXML
     private Text userID;
-	
+
     @FXML
     private Button ViewChildPersonalDetails;
     
 	//-----------------------------------------------------------//
 
+    
+    
     @FXML
-    void ViewChildPersonalDetails(ActionEvent event){
+    void ViewChildPersonalDetails(ActionEvent event){    	
     	try {
 		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
 	        loader.setController(new ChoiceChildController("ChoiceChildController"));
@@ -63,25 +66,12 @@ public class ParentMainController extends QueryController implements Initializab
 	}  
     
     @FXML
-    void Back(ActionEvent event) {
-		 try 
-		 {
-			
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-		        loader.setController(new LoginController("LoginController"));
-			    Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		        } 
-		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
-				e.printStackTrace();
-				}
+    void TurningBack(ActionEvent event)
+    {
+    	this.nextController = new LoginController("LoginController");
+    	this.Back("/Login/LoginWindow.fxml",nextController, event);
     }
-
+   
     
     @FXML
     void LogOut(ActionEvent event) {
@@ -98,7 +88,7 @@ public class ParentMainController extends QueryController implements Initializab
 					app_stage.show(); 
 		        } 
 		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
+				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
     }
