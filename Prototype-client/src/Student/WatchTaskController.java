@@ -46,12 +46,11 @@ public class WatchTaskController extends QueryController implements Initializabl
     @FXML
     private Button Next;
     
+    @FXML
+    private ComboBox<String> comboBoxChooseCourse;
     
     @FXML
-    private ComboBox<String> comboBoxID1;
-    
-    @FXML
-    private ComboBox<String> comboBoxID2;
+    private ComboBox<String> comboBoxChooseTask;
     
 	 //-----------------------------------------------------------// 
 		
@@ -83,8 +82,10 @@ public class WatchTaskController extends QueryController implements Initializabl
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
-			userID.setText(user.GetUserName());
+			userID.setText(user.GetUserName());		
+			
 		}
+		
 		  @FXML
 			 void TurningBack(ActionEvent event)
 			    {

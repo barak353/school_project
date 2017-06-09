@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -32,7 +32,7 @@
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="180.0" layoutY="30.0" text="Watch Task " textFill="#1205ff">
+            <Label layoutX="112.0" layoutY="30.0" text="Upload file to server" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -42,10 +42,8 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="ButtonNew" layoutX="521.0" layoutY="370.0" mnemonicParsing="false" onAction="#Specific" text="Next" />
-            <Label layoutX="212.0" layoutY="107.0" text="Please select course" />
-            <Label layoutX="212.0" layoutY="209.0" prefHeight="17.0" prefWidth="126.0" text="please select  task " />
-            <ComboBox fx:id="comboBoxChooseCourse" layoutX="200.0" layoutY="134.0" prefWidth="150.0" />
+            <Button fx:id="Upload" layoutX="266.0" layoutY="157.0" mnemonicParsing="false" onAction="#upload" text="Upload" />
+            <TextField fx:id="filePath" layoutX="231.0" layoutY="113.0" promptText="enter file path" />
          </children>
       </Pane>
    </children>

@@ -51,7 +51,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="childid" layoutX="268.0" layoutY="133.0" prefWidth="150.0" />
+            <ComboBox fx:id="childlist" layoutX="268.0" layoutY="133.0" onAction="#chooseChild" prefWidth="150.0" />
          </children>
       </Pane>
    </children>

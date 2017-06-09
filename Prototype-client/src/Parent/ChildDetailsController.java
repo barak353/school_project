@@ -2,6 +2,7 @@ package Parent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.Timer;
@@ -39,19 +40,24 @@ public class ChildDetailsController extends QueryController implements Initializ
     private Button logout;
 
     @FXML
-    private Text childname;
-
-    @FXML
     private Button back;
 
     @FXML
     private Text gpa;
 
     @FXML
-    private Text childid;
+    private Text Sname;
+    
+    @FXML
+    private Text semester;
 
     @FXML
-    private Text userID;	
+    private Text userID;
+
+    @FXML
+    private Text Sid;
+	
+    private String chooseChild;
 	//-----------------------------------------------------------//
 
 	  
@@ -88,8 +94,21 @@ public class ChildDetailsController extends QueryController implements Initializ
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
+			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID="+chooseChild);
+			ArrayList<String> row = res.get(0);
+			Sid.setText(row.get(0));
+			Sname.setText(row.get(0)); //בטבלה של סטודנט עמודה של שם הסטודנט
+			gpa.setText(row.get(2));
+			semester.setText(row.get(4));
+
 		}
-    
+		//-----------------------------------------------------------//
+
+
+		public void setChooseChild(String chooseChild) {
+			this.chooseChild = chooseChild;
+		}
+		
     
 }
 
