@@ -121,6 +121,7 @@ public class ChildDetailsController extends QueryController implements Initializ
 			ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
 		    
 		    ArrayList<String> childNameList = new ArrayList<String>();
+		    
 	    	for(ArrayList<String> row3:res3){
 	        	childNameList.add(row3.get(0));
 	    	}

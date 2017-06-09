@@ -128,13 +128,13 @@ public class SystemManagerAddCourseController extends QueryController implements
 	    		}catch(NumberFormatException e){errorIDdialog.setText("pre-course ID most contain only numbers."); isValidInput = false;}
 	    	}
 	    	Object obj = null;
-    	 	if(isValidInput){obj = transfferQueryToServer("INSERT INTO precourse  VALUES ("+lastCourse+",'"+preCourses.getText()+"')");}
+    	 	if(isValidInput){obj = transfferQueryToServer("INSERT INTO precourse  VALUES ("+preCourses.getText()+",'"+lastCourse+"')");}
     	 	int r = 0;
     	 	if(isValidInput && obj != null) r = (int)obj;
     	    if(isValidInput && r == -1){//if we encounter a error let's check which error it was.
     	        ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+course.getText());
-    	    	if(res != null)errorID.setText("ERROR: this re-course ID is already in DB.");
-    	    	else errorID.setText("ERROR: pre-course ID is not exist in the DB.");
+    	        if(res == null)errorID.setText("ERROR: pre-course ID is not exist in the DB.");
+    	        else errorID.setText("ERROR: this pre-course ID is already in DB."); 
     	    }
 	    }
 		
