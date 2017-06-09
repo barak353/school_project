@@ -25,8 +25,6 @@ public class MergeClassesCoursesController extends QueryController implements In
 	  @FXML
       private ComboBox<?> teacherList;
 	  @FXML
-	  private Button AssignB;
-	  @FXML
 	  private Button logout;
       @FXML
       private Text userID;
@@ -39,8 +37,6 @@ public class MergeClassesCoursesController extends QueryController implements In
       @FXML
       private Button Assign;
       @FXML
-      private Text text;
-      @FXML
       private Text t;
       @FXML
       private Button Next;
@@ -50,12 +46,14 @@ public class MergeClassesCoursesController extends QueryController implements In
       private Semester sem;
       @FXML
       private Text err;
-
       @FXML
       private DialogPane dialog2;
-
       @FXML
       private Text finishtxt;
+      private String CourseChoise;
+      private String RequiredStringCourse;
+      private String  ClassChoise;
+      private boolean ChooseTFlag=false;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -65,52 +63,49 @@ public class MergeClassesCoursesController extends QueryController implements In
 	  @FXML
 	  void AssignHandler(ActionEvent event) 
 	  {
-			String CourseChoise =  (String) CourseL.getValue();//get the item that was pressed in the combo box.
-	    	String RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
-		    String ClassChoise = (String) ClassL.getValue();
+			CourseChoise =  (String) CourseL.getValue();//get the item that was pressed in the combo box.
+	    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
+		    ClassChoise = (String) ClassL.getValue();
 		    //--------------------------------------------------//
 		    ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM classincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
 		    boolean flag=true;
-		    if (CourseChoise==null || ClassChoise==null )
+		    if (CourseChoise==null || ClassChoise==null || ChooseTFlag==true)
 		    {
 		    	t.setText("Please fill all the details");
-				text.setText("");
 				flag=false;
 		    }
 		    if (result!=null)
 		    {
 				t.setText("The class: "+ClassChoise+"is already assgined to the course: "+RequiredStringCourse);
-				text.setText("");
 				flag=false;
 		    }
 		    else if (flag==true)
 		    {
+		    	//Suitable Course that was chosen-1 course:
 		    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
-		    	String TeachingUnit=teaching.get(0).get(2); //Get teachingUnit number
+		    	//Get teaching unit number:
+		    	String TeachingUnit=teaching.get(0).get(2);
+		    	//Getting all the teachers that in this teaching unit:
 		    	ArrayList<ArrayList<String>> TeachersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE teachUnitNum='" + TeachingUnit +"'");
+		    	//Defining the list of combobox:
 		    	ArrayList<String> listtteachers = new ArrayList<String>();
 		    	for (int i=0;i<TeachersID.size();i++)
 			    {
-			    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE USid='" + TeachersID.get(i).get(0) +"'");
-			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + TeachersID.get(i).get(0) +"'");
-			    	listtteachers.add(TeachersName.get(0).get(1));
+		    		//Get teacher in teacher table:
+			    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" + TeachersID.get(i).get(0) +"'");
+			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + usersID.get(0).get(1) +"'");
+			    	listtteachers.add("("+TeachersID.get(i).get(0)+")"+" - "+TeachersName.get(0).get(1));
 			    }
 			    //------------------------------------------------------------------//
-			    ObservableList L= FXCollections.observableList(listtteachers);
-			    teacherList.setItems(L);
+		    	   ObservableList L= FXCollections.observableList(listtteachers);
+		    	   teacherList.setItems(L);
 		    	 //---------------------------------------------------//
 		    	   t.setText("");
-		    	   text.setText("");
 		    	   diaID.setVisible(true);
 		    	   chooseteachertext.setVisible(true);
 		    	   teacherList.setVisible(true);
-		    	   AssignB.setVisible(true);
+		    	   ChooseTFlag=true;
 		    	 //---------------------------------------------------//
-		    	 String a="1";
-		    	 String b="1";
-		    	 transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+b+"')");
-		    	// t.setText("");
-				// text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
 		    }
 		   
 	  }
@@ -131,7 +126,6 @@ public class MergeClassesCoursesController extends QueryController implements In
 		if (sem.getCourseList().isEmpty()==true)
 		{
 			t.setText("There is no courses in this semester");
-			text.setText("");
 		}
 		//-----------------------------------------//
 		else
@@ -160,9 +154,15 @@ public class MergeClassesCoursesController extends QueryController implements In
 	}
 	//-----------------------------------------------------------------------------------------//
 	 @FXML
-	    void AssignTeacher(ActionEvent event) {
-
-	    }
+	 void AssignTeacher(ActionEvent event)
+	 {
+		 String a="0";
+		 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
+	     String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
+    	 transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+TeacherID+"')");
+    	 t.setText("");
+		 //text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
+	 }
 }
 
 

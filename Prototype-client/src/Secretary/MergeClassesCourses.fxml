@@ -60,17 +60,12 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Text fx:id="text" fill="#ff00d2" layoutX="109.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.0">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Text>
             <Text fx:id="t" fill="RED" layoutX="113.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="435.13671875">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane fx:id="diaID" layoutX="107.0" layoutY="240.0" prefHeight="142.0" prefWidth="377.0" visible="false" />
+            <DialogPane fx:id="diaID" layoutX="107.0" layoutY="240.0" prefHeight="97.0" prefWidth="377.0" />
             <Text fx:id="chooseteachertext" fill="#01dd9b" layoutX="229.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Teacher:" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
