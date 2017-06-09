@@ -64,14 +64,14 @@ public class MergeClassesCoursesController extends QueryController implements In
 	  void AssignHandler(ActionEvent event) 
 	  {
 			CourseChoise =  (String) CourseL.getValue();//get the item that was pressed in the combo box.
-	    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
 		    ClassChoise = (String) ClassL.getValue();
 		    //--------------------------------------------------//
 		    ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM classincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
 		    boolean flag=true;
 		    if (CourseChoise==null || ClassChoise==null || ChooseTFlag==true)
 		    {
-		    	t.setText("Please fill all the details");
+		    	if (ChooseTFlag==true)err.setText("Please fill all the details");
+		    	else t.setText("Please fill all the details");
 				flag=false;
 		    }
 		    if (result!=null)
@@ -81,6 +81,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    }
 		    else if (flag==true)
 		    {
+		    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
 		    	//Suitable Course that was chosen-1 course:
 		    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
 		    	//Get teaching unit number:
@@ -100,14 +101,14 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    	   ObservableList L= FXCollections.observableList(listtteachers);
 		    	   teacherList.setItems(L);
 		    	 //---------------------------------------------------//
-		    	   t.setText("");
+		    	   t.setVisible(false);
+		    	   err.setVisible(true);
 		    	   diaID.setVisible(true);
 		    	   chooseteachertext.setVisible(true);
 		    	   teacherList.setVisible(true);
 		    	   ChooseTFlag=true;
 		    	 //---------------------------------------------------//
-		    }
-		   
+		    } 
 	  }
     //-----------------------------------------------------------------------------------------//
 	@FXML
@@ -159,8 +160,11 @@ public class MergeClassesCoursesController extends QueryController implements In
 		 String a="0";
 		 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
 	     String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
+	     
+	     
+	     
+	     
     	 transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+TeacherID+"')");
-    	 t.setText("");
 		 //text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
 	 }
 }
