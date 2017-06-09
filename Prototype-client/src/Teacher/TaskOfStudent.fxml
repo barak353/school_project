@@ -52,7 +52,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="219.0" layoutY="229.0" prefHeight="138.0" prefWidth="222.0" />
+            <TextField fx:id="TaskComments" layoutX="219.0" layoutY="229.0" prefHeight="138.0" prefWidth="222.0" />
             <Label layoutX="81.0" layoutY="229.0" text="write comments">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -63,6 +63,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Text fx:id="textMSG" fill="RED" layoutX="465.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="106.17578125">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

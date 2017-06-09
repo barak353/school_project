@@ -23,7 +23,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
+      <Text fx:id="userID" layoutX="197.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="92.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -45,7 +45,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="save" layoutX="310.0" layoutY="283.0" mnemonicParsing="false" text="save">
+            <Button fx:id="save" layoutX="310.0" layoutY="283.0" mnemonicParsing="false" onAction="#saveB" text="save">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -56,13 +56,28 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="TaskName" layoutX="260.0" layoutY="132.0" onAction="#InsertTaskName" />
+            <TextField fx:id="TaskName" layoutX="260.0" layoutY="132.0" />
             <Label fx:id="SetDate1" layoutX="168.0" layoutY="130.0" prefHeight="20.0" prefWidth="77.0" text="Task name">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Text fx:id="textMSG" fill="RED" layoutX="465.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="106.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
+      <Label layoutX="297.0" layoutY="19.0" prefHeight="25.0" prefWidth="106.0" text="course Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Text fx:id="courseName" layoutX="397.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="106.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
