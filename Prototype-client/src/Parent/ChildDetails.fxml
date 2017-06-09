@@ -36,11 +36,47 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#Back" text="Back">
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <ComboBox layoutX="264.0" layoutY="202.0" prefWidth="150.0" />
+            <Label layoutX="195.0" layoutY="205.0" prefHeight="19.0" prefWidth="69.0" text="Course :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="143.0" prefHeight="19.0" prefWidth="69.0" text="Child ID :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="339.0" layoutY="145.0" prefHeight="19.0" prefWidth="92.0" text="Child Name :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="195.0" layoutY="263.0" prefHeight="19.0" prefWidth="69.0" text="GPA :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Text fx:id="childid" layoutX="208.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תז ילד" wrappingWidth="43.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="childname" layoutX="431.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם ילד" wrappingWidth="60.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="gpa" layoutX="265.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ממוצע" wrappingWidth="51.0556640625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
