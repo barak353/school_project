@@ -43,22 +43,27 @@ public class ChoiceChildController extends QueryController implements Initializa
     private Button view;
 
     @FXML
-    private Button back;
+    private ComboBox<String> childlist;
 
     @FXML
-    private ComboBox<String> childid;
+    private Button back;
 
     @FXML
     private Text userID;
     
-	//-----------------------------------------------------------//
+    private   String parentID;
+    
+    private String chooseChild;
 
+	//-----------------------------------------------------------//
 	
     @FXML
     void ViewChoiceChild(ActionEvent event){
     	try {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChildDetails.fxml"));
-	        loader.setController(new ChildDetailsController("ChildDetailsController"));
+    		ChildDetailsController controller = new ChildDetailsController("ChildDetailsController");
+    		controller.setChooseChild(chooseChild);
+	        loader.setController(controller);
 			Pane login_screen_parent = loader.load();
 			Scene login_screen_scene=new Scene(login_screen_parent);
 			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -106,5 +111,23 @@ public class ChoiceChildController extends QueryController implements Initializa
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+		
+		parentID = user.GetID();
+		
+	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Sid FROM childrensofparent WHERE ParentID="+parentID);
+    	ArrayList<String> childNameList = new ArrayList<String>();
+    	for(ArrayList<String> row:res){
+        	childNameList.add(row.get(0));
+    	}
+    	
+	    ObservableList obList= FXCollections.observableList(childNameList);
+	    childlist.setItems(obList);
+	    
 	}
+
+    @FXML
+    void chooseChild(ActionEvent event) {
+    	chooseChild = childlist.getValue();
+    }
+
 }
