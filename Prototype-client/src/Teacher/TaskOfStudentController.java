@@ -37,7 +37,7 @@ public TaskOfStudentController(String controllerID)
 		private Button openFile;
 		
 		@FXML
-		private ComboBox StudentList;
+		private ComboBox<String> StudentList;
 		
 		@FXML
 		private Button save;
@@ -47,6 +47,12 @@ public TaskOfStudentController(String controllerID)
 		
 		@FXML
 		private Text userID;
+		
+		 @FXML
+		  private Text textMSG;
+		 
+		 @FXML
+		private TextField TaskComments;
 
 
 void TurningBack(ActionEvent event) {
@@ -59,21 +65,14 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 	userID.setText(user.GetUserName());
 }
 
+@FXML
 void saveB(ActionEvent event) {
-    	try {
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/message.fxml"));
-		        loader.setController(new messageController("messageController"));
-		        Pane login_screen_parent = loader.load();
-				Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				//app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-				} catch (IOException e) {
-					System.err.println("Missing message.fxml file");
-					e.printStackTrace();
-				}
-    }
+	textMSG.setVisible(true);
+	String taskComments = TaskComments.getText();
+	
+	
+	
+}
 @FXML
 void LogOut(ActionEvent event) {
 	 try 

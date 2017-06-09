@@ -7,6 +7,7 @@ import java.io.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -59,6 +60,10 @@ public class SchoolServer extends AbstractServer
    * @param port The port number to connect on.
    */
  
+  protected static PrintWriter writer;
+  
+  
+  protected static Date date;// will use for showing date in the log.txt file.
   
   public SchoolServer(int port) 
   {
@@ -75,8 +80,8 @@ public class SchoolServer extends AbstractServer
    * @param client The connection from which the message originated.
    */
   public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
-  {		
+  (Object msg, ConnectionToClient client)
+{		
 	  boolean isAlreadyInserted = false;
 	  ResultSet rs = null;
 	  boolean isUpdate=false;
@@ -104,8 +109,10 @@ public class SchoolServer extends AbstractServer
 	    		isUpdate=true;
 	    	}
 		} catch (SQLException e1) {
-			System.out.println("Failed to execute query in handleMessageFromClient");
-			e1.printStackTrace();
+			writer.println(date+": Failed to execute query in handleMessageFromClient");
+			StringWriter errors = new StringWriter();
+			e1.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
 		}
 	    Object result = null;
 	    ArrayList<ArrayList<String>> resultArray;
@@ -118,7 +125,10 @@ public class SchoolServer extends AbstractServer
 				columnsNumber = rsmd.getColumnCount();
 			} catch (SQLException e3) {
 				columnsNumber=-1;// there is no Columns.
-				System.err.println("result is empty, there is no Columns.");
+				writer.println(date+": result is empty, there is no Columns.");
+				StringWriter errors = new StringWriter();
+				e3.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
 			}
 			 int columnIndex;
 			 ArrayList<String> arr;
@@ -134,7 +144,10 @@ public class SchoolServer extends AbstractServer
 				    result = resultArray;
 			  }
 			} catch (SQLException e1) {
-				System.out.println("error in creating ResultArray");
+				writer.println(date+": error in creating ResultArray");
+				StringWriter errors = new StringWriter();
+				e1.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
 			}
 		  }else{
 			  result = null;
@@ -146,9 +159,13 @@ public class SchoolServer extends AbstractServer
 	    	packaged.put("ResultArray", result);
 	    	client.sendToClient((Object)packaged);
 	    }catch (IOException e) {
-			System.out.println("Unable to send Select msg to client from Server.");
+			writer.println(date+": Unable to send Select msg to client from Server.");
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
 		}
-  }
+		writer.flush();
+}
 
     
   /**
@@ -193,41 +210,73 @@ public class SchoolServer extends AbstractServer
 	String DBpassword = portController.DBpasswordID.getText();//get the DB password.
 	String DBhost = portController.DBhostID.getText();//get the DB host.
     String DBschema = portController.DBschemaID.getText();//get the DB schema.
-	try{
+    //set date and writer.
+    date = new Date();
+	try {
+		writer = new PrintWriter("log.txt", "UTF-8");
+	} catch (FileNotFoundException e) {
+		System.out.println("FileNotFoundException");		
+	} catch (UnsupportedEncodingException e) {
+		System.out.println("UnsupportedEncodingException");
+	}
+    try{
 	port = Integer.parseInt(portController.serverPortD.getText());//get the port of the server to be listening on.
 	}catch(RuntimeException e){
 		portController.errorTextID.setText("Server port most contain only digit's.");
+		writer.println(date+": Error: **begining of crash** Server port most contain only digit's: ");
+		StringWriter errors = new StringWriter();
+		e.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");
 		return;
 	}
 	try 
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 	} catch (Exception ex) {
-		portController.errorTextID.setText("Failed to registering the jdbc driver. Register the jdbc driver and try again."); return;}
+		portController.errorTextID.setText("Failed to registering the jdbc driver. Register the jdbc driver and try again."); 
+		writer.println(date+": Error: **begining of crash** Failed to registering the jdbc driver. Register the jdbc driver and try again: ");
+		StringWriter errors = new StringWriter();
+		ex.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");	
+		return;
+	}
 	try {
 		conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("Unable to connect to SQL database. Please try other details or start your database.");
+		writer.println(date+": Error: **begining of crash** Unable to connect to SQL database. Please try other details or start your database: ");
+		StringWriter errors = new StringWriter();
+		e1.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");	
 		return;
 	}//create connection with mysql DB.
 	try {
 		stmt = (Statement) ((java.sql.Connection) conn).createStatement();
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("failed to create Statment from Connection.");
+		writer.println(date+": Error: **begining of crash** failed to create Statment from Connection: ");
+		StringWriter errors = new StringWriter();
+		e1.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");		
 		return;
 	}
 	try 
 	{
-		System.out.println("SQL connection succeed.");
+		writer.println(date+": SQL connection succeed.");
 		SchoolServer sv = new SchoolServer(port);
 		sv.listen(); //Start listening for connections
-		System.out.println("Server started listening to clients.");
+		writer.println(date+": Server started listening to clients on port: "+port);
 	} 
 	catch (Exception ex) 
 	{
 		portController.errorTextID.setText("ERROR - Could not listen for clients!");
 		return;
 	}
+	writer.flush();
 	stage.close();
 	}
 }
