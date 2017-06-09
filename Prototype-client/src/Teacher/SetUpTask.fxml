@@ -46,7 +46,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="Continue" layoutX="276.0" layoutY="227.0" mnemonicParsing="false" onAction="#UploadTask" text="Continue">
+            <Button fx:id="Continue" layoutX="276.0" layoutY="227.0" mnemonicParsing="false" onAction="#Continue" text="Continue">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

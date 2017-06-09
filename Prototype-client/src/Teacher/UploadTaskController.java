@@ -44,15 +44,26 @@ public class UploadTaskController extends QueryController implements Initializab
     
     @FXML
     private TextField TaskName;
+    
+    @FXML
+    private Text courseName;
+    
+    @FXML
+    private Text textMSG;
+    
+    private String courseN;
 
 	//-----------------------------------------------------------//
+    @FXML
 	void TurningBack(ActionEvent event) {
     	this.nextController = new SetUpTaskController("SetUpTaskController");
     	this.Back("/Teacher/SetUpTask.fxml",nextController, event);
     }
+	
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
+    	courseName.setText(courseN);
     }
     @FXML
     void LogOut(ActionEvent event) {
@@ -72,6 +83,18 @@ public class UploadTaskController extends QueryController implements Initializab
 				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
+    }
+    
+    public void setCourseN(String courseN){
+    	this.courseN = courseN;
+    }
+    
+    @FXML
+    void saveB(ActionEvent event) {
+    	textMSG.setVisible(true);
+    
+    	
+    	
     }
 
 }
