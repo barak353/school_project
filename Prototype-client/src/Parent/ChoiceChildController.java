@@ -47,19 +47,36 @@ public class ChoiceChildController extends QueryController implements Initializa
 
     @FXML
     private Button back;
+    
+    @FXML
+    private Text ErrorMSG;
 
+    
+    
     @FXML
     private Text userID;
     
-    private   String parentID;
+    private String parentID;
     
     private String chooseChild;
+    
+    private int flag=0;
 
 	//-----------------------------------------------------------//
 	
     @FXML
     void ViewChoiceChild(ActionEvent event){
+
     	try {
+    		
+    		if (flag == 0)
+        	{
+        		ErrorMSG.setText("To continue, please choose a child! "); //show error message.
+    		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
+    	        loader.setController(new ChoiceChildController("ChoiceChildController"));
+        	}
+    		
+    		else{
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChildDetails.fxml"));
     		ChildDetailsController controller = new ChildDetailsController("ChildDetailsController");
     		controller.setChooseChild(chooseChild);
@@ -70,8 +87,9 @@ public class ChoiceChildController extends QueryController implements Initializa
 			app_stage.hide();
 			app_stage.setScene(login_screen_scene);
 			app_stage.show(); 
+    		}
 		} 
-    	catch (IOException e) {
+    	catch (IOException e) {		        	
 			System.err.println("Missing ChildDetails.fxml file");
 			e.printStackTrace();
 		}
@@ -114,8 +132,9 @@ public class ChoiceChildController extends QueryController implements Initializa
 		
 		parentID = user.GetID();
 		
-	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Sid FROM childrensofparent WHERE ParentID="+parentID);
-    	ArrayList<String> childNameList = new ArrayList<String>();
+	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT studenid FROM childparent WHERE PID="+parentID);
+	    
+	    ArrayList<String> childNameList = new ArrayList<String>();
     	for(ArrayList<String> row:res){
         	childNameList.add(row.get(0));
     	}
@@ -127,6 +146,7 @@ public class ChoiceChildController extends QueryController implements Initializa
 
     @FXML
     void chooseChild(ActionEvent event) {
+		flag = 1;
     	chooseChild = childlist.getValue();
     }
 
