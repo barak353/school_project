@@ -125,7 +125,7 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 break;
 	                }
 		         	//set current logged in user.
-		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4));
+		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4),userDetails.get(5));
 		         	User.setCurrentLoggedIn(currentUser);
 			         try {//change to login scene.
 				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));

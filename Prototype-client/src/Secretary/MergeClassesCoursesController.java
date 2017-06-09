@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entity.Semester;
+import Entity.Teacher;
 import Entity.User;
+import Entity.Course;
 import application.QueryController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,6 +56,8 @@ public class MergeClassesCoursesController extends QueryController implements In
       private String RequiredStringCourse;
       private String  ClassChoise;
       private boolean ChooseTFlag=false;
+      private Teacher Teacher;
+      private Course Course;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -66,7 +70,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 			CourseChoise =  (String) CourseL.getValue();//get the item that was pressed in the combo box.
 		    ClassChoise = (String) ClassL.getValue();
 		    //--------------------------------------------------//
-		    ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM classincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
+		    ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
 		    boolean flag=true;
 		    if (CourseChoise==null || ClassChoise==null || ChooseTFlag==true)
 		    {
@@ -84,8 +88,9 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
 		    	//Suitable Course that was chosen-1 course:
 		    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
+		    	Course=new Course(teaching.get(0).get(0),teaching.get(0).get(1),teaching.get(0).get(2),teaching.get(0).get(3));
 		    	//Get teaching unit number:
-		    	String TeachingUnit=teaching.get(0).get(2);
+		    	String TeachingUnit=Course.getTeachingUnit();
 		    	//Getting all the teachers that in this teaching unit:
 		    	ArrayList<ArrayList<String>> TeachersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE teachUnitNum='" + TeachingUnit +"'");
 		    	//Defining the list of combobox:
@@ -94,8 +99,9 @@ public class MergeClassesCoursesController extends QueryController implements In
 			    {
 		    		//Get teacher in teacher table:
 			    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" + TeachersID.get(i).get(0) +"'");
-			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + usersID.get(0).get(1) +"'");
-			    	listtteachers.add("("+TeachersID.get(i).get(0)+")"+" - "+TeachersName.get(0).get(1));
+			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + usersID.get(0).get(0) +"'");
+			    	Teacher=new Teacher(usersID.get(0).get(0),TeachersName.get(0).get(1),TeachersName.get(0).get(2),TeachersName.get(0).get(3),TeachersName.get(0).get(4),TeachersName.get(0).get(5),usersID.get(0).get(1));
+			    	listtteachers.add("("+Teacher.GetID()+")"+" - "+TeachersName.get(0).get(1));
 			    }
 			    //------------------------------------------------------------------//
 		    	   ObservableList L= FXCollections.observableList(listtteachers);
@@ -158,14 +164,33 @@ public class MergeClassesCoursesController extends QueryController implements In
 	 void AssignTeacher(ActionEvent event)
 	 {
 		 String a="0";
+		 int hoursteacher=Integer.parseInt(Teacher.GetHours());
+		 int hoursCourse=Integer.parseInt(Course.getHours());
+		 String res;
+		 int res2;
+		 boolean myflag=true;
+		
 		 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
 	     String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
+	     if (hoursteacher<hoursCourse)
+	     {
+	    	 err.setText("The Teacher exceed her teaching hours, please choose different teacher");
+	    	 myflag=false;
+	     }
+	     else
+	     {
+	    	 res2=hoursteacher-hoursCourse;
+	    	 res=""+res2;
+	    	 Teacher.SetHours(res);
+	    	// transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+TeacherID+"')");
+			 //text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
+
+	    	 
+	    	 
+	     }
 	     
 	     
 	     
-	     
-    	 transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+TeacherID+"')");
-		 //text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
 	 }
 }
 
