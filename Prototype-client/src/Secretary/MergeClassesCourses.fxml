@@ -43,19 +43,19 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Text fill="#01dd9b" layoutX="243.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Course:">
+            <Text fill="#01dd9b" layoutX="134.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Course:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="CourseL" layoutX="219.0" layoutY="139.0" prefHeight="25.0" prefWidth="150.0" promptText="Choose Course" />
-            <Text fill="#01dd9b" layoutX="243.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Class:">
+            <ComboBox fx:id="CourseL" layoutX="109.0" layoutY="154.0" prefHeight="25.0" prefWidth="150.0" promptText="Choose Course" />
+            <Text fill="#01dd9b" layoutX="367.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Class:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="ClassL" layoutX="218.0" layoutY="215.0" prefHeight="25.0" prefWidth="150.0" promptText="Choose class" />
-            <Button fx:id="Assign" layoutX="255.0" layoutY="273.0" mnemonicParsing="false" onAction="#AssignHandler" text="Assign" textFill="#be0cf5">
+            <ComboBox fx:id="ClassL" layoutX="336.0" layoutY="154.0" prefHeight="25.0" prefWidth="150.0" promptText="Choose class" />
+            <Button fx:id="Assign" layoutX="264.0" layoutY="194.0" mnemonicParsing="false" onAction="#AssignHandler" text="Assign" textFill="#be0cf5">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -70,18 +70,24 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane fx:id="diaID" layoutX="114.0" layoutY="96.0" prefHeight="227.0" prefWidth="360.0" visible="false" />
-            <Text fx:id="chooseteachertext" fill="#01dd9b" layoutX="239.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Teacher:" visible="false">
+            <DialogPane fx:id="diaID" layoutX="107.0" layoutY="240.0" prefHeight="142.0" prefWidth="377.0" visible="false" />
+            <Text fx:id="chooseteachertext" fill="#01dd9b" layoutX="229.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Teacher:" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="teacherList" layoutX="219.0" layoutY="188.0" prefWidth="150.0" promptText="Choose Teacher" visible="false" />
-            <Button fx:id="AssignB" layoutX="244.0" layoutY="261.0" mnemonicParsing="false" onAction="#AssignTeacher" text="Assign teacher" textFill="#ff06b4" visible="false">
+            <ComboBox fx:id="teacherList" layoutX="208.0" layoutY="288.0" onAction="#AssignTeacher" prefWidth="150.0" promptText="Choose Teacher" visible="false" />
+            <Text fx:id="err" fill="RED" layoutX="115.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="358.13671875">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
-            </Button>
+            </Text>
+            <DialogPane fx:id="dialog2" layoutX="99.0" layoutY="98.0" prefHeight="300.0" prefWidth="415.0" visible="false" />
+            <Text fx:id="finishtxt" fill="#b5087e" layoutX="143.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="320.701171875">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

@@ -48,6 +48,14 @@ public class MergeClassesCoursesController extends QueryController implements In
       private DialogPane diaID;
       private String courseID;
       private Semester sem;
+      @FXML
+      private Text err;
+
+      @FXML
+      private DialogPane dialog2;
+
+      @FXML
+      private Text finishtxt;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -77,18 +85,19 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    }
 		    else if (flag==true)
 		    {
-		    	/*ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
-		    	ArrayList<ArrayList<String>> teachingu= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
-
-		    	ArrayList<String> list3 = new ArrayList<String>();
-			    for (int i=0;i<sem.getCourseList().size();i++)
+		    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
+		    	String TeachingUnit=teaching.get(0).get(2); //Get teachingUnit number
+		    	ArrayList<ArrayList<String>> TeachersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE teachUnitNum='" + TeachingUnit +"'");
+		    	ArrayList<String> listtteachers = new ArrayList<String>();
+		    	for (int i=0;i<TeachersID.size();i++)
 			    {
-			    	list.add(sem.getCourseList().get(i));
-			    }*/
+			    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE USid='" + TeachersID.get(i).get(0) +"'");
+			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + TeachersID.get(i).get(0) +"'");
+			    	listtteachers.add(TeachersName.get(0).get(1));
+			    }
 			    //------------------------------------------------------------------//
-			    /*ObservableList obList= FXCollections.observableList(list);
-			    CourseL.setItems(obList);
-			    CourseL.setVisible(true);*/
+			    ObservableList L= FXCollections.observableList(listtteachers);
+			    teacherList.setItems(L);
 		    	 //---------------------------------------------------//
 		    	   t.setText("");
 		    	   text.setText("");
@@ -100,8 +109,8 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    	 String a="1";
 		    	 String b="1";
 		    	 transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+b+"')");
-		    	 t.setText("");
-				 text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
+		    	// t.setText("");
+				// text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
 		    }
 		   
 	  }
