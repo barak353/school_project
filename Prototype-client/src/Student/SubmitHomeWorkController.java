@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Secretary.AskRequestFormController;
@@ -96,6 +97,38 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
+			String userID1=user.GetID();
+			
+			/** resultArray ->The query return mat of the specific student **/
+			ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE userID=" + userID1 );
+			System.out.println(resultArray);
+			/** save the student id **/
+			String studentID= resultArray.get(0).get(0);
+			
+			System.out.println(studentID);
+			
+	    	/** res ->The query return mat of the id courses that the student learn**/
+			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM studentincourse WHERE studentID="+studentID);
+	    	
+			
+			
+			/** save list of the name of the courses of the student**/
+			
+			
+			
+			/*ArrayList<String> courseNameList = new ArrayList<String>();
+	    	ArrayList<ArrayList<String>> res2;*/
+	    	
+	    	
+	    	
+	    	
+	    	/** res2 -> The query return mat of the course name and id course**/
+	    	/*for(ArrayList<String> row:res){
+	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+	        	courseNameList.add.get(0).get(0)+"("+res2.get(0).get(1)+")");*/
+	        	
+	        	
+	        	
 		}
 
 	
