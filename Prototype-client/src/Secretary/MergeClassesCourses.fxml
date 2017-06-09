@@ -65,14 +65,14 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane fx:id="diaID" layoutX="107.0" layoutY="240.0" prefHeight="97.0" prefWidth="377.0" />
+            <DialogPane fx:id="diaID" layoutX="107.0" layoutY="240.0" prefHeight="123.0" prefWidth="377.0" visible="false" />
             <Text fx:id="chooseteachertext" fill="#01dd9b" layoutX="229.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Teacher:" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
             <ComboBox fx:id="teacherList" layoutX="208.0" layoutY="288.0" onAction="#AssignTeacher" prefWidth="150.0" promptText="Choose Teacher" visible="false" />
-            <Text fx:id="err" fill="RED" layoutX="115.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="358.13671875">
+            <Text fx:id="err" fill="RED" layoutX="116.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="358.13671875">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
