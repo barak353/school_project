@@ -1,7 +1,8 @@
 package Student;
 
 import application.QueryController;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import java.util.ResourceBundle;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Entity.User;
+
+
 
 public class SubmitHomeWorkController extends QueryController implements Initializable {
 
@@ -50,21 +53,20 @@ public class SubmitHomeWorkController extends QueryController implements Initial
     private Button OK;
     
     @FXML
-    private ComboBox<String> comboBoxID1;
+    private ComboBox<String> comboBoxChooseCourse;
     
     @FXML
-    private ComboBox<String> comboBoxID2;
-    
-    
+    private ComboBox<String> comboBoxChooseTask;
     @FXML
     private Button Next ;
 
+    @FXML
+    private Text ErrorMSG ;
 
     @FXML
-    void Button1(ActionEvent event) {
-
-    }
-
+    private Text ErrorMSG2 ;
+    
+  /**This function is enabled after the user has chosen a course and a specific task**/
     
     //SpecificTaskWindowController
     @FXML
@@ -94,43 +96,99 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 	    } 
 	  
 		@Override
-		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
+		public void initialize(URL arg0, ResourceBundle arg1) 
+		{//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			String userID1=user.GetID();
 			
-			/** resultArray ->The query return mat of the specific student **/
+			// resultArray ->The query return mat of the specific student //
 			ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE userID=" + userID1 );
-			System.out.println(resultArray);
-			/** save the student id **/
+		
+			
+			
+				
+			
+			// save the student id //
 			String studentID= resultArray.get(0).get(0);
 			
-			System.out.println(studentID);
+	    	// res ->The query return mat of the id courses that the student learn//
+			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE studentID="+studentID);	
+			if(StudentInCourseList==null)
+			{
+				ErrorMSG.setText("You are not in this course");//show error message.
+				ErrorMSG.setText("");//delete error message.
+			}
 			
-	    	/** res ->The query return mat of the id courses that the student learn**/
-			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM studentincourse WHERE studentID="+studentID);
-	    	
-			
-			
-			/** save list of the name of the courses of the student**/
-			
-			
-			
-			/*ArrayList<String> courseNameList = new ArrayList<String>();
-	    	ArrayList<ArrayList<String>> res2;*/
-	    	
-	    	
-	    	
-	    	
-	    	/** res2 -> The query return mat of the course name and id course**/
-	    	/*for(ArrayList<String> row:res){
-	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
-	        	courseNameList.add.get(0).get(0)+"("+res2.get(0).get(1)+")");*/
-	        	
-	        	
-	        	
-		}
-
+			else
+			{
 	
+			// save list of the name of the courses of the student//
+			ArrayList<String> courseNameList = new ArrayList<String>();
+	    	ArrayList<ArrayList<String>> CoursesNameList;	    	
+	    	// res2 -> The query return mat of the course name and id course//
+	    	for(ArrayList<String> row:StudentInCourseList){
+	    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(1));
+	    
+	        // put the course list at the comboBoxChooseCourse//
+	        courseNameList.add(CoursesNameList.get(0).get(0)+"("+CoursesNameList.get(0).get(1)+")");
+	        ObservableList obList= FXCollections.observableList(courseNameList);;
+	        comboBoxChooseCourse.setItems(obList);
+	    	
+	    	
+	    	
+	    	}
+	    	
+			}
+		
+	    	
 
 }
+
+/** This function is enabled when the user selects a specific course in the list 
+ * And handles the choice of the specific task for the course
+ * **/		
+		
+@FXML
+void AfterChooseCourse(ActionEvent event)
+{
+// save the student's choise//
+	String chooseCourse = comboBoxChooseCourse.getValue();
+	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+	ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tid FROM taskincourse WHERE idC="+idcourses);
+	if(IdTaskInCourseList==null)
+	{
+		ErrorMSG2.setText("There is NO Tasks in this course");//show error message.
+		ErrorMSG2.setText("");//delete error message.
+		
+	}
+	
+	else
+	{
+	ArrayList<ArrayList<String>> TaskList=null;
+
+	for(ArrayList<String> row:IdTaskInCourseList)
+	{
+    	TaskList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+    	
+	}	
+	 ObservableList obList= FXCollections.observableList(TaskList);
+	 comboBoxChooseTask.setItems(obList);
+	}
+ }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+

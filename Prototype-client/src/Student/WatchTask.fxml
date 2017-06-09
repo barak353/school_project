@@ -43,10 +43,9 @@
                </font>
             </Button>
             <Button fx:id="ButtonNew" layoutX="521.0" layoutY="370.0" mnemonicParsing="false" onAction="#Specific" text="Next" />
-            <ComboBox layoutX="212.0" layoutY="147.0" prefWidth="150.0" />
-            <ComboBox layoutX="212.0" layoutY="250.0" prefWidth="150.0" />
             <Label layoutX="212.0" layoutY="107.0" text="Please select course" />
             <Label layoutX="212.0" layoutY="209.0" prefHeight="17.0" prefWidth="126.0" text="please select  task " />
+            <ComboBox fx:id="comboBoxChooseCourse" layoutX="200.0" layoutY="134.0" prefWidth="150.0" />
          </children>
       </Pane>
    </children>

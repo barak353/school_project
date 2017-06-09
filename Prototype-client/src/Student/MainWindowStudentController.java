@@ -57,8 +57,8 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void WatchT(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchTask.fxml"));
-			   loader.setController(new WatchTaskController("WatchTaskControllerID"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitHomeWork.fxml"));
+			   loader.setController(new SubmitHomeWorkController("SubmitHomeWorkController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.

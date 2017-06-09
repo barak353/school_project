@@ -43,21 +43,22 @@
                </font>
             </Button>
             <Button fx:id="ButtonNew" layoutX="246.0" layoutY="108.0" mnemonicParsing="false" onAction="#WatchStudentDetails" prefHeight="25.0" prefWidth="161.0" text="Watch Details" />
-            <Label layoutX="61.0" layoutY="172.0" text="Student Name ">
+            <Label layoutX="61.0" layoutY="172.0" text="Student Name :  ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label layoutX="61.0" layoutY="209.0" prefHeight="17.0" prefWidth="80.0" text="Student Id">
+            <Label layoutX="61.0" layoutY="209.0" prefHeight="17.0" prefWidth="80.0" text="Student Id :">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label layoutX="61.0" layoutY="240.0" prefHeight="17.0" prefWidth="69.0" text="GPA">
+            <Label layoutX="61.0" layoutY="240.0" prefHeight="17.0" prefWidth="69.0" text="GPA :">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
             <SplitPane layoutX="63.0" layoutY="272.0" />
-            <Text fx:id="Sname" layoutX="178.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
-            <Text fx:id="Sid" layoutX="203.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.99999986588955" />
+            <Text fx:id="Sname" layoutX="164.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
+            <Text fx:id="Sid" layoutX="130.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.99999986588955" />
+            <Text fx:id="Sgps" layoutX="111.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="184.13671875" />
          </children>
       </Pane>
    </children>

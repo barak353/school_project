@@ -62,20 +62,31 @@ public class SpecificTaskWindowController extends QueryController implements Ini
 	
 	//back to watch task window
 	@FXML
-	void WatchBack(ActionEvent event)
-	{
-		
-		this.nextController = new WatchTaskController("WatchTaskControllerID");
-		this.Back("/student/WatchTask.fxml",nextController, event);
-	}
-	
-	//back to submit task window
-	
-	@FXML
-	void SubmitBack(ActionEvent event)
+	 void TurningBack(ActionEvent event)
 	{
 		this.nextController = new SubmitHomeWorkController("SubmitHomeWorkController");
 		this.Back("/student/SubmitHomeWork.fxml",nextController, event);
+	}
+	
+
+	
+	/**This function will appear after pressing the "UploadFile" button, and you will upload a file**/
+	@FXML
+	void  UploadFileHandler(ActionEvent event) 
+	{
+		
+		
+		
+	}
+	
+	
+	/**This function will appear after pressing the "Watch file" button, and you will watch a file**/
+	@FXML
+	void  WatchfileHandler(ActionEvent event) 
+	{
+		
+		
+		
 	}
 
 }

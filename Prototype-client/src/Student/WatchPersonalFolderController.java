@@ -52,7 +52,8 @@ public class WatchPersonalFolderController extends QueryController implements In
     @FXML
     private Text Sid;
 
-
+    @FXML
+    private Text Sgps;
     
     
     /* @FXML
@@ -111,7 +112,7 @@ System.out.println(resultArray);
 
 Sname.setText(user.GetUserName());
 Sid.setText(resultArray.get(0).get(0));
-
+Sgps.setText(resultArray.get(0).get(2));
 
 //create student object
 //float GPATest=(float) Double.parseDouble(resultArray.get(0).get(2));
