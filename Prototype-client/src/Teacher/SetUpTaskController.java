@@ -71,6 +71,7 @@ public class SetUpTaskController extends QueryController implements Initializabl
         		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
         		UploadTaskController controller = new UploadTaskController("UploadTaskController");
         		controller.setCourseN(chooseCourse);
+        		controller.setCourseID(idcourses);
 		        loader.setController(controller);
 		        Pane login_screen_parent = loader.load();
 				Scene login_screen_scene=new Scene(login_screen_parent);

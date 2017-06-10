@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import Login.LoginController;
 import Entity.User;
 import application.QueryController;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 
 public class UploadTaskController extends QueryController implements Initializable {
@@ -51,7 +53,13 @@ public class UploadTaskController extends QueryController implements Initializab
     @FXML
     private Text textMSG;
     
+     @FXML
+    private DatePicker setDate;
+     
+    private String courseID;
     private String courseN;
+    
+  
 
 	//-----------------------------------------------------------//
     @FXML
@@ -88,13 +96,23 @@ public class UploadTaskController extends QueryController implements Initializab
     public void setCourseN(String courseN){
     	this.courseN = courseN;
     }
+     
+    
     
     @FXML
     void saveB(ActionEvent event) {
+    	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
+    							+ courseID + ",'" +setDate.getValue()+"')");
     	textMSG.setVisible(true);
     
     	
     	
     }
+
+	public void setCourseID(String courseID) {
+		this.courseID = courseID;
+		// TODO Auto-generated method stub
+		
+	}
 
 }
