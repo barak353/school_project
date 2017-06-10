@@ -1,15 +1,2 @@
-<<<<<<< HEAD
-Fri Jun 09 16:32:07 IDT 2017: SQL connection succeed.
-Fri Jun 09 16:32:07 IDT 2017: Server started listening to clients on port: 5555
-=======
-<<<<<<< HEAD
-Fri Jun 09 15:19:03 IDT 2017: SQL connection succeed.
-Fri Jun 09 15:19:03 IDT 2017: Server started listening to clients on port: 5555
-=======
-<<<<<<< HEAD
-=======
-Fri Jun 09 14:04:55 IDT 2017: SQL connection succeed.
-Fri Jun 09 14:04:55 IDT 2017: Server started listening to clients on port: 5555
->>>>>>> branch 'Prototype' of https://github.com/barak353/school_project.git
->>>>>>> refs/remotes/origin/Prototype
->>>>>>> refs/remotes/origin/Prototype
+Sat Jun 10 08:17:52 IDT 2017: SQL connection succeed.
+Sat Jun 10 08:17:52 IDT 2017: Server started listening to clients on port: 5555
