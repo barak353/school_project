@@ -53,9 +53,6 @@ public class SystemManagerAddCourseController extends QueryController implements
     @FXML
     private TextField hours;
 
-    @FXML
-    private DialogPane addPrecourse;
-
 
     @FXML
     private Text currentDate;
@@ -98,12 +95,6 @@ public class SystemManagerAddCourseController extends QueryController implements
 	 	if(isValidInput == true){obj =  transfferQueryToServer("INSERT INTO courses VALUES ("+course.getText()+",'"+courseName.getText()+"',"+TeachingUnit.getText()+","+hours.getText()+")");}
     	if(isValidInput && obj != null) r = (int) obj;//we want to check if the query was successful.
    	 	if(isValidInput && r != -1){//show add pre-course screen if the course was added successful.
-	    	addPrecourse.setVisible(true);
-	    	preCourses.setVisible(true);
-	    	preCourses.setVisible(true);
-	    	doneButton.setVisible(true);
-	    	pleaseAdd.setVisible(true);
-	    	addButton.setVisible(true);
     	}else{//if the course encounter some error so let's check which error is it.
     		if(isValidInput == true){//check if the course ID is less then 5 digits.
 	        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+course.getText());
@@ -149,11 +140,6 @@ public class SystemManagerAddCourseController extends QueryController implements
 	    @FXML
 	    void done(ActionEvent event) {
 	    	errorIDdialog.setText("");
-	    	addPrecourse.setVisible(false);
-	    	preCourses.setVisible(false);
-	    	doneButton.setVisible(false);
-	    	pleaseAdd.setVisible(false);
-	    	addButton.setVisible(false);
 	    	pleaseAdd.setText("Please add pre-course for course number: " + lastCourse);
 	    	errorIDdialog.setVisible(false);
 	    }//hide the add pre-course window when done was pressed.
