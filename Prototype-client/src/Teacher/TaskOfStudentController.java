@@ -51,8 +51,7 @@ public TaskOfStudentController(String controllerID)
 		 @FXML
 		  private Text textMSG;
 		 
-		 @FXML
-		private TextField TaskComments;
+	
 
 
 void TurningBack(ActionEvent event) {
@@ -68,7 +67,7 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 @FXML
 void saveB(ActionEvent event) {
 	textMSG.setVisible(true);
-	String taskComments = TaskComments.getText();
+	
 	
 	
 	

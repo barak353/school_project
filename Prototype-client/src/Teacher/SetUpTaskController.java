@@ -91,7 +91,7 @@ public class SetUpTaskController extends QueryController implements Initializabl
     	userID.setText(user.GetUserName());
         
     	String teacherID = user.GetID();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT cI FROM teacherincourse WHERE TeacherID="+teacherID);
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
     	for(ArrayList<String> row:res){

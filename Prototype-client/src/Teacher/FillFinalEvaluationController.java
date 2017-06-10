@@ -39,13 +39,13 @@ public class FillFinalEvaluationController extends QueryController implements In
     private Button logout;
 
     @FXML
-    private ComboBox StudentList;
+    private ComboBox<String> StudentList;
 
     @FXML
     private TextArea comments;
 
     @FXML
-    private ComboBox TaskList;
+    private ComboBox<String> TaskList;
 
     @FXML
     private TextField grade;
@@ -65,6 +65,8 @@ public class FillFinalEvaluationController extends QueryController implements In
 
     @FXML
     private Text textMSG;
+    
+  // private String chooseStudent;
 	
     @FXML
     void TurningBack(ActionEvent event) {
@@ -74,6 +76,16 @@ public class FillFinalEvaluationController extends QueryController implements In
     
     @FXML
     void saveB(ActionEvent event) {
+    	String chooseTask = TaskList.getValue();
+    	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
+    	String chooseCourse = CourseList.getValue();
+    	chooseCourse = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));
+    	transfferQueryToServer("UPDATE subtask SET grade = "+ grade.getText() +", Comments='"+ comments.getText() +"' WHERE idTASK="
+    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 		
+
+    	
+    	
+    	
     	textMSG.setVisible(true);
     	String finalGrade = grade.getText();
     	int fnlGrade;
@@ -94,7 +106,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     	userID.setText(user.GetUserName());
     	String teacherID = user.GetID();
     	
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT cI FROM teacherincourse WHERE TeacherID="+teacherID);
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
     	
@@ -112,11 +124,33 @@ public class FillFinalEvaluationController extends QueryController implements In
     void chooseCourse(ActionEvent event) {
     	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT studentID FROM studentincourse WHERE idcourses="+idcourses);
-    	ObservableList obList= FXCollections.observableList(res);;
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+idcourses);
+    	ArrayList<String> resultArray = new ArrayList<String>();
+    	for(ArrayList<String> row:res){
+    		resultArray.add(row.get(0));
+    	}
+    	ObservableList obList= FXCollections.observableList(resultArray);
     	StudentList.setItems(obList);
     }
     
+   @FXML
+    void chooseStudent(ActionEvent event) {
+    	String chooseStudent =  StudentList.getValue();
+    	System.out.println("chooseStudent: "+chooseStudent);
+    	
+       	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM subtask WHERE IDstudent="+chooseStudent);
+    	ArrayList<ArrayList<String>> res2;
+    	ArrayList<String> TaskNameList = new ArrayList<String>();
+       	for(ArrayList<String> row:res){
+        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	}
+       	ObservableList obList= FXCollections.observableList(TaskNameList);
+    	TaskList.setItems(obList);	
+   
+   }
+ 
+ 
     @FXML
     void LogOut(ActionEvent event) {
 		 try 

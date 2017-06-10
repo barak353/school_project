@@ -70,7 +70,6 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="StudentList" layoutX="262.0" layoutY="154.0" prefWidth="150.0" />
             <Label layoutX="177.0" layoutY="209.0" text="final grade">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -88,6 +87,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
+            <ComboBox fx:id="StudentList" layoutX="262.0" layoutY="155.0" onAction="#chooseStudent" prefWidth="150.0" />
          </children>
       </Pane>
    </children>
