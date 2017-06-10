@@ -1,8 +1,12 @@
 package Teacher;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import Login.LoginController;
@@ -34,6 +38,9 @@ public class UploadTaskController extends QueryController implements Initializab
 	//-----------------------------------------------------------//
     @FXML
     private Button logout;
+    
+    @FXML
+    private Button uploadFile;
 
     @FXML
     private Button back;
@@ -59,7 +66,7 @@ public class UploadTaskController extends QueryController implements Initializab
     private String courseID;
     private String courseN;
     
-  
+    private File file;
 
 	//-----------------------------------------------------------//
     @FXML
@@ -104,11 +111,32 @@ public class UploadTaskController extends QueryController implements Initializab
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");
     	textMSG.setVisible(true);
-    
-    	
-    	
+		System.out.println("send file to server");
+
+		Object ans = transfferFileToServer(file);
+		System.out.println("arrived");
     }
 
+	@FXML
+	void upload(ActionEvent event) {
+		
+		JFileChooser chooser= new JFileChooser();
+
+		int choice = chooser.showOpenDialog(chooser);
+
+		if (choice != JFileChooser.APPROVE_OPTION) return;
+
+		file = chooser.getSelectedFile();
+		
+		//File file = new File(filePath.getText());
+		if (file.exists())
+			System.out.println("file or directory denoted by this abstract pathname exists.");
+		else
+			System.out.println("file or directory denoted by this abstract pathname is not exists.");
+
+	}
+    
+    
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
 		// TODO Auto-generated method stub

@@ -67,6 +67,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
+            <Button fx:id="uploadFile" layoutX="261.0" layoutY="173.0" mnemonicParsing="false" onAction="#upload" prefHeight="30.0" prefWidth="149.0" text="upload file">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Label layoutX="297.0" layoutY="19.0" prefHeight="25.0" prefWidth="106.0" text="course Name:">

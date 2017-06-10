@@ -44,6 +44,7 @@ public class QueryController{
     
     protected Object transfferFileToServer(File file){//Send packaged to server, and wait for answer. And then return the answer.
         // Get the size of the file
+    	System.out.println("enter transfferFileToServer");
     	String fileName = file.getName();
     	String fileType = fileName.split("\\.")[1];
     	fileName = fileName.split("\\.")[0];
@@ -69,6 +70,8 @@ public class QueryController{
     	packaged.remove("fileType");
     	Object result = packaged.get("file");//Get the result that returned from the server.
     	packaged.remove("file");//Remove result from packaged.
+    	System.out.println("exit transfferFileToServer");
+
     	return result;
     }
     
