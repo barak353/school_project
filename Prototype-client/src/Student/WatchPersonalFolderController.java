@@ -105,14 +105,14 @@ String Email1= user.GetEmail();
 float GPA1=100;
 
 //get the table with the student details
-ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE userID=" + userId1 );
+ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID=" + userId1 );
 System.out.println(resultArray);
 
-/**print the student detailes to the screen**/
+//print the student detailes to the screen
 
 Sname.setText(user.GetUserName());
 Sid.setText(resultArray.get(0).get(0));
-Sgps.setText(resultArray.get(0).get(2));
+Sgps.setText(resultArray.get(0).get(1));//GPA
 
 //create student object
 //float GPATest=(float) Double.parseDouble(resultArray.get(0).get(2));
