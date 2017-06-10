@@ -65,7 +65,7 @@ public class SchoolManagerMainController extends QueryController implements Init
 			System.out.println("file or directory denoted by this abstract pathname exists.");
 		else
 			System.out.println("file or directory denoted by this abstract pathname is not exists.");
-		Object ans = transfferFileToServer(file);
+		//Object ans = transfferFileToServer(file);
 		System.out.println("arrived");
 	}
 	
@@ -75,7 +75,7 @@ public class SchoolManagerMainController extends QueryController implements Init
     }
 	
 	@FXML
-	void download(ActionEvent event) {
+	/*void download(ActionEvent event) {
 		boolean isCourses = true;
 		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse=1111");
 		if(res == null) {System.out.println("There is no courses"); isCourses = false;}
@@ -83,7 +83,7 @@ public class SchoolManagerMainController extends QueryController implements Init
 		if(row == null) {System.out.println("There is no courses"); isCourses = false;}
 		if(isCourses == true) 
 		super.download();
-	}
+	}*/
 
 	// -----------------------------------------------------------//
 	// -----------------------------------------------------------//

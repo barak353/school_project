@@ -113,27 +113,20 @@ public class UploadTaskController extends QueryController implements Initializab
     	textMSG.setVisible(true);
 		System.out.println("send file to server");
 
-		Object ans = transfferFileToServer(file);
+		Object ans = uploadFileToServer(file,courseID);
 		System.out.println("arrived");
     }
 
 	@FXML
 	void upload(ActionEvent event) {
-		
 		JFileChooser chooser= new JFileChooser();
-
 		int choice = chooser.showOpenDialog(chooser);
-
 		if (choice != JFileChooser.APPROVE_OPTION) return;
-
 		file = chooser.getSelectedFile();
-		
-		//File file = new File(filePath.getText());
 		if (file.exists())
 			System.out.println("file or directory denoted by this abstract pathname exists.");
 		else
 			System.out.println("file or directory denoted by this abstract pathname is not exists.");
-
 	}
     
     

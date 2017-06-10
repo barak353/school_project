@@ -84,122 +84,131 @@ public class SchoolServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient
-  (Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
 {		
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
-	  if(packaged.get("strQuery").equals("download") == false)
-	  {
-		  if(packaged.get("strQuery")!= null){
-			  boolean isAlreadyInserted = false;
-			  ResultSet rs = null;
-			  boolean isUpdate=false;
-			  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
-			  System.out.println("executing query: "+strQuery);
-			  packaged.remove("strQuery");
-			    try {
-			    	if(strQuery.substring(0,6).equals("SELECT"))
-			    	{
-			    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
-			    	}
-			    	else if(strQuery.substring(0,6).equals("UPDATE"))
-			    	{
-			    		stmt.executeUpdate(strQuery);//Execute the query from the client.
-									isUpdate=true;
-			    	}
-			    	else if (strQuery.substring(0,6).equals("INSERT"))
-			    	{
-			    		try{
-			    		stmt.executeUpdate(strQuery);
-			    		}catch(SQLException e2){
-			    			isAlreadyInserted = true ;
-			    		}
-			    		isUpdate=true;
-			    	}
+	  String option = (String) packaged.get("key");
+	  System.out.println("handleMessageFromClient");
+	  switch(option){
+	  case "Query":
+		  boolean isAlreadyInserted = false;
+		  ResultSet rs = null;
+		  boolean isUpdate=false;
+		  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
+		  System.out.println("executing query: "+strQuery);
+		  packaged.remove("strQuery");
+		    try {
+		    	if(strQuery.substring(0,6).equals("SELECT"))
+		    	{
+		    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
+		    	}
+		    	else if(strQuery.substring(0,6).equals("UPDATE"))
+		    	{
+		    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+								isUpdate=true;
+		    	}
+		    	else if (strQuery.substring(0,6).equals("INSERT"))
+		    	{
+		    		try{
+		    		stmt.executeUpdate(strQuery);
+		    		}catch(SQLException e2){
+		    			isAlreadyInserted = true ;
+		    		}
+		    		isUpdate=true;
+		    	}
+			} catch (SQLException e1) {
+				writer.println(date+": Failed to execute query in handleMessageFromClient");
+				StringWriter errors = new StringWriter();
+				e1.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
+				e1.printStackTrace();
+			}
+		    Object result = null;
+		    ArrayList<ArrayList<String>> resultArray;
+			  if(isUpdate == false){
+			  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
+				  ResultSetMetaData rsmd;
+				int columnsNumber;
+				try {
+					rsmd = (ResultSetMetaData) rs.getMetaData();
+					columnsNumber = rsmd.getColumnCount();
+				} catch (SQLException e3) {
+					columnsNumber=-1;// there is no Columns.
+					writer.println(date+": result is empty, there is no Columns.");
+					StringWriter errors = new StringWriter();
+					e3.printStackTrace(new PrintWriter(errors));
+					writer.println(errors.toString());
+				}
+				 int columnIndex;
+				 ArrayList<String> arr;
+			     try {
+				    while(rs.next()){//while there is still rows in the ResultSet.
+					    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
+					    columnIndex=1;//set to point to the first column.
+					    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
+						    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
+						    columnIndex++;//go to the next column in this row.
+					    }
+					    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+					    result = resultArray;
+				  }
 				} catch (SQLException e1) {
-					writer.println(date+": Failed to execute query in handleMessageFromClient");
+					writer.println(date+": error in creating ResultArray");
 					StringWriter errors = new StringWriter();
 					e1.printStackTrace(new PrintWriter(errors));
 					writer.println(errors.toString());
-					e1.printStackTrace();
 				}
-			    Object result = null;
-			    ArrayList<ArrayList<String>> resultArray;
-				  if(isUpdate == false){
-				  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
-					  ResultSetMetaData rsmd;
-					int columnsNumber;
-					try {
-						rsmd = (ResultSetMetaData) rs.getMetaData();
-						columnsNumber = rsmd.getColumnCount();
-					} catch (SQLException e3) {
-						columnsNumber=-1;// there is no Columns.
-						writer.println(date+": result is empty, there is no Columns.");
-						StringWriter errors = new StringWriter();
-						e3.printStackTrace(new PrintWriter(errors));
-						writer.println(errors.toString());
-					}
-					 int columnIndex;
-					 ArrayList<String> arr;
-				     try {
-					    while(rs.next()){//while there is still rows in the ResultSet.
-						    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
-						    columnIndex=1;//set to point to the first column.
-						    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
-							    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
-							    columnIndex++;//go to the next column in this row.
-						    }
-						    resultArray.add(resultRow);//add the resultRow to the ResultArray		
-						    result = resultArray;
-					  }
-					} catch (SQLException e1) {
-						writer.println(date+": error in creating ResultArray");
-						StringWriter errors = new StringWriter();
-						e1.printStackTrace(new PrintWriter(errors));
-						writer.println(errors.toString());
-					}
-				  }else{
-					  result = null;
-				  }
-				  if( isAlreadyInserted == true){
-					  result = new Integer(-1);
-				  }
-			    try{
-			    	packaged.put("ResultArray", result);
-			    	client.sendToClient((Object)packaged);
-			    }catch (IOException e) {
-					writer.println(date+": Unable to send Select msg to client from Server.");
-					StringWriter errors = new StringWriter();
-					e.printStackTrace(new PrintWriter(errors));
-					writer.println(errors.toString());
-				}
-				writer.flush();
-		  }else{
-			  byte[] bytes = (byte[]) packaged.get("file");		  
-			  try {
-				FileUtils.writeByteArrayToFile(new File("file//"+packaged.get("fileName")+"."+packaged.get("fileType")), bytes);
-			} catch (IOException e1) {
-				System.out.println("Unable to save file from to server to pc");
-				e1.printStackTrace();
+			  }else{
+				  result = null;
+			  }
+			  if( isAlreadyInserted == true){
+				  result = new Integer(-1);
+			  }
+		    try{
+		    	packaged.put("ResultArray", result);
+		    	client.sendToClient((Object)packaged);
+		    }catch (IOException e) {
+				writer.println(date+": Unable to send Select msg to client from Server.");
+				StringWriter errors = new StringWriter();
+				e.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
 			}
-			  
-		    try {
-				client.sendToClient((Object)packaged);
-			} catch (IOException e) {
-				System.err.println("can't send to client");
-				e.printStackTrace();
-			}
-		  }
-	  }else{
-		  System.out.println("arrived download");
+			writer.flush();
+	  break;
+	  case "upload":
+		  byte[] bytes = (byte[]) packaged.get("file");		  
+		  try {
+			FileUtils.writeByteArrayToFile(new File("file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType")), bytes);
+		} catch (IOException e1) {
+			writer.println(date+": Unable to save file from server to pc.");
+			StringWriter errors = new StringWriter();
+			e1.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
+		}
+	    try {
+			client.sendToClient((Object)packaged);
+		} catch (IOException e) {
+			writer.println(date+": Can't send to client.");
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
+		}
+	  break;
+	  case "download":
+		 /* System.out.println("arrived download");
 		  JFileChooser chooser = new JFileChooser();
 		  File dir = new File("file");
 		  chooser.setCurrentDirectory(dir);
 		  File[] filesInDirectory = chooser.getCurrentDirectory().listFiles();
 		  for ( File file : filesInDirectory ) {
 		      System.out.println(file.getName());
-		  }
-		  
+		  }*/
+	   break;
+	  default:
+			writer.println(date+": Option is not available.");
+			StringWriter errors = new StringWriter();
+			writer.println(errors.toString());  
+	 break;  	
 	  }
 }
 
