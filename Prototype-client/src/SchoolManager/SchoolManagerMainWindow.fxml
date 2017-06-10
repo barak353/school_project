@@ -42,8 +42,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="Upload" layoutX="266.0" layoutY="157.0" mnemonicParsing="false" onAction="#upload" text="Upload" />
-            <TextField fx:id="filePath" layoutX="231.0" layoutY="113.0" promptText="enter file path" />
+            <Button fx:id="Upload" layoutX="267.0" layoutY="132.0" mnemonicParsing="false" onAction="#upload" text="Upload" />
+            <Button layoutX="267.0" layoutY="298.0" mnemonicParsing="false" onAction="#download" text="Download" />
+            <Text layoutX="231.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Here you Upload file to server" />
+            <Text layoutX="231.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Here you Download file from server" />
+            <TextField layoutX="231.0" layoutY="263.0" promptText="enter file name" />
          </children>
       </Pane>
    </children>

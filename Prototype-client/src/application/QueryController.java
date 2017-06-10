@@ -1,6 +1,8 @@
 package application;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -40,6 +42,36 @@ public class QueryController{
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
     }
     
+    protected Object transfferFileToServer(File file){//Send packaged to server, and wait for answer. And then return the answer.
+        // Get the size of the file
+    	String fileName = file.getName();
+    	String fileType = fileName.split("\\.")[1];
+    	fileName = fileName.split("\\.")[0];
+    	packaged.put("fileName",fileName);
+    	packaged.put("fileType",fileType);
+        byte[] bytes = null;
+		try {
+			bytes = Files.readAllBytes(file.toPath());
+		} catch (IOException e1) {
+			System.err.println("Unable to convert from file to byte[]");
+			e1.printStackTrace();
+		}
+    	packaged.put("file",bytes);//Send the query to be executed in DB to the server.
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    			try{
+    				connection.wait();
+    			}catch(InterruptedException e){
+    				e.printStackTrace();
+    			}
+    	}
+    	packaged.remove("fileName");
+    	packaged.remove("fileType");
+    	Object result = packaged.get("file");//Get the result that returned from the server.
+    	packaged.remove("file");//Remove result from packaged.
+    	return result;
+    }
+    
     static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);
     }
@@ -57,6 +89,17 @@ public class QueryController{
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	return result;
+    }
+    
+    
+    protected void download(){
+    	packaged.put("strQuery", "download");
+    	System.out.println("1");
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	System.out.println("2");
+
+    	packaged.remove("strQuery");
+
     }
     
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.
@@ -101,6 +144,8 @@ public class QueryController{
 					e.printStackTrace();
 				}
 	} 
+	
+	
 	
 	protected void finalize(){
     	controllerHashMap.put(controllerID, this);//remove this key from the HashMap.
