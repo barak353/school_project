@@ -88,7 +88,6 @@ public class SchoolServer extends AbstractServer
   (Object msg, ConnectionToClient client)
 {		
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
-	  
 	  if(packaged.get("strQuery").equals("download") == false)
 	  {
 		  if(packaged.get("strQuery")!= null){
@@ -122,6 +121,7 @@ public class SchoolServer extends AbstractServer
 					StringWriter errors = new StringWriter();
 					e1.printStackTrace(new PrintWriter(errors));
 					writer.println(errors.toString());
+					e1.printStackTrace();
 				}
 			    Object result = null;
 			    ArrayList<ArrayList<String>> resultArray;
