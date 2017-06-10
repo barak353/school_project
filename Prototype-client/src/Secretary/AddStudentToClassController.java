@@ -101,7 +101,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
             		exists=2;
             	}
             	//Check if the student already exists in DB in some class
-            	ArrayList<ArrayList<String>> r= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass WHERE sid='" + StID + "'");
+            	ArrayList<ArrayList<String>> r= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass WHERE stuID='" + StID + "'");
             	for (int i=0;i<ChosenClass.GetStudent().size();i++) //Search the student if exists in the sub array
             	{
             		if (ChosenClass.GetStudent().get(i).equals(StID)==true) exists=1; 
@@ -153,7 +153,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
     		id=ChosenClass.GetStudent().get(i); //Get StudentID
     		ClassN=ChosenClass.GetNum();
     		Name=ChosenClass.GetName();
-    		transfferQueryToServer("INSERT INTO studentinclass (IDcl,sid) VALUES ('" + Name+ClassN + "','" + id +"')");
+    		transfferQueryToServer("INSERT INTO studentinclass (stuID,identityclass) VALUES ('" + id + "','" + Name+ClassN +"')");
     	}
     	ChosenClass.GetStudent().clear();
     	if (flag==0) //If want to exit to the main screen

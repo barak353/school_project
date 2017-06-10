@@ -11,6 +11,8 @@ import Login.LoginController;
 import Entity.User;
 //import Parent.ChiidDetails;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -56,8 +59,17 @@ public class ChildDetailsController extends QueryController implements Initializ
 
     @FXML
     private Text Sid;
-	
+    
+    @FXML
+    private ComboBox<String> courselist;
+
+    
     private String chooseChild;
+
+    private String childID;
+    
+    private String choosecourse;
+
 	//-----------------------------------------------------------//
 
 	  
@@ -97,10 +109,25 @@ public class ChildDetailsController extends QueryController implements Initializ
 			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID="+chooseChild);
 			ArrayList<String> row = res.get(0);
 			Sid.setText(row.get(0));
-			Sname.setText(row.get(0)); //בטבלה של סטודנט עמודה של שם הסטודנט
-			gpa.setText(row.get(2));
-			semester.setText(row.get(4));
-
+			gpa.setText(row.get(1));
+			semester.setText(row.get(2));
+			
+			ArrayList<ArrayList<String>> res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userName FROM user WHERE userID="+chooseChild);
+			ArrayList<String> row2 = res2.get(0);
+			Sname.setText(row2.get(0));
+			
+			
+			
+			ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
+		    
+		    ArrayList<String> childNameList = new ArrayList<String>();
+		    
+	    	for(ArrayList<String> row3:res3){
+	        	childNameList.add(row3.get(0));
+	    	}
+	    	
+		    ObservableList obList= FXCollections.observableList(childNameList);
+		    courselist.setItems(obList);
 		}
 		//-----------------------------------------------------------//
 
@@ -109,6 +136,12 @@ public class ChildDetailsController extends QueryController implements Initializ
 			this.chooseChild = chooseChild;
 		}
 		
+
+	    @FXML
+	    void chooseCourse(ActionEvent event) {
+			choosecourse = courselist.getValue();
+	    }
+
     
 }
 

@@ -52,6 +52,11 @@
                </font>
             </Label>
             <ComboBox fx:id="childlist" layoutX="268.0" layoutY="133.0" onAction="#chooseChild" prefWidth="150.0" />
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="188.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.5419921875">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
