@@ -60,11 +60,10 @@ public class SubmitHomeWorkController extends QueryController implements Initial
     @FXML
     private Button Next ;
 
-    @FXML
-    private Text ErrorMSG ;
+    
 
     @FXML
-    private Text ErrorMSG2 ;
+    private Text ErrorMSGG ;
     
   /**This function is enabled after the user has chosen a course and a specific task**/
     
@@ -103,9 +102,10 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 			String userID1=user.GetID();
 			
 			// resultArray ->The query return mat of the specific student //
-			ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE userID=" + userID1 );
-		
 			
+			
+			ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID=" + userID1 );
+		    System.out.println(resultArray);	
 			
 				
 			
@@ -113,11 +113,11 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 			String studentID= resultArray.get(0).get(0);
 			
 	    	// res ->The query return mat of the id courses that the student learn//
-			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE studentID="+studentID);	
+			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList==null)
 			{
-				ErrorMSG.setText("You are not in this course");//show error message.
-				ErrorMSG.setText("");//delete error message.
+				//ErrorMSG.setText("You are not in this course");//show error message.
+				//ErrorMSG.setText("");//delete error message.
 			}
 			
 			else
@@ -156,24 +156,36 @@ void AfterChooseCourse(ActionEvent event)
 	String chooseCourse = comboBoxChooseCourse.getValue();
 	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 	ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tid FROM taskincourse WHERE idC="+idcourses);
+	System.out.println(IdTaskInCourseList);
+	
 	if(IdTaskInCourseList==null)
+		
 	{
-		ErrorMSG2.setText("There is NO Tasks in this course");//show error message.
-		ErrorMSG2.setText("");//delete error message.
+		
+		ErrorMSGG.setText("There is NO Tasks in this course");//show error message.
+		ErrorMSGG.setText("");//delete error message.
+		//ההודעה ישר נמחקת מה עושים ? 
 		
 	}
 	
 	else
 	{
-	ArrayList<ArrayList<String>> TaskList=null;
+	ArrayList<ArrayList<String>> TaskNameList=null;
+	
 
 	for(ArrayList<String> row:IdTaskInCourseList)
 	{
-    	TaskList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+    	TaskNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
     	
-	}	
-	 ObservableList obList= FXCollections.observableList(TaskList);
+	}
+	//לא עובד במקרה שהרשימה ריקה ובנוסף לא מוחק את הרשימת מטלות אחרי שמחלפים קורס
+
+	
+	
+	System.out.println(TaskNameList);
+	 ObservableList obList= FXCollections.observableList(TaskNameList);
 	 comboBoxChooseTask.setItems(obList);
+	
 	}
  }
 
