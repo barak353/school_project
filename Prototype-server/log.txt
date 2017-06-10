@@ -1,2 +1,0 @@
-Sat Jun 10 00:55:30 IDT 2017: SQL connection succeed.
-Sat Jun 10 00:55:30 IDT 2017: Server started listening to clients on port: 5555

@@ -3,6 +3,7 @@ package SchoolManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
@@ -17,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -44,6 +46,9 @@ public class SchoolManagerMainController extends QueryController implements Init
 	@FXML
 	private Text userID;
 
+    @FXML
+    private ComboBox<String> taskList;
+	
 	@FXML
 	void upload(ActionEvent event) {
 		
@@ -64,9 +69,19 @@ public class SchoolManagerMainController extends QueryController implements Init
 		System.out.println("arrived");
 	}
 	
+    @FXML
+    void chooseTask(ActionEvent event) {
+
+    }
+	
 	@FXML
 	void download(ActionEvent event) {
-		System.out.println("in download");
+		boolean isCourses = true;
+		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse=1111");
+		if(res == null) {System.out.println("There is no courses"); isCourses = false;}
+		ArrayList<String> row = res.get(0);
+		if(row == null) {System.out.println("There is no courses"); isCourses = false;}
+		if(isCourses == true) 
 		super.download();
 	}
 
@@ -81,6 +96,8 @@ public class SchoolManagerMainController extends QueryController implements Init
 		userID.setText(user.GetUserName());
 	}
 
+
+	
 	@FXML
 	void TurningBack(ActionEvent event) {
 		this.nextController = new LoginController("StudentLoginController");
