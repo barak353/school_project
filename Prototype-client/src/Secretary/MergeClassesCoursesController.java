@@ -4,11 +4,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.swing.Timer;
+
 import Entity.Semester;
 import Entity.Teacher;
 import Entity.User;
 import Entity.Course;
 import application.QueryController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,7 +62,7 @@ public class MergeClassesCoursesController extends QueryController implements In
       private Course Course;
       private boolean TeachChoiseFlag=false;
       boolean flag=true;
-      int counter=0;
+      private int counter=0;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -125,12 +128,11 @@ public class MergeClassesCoursesController extends QueryController implements In
 			    	   err.setVisible(true);
 			    	   diaID.setVisible(true);
 			    	   chooseteachertext.setVisible(true);
-			    	  if (counter>0)teacherList.getSelectionModel().clearSelection();
-			    	   //teacherList.setValue(null);
+			    	   teacherList.setValue(null);
 			    	   teacherList.setVisible(true);
 			    	   TeachChoiseFlag=true;
 			    	   flag=true;
-			    	
+
 			    	 //---------------------------------------------------//
 			    } 
 		    }
@@ -191,13 +193,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 		 int res2;
 		 int i=0;
 		 int index;
-		 
-		 counter++;
+
 		 //------------------------------------------------------------------------//
 		 try{
 			 
+			 counter++;
 			 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
-			 System.out.println(MyTeacher);
 			 if (MyTeacher!=null)
 			 {
 				      String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
@@ -215,28 +216,42 @@ public class MergeClassesCoursesController extends QueryController implements In
 			 	    	          hoursCourse=Integer.parseInt(Course.getHours());
 			 	    		      if (hoursteacher<hoursCourse)
 			 	    		      {
-			 	    		    	  System.out.println("Teacher hours:"+hoursteacher);
 			 	    		    	  err.setText("The Teacher exceed her teaching hours, please choose different teacher");
-			 	    		    	  flag=false;
+			 	    		    	  flag=true;
 			 	    		      }
 			 	    			  else if(flag==true)
 			 	    			  {
 			 	    			    	 res2=hoursteacher-hoursCourse;
 			 	    			    	 res=""+res2;
 			 	    			    	 Teacher.get(i).SetHours(res);
-			 	    			     	 System.out.println("Teacherhours::"+hoursteacher);
-			 	    			    	 System.out.println("coursehours::"+hoursCourse);
-			 	    			    	 System.out.println("setting hours:"+res);
 			 	    			    	 transfferQueryToServer("INSERT INTO teacherinclassincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +ClassAvg+"','"+ Teacher.get(i).GetID()+"')");
 			 	    			    	 transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(i).GetID()); //Update the status of previous semester
-			 	    			    	 t.setText("The class: "+ClassChoise+" assgined successfully to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
+			 	    			    	 finishtxt.setText("The class: "+ClassChoise+" assgined successfully to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
+			 	    			    	 finishtxt.setVisible(true);
+			 	    		    		Timer time = new Timer(2000, new java.awt.event.ActionListener() {
+			 	   		                @Override
+			 	   		                public void actionPerformed(java.awt.event.ActionEvent e) {
+			 	   		                	try{
+			 	   		                	finishtxt.setText("");
+			 	   		                	}catch(java.lang.NullPointerException e1){
+			 	   		                		
+			 	   		                	}
+			 	   		                }
+			 	   		            });
+			 	   		            time.setRepeats(false);
+			 	   		            time.start();
+			 	    			    	 t.setText("");
 			 	    			    	 t.setVisible(true);
 			 	    			    	 err.setVisible(false);
 			 	    			    	 diaID.setVisible(false);
 			 	    			    	 chooseteachertext.setVisible(false);
 			 	    			    	 teacherList.setVisible(false);
-			 	    			    	 //teacherList.setValue(null);
 			 	    			    	 TeachChoiseFlag=false;
+			 	    			    	
+			 	    			    	 if (counter>0)
+			 	    			    	 {
+					 	    			    	Platform.runLater(() -> teacherList.getSelectionModel().clearSelection());
+			 	    			    	 }
 			 	    			  } 
 		 }//Else 
 		 }catch(NullPointerException e)

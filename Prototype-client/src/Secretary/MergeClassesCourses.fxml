@@ -77,10 +77,9 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane fx:id="dialog2" layoutX="99.0" layoutY="98.0" prefHeight="300.0" prefWidth="415.0" visible="false" />
-            <Text fx:id="finishtxt" fill="#b5087e" layoutX="143.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="320.701171875">
+            <Text fx:id="finishtxt" fill="#ff0088" layoutX="116.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="358.13670784235">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Text>
          </children>

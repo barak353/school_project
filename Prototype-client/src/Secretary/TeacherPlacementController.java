@@ -3,6 +3,7 @@ package Secretary;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
@@ -43,6 +44,10 @@ public class TeacherPlacementController extends QueryController  implements Init
 	@FXML
 	private Button back;
 	@FXML
+	private Text text;
+	@FXML
+	private Text finishmessage;
+	@FXML
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new SecretaryMainController("SecretaryMainController");
@@ -54,4 +59,90 @@ public class TeacherPlacementController extends QueryController  implements Init
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
 	}
-}
+	
+	@FXML
+	public void SaveButtonHandler(ActionEvent event)
+	{
+		String TeacherID;
+		String Class;
+		String Course;
+		boolean flag=true;
+		boolean NextFlag=true;
+		int hoursteacher;
+		int hoursCourse;
+		String res;
+		int res2;
+		//----------------------------------------//
+		 TeacherID=TeacherField.getText();
+		 Class=ClassField.getText();
+		 Course=CourseField.getText();
+		//----------------------------------------//
+		 if (TeacherID.equals("")==true || Class.equals("")==true || Course.equals("")==true)
+		 {
+			 text.setText("Please fill all the fields");
+		 }
+		 else
+		 {
+			 ArrayList<ArrayList<String>> Teacher= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" + TeacherID +"'");
+			 if (Teacher==null)
+			 {
+				 text.setText("The teacher is not exists");
+				 flag=false;
+			 }
+		     ArrayList<ArrayList<String>> ChosenCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + Course +"'");
+		     if (ChosenCourse==null)
+		     {
+		    	 text.setText("The course is not exists");
+				 flag=false;
+		     }
+			 ArrayList<ArrayList<String>> ChosenClass= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM class WHERE ClassID='" +  Class +"'");
+			 if (ChosenClass==null)
+			 {
+		    	 text.setText("The class is not exists");
+				 flag=false;
+			 }
+			 if (flag==true)
+			 {
+				 ArrayList<ArrayList<String>> CheckClassInCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" +  Class + "' AND coID='" + Course +"'");
+				 if (CheckClassInCourse==null)
+				 {
+					 text.setText("The class is not learning this course");	
+					 NextFlag=false;
+				 }
+				 else if (CheckClassInCourse.get(0).get(3).equals(TeacherID))
+				 {
+					 text.setText("The teacher already teching this class");	
+					 NextFlag=false;
+				 }
+				 else
+				 {
+					 ArrayList<ArrayList<String>> CheckTeachUnit= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE idenTeach='" +  TeacherID + "' AND teachUnitNum='" + ChosenCourse.get(0).get(2) +"'");
+					 if (CheckTeachUnit==null)
+					 {
+						 text.setText("The teacher is not teaching this course.\nPlease choose a teacher from the unit:"+ChosenCourse.get(0).get(2)); 
+					 }
+					 else
+					 {
+						 
+					     hoursteacher=Integer.parseInt(Teacher.get(0).get(1));
+	 	    	         hoursCourse=Integer.parseInt(ChosenCourse.get(0).get(3));
+	 	    	         if (hoursteacher<hoursCourse)
+	 	    		     {
+	 	    	        	 text.setText("The Teacher exceed her teaching hours, can't make the teacher change.");
+	 	    		     }
+	 	    	         else
+	 	    	         {
+	 	    	        	res2=hoursteacher-hoursCourse;
+	    			    	res=""+res2; 
+	    			    	transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(0).get(0)); 
+	    			    	transfferQueryToServer("UPDATE teacherinclassincourse SET Tidentity="+Teacher.get(0).get(0)+" WHERE clasID='"+ CheckClassInCourse.get(0).get(0) + "' AND coID=" +ChosenCourse.get(0).get(0)); 
+	    			    	finishmessage.setText("Teacher placement change succeeded");
+	    			    	text.setText("");
+	 	    	         }
+					 }
+				 }
+			 }	 
+		 }//else	 
+	 }//Save		
+	}//Class
+
