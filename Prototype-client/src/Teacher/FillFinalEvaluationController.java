@@ -73,51 +73,69 @@ public class FillFinalEvaluationController extends QueryController implements In
     	this.nextController = new TeacherMainController("TeacherMainController");
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
-    
+    //
     @FXML
     void saveB(ActionEvent event) {
     	String chooseTask = TaskList.getValue();
     	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
     	String chooseCourse = CourseList.getValue();
     	chooseCourse = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));
-    	transfferQueryToServer("UPDATE subtask SET grade = "+ grade.getText() +", Comments='"+ comments.getText() +"' WHERE idTASK="
-    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 		
-
     	
-    	
-    	
-    	textMSG.setVisible(true);
     	String finalGrade = grade.getText();
     	int fnlGrade;
     	try{
     		fnlGrade = Integer.parseInt(finalGrade);
-    	}catch(NumberFormatException e){
+    	}
+    	catch(NumberFormatException e){
     		textMSG.setText("Final grade most contain only numbers.");
+    		textMSG.setVisible(true);
     		return;
     	}
-    	if(fnlGrade < 100 && fnlGrade < 0){
-    		textMSG.setText("Final grade most be between 100 to 0."); return;
+    	if(fnlGrade > 100 || fnlGrade < 0){
+    		textMSG.setText("Final grade most be between 100 to 0.");
+    		textMSG.setVisible(true);
+    		return;
     	}
-    	
+    	String finalCom = comments.getText();
+        if(comments.getText().trim().isEmpty()){
+    		textMSG.setText("you don't write comments");
+    		textMSG.setVisible(true);
+    		return;
+    	}
+    	//insert into the DB the grade and the comments of specific student
+    	transfferQueryToServer("UPDATE subtask SET grade = "+ finalGrade +", Comments='"+ finalCom +"' WHERE idTASK="
+    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 
+    	textMSG.setText("You have successfully inserted the data into DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
+    	textMSG.setVisible(true);
+    	//textMSG.setVisible(false);
     	
     }
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
     	String teacherID = user.GetID();
     	
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	if (res==null)
+    	{
+    		textMSG.setText("ther no information in the DB0");
+    		textMSG.setVisible(true);
+    	}
+    	else{
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
-    	
+    	//loop that create array list of the name and id of the courses
     	for(ArrayList<String> row:res){
         	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
     		courseNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
     	}
+
     	System.out.println("courseNameList: "+courseNameList);
-    	
+    	//print the array list in the combbox
 	    ObservableList obList= FXCollections.observableList(courseNameList);;
 	    CourseList.setItems(obList);
+    	}
     }
     
     @FXML
@@ -125,12 +143,20 @@ public class FillFinalEvaluationController extends QueryController implements In
     	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+idcourses);
+    	if (res==null)
+    	{
+    		textMSG.setText("ther no information in the DB1");
+    		textMSG.setVisible(true);
+    	}
+		else {
     	ArrayList<String> resultArray = new ArrayList<String>();
+    	//loop for insert the id of the student to array list for the combobox
     	for(ArrayList<String> row:res){
     		resultArray.add(row.get(0));
     	}
     	ObservableList obList= FXCollections.observableList(resultArray);
     	StudentList.setItems(obList);
+		}
     }
     
    @FXML
@@ -139,7 +165,15 @@ public class FillFinalEvaluationController extends QueryController implements In
     	System.out.println("chooseStudent: "+chooseStudent);
     	
        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM subtask WHERE IDstudent="+chooseStudent);
-    	ArrayList<ArrayList<String>> res2;
+       	System.out.println("res2: "+res);
+       	if (res==null)
+    	{
+    		textMSG.setText("ther no information in the DB2");
+    		textMSG.setVisible(true);
+    	}
+		else {
+       	ArrayList<ArrayList<String>> res2;
+    	//create array list of task name and task id and show in the combobox
     	ArrayList<String> TaskNameList = new ArrayList<String>();
        	for(ArrayList<String> row:res){
         	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
@@ -147,10 +181,10 @@ public class FillFinalEvaluationController extends QueryController implements In
     	}
        	ObservableList obList= FXCollections.observableList(TaskNameList);
     	TaskList.setItems(obList);	
-   
+		}
    }
  
- 
+   //func that return to the log in sfreen
     @FXML
     void LogOut(ActionEvent event) {
 		 try 

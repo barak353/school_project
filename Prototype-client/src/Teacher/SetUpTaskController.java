@@ -48,8 +48,6 @@ public class SetUpTaskController extends QueryController implements Initializabl
     @FXML
     private Text userID;
     
-   
-    
     @FXML
     private ComboBox<String> CourseList;
     

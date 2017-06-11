@@ -1,6 +1,8 @@
 package Teacher;
 
 import application.QueryController;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,10 +51,17 @@ public TaskOfStudentController(String controllerID)
 		private Text userID;
 		
 		 @FXML
-		  private Text textMSG;
+		 private Text textMSG;
 		 
-	
-
+		 @FXML
+		 private Text courseName;
+		 
+		  private String courseID;
+		  private String courseN;
+		  private String idtask;
+		  private File file;
+		    
+		 
 
 void TurningBack(ActionEvent event) {
 	this.nextController = new ChecksHomeworkController("ChecksHomeworkController");
@@ -62,16 +71,15 @@ void TurningBack(ActionEvent event) {
 public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 	User user = User.getCurrentLoggedIn();
 	userID.setText(user.GetUserName());
+	courseName.setText(courseN);
 }
 
 @FXML
 void saveB(ActionEvent event) {
 	textMSG.setVisible(true);
 	
-	
-	
-	
 }
+
 @FXML
 void LogOut(ActionEvent event) {
 	 try 
@@ -91,6 +99,27 @@ void LogOut(ActionEvent event) {
 			e.printStackTrace();
 			}
 }
+
+public void setCourseID(String courseID) {
+	this.courseID = courseID;
+	// TODO Auto-generated method stub
+	
+}
+
+public void setCourseN(String courseN) {
+	this.courseN = courseN;
+	// TODO Auto-generated method stub
+	
+}
+
+public void setTaskID(String idtask) {
+	this.idtask = idtask;
+	// TODO Auto-generated method stub
+	
+}
+
+
+
 	
 }
 

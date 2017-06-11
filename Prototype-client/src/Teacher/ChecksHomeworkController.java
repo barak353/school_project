@@ -2,11 +2,14 @@ package Teacher;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
 import Entity.User;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,13 +42,13 @@ public class ChecksHomeworkController extends QueryController implements Initial
     private Button Continue;
 
     @FXML
-    private ComboBox TasktList;
+    private ComboBox<String> TasktList;
 
     @FXML
     private Button back;
 
     @FXML
-    private ComboBox CourseList;
+    private ComboBox<String> CourseList;
 
     @FXML
     private Text userID;
@@ -53,6 +56,66 @@ public class ChecksHomeworkController extends QueryController implements Initial
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
+        String teacherID = user.GetID();
+    	
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	ArrayList<String> courseNameList = new ArrayList<String>();
+    	ArrayList<ArrayList<String>> res2;
+    	
+    	for(ArrayList<String> row:res){
+        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+    		courseNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	}
+    	System.out.println("courseNameList: "+courseNameList);
+    	
+	    ObservableList obList= FXCollections.observableList(courseNameList);
+	    CourseList.setItems(obList);
+    }
+    
+    @FXML
+    void chooseCourse(ActionEvent event) {
+    	String chooseCourse = CourseList.getValue();
+    	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);     
+    	System.out.println("choosecours,idcourse: "+ chooseCourse +idcourses);
+
+    	ArrayList<ArrayList<String>> res2;
+    	ArrayList<String> TaskNameList = new ArrayList<String>();
+       	for(ArrayList<String> row:res){
+        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	}
+       	System.out.println("task: "+ TaskNameList);
+       	ObservableList obList= FXCollections.observableList(TaskNameList);
+       	TasktList.setItems(obList);
+   
+   }
+    
+    @FXML
+    void Continue(ActionEvent event) {
+    	try {
+    	  		    		
+    			String chooseTask = TasktList.getValue();
+        		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
+        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
+        		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
+        		String chooseCourse = CourseList.getValue();
+        		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+        		controller.setCourseN(chooseCourse);
+        		controller.setCourseID(idcourses);
+        		controller.setTaskID(idtask);
+		        loader.setController(controller);
+		        Pane login_screen_parent = loader.load();
+				Scene login_screen_scene=new Scene(login_screen_parent);
+				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+				app_stage.hide();
+				app_stage.setScene(login_screen_scene);
+				app_stage.show(); 
+				
+				} catch (IOException e) {
+					System.err.println("Missing UploadTask.fxml file");
+					e.printStackTrace();
+				}
     }
     
     @FXML
@@ -61,27 +124,11 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
     
-    @FXML
-    void ContinueScreen(ActionEvent event) {
-    	try {
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/TaskOfStudent.fxml"));
-		        loader.setController(new TaskOfStudentController("TaskOfStudentController"));
-		        Pane login_screen_parent = loader.load();
-				Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-				} catch (IOException e) {
-					System.err.println("Missing TaskOfStudent.fxml file");
-					e.printStackTrace();
-				}
-    }
+
     @FXML
     void LogOut(ActionEvent event) {
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
@@ -96,20 +143,5 @@ public class ChecksHomeworkController extends QueryController implements Initial
 				e.printStackTrace();
 				}
     }
- /*   
-  ///ComboBox add name
-  	private void setListOfStudentsComboBox() {
-  		ArrayList<String> al = new ArrayList<String>();	
-  		for(int i=0;i<Test.students.size();i++){
-  			al.add(Test.students.get(i).getLName() +" "+ Test.students.get(i).getPName());
-  		}
-  		
-  		list = FXCollections.observableArrayList(al);
-  		cmbListOfStudents.setItems(list);
-  	}
-  	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {	
-		setListOfStudentsComboBox();		
-	}
- */
+
 }

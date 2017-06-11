@@ -54,7 +54,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="save" layoutX="547.0" layoutY="367.0" mnemonicParsing="false" onAction="#saveB" text="save">
+            <Button fx:id="save" layoutX="548.0" layoutY="374.0" mnemonicParsing="false" onAction="#saveB" text="save">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -82,7 +82,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Text fx:id="textMSG" fill="RED" layoutX="501.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="91.99999688850949">
+            <Text fx:id="textMSG" fill="RED" layoutX="481.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB. the student is     the grade is    and comments" visible="false" wrappingWidth="121.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
