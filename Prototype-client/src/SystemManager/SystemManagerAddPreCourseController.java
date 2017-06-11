@@ -1,5 +1,6 @@
 package SystemManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -13,11 +14,16 @@ import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class SystemManagerAddPreCourseController extends QueryController implements Initializable{
 	//-----------------------------------------------------------//
@@ -33,8 +39,8 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     @FXML
     private Button logout;
 
-    @FXML
-    private Text currentSemester;
+  //  @FXML
+  //  private Text currentSemester;
 
     @FXML
     private TextField preCourses;
@@ -47,7 +53,10 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 
     @FXML
     private Button addButton;
-
+    
+    @FXML
+    private Text ID;
+    
     @FXML
     private Text errorID;
 
@@ -69,7 +78,7 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new SystemManagerAddCourseController("SystemManagerAddCourseController");
-		this.Back("/SystemManager/SystemManagerAddCourse.fxml",nextController, event);
+		this.Back("/SystemManager/SystemManagerAddCourseWindow.fxml",nextController, event);
 	}
 
 	
@@ -88,7 +97,6 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     @FXML
     void addPrecourse(ActionEvent event) 
     {    
-    	preCourses.clear();
     	errorID.setVisible(true);
     	boolean isValidInput = true;
     	precourses=preCourses.getText();
@@ -129,12 +137,31 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 	        else 
 	        	errorID.setText("ERROR: this pre-course ID is already in DB."); 
 	    }
+    	preCourses.clear();
+
     }
     
     
 	//------------------------------------------// 
+    
+    @FXML
+    void done(ActionEvent event) {
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddCourseWindow.fxml"));
+			   loader.setController(new SystemManagerAddCourseController("SystemManagerAddCourseControllerID"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("Missing SystemManagerAddCourseWindow.fxml file");
+					e.printStackTrace();
+				}
+    }
 
-	
+/*	
     @FXML
     void done(ActionEvent event) {
    
@@ -143,7 +170,7 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     	errorIDdialog.setVisible(false);
     	
     }//hide the add pre-course window when done was pressed.
-
+*/
     
   //------------------------------------------// 
     
@@ -152,6 +179,8 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
   	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
   		User user = User.getCurrentLoggedIn();
   		userID.setText(user.GetUserName());
+  		ID.setText(lastCourse);
+
   		
   	}
   	 

@@ -51,12 +51,12 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Text fx:id="currentSemester" layoutX="50.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter pre- course detail :" wrappingWidth="287.5703125">
+            <Text layoutX="47.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a pre-course for course ID:" wrappingWidth="326.5703125">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="errorID" fill="RED" layoutX="149.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
+            <Text fx:id="errorID" fill="RED" layoutX="149.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
                <font>
                   <Font size="14.0" />
                </font>
@@ -66,7 +66,12 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="addButton" layoutX="224.0" layoutY="218.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add more pre-course" />
+            <Button fx:id="addButton" layoutX="224.0" layoutY="251.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add more pre-course" />
+            <Text fx:id="ID" layoutX="374.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="75.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
