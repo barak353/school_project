@@ -84,7 +84,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
         }
         else
         {
-            ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID='" + StID + "'");
+            ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID='" + StID + "'");
             if(resultArray==null)
             {
             	ErrorMSG.setText("There is NO such student");//show error message.
@@ -94,7 +94,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
             {
             	//Check if the student is in right age for this class
             	studentDetails=resultArray.get(0);
-            	if (studentDetails.get(4).equals(ChosenClass.GetName())==false)
+            	if (studentDetails.get(2).equals(ChosenClass.GetName())==false)
             	{
             		ErrorMSG.setText("The student is not of the age of this class ");//show error message.
             		successMSG.setText("");
@@ -109,7 +109,7 @@ public class AddStudentToClassController extends QueryController  implements Ini
             	if (r==null && exists==0 ) //The student not exists in DB and in the right age
             	{
             		studentDetails=resultArray.get(0); //Get first row
-            		UID=studentDetails.get(1); //Get UserID
+            		UID=studentDetails.get(0); //Get UserID
             		ArrayList<ArrayList<String>> resArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + UID + "'");
             		studentDetails=resArray.get(0); //Get first raw
             		SName=studentDetails.get(1);
@@ -120,9 +120,9 @@ public class AddStudentToClassController extends QueryController  implements Ini
             	else if (r!=null&& exists!=2) //If The student Exists in DB
             	{
             		studentDetails=r.get(0); //Get first row - Check if the student is in other class or in this class
-            		if (studentDetails.get(0).equals(ChosenClass.GetNum())==false || studentDetails.get(2).equals(ChosenClass.GetName())==false )
+            		if (studentDetails.get(1).equals(ChosenClass.GetName()+ChosenClass.GetNum())==false)
             		{
-            			ErrorMSG.setText("The student belongs to other class: " +studentDetails.get(2) + studentDetails.get(0));//show error message.
+            			ErrorMSG.setText("The student belongs to other class: " +studentDetails.get(1));//show error message.
             			successMSG.setText("");
             		}
             		else

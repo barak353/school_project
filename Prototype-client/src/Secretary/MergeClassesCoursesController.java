@@ -55,9 +55,11 @@ public class MergeClassesCoursesController extends QueryController implements In
       private String CourseChoise;
       private String RequiredStringCourse;
       private String  ClassChoise;
-      private boolean ChooseTFlag=false;
-      private Teacher Teacher;
+      private ArrayList<Teacher> Teacher=new ArrayList<Teacher>();
       private Course Course;
+      private boolean TeachChoiseFlag=false;
+      boolean flag=true;
+      int counter=0;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -67,54 +69,73 @@ public class MergeClassesCoursesController extends QueryController implements In
 	  @FXML
 	  void AssignHandler(ActionEvent event) 
 	  {
+		    flag=true;
 			CourseChoise =  (String) CourseL.getValue();//get the item that was pressed in the combo box.
 		    ClassChoise = (String) ClassL.getValue();
 		    //--------------------------------------------------//
-		    ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
-		    boolean flag=true;
-		    if (CourseChoise==null || ClassChoise==null || ChooseTFlag==true)
+		   
+		    if (CourseChoise==null || ClassChoise==null || TeachChoiseFlag==true )
 		    {
-		    	if (ChooseTFlag==true)err.setText("Please fill all the details");
-		    	else t.setText("Please fill all the details");
-				flag=false;
+		    	if (TeachChoiseFlag==true)
+		    	{
+		    		err.setText("Please fill all the details");	
+		    		flag=true;
+		    	}
+		    	else
+		    	{
+		    		t.setText("Please fill all the details");	
+		    		flag=false;
+		    	}
+		    	
 		    }
-		    if (result!=null)
-		    {
-				t.setText("The class: "+ClassChoise+"is already assgined to the course: "+RequiredStringCourse);
-				flag=false;
-		    }
-		    else if (flag==true)
+		    else 
 		    {
 		    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
-		    	//Suitable Course that was chosen-1 course:
-		    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
-		    	Course=new Course(teaching.get(0).get(0),teaching.get(0).get(1),teaching.get(0).get(2),teaching.get(0).get(3));
-		    	//Get teaching unit number:
-		    	String TeachingUnit=Course.getTeachingUnit();
-		    	//Getting all the teachers that in this teaching unit:
-		    	ArrayList<ArrayList<String>> TeachersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE teachUnitNum='" + TeachingUnit +"'");
-		    	//Defining the list of combobox:
-		    	ArrayList<String> listtteachers = new ArrayList<String>();
-		    	for (int i=0;i<TeachersID.size();i++)
+		    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
+			    if (result!=null)
 			    {
-		    		//Get teacher in teacher table:
-			    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" + TeachersID.get(i).get(0) +"'");
-			    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + usersID.get(0).get(0) +"'");
-			    	Teacher=new Teacher(usersID.get(0).get(0),TeachersName.get(0).get(1),TeachersName.get(0).get(2),TeachersName.get(0).get(3),TeachersName.get(0).get(4),TeachersName.get(0).get(5),usersID.get(0).get(1));
-			    	listtteachers.add("("+Teacher.GetID()+")"+" - "+TeachersName.get(0).get(1));
+					t.setText("The class: "+ClassChoise+" is already assgined to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
+					flag=false;
 			    }
-			    //------------------------------------------------------------------//
-		    	   ObservableList L= FXCollections.observableList(listtteachers);
-		    	   teacherList.setItems(L);
-		    	 //---------------------------------------------------//
-		    	   t.setVisible(false);
-		    	   err.setVisible(true);
-		    	   diaID.setVisible(true);
-		    	   chooseteachertext.setVisible(true);
-		    	   teacherList.setVisible(true);
-		    	   ChooseTFlag=true;
-		    	 //---------------------------------------------------//
-		    } 
+			    else 
+			    {
+			    	//Suitable Course that was chosen-1 course:
+			    	ArrayList<ArrayList<String>> teaching= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + RequiredStringCourse +"'");
+			    	Course=new Course(teaching.get(0).get(0),teaching.get(0).get(1),teaching.get(0).get(2),teaching.get(0).get(3));
+			    	//Get teaching unit number:
+			    	String TeachingUnit=Course.getTeachingUnit();
+			    	//Getting all the teachers that in this teaching unit:
+			    	ArrayList<ArrayList<String>> TeachersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinteachunit WHERE teachUnitNum='" + TeachingUnit +"'");
+			    	//Defining the list of combobox:
+			    	ArrayList<String> listtteachers = new ArrayList<String>();
+			    	for (int i=0;i<TeachersID.size();i++)
+				    {
+			    		//Get teacher in teacher table:
+				    	ArrayList<ArrayList<String>> usersID= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" + TeachersID.get(i).get(0) +"'");
+				    	ArrayList<ArrayList<String>> TeachersName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + usersID.get(0).get(0) +"'");
+				    	Teacher.add(new Teacher(usersID.get(0).get(0),TeachersName.get(0).get(1),TeachersName.get(0).get(2),TeachersName.get(0).get(3),TeachersName.get(0).get(4),usersID.get(0).get(1),TeachersName.get(0).get(5)));
+				    	listtteachers.add("("+usersID.get(0).get(0)+")"+" - "+TeachersName.get(0).get(1));
+				    }
+				    //------------------------------------------------------------------//
+			    	   ObservableList L= FXCollections.observableList(listtteachers);
+			    	   teacherList.setItems(L);
+			    	 //---------------------------------------------------//
+			    	   err.setText("");
+			    	   t.setVisible(false);
+			    	   err.setVisible(true);
+			    	   diaID.setVisible(true);
+			    	   chooseteachertext.setVisible(true);
+			    	  if (counter>0)teacherList.getSelectionModel().clearSelection();
+			    	   //teacherList.setValue(null);
+			    	   teacherList.setVisible(true);
+			    	   TeachChoiseFlag=true;
+			    	   flag=true;
+			    	
+			    	 //---------------------------------------------------//
+			    } 
+		    }
+
+		    
 	  }
     //-----------------------------------------------------------------------------------------//
 	@FXML
@@ -163,35 +184,64 @@ public class MergeClassesCoursesController extends QueryController implements In
 	 @FXML
 	 void AssignTeacher(ActionEvent event)
 	 {
-		 String a="0";
-		 int hoursteacher=Integer.parseInt(Teacher.GetHours());
-		 int hoursCourse=Integer.parseInt(Course.getHours());
+		 String ClassAvg="0";
+		 int hoursteacher;
+		 int hoursCourse;
 		 String res;
 		 int res2;
-		 boolean myflag=true;
-		
-		 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
-	     String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
-	     if (hoursteacher<hoursCourse)
-	     {
-	    	 err.setText("The Teacher exceed her teaching hours, please choose different teacher");
-	    	 myflag=false;
-	     }
-	     else
-	     {
-	    	 res2=hoursteacher-hoursCourse;
-	    	 res=""+res2;
-	    	 Teacher.SetHours(res);
-	    	// transfferQueryToServer("INSERT INTO classincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +a+"','"+TeacherID+"')");
-			 //text.setText("The class: "+ClassChoise+" assgined successfully to the course: "+RequiredStringCourse);
-
-	    	 
-	    	 
-	     }
-	     
-	     
-	     
-	 }
-}
-
-
+		 int i=0;
+		 int index;
+		 
+		 counter++;
+		 //------------------------------------------------------------------------//
+		 try{
+			 
+			 String MyTeacher =  (String) teacherList.getValue();//Get The chosen teacher
+			 System.out.println(MyTeacher);
+			 if (MyTeacher!=null)
+			 {
+				      String TeacherID = MyTeacher .substring(MyTeacher .indexOf("(") + 1, MyTeacher .indexOf(")"));
+			       
+			          err.setText("");
+			    	  for(i=0;i<Teacher.size();i++)
+			 	      {
+			    		  if (Teacher.get(i).GetID().equals(TeacherID)) 
+				 	      {
+			    			  index=i;
+			    			  break;
+				 	      }
+			 	      }
+			 	    		      hoursteacher=Integer.parseInt(Teacher.get(i).GetHours());
+			 	    	          hoursCourse=Integer.parseInt(Course.getHours());
+			 	    		      if (hoursteacher<hoursCourse)
+			 	    		      {
+			 	    		    	  System.out.println("Teacher hours:"+hoursteacher);
+			 	    		    	  err.setText("The Teacher exceed her teaching hours, please choose different teacher");
+			 	    		    	  flag=false;
+			 	    		      }
+			 	    			  else if(flag==true)
+			 	    			  {
+			 	    			    	 res2=hoursteacher-hoursCourse;
+			 	    			    	 res=""+res2;
+			 	    			    	 Teacher.get(i).SetHours(res);
+			 	    			     	 System.out.println("Teacherhours::"+hoursteacher);
+			 	    			    	 System.out.println("coursehours::"+hoursCourse);
+			 	    			    	 System.out.println("setting hours:"+res);
+			 	    			    	 transfferQueryToServer("INSERT INTO teacherinclassincourse (clasID,coID,AVG,Tidentity) VALUES ('" + ClassChoise + "','" + RequiredStringCourse + "','" +ClassAvg+"','"+ Teacher.get(i).GetID()+"')");
+			 	    			    	 transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(i).GetID()); //Update the status of previous semester
+			 	    			    	 t.setText("The class: "+ClassChoise+" assgined successfully to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
+			 	    			    	 t.setVisible(true);
+			 	    			    	 err.setVisible(false);
+			 	    			    	 diaID.setVisible(false);
+			 	    			    	 chooseteachertext.setVisible(false);
+			 	    			    	 teacherList.setVisible(false);
+			 	    			    	 //teacherList.setValue(null);
+			 	    			    	 TeachChoiseFlag=false;
+			 	    			  } 
+		 }//Else 
+		 }catch(NullPointerException e)
+		 { 
+		 }
+	
+	 }  //AssignTeacher
+}//Class
