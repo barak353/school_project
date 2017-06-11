@@ -61,7 +61,7 @@ public class MergeClassesCoursesController extends QueryController implements In
       private ArrayList<Teacher> Teacher=new ArrayList<Teacher>();
       private Course Course;
       private boolean TeachChoiseFlag=false;
-      boolean flag=true;
+      private boolean flag=true;
       private int counter=0;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
