@@ -76,12 +76,12 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text fx:id="currentSemester" layoutX="76.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
+            <Text layoutX="76.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button fx:id="addPreCourseButton" layoutX="466.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" />
+            <Button fx:id="addPreCourseButton" layoutX="466.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" visible="false" />
             <Text fx:id="add" fill="RED" layoutX="186.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="255.7607421875">
                <font>
                   <Font size="14.0" />

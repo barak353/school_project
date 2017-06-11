@@ -56,17 +56,17 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="errorID" fill="RED" layoutX="149.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
+            <Text fx:id="errorID" fill="RED" layoutX="165.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text fx:id="errorIDdialog" fill="#f50000" layoutX="156.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="265.064453125">
+            <Text fx:id="errorIDdialog" fill="#f50000" layoutX="181.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="addButton" layoutX="224.0" layoutY="251.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add more pre-course" />
+            <Button fx:id="addButton" layoutX="240.0" layoutY="218.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add more pre-course" />
             <Text fx:id="ID" layoutX="374.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="75.7607421875">
                <font>
                   <Font size="14.0" />

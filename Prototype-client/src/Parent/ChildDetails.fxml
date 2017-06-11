@@ -41,7 +41,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="courselist" layoutX="264.0" layoutY="213.0" onAction="#chooseCourse" prefWidth="150.0" />
+            <ComboBox fx:id="courselist" layoutX="264.0" layoutY="213.0" onAction="#chooseCourse" prefWidth="150.0" promptText="Course List" />
             <Label layoutX="191.0" layoutY="216.0" prefHeight="19.0" prefWidth="69.0" text="Course :">
                <font>
                   <Font name="System Bold" size="13.0" />

@@ -148,6 +148,8 @@ public class SystemManagerAddCourseController extends QueryController implements
 	    		}
     		}// check if the course ID is already exist in the DB or the course ID is not exist.
     	 }
+   	 	addPreCourseButton.setVisible(true);
+
     	}
     
     
