@@ -77,8 +77,8 @@ public class SystemManagerMainController extends QueryController implements Init
     }
     
 	 //-----------------------------------------------------------// 
-		//-----------------------------------------------------------//
-		@Override
+
+    	@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());

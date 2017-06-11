@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
@@ -30,7 +34,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+      <Pane layoutY="53.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
             <Label layoutX="152.0" layoutY="14.0" text="Add new course" textFill="#1205ff">
                <font>
@@ -42,56 +46,45 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="addCourseButton" layoutX="82.0" layoutY="334.0" mnemonicParsing="false" onAction="#addCourse" text="Add course" />
-            <Text layoutX="46.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="course ID:">
+            <Button fx:id="addCourseButton" layoutX="270.0" layoutY="301.0" mnemonicParsing="false" onAction="#addCourse" text="Add Course" />
+            <Text layoutX="180.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course ID:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="46.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
+            <Text layoutX="179.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="50.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
+            <Text layoutX="177.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="57.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
+            <Text layoutX="177.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="course" layoutX="46.0" layoutY="125.0" promptText="course ID" />
-            <TextField fx:id="courseName" layoutX="46.0" layoutY="172.0" promptText="couse name" />
-            <TextField fx:id="TeachingUnit" layoutX="46.0" layoutY="241.0" promptText="teaching unit" />
-            <TextField fx:id="hours" layoutX="52.0" layoutY="297.0" promptText="hours per week" />
-            <Text fx:id="pleaseAdd" layoutX="2.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please add pre-courses " wrappingWidth="148.5078107342124">
+            <TextField fx:id="course" layoutX="300.0" layoutY="108.0" promptText="course ID" />
+            <TextField fx:id="courseName" layoutX="300.0" layoutY="154.0" promptText="couse name" />
+            <TextField fx:id="TeachingUnit" layoutX="300.0" layoutY="199.0" promptText="teaching unit" />
+            <TextField fx:id="hours" layoutX="300.0" layoutY="246.0" promptText="hours per week" />
+            <Text fx:id="errorID" fill="RED" layoutX="25.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="133.064453125">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="doneButton" layoutX="127.0" layoutY="270.0" mnemonicParsing="false" onAction="#done" text="done">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <TextField fx:id="preCourses" layoutX="84.0" layoutY="382.0" prefWidth="189.0" promptText="pre-courses " />
-            <Button fx:id="addButton" layoutX="327.0" layoutY="380.0" mnemonicParsing="false" onAction="#addPrecourse" text="add">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Text fx:id="errorID" fill="RED" layoutX="-2.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="189.0000006183982">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <Text fx:id="errorIDdialog" fill="#f50000" layoutX="424.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="148.5078061670065" />
-            <Text fx:id="currentSemester" layoutX="-13.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail">
+            <Text fx:id="currentSemester" layoutX="76.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
                <font>
                   <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="addPreCourseButton" layoutX="466.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" />
+            <Text fx:id="add" fill="RED" layoutX="186.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="255.7607421875">
+               <font>
+                  <Font size="14.0" />
                </font>
             </Text>
          </children>
