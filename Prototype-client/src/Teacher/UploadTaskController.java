@@ -1,8 +1,13 @@
 package Teacher;
 
 import java.io.File;
+import java.util.Date;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
@@ -69,8 +74,9 @@ public class UploadTaskController extends QueryController implements Initializab
     private File file;
 
 	//-----------------------------------------------------------//
+    
     @FXML
-	void TurningBack(ActionEvent event) {
+	void TurningBack(ActionEvent event) {//return to the last screen
     	this.nextController = new SetUpTaskController("SetUpTaskController");
     	this.Back("/Teacher/SetUpTask.fxml",nextController, event);
     }
@@ -81,7 +87,7 @@ public class UploadTaskController extends QueryController implements Initializab
     	courseName.setText(courseN);
     }
     @FXML
-    void LogOut(ActionEvent event) {
+    void LogOut(ActionEvent event) {//return to the log in screen
 		 try 
 		 {
 			
@@ -107,9 +113,31 @@ public class UploadTaskController extends QueryController implements Initializab
     
     
     @FXML
-    void saveB(ActionEvent event) {
+    void saveB(ActionEvent event) {//func insert information into the DB
+    //	LocalDateTime now = LocalDateTime.now();
+    	//LocalDateTime choseDate =(LocalDateTime)setDate.getValue();
+        //SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd hh:mm:ss");
+    	if(TaskName.getText().trim().isEmpty()){
+    		textMSG.setText("you don't insert name of task");
+    		textMSG.setVisible(true);
+    		return;
+    	}
+    	if(setDate.getValue()==null){
+    		textMSG.setText("you don't insert submmision date of task");
+    		textMSG.setVisible(true);
+    		return;
+    	}
+    	
+    /*	if(setDate.getValue().after(now)){
+    		textMSG.setText("the submmision date is pass");
+    		textMSG.setVisible(true);
+    		return;
+   	} */
+    	
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");
+    	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
+    					+" to course: "+courseID );
     	textMSG.setVisible(true);
 		System.out.println("send file to server");
 
