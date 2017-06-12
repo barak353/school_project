@@ -42,7 +42,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     private Button Continue;
 
     @FXML
-    private ComboBox<String> TasktList;
+    private ComboBox<String> TasktL;
 
     @FXML
     private Button back;
@@ -87,7 +87,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	}
        	System.out.println("task: "+ TaskNameList);
        	ObservableList obList= FXCollections.observableList(TaskNameList);
-       	TasktList.setItems(obList);
+       	TasktL.setItems(obList);
    
    }
     
@@ -95,7 +95,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     void Continue(ActionEvent event) {
     	try {
     	  		    		
-    			String chooseTask = TasktList.getValue();
+    			String chooseTask = TasktL.getValue();
         		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
         		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
         		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");

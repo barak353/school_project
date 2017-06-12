@@ -1,6 +1,7 @@
 package Teacher;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.io.IOException;
 import java.net.URL;
@@ -114,11 +115,29 @@ public class UploadTaskController extends QueryController implements Initializab
     
     @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
-    //	LocalDateTime now = LocalDateTime.now();
-    	//LocalDateTime choseDate =(LocalDateTime)setDate.getValue();
-        //SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd hh:mm:ss");
+        LocalDate now = LocalDate.now();
+    	LocalDate choseDate =(LocalDate)setDate.getValue();
+    	System.out.println(now +","+choseDate);
     	if(TaskName.getText().trim().isEmpty()){
     		textMSG.setText("you don't insert name of task");
+    		textMSG.setVisible(true);
+    		return;
+    	}
+    	String task = TaskName.getText();
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID);
+      	ArrayList<String> listTask = new ArrayList() ;
+      	System.out.println("res:"+ res);
+    	//create array list of task name 
+    	ArrayList<String> TaskNameList = new ArrayList<String>();
+    	System.out.println("tasklistis:"+TaskNameList);
+    	for(int i=0;i<res.size();i++){
+    		listTask.addAll(res.get(i));
+    		
+    	}
+       	System.out.println("tasklistis2:"+listTask);
+       	for(int i=0;i<listTask.size();i++)
+    	if(task.equals(listTask.get(i))){
+    		textMSG.setText("This task name already exists");
     		textMSG.setVisible(true);
     		return;
     	}
@@ -127,12 +146,15 @@ public class UploadTaskController extends QueryController implements Initializab
     		textMSG.setVisible(true);
     		return;
     	}
+    
     	
-    /*	if(setDate.getValue().after(now)){
+        if (now.compareTo(choseDate) > 0) {//check if the date is pass
+            System.out.println(now +"is after"+ choseDate);
+    	
     		textMSG.setText("the submmision date is pass");
     		textMSG.setVisible(true);
     		return;
-   	} */
+   	} 
     	
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");

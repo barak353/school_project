@@ -51,7 +51,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="TaskList" layoutX="241.0" layoutY="170.0" prefWidth="150.0" />
+            <ComboBox fx:id="TaskL" layoutX="241.0" layoutY="170.0" prefWidth="150.0" />
             <Label layoutX="188.0" layoutY="173.0" text="Task">
                <font>
                   <Font name="System Bold" size="14.0" />
