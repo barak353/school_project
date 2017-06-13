@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
+import Entity.Task;
 import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
@@ -47,7 +48,21 @@ public class SpecificTaskWindowController extends QueryController implements Ini
     @FXML
     private Button WatchTask;
     
-    @FXML
+    private Task task;
+    
+    public Task getTask() {
+		return task;
+	}
+
+
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+
+
+	@FXML
     void Button1(ActionEvent event) 
     {
     }

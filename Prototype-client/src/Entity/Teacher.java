@@ -5,6 +5,7 @@ public class Teacher extends User {
 
 	private String MaxHours;
 	
+	private String tracherid;
 	
 	//---------------------------------//
 	public Teacher (String userId, String userName, String userPSW, String Type, String Email, String Max, String b)
@@ -18,9 +19,19 @@ public class Teacher extends User {
 		this.MaxHours=Max;
 	}
 	//---------------------------------//
-	public String GetHours()
+	public String tracherid()
 	{
 		return this.MaxHours;
+	}
+	//---------------------------------//
+	public void tracherid(String tracherid)
+	{
+		this.tracherid=tracherid;
+	}
+	//---------------------------------//
+	public String GetHours()
+	{
+		return this.tracherid;
 	}
 	//---------------------------------//
 }

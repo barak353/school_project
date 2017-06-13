@@ -17,11 +17,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
+import Entity.Course;
+import Entity.Task;
 import Entity.User;
 
 
@@ -60,11 +66,14 @@ public class SubmitHomeWorkController extends QueryController implements Initial
     @FXML
     private Button Next ;
 
-    
+    private	ArrayList<String> TaskNameList = new ArrayList<String>();
+
 
     @FXML
     private Text ErrorMSGG ;
     
+    private Task task;
+
   /**This function is enabled after the user has chosen a course and a specific task**/
     
     //SpecificTaskWindowController
@@ -73,7 +82,9 @@ public class SubmitHomeWorkController extends QueryController implements Initial
     {
     	 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SpecificTaskWindow.fxml"));
-			   loader.setController(new SpecificTaskWindowController("SpecificTaskWindowController"));
+			   SpecificTaskWindowController controller =  new SpecificTaskWindowController("SpecificTaskWindowController");
+			   controller.setTask(task);
+			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -84,7 +95,6 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 					System.err.println("Missing WatchTask.fxml file");
 					e.printStackTrace();
 				}
-
     }
 	
     @FXML
@@ -140,61 +150,52 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 	    	}
 	    	
 			}
-		
-	    	
+		}
 
-}
-
-/** This function is enabled when the user selects a specific course in the list 
- * And handles the choice of the specific task for the course
- * **/		
-		
-@FXML
-void AfterChooseCourse(ActionEvent event)
-{
-// save the student's choise//
-	String chooseCourse = comboBoxChooseCourse.getValue();
-	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-	ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tid FROM taskincourse WHERE idC="+idcourses);
-	System.out.println(IdTaskInCourseList);
-	
-	if(IdTaskInCourseList==null)
-		
+	/** This function is enabled when the user selects a specific course in the list 
+	 * And handles the choice of the specific task for the course
+	 * **/		
+			
+	@FXML
+	void AfterChooseCourse(ActionEvent event)
 	{
-		
-		ErrorMSGG.setText("There is NO Tasks in this course");//show error message.
-		ErrorMSGG.setText("");//delete error message.
-		//ההודעה ישר נמחקת מה עושים ? 
-		
+	// save the student's choise//
+		String chooseCourse = comboBoxChooseCourse.getValue();
+		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+		if(IdTaskInCourseList==null)
+			ErrorMSGG.setText("There is NO Tasks in this course.");//show error message.
+		else
+		{
+			for(ArrayList<String> row : IdTaskInCourseList){
+					TaskNameList.add(row.get(0));
+			}
+			 ObservableList obList= FXCollections.observableList(TaskNameList);
+			 comboBoxChooseTask.setItems(obList);
+		}
+	 }
+	
+	
+	@FXML
+	void AfterChooseTask(ActionEvent event) {
+		String choosedCourse = comboBoxChooseCourse.getValue();
+		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+		String choosedTask = comboBoxChooseTask.getValue();
+		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
+		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
+		System.out.println("taskRes: "+taskRes);
+		String idTask = null;
+		if(taskRes != null && taskRes.get(0) != null) 
+		{
+		     ArrayList<String> row = taskRes.get(0);
+		     DateFormat df = new SimpleDateFormat("mm-dd-yyyy");
+		     try {
+				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
+			} catch (ParseException e) {
+				System.out.println("Error in format from string to date.");
+			}
+		}
 	}
-	
-	else
-	{
-	ArrayList<ArrayList<String>> TaskNameList=null;
-	
-
-	for(ArrayList<String> row:IdTaskInCourseList)
-	{
-    	TaskNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
-    	
-	}
-	//לא עובד במקרה שהרשימה ריקה ובנוסף לא מוחק את הרשימת מטלות אחרי שמחלפים קורס
-
-	
-	
-	System.out.println(TaskNameList);
-	 ObservableList obList= FXCollections.observableList(TaskNameList);
-	 comboBoxChooseTask.setItems(obList);
-	
-	}
- }
-
-
-
-
-
-
-
 }
 
 
