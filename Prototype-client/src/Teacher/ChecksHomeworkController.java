@@ -42,7 +42,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     private Button Continue;
 
     @FXML
-    private ComboBox<String> TasktL;
+    private ComboBox<String> TaskL;
 
     @FXML
     private Button back;
@@ -52,7 +52,8 @@ public class ChecksHomeworkController extends QueryController implements Initial
 
     @FXML
     private Text userID;
-
+    private ObservableList<String> obList;
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
@@ -68,7 +69,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	}
     	System.out.println("courseNameList: "+courseNameList);
     	
-	    ObservableList obList= FXCollections.observableList(courseNameList);
+	    ObservableList<String> obList= FXCollections.observableList(courseNameList);
 	    CourseList.setItems(obList);
     }
     
@@ -76,18 +77,25 @@ public class ChecksHomeworkController extends QueryController implements Initial
     void chooseCourse(ActionEvent event) {
     	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+    	System.out.println("idcorse: "+idcourses);
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);     
     	System.out.println("choosecours,idcourse: "+ chooseCourse +idcourses);
+    	System.out.println("res: "+res);
+    	if(res != null){
+	    	ArrayList<ArrayList<String>> res2;
+	    	ArrayList<String> TaskNameList = new ArrayList<String>();
+	       	for(ArrayList<String> row:res){
+	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+	        	System.out.println("res2.get(0).get(0): "+res2.get(0).get(0));
+	        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+	    	}
+	       	System.out.println("task: "+ TaskNameList);
+	       	obList= FXCollections.observableList(TaskNameList);
+	       	System.out.println("obList: "+obList);
+	       	TaskL.setItems(obList);
+    	}else{//כאן את צריכה להוסיף הודעה שלקורס הזה אין מטלות.
+    		}
 
-    	ArrayList<ArrayList<String>> res2;
-    	ArrayList<String> TaskNameList = new ArrayList<String>();
-       	for(ArrayList<String> row:res){
-        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
-        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
-    	}
-       	System.out.println("task: "+ TaskNameList);
-       	ObservableList obList= FXCollections.observableList(TaskNameList);
-       	TasktL.setItems(obList);
    
    }
     
@@ -95,7 +103,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     void Continue(ActionEvent event) {
     	try {
     	  		    		
-    			String chooseTask = TasktL.getValue();
+    			String chooseTask = TaskL.getValue();
         		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
         		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
         		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
@@ -137,7 +145,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
 					app_stage.hide();
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
-		        } 
+		     } 
 		 catch (IOException e) {
 				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();

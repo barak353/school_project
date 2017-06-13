@@ -99,7 +99,7 @@ public class SetUpTaskController extends QueryController implements Initializabl
     	}
     	System.out.println("courseNameList: "+courseNameList);
     	
-	    ObservableList obList= FXCollections.observableList(courseNameList);;
+	    ObservableList<String> obList= FXCollections.observableList(courseNameList);;
 	    CourseList.setItems(obList);
     }
 
