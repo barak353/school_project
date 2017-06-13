@@ -115,56 +115,48 @@ public class UploadTaskController extends QueryController implements Initializab
     
     @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
+		textMSG.setText("");
         LocalDate now = LocalDate.now();
     	LocalDate choseDate =(LocalDate)setDate.getValue();
-    	System.out.println(now +","+choseDate);
+    	//System.out.println(now +","+choseDate);
     	if(TaskName.getText().trim().isEmpty()){
-    		textMSG.setText("you don't insert name of task");
-    		textMSG.setVisible(true);
+    		textMSG.setText("Name of task is missing");
     		return;
     	}
     	String task = TaskName.getText();
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID);
-      	ArrayList<String> listTask = new ArrayList() ;
-      	System.out.println("res:"+ res);
-    	//create array list of task name 
-    	ArrayList<String> TaskNameList = new ArrayList<String>();
-    	System.out.println("tasklistis:"+TaskNameList);
-    	for(int i=0;i<res.size();i++){
-    		listTask.addAll(res.get(i));
-    		
-    	}
-       	System.out.println("tasklistis2:"+listTask);
-       	for(int i=0;i<listTask.size();i++)
-    	if(task.equals(listTask.get(i))){
-    		textMSG.setText("This task name already exists");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    	if(setDate.getValue()==null){
-    		textMSG.setText("you don't insert submmision date of task");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    
-    	
-        if (now.compareTo(choseDate) > 0) {//check if the date is pass
-            System.out.println(now +"is after"+ choseDate);
-    	
-    		textMSG.setText("the submmision date is pass");
-    		textMSG.setVisible(true);
-    		return;
-   	} 
-    	
+    	if(res != null){//checks if we have tasks to compare with.
+	    	//create array list of task name 
+	      	ArrayList<String> listTask = new ArrayList<String>() ;
+	    	for(int i=0;i<res.size();i++)
+	    		listTask.addAll(res.get(i));
+	    	if(!listTask.contains(task)){		    	
+	    		if(setDate.getValue()==null){
+	    			textMSG.setText("you did not insert a submmision date of task");
+	    			return;
+	    			}
+		        if (now.compareTo(choseDate) > 0){ //check if the date is pass
+		    		textMSG.setText("the submmision date is pass");
+		    		return;
+    			}
+		        
+		    	Object obj =  transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " + courseID + ",'" +setDate.getValue()+"')");
+		    	System.out.println("obj: "+obj);
+		    	if(obj !=null && (int)obj == -1)//if 'INSERT' query had succeed.
+		    		textMSG.setText("Save had faild");
+		    		
+		    	else  textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText() +" to course: "+courseID );
+	    	}else  textMSG.setText("This task name is already exists");
+    	} 
+    	//save file to server.
+		Object ans = uploadFileToServer(file,courseID);
+		//insert data to server.
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
 		System.out.println("send file to server");
-
-		Object ans = uploadFileToServer(file,courseID);
-		System.out.println("arrived");
     }
 
 	@FXML
