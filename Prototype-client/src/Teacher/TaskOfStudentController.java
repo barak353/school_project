@@ -5,11 +5,17 @@ import application.QueryController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
+
 import javafx.scene.control.ComboBox;
 import Login.LoginController;
 import Entity.User;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,6 +59,10 @@ public TaskOfStudentController(String controllerID)
 		 @FXML
 		 private Text textMSG;
 		 
+	    @FXML
+	   private Button uploadFile;
+	  
+		 
 		 @FXML
 		 private Text courseName;
 		 
@@ -60,9 +70,9 @@ public TaskOfStudentController(String controllerID)
 		  private String courseN;
 		  private String idtask;
 		  private File file;
-		    
+		  private int isstudentChoosed = 0;  
 		 
-
+ @FXML
 void TurningBack(ActionEvent event) {
 	this.nextController = new ChecksHomeworkController("ChecksHomeworkController");
 	this.Back("/Teacher/ChecksHomework.fxml",nextController, event);
@@ -72,13 +82,56 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 	User user = User.getCurrentLoggedIn();
 	userID.setText(user.GetUserName());
 	courseName.setText(courseN);
+	
+	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT IDstudent FROM subtask WHERE idTASK="+idtask+ 
+			" AND IDcourse="+ courseID);
+	if (res==null)
+	{
+		textMSG.setText("There is no Student affiliated with this course who submitted this task.");
+		textMSG.setVisible(true);
+	}
+	else{
+	ArrayList<String> studentList = new ArrayList<String>();
+	//loop for insert the id of the student to array list for the combobox
+	for(ArrayList<String> row:res){
+		studentList.add(row.get(0));
+	}
+	System.out.println("studentlist: "+studentList);
+	//print the array list in the combbox
+    ObservableList obList= FXCollections.observableList(studentList);;
+    StudentList.setItems(obList);
+	}
 }
 
 @FXML
 void saveB(ActionEvent event) {
+	if(isstudentChoosed==0){
+		textMSG.setText("you didn't choose student");
+		
+	}
 	textMSG.setVisible(true);
 	
+	//save file to server.
+	Object ans = uploadFileToServer(file,courseID);
+	
 }
+
+@FXML
+void chooseStudent(ActionEvent event) {
+   isstudentChoosed = 1;
+}
+@FXML
+void upload(ActionEvent event) {
+	JFileChooser chooser= new JFileChooser();
+	int choice = chooser.showOpenDialog(chooser);
+	if (choice != JFileChooser.APPROVE_OPTION) return;
+	file = chooser.getSelectedFile();
+	if (file.exists())
+		System.out.println("file or directory denoted by this abstract pathname exists.");
+	else
+		System.out.println("file or directory denoted by this abstract pathname is not exists.");
+}
+
 
 @FXML
 void LogOut(ActionEvent event) {

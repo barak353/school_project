@@ -49,8 +49,11 @@ public class SetUpTaskController extends QueryController implements Initializabl
     private Text userID;
     
     @FXML
-    private ComboBox<String> CourseList;
+	 private Text textMSG;
     
+    @FXML
+    private ComboBox<String> CourseList;
+    private int iscourseChoosed = 0;  
    
   //-----------------------------------------------------------//
 
@@ -63,7 +66,11 @@ public class SetUpTaskController extends QueryController implements Initializabl
     @FXML
     void Continue(ActionEvent event) {
     	try {
-    	  		    		
+    		if(iscourseChoosed==0){
+    			textMSG.setText("you didn't choose course");
+    			textMSG.setVisible(true);
+    			
+    		}    		
     			String chooseCourse = CourseList.getValue();
         		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
         		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
@@ -122,6 +129,10 @@ public class SetUpTaskController extends QueryController implements Initializabl
 				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
+    }
+    @FXML
+    void chooseCourse(ActionEvent event) {
+    	iscourseChoosed = 1;
     }
     
 
