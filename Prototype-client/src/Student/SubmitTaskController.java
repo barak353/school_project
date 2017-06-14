@@ -84,8 +84,11 @@ public class SubmitTaskController extends QueryController implements Initializab
     	ErrorMSG.setText(" ");
     	if(isTaskChoosed == true){
         	//save file to server.
-    		Object ans = uploadFileToServer(file,comboBoxChooseCourse.getValue()+"//"+User.getCurrentLoggedIn());
-
+    		String v = comboBoxChooseCourse.getValue();
+    		String courseID = v.substring(v.indexOf("(") + 1, v.indexOf(")"));
+    		String studentID = User.getCurrentLoggedIn().GetID();
+    		System.out.println("file path: " + courseID + "//" + studentID);
+    		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
     		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     	}else{
     		ErrorMSG.setText("Please choose task.");

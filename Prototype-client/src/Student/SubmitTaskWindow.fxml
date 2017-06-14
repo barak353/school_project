@@ -50,7 +50,7 @@
                </font></Button>
             <ComboBox fx:id="comboBoxChooseCourse" layoutX="209.0" layoutY="124.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
             <ComboBox fx:id="comboBoxChooseTask" layoutX="209.0" layoutY="192.0" onAction="#AfterChooseTask" prefWidth="150.0" />
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="171.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="204.13671875">
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="193.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="204.13671875">
                <font>
                   <Font size="16.0" />
                </font>
