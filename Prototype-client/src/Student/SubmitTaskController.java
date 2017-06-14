@@ -77,7 +77,8 @@ public class SubmitTaskController extends QueryController implements Initializab
     private File file;
     
     private boolean isTaskChoosed = false;
-
+    private boolean isFileUploaded = false;
+    
 /**This function is enabled after the user has chosen a course and a specific task**/
     @FXML
     void submitTask(ActionEvent event) {
@@ -86,47 +87,48 @@ public class SubmitTaskController extends QueryController implements Initializab
     	String idTASK = task.getIdTASK(); 
     	String IDstudent = User.getCurrentLoggedIn().GetID();
     	if(isTaskChoosed == true){
-        	//save file to server.
-    		String v = comboBoxChooseCourse.getValue();
-    		String courseID = v.substring(v.indexOf("(") + 1, v.indexOf(")"));
-    		String studentID = User.getCurrentLoggedIn().GetID();
-    		System.out.println("file path: " + courseID + "//" + studentID);
-    		deleteFolderFromServer(courseID,studentID);
-    		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
-    		//**********************************
-    		//כאן את צריכה לעשות את השאילתא שמכניסה רשומה אל טבלת ה
-    		//subtask
-    		//את מכניסה את 
-    		//IDcourse
-    		//שהוא שמור במשתנה בשם
-    		//IDcourse
-    		// וגם יש לך את ה-
-    		//idTASK
-    		//שמור למעלה
-    		//**********************************
-    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
+    		if(isFileUploaded == true){
+	        	//save file to server.
+	    		String v = comboBoxChooseCourse.getValue();
+	    		String courseID = v.substring(v.indexOf("(") + 1, v.indexOf(")"));
+	    		String studentID = User.getCurrentLoggedIn().GetID();
+	    		System.out.println("file path: " + courseID + "//" + studentID);
+	    		deleteFolderFromServer(courseID,studentID);
+	    		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
+	    		//**********************************
+	    		//כאן את צריכה לעשות את השאילתא שמכניסה רשומה אל טבלת ה
+	    		//subtask
+	    		//את מכניסה את 
+	    		//IDcourse
+	    		//שהוא שמור במשתנה בשם
+	    		//IDcourse
+	    		// וגם יש לך את ה-
+	    		//idTASK
+	    		//שמור למעלה
+	    		//**********************************
+	    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
+    		}else ErrorMSG.setText("Please upload a file for submition.");
     	}else{
-    		ErrorMSG.setText("Please choose task.");
+    		ErrorMSG.setText("Please choose a task.");
     	}
     }
     
     @FXML
     void uploadTask(ActionEvent event) {
+    	isFileUploaded = false;
 		JFileChooser chooser= new JFileChooser();
 		int choice = chooser.showOpenDialog(chooser);
 		if (choice != JFileChooser.APPROVE_OPTION) return;
 		file = chooser.getSelectedFile();
-		if (file.exists())
-			System.out.println("file or directory denoted by this abstract pathname exists.");
-		else
-			System.out.println("file or directory denoted by this abstract pathname is not exists.");
+		isFileUploaded = true;
     }
+    
     @FXML
 	 void TurningBack(ActionEvent event)
-	    {
-	    	this.nextController = new MainWindowStudentController("StudentMainController");
-	    	this.Back("/student/MainWindowStudent.fxml",nextController, event);
-	    } 
+	 {
+	 	this.nextController = new MainWindowStudentController("StudentMainController");
+	  	this.Back("/student/MainWindowStudent.fxml",nextController, event);
+	 } 
 	  
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) 
@@ -163,6 +165,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 	@FXML
 	void AfterChooseCourse(ActionEvent event)
 	{
+		isFileUploaded = false; 
 		isTaskChoosed = false;
     	ErrorMSG.setText(" ");
     	// save the student's choise
@@ -186,6 +189,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 	void AfterChooseTask(ActionEvent event) {
     	ErrorMSG.setText(" ");
     	isTaskChoosed = false;
+    	isFileUploaded = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		String choosedTask = comboBoxChooseTask.getValue();

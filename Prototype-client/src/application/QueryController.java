@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
 import Login.LoginController;
 import Secretary.AddStudentToClassController;
 import Secretary.SecretaryMainController;
@@ -46,7 +45,26 @@ public class QueryController{
     	packaged.put("file","empty");
     	packaged.put("key","DELETE_FOLDER");
     	packaged.put("filePath",filePath);
-    	System.out.println("deleteFolderFromServer, filePath: "+filePath);
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    		try{
+    			connection.wait();
+    		}catch(InterruptedException e){
+    			e.printStackTrace();
+    		}
+    	}
+    	packaged.remove("key");    	
+    	packaged.remove("filePath");
+    	Object result = packaged.get("file");
+    	packaged.remove("file");
+    	return result;
+    }
+    
+    protected Object downloadFileFromServer(String folder,String secondFolder){
+    	String filePath = folder + "//" + secondFolder;
+    	packaged.put("file","empty");
+    	packaged.put("key","DOWNLOAD");
+    	packaged.put("filePath",filePath);
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
     		try{
@@ -94,17 +112,6 @@ public class QueryController{
     	packaged.remove("folderName",folderName);
     	return result;
     }
-    
-    protected Object downloadFileFromServer(String folderName,String fileFullName){
-    	packaged.put("key","download");
-    	//connection.handleMessageFromClientUI((Object)packaged);
-
-    	
-    	
-		return null;
-    	
-    }
-    
     
     static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);

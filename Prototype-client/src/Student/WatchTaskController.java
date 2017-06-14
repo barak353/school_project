@@ -15,6 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -78,28 +81,24 @@ public class WatchTaskController extends QueryController implements Initializabl
 /**This function is enabled after the user has chosen a course and a specific task**/
     @FXML
     void watchTask(ActionEvent event) {
-    	FXMLLoader loader = null;
-    	ErrorMSG.setText(" ");
     	if(isTaskChoosed == true){
-    	//if()
-    	WatchTaskController controller;
-		 try {
-			   	Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		        } catch (IOException e) {
-					System.err.println("Missing SubmitTaskWindow.fxml or WatchTaskWindow.fxml file");
-					e.printStackTrace();
+        	FXMLLoader loader = null;
+        	ErrorMSG.setText(" ");
+	    	String userHomeFolder = System.getProperty("user.home");
+	    	File textFile = new File(userHomeFolder, "mytext.txt");
+	    	try {
+				BufferedWriter out = new BufferedWriter(new FileWriter(textFile));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+	    	WatchTaskController controller;
+    	}else{
+    		ErrorMSG.setText("Please choose course and task");
+    	}
     }
-    }
-    
-    
-    
-	
+
+   
     @FXML
 	 void TurningBack(ActionEvent event)
 	    {
@@ -113,19 +112,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			String userID1=user.GetID();
-			
-			// resultArray ->The query return mat of the specific student //
-			
-			
-			//ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID=" + userID1 );
-		    //System.out.println(resultArray);	
-			
-				
-			
-			// save the student id //
-			//String studentID= resultArray.get(0).get(0);
-			
-	    	// res ->The query return mat of the id courses that the student learn//
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
@@ -156,6 +142,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	void AfterChooseCourse(ActionEvent event)
 	{
 	// save the student's choise//
+		isTaskChoosed = false;
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
@@ -174,6 +161,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	
 	@FXML
 	void AfterChooseTask(ActionEvent event) {
+		isTaskChoosed = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		String choosedTask = comboBoxChooseTask.getValue();
@@ -187,6 +175,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 		     DateFormat df = new SimpleDateFormat("mm-dd-yyyy");
 		     try {
 				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
+				isTaskChoosed = true;
 			} catch (ParseException e) {
 				System.out.println("Error in format from string to date.");
 			}
