@@ -69,9 +69,10 @@ public class FillFinalEvaluationController extends QueryController implements In
   // private String chooseStudent;
 	
     private boolean isTaskChoosed;
-
+    private int isStudentChoosed=0;
     @FXML
     void chooseTask(ActionEvent event) {
+    
     	isTaskChoosed = true;
     }
     
@@ -177,6 +178,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     void chooseStudent(ActionEvent event) {
 	   isTaskChoosed = false;
 	   textMSG.setVisible(false);
+	   isStudentChoosed = 1;
     	String chooseStudent =  StudentList.getValue();
     	System.out.println("chooseStudent: "+chooseStudent);
     	
@@ -184,9 +186,7 @@ public class FillFinalEvaluationController extends QueryController implements In
        	System.out.println("res2: "+res);
        	if (res==null)
     	{
-    		textMSG.setText("This course have no students to show.");
-	       	ObservableList obList= FXCollections.observableList(new ArrayList<String>());
-    		StudentList.setItems(obList);
+    		textMSG.setText("This student don't submmit any task.");
     		textMSG.setVisible(true);
     	}
 		else {
@@ -199,8 +199,9 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    	}
 	       	ObservableList obList= FXCollections.observableList(TaskNameList);
 	    	TaskList.setItems(obList);	
+			}
 		}
-   }
+ 
  
    //func that return to the log in sfreen
     @FXML
