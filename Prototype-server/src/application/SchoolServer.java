@@ -97,28 +97,53 @@ public class SchoolServer extends AbstractServer
 		  boolean isUpdate=false;
 		  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
 		  System.out.println("executing query: "+strQuery);
+			writer.println("executing query: "+strQuery);
+			StringWriter err = new StringWriter();
+		    writer.println(err.toString());
 		  packaged.remove("strQuery");
-		    try {
-		    	if(strQuery.substring(0,6).equals("SELECT"))
-		    	{
-		    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
-		    	}
-		    	else if(strQuery.substring(0,6).equals("UPDATE"))
-		    	{
-		    		stmt.executeUpdate(strQuery);//Execute the query from the client.
-								isUpdate=true;
-		    	}
-		    	else if (strQuery.substring(0,6).equals("INSERT"))
-		    	{
-		    		try{
+		  String queryType = strQuery.substring(0,6);
+		  try {
+			  System.out.println("queryType: "+queryType);
+			  switch(queryType){
+			  case "SELECT":
+				  if(strQuery.substring(0,6).equals("SELECT"))
+			    	{
+			    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
+			    	}
+			    	else if(strQuery.substring(0,6).equals("UPDATE"))
+			    	{
+			    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+									isUpdate=true;
+			    	}
+				  break;
+			  case "INSERT":
+			  try{
+	    			System.out.println("insert");
+
 		    		stmt.executeUpdate(strQuery);
 		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
 		    			isAlreadyInserted = true ;
 		    		}
 		    		isUpdate=true;
-		    	}
-			} catch (SQLException e1) {
+			  break;
+			  case "DELETE":
+		    		try{
+		    			System.out.println("delete");
+		    		stmt.executeUpdate(strQuery);
+		    		result = 0;//query succeed.
+		    		}catch(SQLException e2){
+		    			isAlreadyInserted = true ;
+		    		}
+		    		isUpdate=true;
+			  break;
+			  default:
+					writer.println(date+": Query Type is not exist.");
+					StringWriter errors = new StringWriter();
+					writer.println(errors.toString());
+					return;
+			  }
+		  }catch (SQLException e1) {
 				writer.println(date+": Failed to execute query in handleMessageFromClient");
 				StringWriter errors = new StringWriter();
 				e1.printStackTrace(new PrintWriter(errors));

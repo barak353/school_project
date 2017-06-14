@@ -107,7 +107,7 @@ public class StudentChangeController extends QueryController implements Initiali
 		    		 else
 		    		 {
 	    			    	transfferQueryToServer("INSERT INTO studentinprecourse (childID,pCourseID,FinalGrade) VALUES ('" + StudentID + "','" + Course+ "','" +StudentCourseCheck.get(0).get(2)+"')");
-	   		    		    transfferQueryToServer("DELETE FROM `studentincourse` WHERE `identityStudent`='"+StudentID+"' and `identityCourse'='"+Course+"'");
+	   		    		    transfferQueryToServer("DELETE FROM studentincourse WHERE identityStudent="+StudentID+" and identityCourse="+Course+"");
 	   		    		 
 
 	   		    		    error.setText("");

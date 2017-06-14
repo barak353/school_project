@@ -22,7 +22,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
-	
 
 	private static ClientGui connection;//connection will old the connection to the server.
 
@@ -118,7 +117,7 @@ public class QueryController{
  	void setbackScreen(String backScreen){
  		this.backScreen=backScreen;
  	}
-	//-----------------------------------------------------------------------// 	
+	 	
 	@FXML
 	protected void LogOutScreen(ActionEvent event)
 	{
@@ -153,7 +152,6 @@ public class QueryController{
 					e.printStackTrace();
 				}
 	} 
-	
 	
 	
 	protected void finalize(){
