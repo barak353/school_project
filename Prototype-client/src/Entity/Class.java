@@ -1,8 +1,6 @@
-package Class;
+package Entity;
 
 import java.util.ArrayList;
-
-import Entity.Student;
 
 public class Class {
 

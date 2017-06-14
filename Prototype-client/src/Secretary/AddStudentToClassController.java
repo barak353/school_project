@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import Entity.Class;
 import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
@@ -18,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import Class.Class;
 public class AddStudentToClassController extends QueryController  implements Initializable{
 
 	Object nextController=null;

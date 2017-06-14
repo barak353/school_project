@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="309.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
@@ -33,58 +29,28 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutX="2.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+      <Pane layoutX="2.0" layoutY="56.0" prefHeight="276.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="93.0" layoutY="30.0" text="Insert\Delete Student" textFill="#1205ff">
+            <Label layoutX="57.0" layoutY="59.0" text="Choose an action please:" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+            <Button fx:id="back" layoutX="20.0" layoutY="222.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="Save" layoutX="288.0" layoutY="256.0" mnemonicParsing="false" onAction="#SaveButtonHandler" text="Save">
+            <Button fx:id="ADDID" layoutX="118.0" layoutY="149.0" mnemonicParsing="false" onAction="#AddStudent" prefHeight="39.0" prefWidth="119.0" text="Add Student">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
-               <effect>
-                  <InnerShadow color="#4202b2" />
-               </effect></Button>
-            <Label layoutX="181.0" layoutY="113.0" text="StudentID:">
+            </Button>
+            <Button fx:id="DeleteID" layoutX="361.0" layoutY="149.0" mnemonicParsing="false" onAction="#DeleteStudent" prefHeight="39.0" prefWidth="119.0" text="Delete Student">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
-            </Label>
-            <Label layoutX="181.0" layoutY="160.0" text="Course:">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <Label layoutX="181.0" layoutY="209.0" text="Type:">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <TextField fx:id="StudentIDField" layoutX="259.0" layoutY="110.0" />
-            <TextField fx:id="CourseField" layoutX="258.0" layoutY="157.0" />
-            <ComboBox fx:id="TypeChoose" layoutX="257.0" layoutY="206.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose Type" />
-            <Text fx:id="finish" fill="#ff0062" layoutX="106.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="451.1367201805115">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-            <TextArea fx:id="PreMissing" blendMode="GREEN" layoutX="159.0" layoutY="299.0" prefHeight="97.0" prefWidth="304.0" visible="false">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </TextArea>
-            <Text fx:id="error" fill="RED" layoutX="68.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="486.13671875">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
+            </Button>
          </children>
       </Pane>
    </children>

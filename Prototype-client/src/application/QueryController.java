@@ -30,7 +30,7 @@ public class QueryController{
     
     private String backScreen="";
         
-    private String controllerID;
+    protected String controllerID;
         
     public QueryController(String controllerID){
     	this.controllerID = controllerID;

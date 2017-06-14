@@ -3,6 +3,8 @@ package Entity;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import application.QueryController;
+
 public class Semester {
 	
 	private String year;
@@ -12,6 +14,7 @@ public class Semester {
     private ArrayList<String> courseList = null;
     //-------------------------------------------------------//
 	public Semester(String year, String type, boolean status) {
+		
 		this.year = year;
 		this.type = type;
 		this.status = status;
@@ -51,11 +54,13 @@ public class Semester {
 		this.status = status;
 	}
     //-------------------------------------------------------//
-	public static Semester getCurrentSemester() {
+	public static Semester getCurrentSemester() 
+	{
 		return currentSemester;
 	}
 	//-------------------------------------------------------//
-	public static void setCurrentSemester(Semester currentSemester) {
+	public static void setCurrentSemester(Semester currentSemester) 
+	{
 		Semester.currentSemester = currentSemester;
 	}
 	//-------------------------------------------------------//
