@@ -130,7 +130,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	  		if(isCourseChoosed && isTaskChoosed)	{	
 	    			String chooseTask = TaskL.getValue();
 	        		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
-	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
+	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/TaskOfStudent.fxml"));
 	        		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
 	        		String chooseCourse = CourseList.getValue();
 	        		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -148,7 +148,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	  		    	ErrorMSG.setText("Please choose course and task.");
     	  			}
 		} catch (IOException e) {
-			System.err.println("Missing UploadTask.fxml file");
+			System.err.println("Missing TaskOfStudent.fxml file");
 			e.printStackTrace();
 		}
     }

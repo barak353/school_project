@@ -159,7 +159,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+idcourses);
     	if (res==null)
     	{
-    		textMSG.setText("ther no information in the DB1");
+    		textMSG.setText("ther no information in the DB");
     		textMSG.setVisible(true);
     	}
 		else {
