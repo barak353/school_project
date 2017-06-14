@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -23,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
 
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
@@ -71,6 +74,8 @@ public class SubmitTaskController extends QueryController implements Initializab
 
     private Task task;
 
+    private File file;
+    
     private boolean isTaskChoosed = false;
 
 /**This function is enabled after the user has chosen a course and a specific task**/
@@ -78,15 +83,26 @@ public class SubmitTaskController extends QueryController implements Initializab
     void submitTask(ActionEvent event) {
     	ErrorMSG.setText(" ");
     	if(isTaskChoosed == true){
-    		
+        	//save file to server.
+    		Object ans = uploadFileToServer(file,comboBoxChooseCourse.getValue()+"//"+User.getCurrentLoggedIn());
+
+    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     	}else{
     		ErrorMSG.setText("Please choose task.");
     	}
     }
     
-    
-    
-	
+    @FXML
+    void uploadTask(ActionEvent event) {
+		JFileChooser chooser= new JFileChooser();
+		int choice = chooser.showOpenDialog(chooser);
+		if (choice != JFileChooser.APPROVE_OPTION) return;
+		file = chooser.getSelectedFile();
+		if (file.exists())
+			System.out.println("file or directory denoted by this abstract pathname exists.");
+		else
+			System.out.println("file or directory denoted by this abstract pathname is not exists.");
+    }
     @FXML
 	 void TurningBack(ActionEvent event)
 	    {

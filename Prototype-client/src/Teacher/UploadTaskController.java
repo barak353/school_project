@@ -143,13 +143,12 @@ public class UploadTaskController extends QueryController implements Initializab
 		    	Object obj =  transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " + courseID + ",'" +setDate.getValue()+"')");
 		    	System.out.println("obj: "+obj);
 		    	if(obj !=null && (int)obj == -1)//if 'INSERT' query had succeed.
-		    		textMSG.setText("Save had faild");
+		    		textMSG.setText("Save operation had faild");
 		    		
 		    	else  textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText() +" to course: "+courseID );
 	    	}else  textMSG.setText("This task name is already exists");
     	} 
     	//save file to server.
-		Object ans = uploadFileToServer(file,courseID);
 		//insert data to server.
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");
