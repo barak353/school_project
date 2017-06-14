@@ -57,9 +57,8 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void WatchT(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/ChooseTaskWindow.fxml"));
-			   ChooseTaskController controller = new ChooseTaskController("ChooseTaskControllerID");
-			   controller.setChooseNext("watchTask");
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Student/WatchTaskWindow.fxml"));
+			   WatchTaskController controller = new WatchTaskController("WatchTaskControllerID");
 			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
@@ -68,7 +67,7 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing ChooseTaskWindow.fxml file");
+					System.err.println("Missing WatchTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }
@@ -76,9 +75,8 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void SubmitHomeWork(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/ChooseTaskWindow.fxml"));
-			   ChooseTaskController controller = new ChooseTaskController("ChooseTaskControllerID");
-			   controller.setChooseNext("submitTask");
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
+			   SubmitTaskController controller = new SubmitTaskController("SubmitTaskControllerID");
 			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
@@ -87,7 +85,7 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing ChooseTaskWindow.fxml file");
+					System.err.println("Missing SubmitTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }

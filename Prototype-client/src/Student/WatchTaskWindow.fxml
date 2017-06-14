@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -19,33 +20,57 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
       <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נוסיף פה את השם של מי שמחובר" wrappingWidth="221.7607421875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutX="-8.0" layoutY="64.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+      <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="77.0" layoutY="29.0" text="Specific Task Window" textFill="#1205ff">
+            <Label layoutX="68.0" layoutY="30.0" prefHeight="64.0" prefWidth="481.0" text="Choose Task in Course" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="25.0" layoutY="361.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+            <Button fx:id="ButtonNew" layoutX="527.0" layoutY="361.0" mnemonicParsing="false" onAction="#next" text="Next">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Label layoutX="201.0" layoutY="104.0" prefHeight="17.0" prefWidth="265.0" text="Please choose a course">
                <font>
                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label layoutX="202.0" layoutY="191.0" prefHeight="17.0" prefWidth="138.0" text="Please choose a task">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Button layoutX="23.0" layoutY="373.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <ComboBox fx:id="comboBoxChooseCourse" layoutX="209.0" layoutY="139.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
+            <ComboBox fx:id="comboBoxChooseTask" layoutX="209.0" layoutY="229.0" onAction="#AfterChooseTask" prefWidth="150.0" />
+            <Text fx:id="ErrorMSGG" fill="RED" layoutX="202.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
+               <font>
+                  <Font size="18.0" />
                </font>
-            </Button>
-            <Button fx:id="ButtonNew" layoutX="263.0" layoutY="336.0" mnemonicParsing="false" onAction="#Button1" text="OK" />
-            <Label layoutX="205.0" layoutY="232.0" prefHeight="17.0" prefWidth="133.0" />
-            <Button layoutX="196.0" layoutY="268.0" mnemonicParsing="false" onAction="#UploadFileHandler" prefHeight="25.0" prefWidth="179.0" text="UploadFile" />
-            <Button layoutX="196.0" layoutY="184.0" mnemonicParsing="false" onAction="#WatchfileHandler" prefHeight="25.0" prefWidth="185.0" text="WatchTask" />
+            </Text>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="273.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="262.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
