@@ -121,7 +121,7 @@ public class SchoolServer extends AbstractServer
 		    			isAlreadyInserted = true ;
 		    		}
 		    		isUpdate=true;
-			  break;
+			  break ;
 			  case "DELETE":
 			  case "delete":
 		    		try{
@@ -228,6 +228,25 @@ public class SchoolServer extends AbstractServer
 		      System.out.println(file.getName());
 		  }*/
 	   break;
+	  case "delete_folder":
+	  case "DELETE_FOLDER":
+	  System.out.println();
+	  File index = new File("file//"+packaged.get("filePath"));
+	  System.out.println("server, filename: " + index.getPath());
+	  	String[]entries = index.list();
+	  for(String s: entries){
+	      File currentFile = new File(index.getPath(),s);
+	      currentFile.delete();
+	  }
+	    try {
+			client.sendToClient((Object)packaged);
+		} catch (IOException e) {
+			writer.println(date+": Can't send to client.");
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
+		}
+	  break;
 	  default:
 			writer.println(date+": Option is not available.");
 			StringWriter errors = new StringWriter();

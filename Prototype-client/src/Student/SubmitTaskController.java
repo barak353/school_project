@@ -88,6 +88,7 @@ public class SubmitTaskController extends QueryController implements Initializab
     		String courseID = v.substring(v.indexOf("(") + 1, v.indexOf(")"));
     		String studentID = User.getCurrentLoggedIn().GetID();
     		System.out.println("file path: " + courseID + "//" + studentID);
+    		deleteFolderFromServer(courseID,studentID);
     		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
     		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     	}else{

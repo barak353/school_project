@@ -41,6 +41,27 @@ public class QueryController{
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
     }
     
+    protected Object deleteFolderFromServer(String folder,String secondFolder){
+    	String filePath = folder + "//" + secondFolder;
+    	packaged.put("file","empty");
+    	packaged.put("key","DELETE_FOLDER");
+    	packaged.put("filePath",filePath);
+    	System.out.println("deleteFolderFromServer, filePath: "+filePath);
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    		try{
+    			connection.wait();
+    		}catch(InterruptedException e){
+    			e.printStackTrace();
+    		}
+    	}
+    	packaged.remove("key");    	
+    	packaged.remove("filePath");
+    	Object result = packaged.get("file");
+    	packaged.remove("file");
+    	return result;
+    }
+    
     protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.
         // Get the size of the file
     	String fileName = file.getName();
@@ -49,7 +70,6 @@ public class QueryController{
     	packaged.put("key","upload");
     	packaged.put("fileName",fileName);
     	packaged.put("fileType",fileType);
-    	packaged.put("folderName",folderName);
         byte[] bytes = null;
 		try {
 			bytes = Files.readAllBytes(file.toPath());
