@@ -57,8 +57,10 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void WatchT(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitHomeWork.fxml"));
-			   loader.setController(new SubmitHomeWorkController("SubmitHomeWorkController"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/ChooseTaskWindow.fxml"));
+			   ChooseTaskController controller = new ChooseTaskController("ChooseTaskControllerID");
+			   controller.setChooseNext("watchTask");
+			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -66,7 +68,7 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing WatchTask.fxml file");
+					System.err.println("Missing ChooseTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }
@@ -74,8 +76,10 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void SubmitHomeWork(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitHomeWork.fxml"));
-			   loader.setController(new SubmitHomeWorkController("SubmitHomeWorkController"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/ChooseTaskWindow.fxml"));
+			   ChooseTaskController controller = new ChooseTaskController("ChooseTaskControllerID");
+			   controller.setChooseNext("submitTask");
+			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -83,7 +87,7 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing SubmitHomeWork.fxml file");
+					System.err.println("Missing ChooseTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }

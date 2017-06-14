@@ -54,6 +54,12 @@ public class ChecksHomeworkController extends QueryController implements Initial
     private Text userID;
     private ObservableList<String> obList;
     
+    private boolean isCourseChoosed = false;
+    private boolean isTaskChoosed = false;
+
+    @FXML
+    private Text ErrorMSG;
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
@@ -73,8 +79,17 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	    CourseList.setItems(obList);
     }
     
+    
+
+    @FXML
+    void ChooseTask(ActionEvent event) {
+    	ErrorMSG.setText("");
+       	isTaskChoosed = true;
+    }
+    
     @FXML
     void chooseCourse(ActionEvent event) {
+    	ErrorMSG.setText("");
     	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
     	System.out.println("idcorse: "+idcourses);
@@ -93,7 +108,16 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	       	obList= FXCollections.observableList(TaskNameList);
 	       	System.out.println("obList: "+obList);
 	       	TaskL.setItems(obList);
-    	}else{//כאן את צריכה להוסיף הודעה שלקורס הזה אין מטלות.
+	       	isCourseChoosed = true;
+	       	isTaskChoosed = false;
+    	}else{
+    		isCourseChoosed = false;
+	       	isTaskChoosed = false;
+	       	obList= FXCollections.observableList(new ArrayList());
+	       	System.out.println("obList: "+obList);
+	       	TaskL.setItems(obList);
+	    	ErrorMSG.setText("This course dosen't have any tasj to show");
+
     		}
 
    
@@ -102,28 +126,31 @@ public class ChecksHomeworkController extends QueryController implements Initial
     @FXML
     void Continue(ActionEvent event) {
     	try {
-    	  		    		
-    			String chooseTask = TaskL.getValue();
-        		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
-        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
-        		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
-        		String chooseCourse = CourseList.getValue();
-        		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-        		controller.setCourseN(chooseCourse);
-        		controller.setCourseID(idcourses);
-        		controller.setTaskID(idtask);
-		        loader.setController(controller);
-		        Pane login_screen_parent = loader.load();
-				Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-				
-				} catch (IOException e) {
-					System.err.println("Missing UploadTask.fxml file");
-					e.printStackTrace();
-				}
+		    	ErrorMSG.setText("");
+    	  		if(isCourseChoosed && isTaskChoosed)	{	
+	    			String chooseTask = TaskL.getValue();
+	        		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
+	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/UploadTask.fxml"));
+	        		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
+	        		String chooseCourse = CourseList.getValue();
+	        		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+	        		controller.setCourseN(chooseCourse);
+	        		controller.setCourseID(idcourses);
+	        		controller.setTaskID(idtask);
+			        loader.setController(controller);
+			        Pane login_screen_parent = loader.load();
+					Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+    	  			}else{
+    	  		    	ErrorMSG.setText("Please choose course and task.");
+    	  			}
+		} catch (IOException e) {
+			System.err.println("Missing UploadTask.fxml file");
+			e.printStackTrace();
+		}
     }
     
     @FXML

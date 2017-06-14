@@ -89,6 +89,7 @@ public class SchoolServer extends AbstractServer
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
 	  String option = (String) packaged.get("key");
 	  System.out.println("handleMessageFromClient");
+	  Object result = null;
 	  switch(option){
 	  case "Query":
 		  boolean isAlreadyInserted = false;
@@ -111,6 +112,7 @@ public class SchoolServer extends AbstractServer
 		    	{
 		    		try{
 		    		stmt.executeUpdate(strQuery);
+		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
 		    			isAlreadyInserted = true ;
 		    		}
@@ -123,8 +125,7 @@ public class SchoolServer extends AbstractServer
 				writer.println(errors.toString());
 				e1.printStackTrace();
 			}
-		    Object result = null;
-		    ArrayList<ArrayList<String>> resultArray;
+		      ArrayList<ArrayList<String>> resultArray;
 			  if(isUpdate == false){
 			  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
 				  ResultSetMetaData rsmd;

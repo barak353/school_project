@@ -78,7 +78,7 @@ public class UploadTaskController extends QueryController implements Initializab
     
     @FXML
 	void TurningBack(ActionEvent event) {//return to the last screen
-    	this.nextController = new SetUpTaskController("SetUpTaskController");
+    	this.nextController = new SetUpTaskController("SetUpTaskControllerID");
     	this.Back("/Teacher/SetUpTask.fxml",nextController, event);
     }
 	

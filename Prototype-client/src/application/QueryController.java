@@ -44,7 +44,6 @@ public class QueryController{
     
     protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.
         // Get the size of the file
-    	System.out.println("enter: uploadFileToServer");
     	String fileName = file.getName();
     	String fileType = fileName.split("\\.")[1];
     	fileName = fileName.split("\\.")[0];
@@ -74,12 +73,12 @@ public class QueryController{
     	Object result = packaged.get("file");//Get the result that returned from the server.
     	packaged.remove("file");//Remove result from packaged.
     	packaged.remove("folderName",folderName);
-    	System.out.println("exit: uploadFileToServer");
     	return result;
     }
     
-    protected Object downloadFileFromServer(File file,String folderName){
+    protected Object downloadFileFromServer(String folderName,String fileFullName){
     	packaged.put("key","download");
+    	//connection.handleMessageFromClientUI((Object)packaged);
 
     	
     	
@@ -93,7 +92,6 @@ public class QueryController{
     }
     
     protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
-    	System.out.println("enter: transfferQueryToServer");
     	packaged.put("key","Query");
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
@@ -109,7 +107,6 @@ public class QueryController{
     	System.out.println("return from server");
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
-    	System.out.println("exit: transfferQueryToServer");
     	return result;
     }
     

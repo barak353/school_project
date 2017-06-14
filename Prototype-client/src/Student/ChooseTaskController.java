@@ -32,10 +32,10 @@ import Entity.User;
 
 
 
-public class SubmitHomeWorkController extends QueryController implements Initializable {
+public class ChooseTaskController extends QueryController implements Initializable {
 
 	//-----------------------------------------------------------//
-	public SubmitHomeWorkController(String controllerID) 
+	public ChooseTaskController(String controllerID) 
 	{
 		super(controllerID);
 		
@@ -68,34 +68,57 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 
     private	ArrayList<String> TaskNameList = new ArrayList<String>();
 
-
     @FXML
-    private Text ErrorMSGG ;
-    
+    private Text ErrorMSG;
+
     private Task task;
 
-  /**This function is enabled after the user has chosen a course and a specific task**/
+    private String chooseNext;
     
-    //SpecificTaskWindowController
+  public String getChooseNext() {
+		return chooseNext;
+	}
+
+
+
+
+	public void setChooseNext(String chooseNext) {
+		this.chooseNext = chooseNext;
+	}
+
+
+
+
+/**This function is enabled after the user has chosen a course and a specific task**/
     @FXML
-    void Specific(ActionEvent event) 
-    {
-    	 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SpecificTaskWindow.fxml"));
-			   SpecificTaskWindowController controller =  new SpecificTaskWindowController("SpecificTaskWindowController");
-			   controller.setTask(task);
-			   loader.setController(controller);
-			   Pane login_screen_parent = loader.load();
+    void next(ActionEvent event) {
+    	FXMLLoader loader = null;
+    	ChooseTaskController controller;
+    	switch(chooseNext){
+    	case "submitTask":
+			   loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
+			   loader.setController(new SubmitTaskController("SubmitTaskControllerID"));
+    	break;
+    	case "watchTask":
+			   loader = new FXMLLoader(getClass().getResource("/student/WatchTaskWindow.fxml"));
+			   loader.setController(new WatchTaskController("WatchTaskControllerID"));
+    	break;
+    	}
+		 try {
+			   	Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
 					app_stage.hide();
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing WatchTask.fxml file");
+					System.err.println("Missing SubmitTaskWindow.fxml or WatchTaskWindow.fxml file");
 					e.printStackTrace();
-				}
+			}
     }
+    
+    
+    
 	
     @FXML
 	 void TurningBack(ActionEvent event)
@@ -114,41 +137,34 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 			// resultArray ->The query return mat of the specific student //
 			
 			
-			ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID=" + userID1 );
-		    System.out.println(resultArray);	
+			//ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID=" + userID1 );
+		    //System.out.println(resultArray);	
 			
 				
 			
 			// save the student id //
-			String studentID= resultArray.get(0).get(0);
+			//String studentID= resultArray.get(0).get(0);
 			
 	    	// res ->The query return mat of the id courses that the student learn//
-			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityStudent="+userID1);	
-			if(StudentInCourseList==null)
+			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
+			if(StudentInCourseList == null)
 			{
-				//ErrorMSG.setText("You are not in this course");//show error message.
-				//ErrorMSG.setText("");//delete error message.
+				ErrorMSG.setText("Student is not in this course");//show error message.
+				return;
 			}
-			
 			else
 			{
-	
-			// save list of the name of the courses of the student//
-			ArrayList<String> courseNameList = new ArrayList<String>();
-	    	ArrayList<ArrayList<String>> CoursesNameList;	    	
-	    	// res2 -> The query return mat of the course name and id course//
-	    	for(ArrayList<String> row:StudentInCourseList){
-	    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(1));
-	    
-	        // put the course list at the comboBoxChooseCourse//
-	        courseNameList.add(CoursesNameList.get(0).get(0)+"("+CoursesNameList.get(0).get(1)+")");
-	        ObservableList obList= FXCollections.observableList(courseNameList);;
-	        comboBoxChooseCourse.setItems(obList);
-	    	
-	    	
-	    	
-	    	}
-	    	
+				 //save list of the names of the courses of the student
+				ArrayList<String> courseNameList = new ArrayList<String>();
+		    	ArrayList<ArrayList<String>> CoursesNameList;	    	
+		    	for(ArrayList<String> row:StudentInCourseList){
+			        // put the course list at the comboBoxChooseCourse//
+		    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
+			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
+			        ObservableList obList= FXCollections.observableList(courseNameList);
+			        comboBoxChooseCourse.setItems(obList);
+		    	}
 			}
 		}
 
@@ -164,7 +180,7 @@ public class SubmitHomeWorkController extends QueryController implements Initial
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
 		if(IdTaskInCourseList==null)
-			ErrorMSGG.setText("There is NO Tasks in this course.");//show error message.
+			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 		else
 		{
 			for(ArrayList<String> row : IdTaskInCourseList){

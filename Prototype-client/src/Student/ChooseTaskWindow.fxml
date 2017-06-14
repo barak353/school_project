@@ -32,7 +32,7 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="ButtonNew" layoutX="241.0" layoutY="293.0" mnemonicParsing="false" onAction="#Specific" text="Next">
+            <Button fx:id="ButtonNew" layoutX="527.0" layoutY="361.0" mnemonicParsing="false" onAction="#next" text="Next">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
@@ -53,6 +53,16 @@
             <Text fx:id="ErrorMSGG" fill="RED" layoutX="202.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
                <font>
                   <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="273.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="262.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
                </font>
             </Text>
          </children>

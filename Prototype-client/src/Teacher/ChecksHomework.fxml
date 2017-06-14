@@ -58,7 +58,12 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="TaskL" layoutX="241.0" layoutY="171.0" prefWidth="150.0" />
+            <ComboBox fx:id="TaskL" layoutX="241.0" layoutY="171.0" onAction="#ChooseTask" prefWidth="150.0" />
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="294.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
