@@ -82,6 +82,9 @@ public class SubmitTaskController extends QueryController implements Initializab
     @FXML
     void submitTask(ActionEvent event) {
     	ErrorMSG.setText(" ");
+    	String IDcourse = task.getIdcourse();
+    	String idTASK = task.getIdTASK(); 
+    	String IDstudent = User.getCurrentLoggedIn().GetID();
     	if(isTaskChoosed == true){
         	//save file to server.
     		String v = comboBoxChooseCourse.getValue();
@@ -90,6 +93,17 @@ public class SubmitTaskController extends QueryController implements Initializab
     		System.out.println("file path: " + courseID + "//" + studentID);
     		deleteFolderFromServer(courseID,studentID);
     		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
+    		//**********************************
+    		//כאן את צריכה לעשות את השאילתא שמכניסה רשומה אל טבלת ה
+    		//subtask
+    		//את מכניסה את 
+    		//IDcourse
+    		//שהוא שמור במשתנה בשם
+    		//IDcourse
+    		// וגם יש לך את ה-
+    		//idTASK
+    		//שמור למעלה
+    		//**********************************
     		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     	}else{
     		ErrorMSG.setText("Please choose task.");

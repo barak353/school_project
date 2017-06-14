@@ -72,38 +72,17 @@ public class WatchTaskController extends QueryController implements Initializabl
     private Text ErrorMSG;
 
     private Task task;
-
-    private String chooseNext;
     
-  public String getChooseNext() {
-		return chooseNext;
-	}
-
-
-
-
-	public void setChooseNext(String chooseNext) {
-		this.chooseNext = chooseNext;
-	}
-
-
-
+    private boolean isTaskChoosed = false;
 
 /**This function is enabled after the user has chosen a course and a specific task**/
     @FXML
-    void next(ActionEvent event) {
+    void watchTask(ActionEvent event) {
     	FXMLLoader loader = null;
+    	ErrorMSG.setText(" ");
+    	if(isTaskChoosed == true){
+    	//if()
     	WatchTaskController controller;
-    	switch(chooseNext){
-    	case "submitTask":
-			   loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
-			   loader.setController(new SubmitTaskController("SubmitTaskControllerID"));
-    	break;
-    	case "watchTask":
-			   loader = new FXMLLoader(getClass().getResource("/student/WatchTaskWindow.fxml"));
-			   loader.setController(new WatchTaskController("WatchTaskControllerID"));
-    	break;
-    	}
 		 try {
 			   	Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
@@ -115,6 +94,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 					System.err.println("Missing SubmitTaskWindow.fxml or WatchTaskWindow.fxml file");
 					e.printStackTrace();
 			}
+    }
     }
     
     

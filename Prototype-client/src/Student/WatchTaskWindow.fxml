@@ -25,14 +25,14 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+      <Pane layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="68.0" layoutY="30.0" prefHeight="64.0" prefWidth="481.0" text="Choose Task in Course" textFill="#1205ff">
+            <Label layoutX="180.0" layoutY="28.0" prefHeight="64.0" prefWidth="234.0" text="Watch Task" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="ButtonNew" layoutX="527.0" layoutY="361.0" mnemonicParsing="false" onAction="#next" text="Next">
+            <Button fx:id="ButtonNew" layoutX="245.0" layoutY="285.0" mnemonicParsing="false" onAction="#watchTask" text="Watch">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
