@@ -103,23 +103,18 @@ public class SchoolServer extends AbstractServer
 		  packaged.remove("strQuery");
 		  String queryType = strQuery.substring(0,6);
 		  try {
-			  System.out.println("queryType: "+queryType);
 			  switch(queryType){
 			  case "SELECT":
-				  if(strQuery.substring(0,6).equals("SELECT"))
-			    	{
+			  case "select":
 			    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
-			    	}
-			    	else if(strQuery.substring(0,6).equals("UPDATE"))
-			    	{
-			    		stmt.executeUpdate(strQuery);//Execute the query from the client.
-									isUpdate=true;
-			    	}
 				  break;
+			  case "UPDATE":
+			  case "update":
+		    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+					isUpdate=true;
 			  case "INSERT":
+			  case "insert":
 			  try{
-	    			System.out.println("insert");
-
 		    		stmt.executeUpdate(strQuery);
 		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
@@ -128,8 +123,8 @@ public class SchoolServer extends AbstractServer
 		    		isUpdate=true;
 			  break;
 			  case "DELETE":
+			  case "delete":
 		    		try{
-		    			System.out.println("delete");
 		    		stmt.executeUpdate(strQuery);
 		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
@@ -201,6 +196,7 @@ public class SchoolServer extends AbstractServer
 			}
 			writer.flush();
 	  break;
+	  case "UPLOAD":
 	  case "upload":
 		  byte[] bytes = (byte[]) packaged.get("file");		  
 		  try {
@@ -220,6 +216,7 @@ public class SchoolServer extends AbstractServer
 			writer.println(errors.toString());
 		}
 	  break;
+	  case "DOWNLOAD":
 	  case "download":
 		 /* System.out.println("arrived download");
 		  JFileChooser chooser = new JFileChooser();
