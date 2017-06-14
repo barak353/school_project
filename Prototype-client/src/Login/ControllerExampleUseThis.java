@@ -48,7 +48,6 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 
     }
     
-	 //-----------------------------------------------------------// 
 		//-----------------------------------------------------------//
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
@@ -62,20 +61,4 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 			this.Back("/Login/LoginWindow.fxml",nextController, event);
 		}
 		
-		
-		
-		
-		/*	 try {
-		   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchTask.fxml"));
-		   loader.setController(new WatchTaskController("WatchTaskControllerID"));
-		   Pane login_screen_parent = loader.load();
-		        Scene login_screen_scene=new Scene(login_screen_parent);
-				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-				app_stage.hide();
-				app_stage.setScene(login_screen_scene);
-				app_stage.show(); 
-	        } catch (IOException e) {
-				System.err.println("Missing WatchTask.fxml file");
-				e.printStackTrace();
-			}*/
  }

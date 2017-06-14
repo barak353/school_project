@@ -63,8 +63,6 @@ public class SubmitTaskController extends QueryController implements Initializab
     
     @FXML
     private ComboBox<String> comboBoxChooseTask;
-    @FXML
-    private Button Next ;
 
     private	ArrayList<String> TaskNameList = new ArrayList<String>();
 
@@ -73,48 +71,17 @@ public class SubmitTaskController extends QueryController implements Initializab
 
     private Task task;
 
-    private String chooseNext;
-    
-  public String getChooseNext() {
-		return chooseNext;
-	}
-
-
-
-
-	public void setChooseNext(String chooseNext) {
-		this.chooseNext = chooseNext;
-	}
-
-
-
+    private boolean isTaskChoosed = false;
 
 /**This function is enabled after the user has chosen a course and a specific task**/
     @FXML
-    void next(ActionEvent event) {
-    	FXMLLoader loader = null;
-    	SubmitTaskController controller;
-    	switch(chooseNext){
-    	case "submitTask":
-			   loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
-			   loader.setController(new SubmitTaskController("SubmitTaskControllerID"));
-    	break;
-    	case "watchTask":
-			   loader = new FXMLLoader(getClass().getResource("/student/WatchTaskWindow.fxml"));
-			   loader.setController(new WatchTaskController("WatchTaskControllerID"));
-    	break;
+    void submitTask(ActionEvent event) {
+    	ErrorMSG.setText(" ");
+    	if(isTaskChoosed == true){
+    		
+    	}else{
+    		ErrorMSG.setText("Please choose task.");
     	}
-		 try {
-			   	Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		        } catch (IOException e) {
-					System.err.println("Missing SubmitTaskWindow.fxml or WatchTaskWindow.fxml file");
-					e.printStackTrace();
-			}
     }
     
     
@@ -133,19 +100,6 @@ public class SubmitTaskController extends QueryController implements Initializab
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			String userID1=user.GetID();
-			
-			// resultArray ->The query return mat of the specific student //
-			
-			
-			//ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE StudentID=" + userID1 );
-		    //System.out.println(resultArray);	
-			
-				
-			
-			// save the student id //
-			//String studentID= resultArray.get(0).get(0);
-			
-	    	// res ->The query return mat of the id courses that the student learn//
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
@@ -154,7 +108,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 			}
 			else
 			{
-				 //save list of the names of the courses of the student
+				//save list of the names of the courses of the student
 				ArrayList<String> courseNameList = new ArrayList<String>();
 		    	ArrayList<ArrayList<String>> CoursesNameList;	    	
 		    	for(ArrayList<String> row:StudentInCourseList){
@@ -175,7 +129,9 @@ public class SubmitTaskController extends QueryController implements Initializab
 	@FXML
 	void AfterChooseCourse(ActionEvent event)
 	{
-	// save the student's choise//
+		isTaskChoosed = false;
+    	ErrorMSG.setText(" ");
+    	// save the student's choise
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
@@ -194,6 +150,8 @@ public class SubmitTaskController extends QueryController implements Initializab
 	
 	@FXML
 	void AfterChooseTask(ActionEvent event) {
+    	ErrorMSG.setText(" ");
+    	isTaskChoosed = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		String choosedTask = comboBoxChooseTask.getValue();
@@ -207,6 +165,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 		     DateFormat df = new SimpleDateFormat("mm-dd-yyyy");
 		     try {
 				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
+				isTaskChoosed = true;
 			} catch (ParseException e) {
 				System.out.println("Error in format from string to date.");
 			}

@@ -27,12 +27,12 @@
       </Text>
       <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="68.0" layoutY="30.0" prefHeight="64.0" prefWidth="481.0" text="Choose Task in Course" textFill="#1205ff">
+            <Label layoutX="68.0" layoutY="30.0" prefHeight="64.0" prefWidth="481.0" text="Submit Task in Course" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="ButtonNew" layoutX="527.0" layoutY="361.0" mnemonicParsing="false" onAction="#next" text="Next">
+            <Button layoutX="245.0" layoutY="275.0" mnemonicParsing="false" onAction="#submitTask" text="Submit">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
@@ -50,19 +50,9 @@
                </font></Button>
             <ComboBox fx:id="comboBoxChooseCourse" layoutX="209.0" layoutY="139.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
             <ComboBox fx:id="comboBoxChooseTask" layoutX="209.0" layoutY="229.0" onAction="#AfterChooseTask" prefWidth="150.0" />
-            <Text fx:id="ErrorMSGG" fill="RED" layoutX="202.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="191.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
                <font>
                   <Font size="18.0" />
-               </font>
-            </Text>
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="273.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="262.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="14.0" />
                </font>
             </Text>
          </children>
