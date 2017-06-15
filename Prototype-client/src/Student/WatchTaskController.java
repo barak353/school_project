@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.Label;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,6 +24,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -30,11 +32,16 @@ import java.util.ResourceBundle;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Entity.Course;
+import Entity.SubTask;
 import Entity.Task;
 import Entity.User;
 
 
-
+/**
+ * this controller handles the action: Viewing task by student
+ * @author Admin
+ *
+ */
 public class WatchTaskController extends QueryController implements Initializable {
 
 	//-----------------------------------------------------------//
@@ -53,8 +60,18 @@ public class WatchTaskController extends QueryController implements Initializabl
 
     @FXML
     private Button back;
+   
+    
 
+    @FXML
+    private Button  WatchSubmittedTask;
 
+  //  @FXML
+   // private Label studentUpload;
+    
+   // @FXML
+   // private Label teacherUpload;
+    
     @FXML
     private Text userID;
     
@@ -73,12 +90,26 @@ public class WatchTaskController extends QueryController implements Initializabl
 
     @FXML
     private Text ErrorMSG;
+    
+    private SubTask subtask;
 
+
+    @FXML
+   private Text SubtaskGrade1;
+    @FXML
+    private Text SubtaskComments1;
+    
+    @FXML
+    private Text ErrorMsg;
+    
     private Task task;
     
     private boolean isTaskChoosed = false;
+    
+    private	ArrayList<String> TaskList = new ArrayList<String>();
 
-/**This function is enabled after the user has chosen a course and a specific task**/
+/**This function is enabled after the user has chosen a course and a specific task 
+ * handle the watching task that the teacher upload**/
     @FXML
     void watchTask(ActionEvent event) {
     	if(isTaskChoosed == true){
@@ -97,6 +128,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     		ErrorMSG.setText("Please choose course and task");
     	}
     }
+    
 
    
     @FXML
@@ -125,18 +157,30 @@ public class WatchTaskController extends QueryController implements Initializabl
 		    	ArrayList<ArrayList<String>> CoursesNameList;	    	
 		    	for(ArrayList<String> row:StudentInCourseList){
 			        // put the course list at the comboBoxChooseCourse//
+		    		
 		    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+		    		
+		    		if (CoursesNameList==null)
+		    		{
+		    			ErrorMSG.setText("There is NO courses.");//show error message
+		    		}
+		    		
+		    		else
+		    		{
+		    			ErrorMSG.setText("");//show error message
 		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
 			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
 			        ObservableList obList= FXCollections.observableList(courseNameList);
 			        comboBoxChooseCourse.setItems(obList);
+		    		}
 		    	}
 			}
 		}
 
-	/** This function is enabled when the user selects a specific course in the list 
-	 * And handles the choice of the specific task for the course
-	 * **/		
+		/** 
+		 * This function handle with choosing the specific course and presenting its assignments
+		 * 
+		 */	
 			
 	@FXML
 	void AfterChooseCourse(ActionEvent event)
@@ -150,6 +194,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 		else
 		{
+			ErrorMSG.setText("");//show error message.
 			for(ArrayList<String> row : IdTaskInCourseList){
 					TaskNameList.add(row.get(0));
 			}
@@ -158,9 +203,12 @@ public class WatchTaskController extends QueryController implements Initializabl
 		}
 	 }
 	
-	
+	/**
+	 * After selecting the specific course, this function handle with task choice
+	 * **/
 	@FXML
-	void AfterChooseTask(ActionEvent event) {
+	void AfterChooseTask(ActionEvent event) 
+	{
 		isTaskChoosed = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -181,6 +229,88 @@ public class WatchTaskController extends QueryController implements Initializabl
 			}
 		}
 	}
+	
+	/*ברק זה ההנדלר לצפייה בקובץ מטלה שהוגשה!!(פתור) 
+	*
+	*
+	*/
+	
+	/** This function is enabled after the user has chosen a course and a specific task
+	 * handle the watching sub task that the student submit**/    
+    @FXML
+    void watchSubTask(ActionEvent event) 
+    {
+		isTaskChoosed = false;
+		String choosedCourse = comboBoxChooseCourse.getValue();
+		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+		String choosedTask = comboBoxChooseTask.getValue();
+		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
+		String studentID = User.getCurrentLoggedIn().GetID();
+		//the query return the subtasks of the student un the specific cours
+		//ArrayList<ArrayList<String>> taskSubRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM subtask WHERE IDcourse="+choosedCourse +" AND IDstudent='"+studentID+"'"+" AND idTASK='"++"'");
+		
+		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
+		System.out.println("taskRes: "+taskRes);
+		//if 1
+		if(taskRes != null && taskRes.get(0) != null)
+		{
+			isTaskChoosed = true;
+			for(ArrayList<String> row : taskRes)
+			{
+				SubtaskGrade1.setText("");
+		    	SubtaskComments1.setText("");
+		    	ErrorMsg.setText("");
+		    	
+				ArrayList<ArrayList<String>> taskSubRes1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM subtask WHERE IDcourse="+choosedCourse +" AND IDstudent='"+studentID+"'"+" AND idTASK='"+ row.get(0) +"'");
+				System.out.println( "----taskSubRes:" + taskSubRes1);
+				
+				//if 2
+				if(taskSubRes1 != null )
+				{
+					ArrayList<String> row1 = taskSubRes1.get(0);
+				if(row1.get(4)==null)
+					SubtaskGrade1.setText("Task Grade : you didnt get grade yet");
+				else
+					SubtaskGrade1.setText("Task Grade :" + row1.get(4));
+		    	
+		    	if(row1.get(5)==null)
+		    		SubtaskComments1.setText("Task Comments :");
+		    
+		    	else
+		    		SubtaskComments1.setText("Task Comments :" + row1.get(5));
+		    	
+		    	
+		    	}
+				//else 2
+				else
+				{
+					System.out.println( "There is Not submitted Task  ");
+					ErrorMsg.setText("There is Not submitted Task  ");
+				}
+				
+			}
+			
+			
+				
+		}
+		//else 1
+		else
+		{
+			SubtaskGrade1.setText("");
+	    	SubtaskComments1.setText("");
+			ErrorMsg.setText("There is Not  Task  ");
+		}
+		
+		
+
+		    	 
+            
+			//	subtask = new SubTask(row.get(0),row.get(1),row.get(2),row.get(3),row.get(4),row.get(5));
+				
+
+
+
+}
 }
 
 

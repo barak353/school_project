@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,6 +22,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -34,7 +38,11 @@ import Entity.Task;
 import Entity.User;
 
 
-
+/**
+ * 
+ * this controller handles the action: submission task by student
+ * 
+ */
 public class SubmitTaskController extends QueryController implements Initializable {
 
 	//-----------------------------------------------------------//
@@ -71,6 +79,9 @@ public class SubmitTaskController extends QueryController implements Initializab
 
     @FXML
     private Text ErrorMSG;
+    
+    @FXML
+    private DatePicker setDate;
 
     private Task task;
 
@@ -79,7 +90,10 @@ public class SubmitTaskController extends QueryController implements Initializab
     private boolean isTaskChoosed = false;
     private boolean isFileUploaded = false;
     
-/**This function is enabled after the user has chosen a course and a specific task**/
+/**
+ * After pressing the appropriate button, this function enters the details of the submitted  task to the DB
+ * 
+ */
     @FXML
     void submitTask(ActionEvent event) {
     	ErrorMSG.setText(" ");
@@ -106,13 +120,30 @@ public class SubmitTaskController extends QueryController implements Initializab
 	    		//idTASK
 	    		//שמור למעלה
 	    		//**********************************
+	    		
+				
+				//add the sub task details to the db
+				
+				
+				//--------------------------------------------------------------------------------------------------------
+				
+				Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES ('" + idTASK + "','" + courseID + ":" + studentID + "')");
+				//--------------------------------------------------------------------------------------------------------
+				
+				
+                System.out.println("You have successfully inserted the data into DB:\ntask "  );
+                
+                
 	    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     		}else ErrorMSG.setText("Please upload a file for submition.");
     	}else{
     		ErrorMSG.setText("Please choose a task.");
     	}
     }
-    
+/**
+ * After pressing the appropriate button, this function loads the task file    
+ * @param event
+ */
     @FXML
     void uploadTask(ActionEvent event) {
     	isFileUploaded = false;
@@ -150,16 +181,21 @@ public class SubmitTaskController extends QueryController implements Initializab
 		    	for(ArrayList<String> row:StudentInCourseList){
 			        // put the course list at the comboBoxChooseCourse//
 		    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+		    	
+		   		
 		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
 			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
 			        ObservableList obList= FXCollections.observableList(courseNameList);
+			    	if(CoursesNameList ==null)
+			    		obList.clear();
+			    	else
 			        comboBoxChooseCourse.setItems(obList);
 		    	}
 			}
 		}
 
-	/** This function is enabled when the user selects a specific course in the list 
-	 * And handles the choice of the specific task for the course
+	/** 
+	 * This function handle with choosing the specific course and presenting its assignments
 	 * **/		
 			
 	@FXML
@@ -172,21 +208,36 @@ public class SubmitTaskController extends QueryController implements Initializab
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+		ArrayList<ArrayList<String>> NullList=null;
+		
 		if(IdTaskInCourseList==null)
+		{
+			//להוסיף כאן מחיקת רשימה קודמת 
 			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			// ObservableList obList1= FXCollections.observableList(NullList);
+			 //comboBoxChooseTask.setItems(obList1);
+			// obList1.clear();
+		}
+		
 		else
 		{
 			for(ArrayList<String> row : IdTaskInCourseList){
 					TaskNameList.add(row.get(0));
 			}
 			 ObservableList obList= FXCollections.observableList(TaskNameList);
+			 if(TaskNameList ==null)
+		    		obList.clear();
+		    	else
 			 comboBoxChooseTask.setItems(obList);
 		}
 	 }
 	
-	
+/**
+ * After selecting the specific course, this function handle with task choice
+ * **/	
 	@FXML
 	void AfterChooseTask(ActionEvent event) {
+		User user = User.getCurrentLoggedIn();
     	ErrorMSG.setText(" ");
     	isTaskChoosed = false;
     	isFileUploaded = false;
@@ -200,11 +251,48 @@ public class SubmitTaskController extends QueryController implements Initializab
 		if(taskRes != null && taskRes.get(0) != null) 
 		{
 		     ArrayList<String> row = taskRes.get(0);
-		     DateFormat df = new SimpleDateFormat("mm-dd-yyyy");
+		     ErrorMSG.setText("");
+		     //-----------------------------------------------------------
+		     DateFormat df = new SimpleDateFormat("yyyy-dd-mm");
+		     LocalDate now = LocalDate.now();
+		     
+		     int mark;
+		 
 		     try {
 				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
 				isTaskChoosed = true;
-			} catch (ParseException e) {
+                 
+				
+				
+				//Check if the date already pass
+				 
+				 LocalDate SubTaskDate= task.getSubDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				 System.out.println(" The sub Date: "  +SubTaskDate);
+				 System.out.println(" The now Date: "  +task.getSubDate());
+				 
+				if ((now.compareTo(SubTaskDate) > 0))
+				 { 
+					 ErrorMSG.setText("The submmision date is pass!!!");
+					 mark=1;
+					 //enter the mark to the query
+					
+			    		return;
+			     }
+			    /* 
+			     *1. add the current  sub date date to the db
+			     *2.add mark to the teacher
+			     *3.fix the date
+			     *4.fix the query
+			     *4.add tests
+			     */
+				 
+				 //------------------------------------------------------------
+				
+				
+				
+			}
+		     catch (ParseException e)
+		    {
 				System.out.println("Error in format from string to date.");
 			}
 		}

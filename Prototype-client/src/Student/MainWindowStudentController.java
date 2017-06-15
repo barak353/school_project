@@ -21,6 +21,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the student's actions and is responsible for presenting the student's main screen
+ *
+ */
 public class MainWindowStudentController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
@@ -51,9 +56,11 @@ public class MainWindowStudentController extends QueryController implements Init
 
     @FXML
     private Text userID;
-
-
-
+/**
+ * 
+ * After pressing the appropriate button, this function leads to the: Viewing task by student
+ * @param event
+ */
     @FXML
     void WatchT(ActionEvent event) {
 		 try {
@@ -71,7 +78,11 @@ public class MainWindowStudentController extends QueryController implements Init
 					e.printStackTrace();
 				}
     }
-
+/**
+ * 
+ * After pressing the appropriate button, this function leads to the:  submission task  controller
+ * 
+ */
     @FXML
     void SubmitHomeWork(ActionEvent event) {
 		 try {
@@ -89,7 +100,10 @@ public class MainWindowStudentController extends QueryController implements Init
 					e.printStackTrace();
 				}
     }
-
+/**
+ * After pressing the appropriate button, this function leads to the: Viewing personal folder by student
+ * @param event
+ */
     @FXML
     void WatchPersonalFolder(ActionEvent event) {
 		 try {
