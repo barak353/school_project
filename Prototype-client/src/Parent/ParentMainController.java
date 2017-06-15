@@ -66,8 +66,6 @@ public class ParentMainController extends QueryController implements Initializab
     	    String block = (res.get(0)).get(0);
     		if( block.equals("1")){
         		ErrorMSG.setText("Blocked user, you cannot view child details!"); //show error message.
-    		   // FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ParentMain.fxml"));
-    	      //  loader.setController(new ParentMainController("ParentMainController"));
         	}
     		else{
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));

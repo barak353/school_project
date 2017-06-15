@@ -62,7 +62,12 @@ public class ChildDetailsController extends QueryController implements Initializ
     
     @FXML
     private ComboBox<String> courselist;
-
+    @FXML
+    private Text ErrorMSG;
+    @FXML
+    private Text Class;
+    
+    boolean status = true;
     
     private String chooseChild;
 
@@ -106,28 +111,48 @@ public class ChildDetailsController extends QueryController implements Initializ
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
+			
 			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID="+chooseChild);
-			ArrayList<String> row = res.get(0);
-			Sid.setText(row.get(0));
-			gpa.setText(row.get(1));
-			semester.setText(row.get(2));
-			
+	        if(res==null){
+	        	ErrorMSG.setText("There is NO such Child");//show error message.
+	        }
+	        else{
+				ArrayList<String> row = res.get(0);
+				Sid.setText(row.get(0));
+				gpa.setText(row.get(1));
+				Class.setText(row.get(2));
+	        }
+	        
 			ArrayList<ArrayList<String>> res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userName FROM user WHERE userID="+chooseChild);
-			ArrayList<String> row2 = res2.get(0);
-			Sname.setText(row2.get(0));
+	        if(res2==null){
+	        	ErrorMSG.setText("There is NO such Child name");//show error message.
+	        }
+	        else{
+				ArrayList<String> row2 = res2.get(0);
+				Sname.setText(row2.get(0));
+	        }
+	        
+			ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester WHERE status='" + status +"'");
+	        if(res3==null){
+	        	ErrorMSG.setText("There is NO such curr semester");//show error message.
+	        }
+	        else{
+				ArrayList<String> row3 = res3.get(0);
+				semester.setText(row3.get(0));
+	        }
 			
-			
-			
-			ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
-		    
-		    ArrayList<String> childNameList = new ArrayList<String>();
-		    
-	    	for(ArrayList<String> row3:res3){
-	        	childNameList.add(row3.get(0));
-	    	}
-	    	
-		    ObservableList obList= FXCollections.observableList(childNameList);
-		    courselist.setItems(obList);
+			ArrayList<ArrayList<String>> res4 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
+	        if(res4==null){
+	        	ErrorMSG.setText("There is NO such student in course");//show error message.
+	        }
+	        else{
+				ArrayList<String> childNameList = new ArrayList<String>();
+		    	for(ArrayList<String> row4:res4){
+		        	childNameList.add(row4.get(0));
+		    	}
+			    ObservableList obList= FXCollections.observableList(childNameList);
+			    courselist.setItems(obList);
+	        }
 		}
 		//-----------------------------------------------------------//
 

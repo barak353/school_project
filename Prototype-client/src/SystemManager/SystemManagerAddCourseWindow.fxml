@@ -47,46 +47,58 @@
                </font>
             </Button>
             <Button fx:id="addCourseButton" layoutX="270.0" layoutY="301.0" mnemonicParsing="false" onAction="#addCourse" text="Add Course" />
-            <Text layoutX="180.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course ID:">
+            <Text fx:id="Coursetext" layoutX="178.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Course ID is:" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="179.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
+            <Text layoutX="179.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="177.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
+            <Text layoutX="177.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="177.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
+            <Text layoutX="177.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="course" layoutX="300.0" layoutY="108.0" promptText="course ID" />
-            <TextField fx:id="courseName" layoutX="300.0" layoutY="154.0" promptText="couse name" />
-            <TextField fx:id="TeachingUnit" layoutX="300.0" layoutY="199.0" promptText="teaching unit" />
-            <TextField fx:id="hours" layoutX="300.0" layoutY="246.0" promptText="hours per week" />
-            <Text fx:id="errorID" fill="RED" layoutX="25.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="133.064453125">
+            <TextField fx:id="courseName" layoutX="314.0" layoutY="163.0" promptText="couse name" />
+            <TextField fx:id="hours" layoutX="314.0" layoutY="255.0" promptText="hours per week" />
+            <Text fx:id="errorID" fill="RED" layoutX="378.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="148.5078125">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="76.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
+            <Text layoutX="76.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button fx:id="addPreCourseButton" layoutX="466.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" visible="false" />
-            <Text fx:id="add" fill="RED" layoutX="186.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="255.7607421875">
+            <Button fx:id="addPreCourseButton" layoutX="484.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Text fx:id="add" fill="#36d721" layoutX="187.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="252.7607421875">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
+            <ComboBox fx:id="TeachingUnit" layoutX="313.0" layoutY="208.0" onAction="#teachingUnit" opacity="0.78" prefWidth="150.0" promptText="teaching unit" />
+            <Text fx:id="course" fill="#36d721" layoutX="318.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="addMoreCourseButton" layoutX="482.0" layoutY="327.0" mnemonicParsing="false" onAction="#addmoreCourse" text="Add more Course" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

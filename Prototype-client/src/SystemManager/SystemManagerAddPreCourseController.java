@@ -12,6 +12,8 @@ import Entity.Semester;
 import Login.LoginController;
 import Entity.User;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -38,38 +41,27 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     
     @FXML
     private Button logout;
-
-  //  @FXML
-  //  private Text currentSemester;
-
     @FXML
-    private TextField preCourses;
-
-    @FXML
-    private Text errorIDdialog;
-
+    private ComboBox<String> preCourses;
     @FXML
     private Button back;
-
     @FXML
     private Button addButton;
-    
     @FXML
     private Text ID;
-    
     @FXML
     private Text errorID;
-
     @FXML
     private Text userID;
-
     @FXML
-    private Button doneButton;
+    private Button finishButton;
+    @FXML
+    private Text addpreCourses;
 
 
     private String lastCourse;
-    
-    private String precourses ="";
+    private String PreCourses;
+    private int flag=0;
 
 	
 	//------------------------------------------// 
@@ -97,55 +89,40 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     @FXML
     void addPrecourse(ActionEvent event) 
     {    
-    	errorID.setVisible(true);
-    	boolean isValidInput = true;
-    	precourses=preCourses.getText();
-
     	errorID.setText("");
-    	//empty field ID course
-    	if(precourses.equals("")==true){
-    		errorID.setText("ERROR: Please insert valid course ID."); 
-    		isValidInput = false;
-    	}
-    	
-    	else if (precourses.length() > 5){
-    		errorID.setText("Course ID can be longer then 5 digits.");
-    		isValidInput = false;
-    	}
+    	addpreCourses.setText("");
 
-    	else {
-    		try{//check if the course ID is only numbers.
-    			Integer.parseInt(precourses);
-    		}
-    		catch(NumberFormatException e){
-    			errorID.setText("ERROR: Please insert pre-course, pre-course ID most contain only numbers."); 
-    			isValidInput = false;
-    		}
+    	
+    	if(flag==0){ //checks if not choose Pre-course.
+    		errorID.setText("ERROR:\nPlease choose Pre-course.");
+    		addpreCourses.setText("");
     	}
     	
     	Object obj = null;
-	 	if(isValidInput){
-	 		obj = transfferQueryToServer("INSERT INTO precourse  VALUES ("+precourses+",'"+lastCourse+"')");
-	 	}
-	 	
-	 	int r = 0;
-	 	if(isValidInput && obj != null) r = (int)obj;
-	    if(isValidInput && r == -1){//if we encounter a error let's check which error it was.
-	        ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+lastCourse);
-	        if(res == null)
-	        	errorID.setText("ERROR: pre-course ID is not exist in the DB.");
-	        else 
-	        	errorID.setText("ERROR: this pre-course ID is already in DB."); 
-	    }
-    	preCourses.clear();
-
-    }
-    
+    	String idPreCourses = PreCourses.substring(PreCourses.indexOf("(") + 1, PreCourses.indexOf(")"));//get the idteachingUnit that is inside a ( ).
+    	System.out.println("idteachingUnit: "+ idPreCourses);
+    	
+    	if(flag==1){ 
+	 		obj =  transfferQueryToServer("INSERT INTO precourse(precourse, currCourse) VALUES ('"+idPreCourses+"',"+lastCourse+")");
+	    	if(obj == null){ //check if pre-course was successfully added in DB
+	    		addpreCourses.setText("The pre-course was successfully added in DB.");
+				errorID.setText("");
+	    	}
+	    	
+	    	int r=0;
+	    	if(obj != null){  //check if Data exists in DB
+	    		r = (int)obj;
+	    		if(r == -1)//if we encounter a error let's check which error it was.
+			        	errorID.setText("ERROR: this pre-course ID is already in DB."); 
+	    	}
+    	}
+	    //PreCourses.clear();
+    } 
     
 	//------------------------------------------// 
     
     @FXML
-    void done(ActionEvent event) {
+    void finish(ActionEvent event) {
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddCourseWindow.fxml"));
 			   loader.setController(new SystemManagerAddCourseController("SystemManagerAddCourseControllerID"));
@@ -160,17 +137,6 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 					e.printStackTrace();
 				}
     }
-
-/*	
-    @FXML
-    void done(ActionEvent event) {
-   
-    	errorIDdialog.setText("");
-    	//pleaseAdd.setText("Please add pre-course for course number: " + lastCourse);
-    	errorIDdialog.setVisible(false);
-    	
-    }//hide the add pre-course window when done was pressed.
-*/
     
   //------------------------------------------// 
     
@@ -181,8 +147,31 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
   		userID.setText(user.GetUserName());
   		ID.setText(lastCourse);
 
-  		
+	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses!='" + lastCourse +"'");
+        if(res==null){
+        	errorID.setText("There is NO such courses");//show error message.
+        }
+        else{
+		    ArrayList<String> precourses = new ArrayList<String>();
+	    	for(ArrayList<String> row:res){
+	    		precourses.add(row.get(1)+" ("+row.get(0)+")");
+	    	}
+		    ObservableList obList= FXCollections.observableList(precourses);
+		    preCourses.setItems(obList);
+        }
+
   	}
-  	 
+  
+  	
+//------------------------------------------//  	
+  
+  	
+    @FXML
+    void preCourses(ActionEvent event) {
+		flag = 1;
+		PreCourses = preCourses.getValue();
+
+    }
+
 
 }

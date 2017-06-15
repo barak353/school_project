@@ -45,29 +45,29 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="preCourses" layoutX="280.0" layoutY="162.0" prefHeight="25.0" prefWidth="149.0" promptText="pre-courses " />
-            <Button fx:id="doneButton" layoutX="532.0" layoutY="367.0" mnemonicParsing="false" onAction="#done" text="done">
+            <Button fx:id="finishButton" layoutX="532.0" layoutY="367.0" mnemonicParsing="false" onAction="#finish" text="finish">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Text layoutX="47.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a pre-course for course ID:" wrappingWidth="326.5703125">
+            <Text layoutX="47.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a pre-course for course ID :" wrappingWidth="326.5703125">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="errorID" fill="RED" layoutX="165.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
+            <Text fx:id="errorID" fill="RED" layoutX="169.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text fx:id="errorIDdialog" fill="#f50000" layoutX="181.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
+            <Button fx:id="addButton" layoutX="260.0" layoutY="218.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add pre-course" />
+            <Text fx:id="ID" layoutX="375.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="75.7607421875">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </Text>
-            <Button fx:id="addButton" layoutX="240.0" layoutY="218.0" mnemonicParsing="false" onAction="#addPrecourse" text="Add more pre-course" />
-            <Text fx:id="ID" layoutX="374.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="75.7607421875">
+            <ComboBox fx:id="preCourses" layoutX="273.0" layoutY="163.0" onAction="#preCourses" opacity="0.78" prefWidth="150.0" promptText="pre-courses " />
+            <Text fx:id="addpreCourses" fill="#36d721" layoutX="169.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="279.064453125">
                <font>
                   <Font size="14.0" />
                </font>
