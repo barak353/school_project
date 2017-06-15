@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
@@ -62,6 +64,8 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     private Text userID;
     
+    @FXML
+    private Circle markTask;
 
     @FXML
     private Text textMSG;
@@ -70,10 +74,13 @@ public class FillFinalEvaluationController extends QueryController implements In
 	
     private boolean isTaskChoosed;
     private int isStudentChoosed=0;
+    private String chooseTask;
+    private String chooseCourse;
+    /*---------------------------------------------------------------------------------*/
     @FXML
     void chooseTask(ActionEvent event) {
-    
     	isTaskChoosed = true;
+   
     }
     
     @FXML
@@ -86,10 +93,10 @@ public class FillFinalEvaluationController extends QueryController implements In
     void saveB(ActionEvent event) {
     	textMSG.setVisible(false);
     	if(isTaskChoosed){
-	    	String chooseTask = TaskList.getValue();
+	        chooseTask = TaskList.getValue();
 	    	System.out.println("chooseTask: "+chooseTask);
 	    	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
-	    	String chooseCourse = CourseList.getValue();
+	        chooseCourse = CourseList.getValue();
 	    	chooseCourse = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));
 	    	
 	    	String finalGrade = grade.getText();
@@ -224,3 +231,32 @@ public class FillFinalEvaluationController extends QueryController implements In
     }
 
 }
+	/* ArrayList<String> mark = new ArrayList<String> ();
+ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+chooseTask+ 
+			" AND IDcourse="+ chooseCourse+" AND IDstudent="+ StudentList.getValue());
+ System.out.println("res:" + res);
+ if(res ==null){
+		textMSG.setText("this student did not submmit the task ");
+		textMSG.setVisible(true);
+		markTask.setFill(Color.BLACK);
+		markTask.setVisible(true);
+ }
+ else{
+	   mark = res.get(0);
+	   System.out.println("mark:" + mark);
+	   char[] chars = mark.toString().toCharArray();
+	   System.out.println("chars:" + chars[0]);
+	   if(chars[1]=='1')
+	   {
+		   textMSG.setText("this student submmit the task Late ");
+		   textMSG.setVisible(true);
+		   markTask.setFill(Color.RED);
+		   markTask.setVisible(true);
+	   }
+	   else{
+	   textMSG.setText("this student submmit the task in time ");
+	   textMSG.setVisible(true);
+	   markTask.setFill(Color.GREEN);
+	   markTask.setVisible(true);
+	   }
+ }*/

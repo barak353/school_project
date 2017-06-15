@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -77,6 +79,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
+            <Circle fx:id="markTask" fill="#20ee4d" layoutX="446.0" layoutY="129.0" radius="12.0" stroke="#080808" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>
       <Label layoutX="281.0" layoutY="21.0" prefHeight="25.0" prefWidth="106.0" text="course Name:">
