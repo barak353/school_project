@@ -54,6 +54,16 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+            <Text fx:id="SuccessMessage" fill="#ff00a6" layoutX="137.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="335.25585770606995">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Button fx:id="Finish" layoutX="269.0" layoutY="263.0" mnemonicParsing="false" onAction="#FinishHandler" text="Finish" textFill="#a908da" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
             <DialogPane fx:id="dialogPane" layoutX="125.0" layoutY="227.0" prefHeight="185.0" prefWidth="360.0" visible="false" />
             <Label fx:id="StudentsLable" layoutX="180.0" layoutY="247.0" text="Student's that assigned to this course:" textFill="#be00ff" visible="false">
                <font>
@@ -61,17 +71,12 @@
                </font>
             </Label>
             <ComboBox fx:id="StudentCombo" layoutX="229.0" layoutY="277.0" prefWidth="150.0" promptText="Choose Student:" visible="false" />
-            <Button fx:id="Save" layoutX="273.0" layoutY="338.0" mnemonicParsing="false" text="Save" textFill="#c600ff" visible="false">
+            <Button fx:id="Save" layoutX="273.0" layoutY="338.0" mnemonicParsing="false" onAction="#SaveHandler" text="Save" textFill="#c600ff" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
             <Text fx:id="StudentErr" fill="RED" layoutX="128.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="335.2558547258377">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-            <Text fx:id="SuccessMessage" fill="#ff00a6" layoutX="137.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="335.25585770606995">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

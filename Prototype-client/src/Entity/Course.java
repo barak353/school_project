@@ -11,14 +11,16 @@ public class Course {
 	
 	private String hours;
 	
-	public static ArrayList<Course> courseList = null;
+	public ArrayList<String> StudentList = null;
 	
-	public Course(String idcourses, String courseName, String teachingUnit, String hours) {
+	public Course(String idcourses, String courseName, String teachingUnit, String hours)
+	{
 		super();
 		this.idcourses = idcourses;
 		this.courseName = courseName;
 		this.teachingUnit = teachingUnit;
 		this.hours = hours;
+		StudentList=new ArrayList<String>();
 	}
 
 
