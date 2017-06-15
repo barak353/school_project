@@ -49,7 +49,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="CourseList" layoutX="102.0" layoutY="102.0" onAction="#chooseCourse" prefWidth="150.0" />
+            <ComboBox fx:id="CourseList" layoutX="102.0" layoutY="102.0" onAction="#chooseCourse" opacity="0.5" prefWidth="150.0" promptText="choose course" />
             <Label layoutX="40.0" layoutY="104.0" text="Course">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -60,7 +60,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="TaskList" layoutX="397.0" layoutY="102.0" onAction="#chooseTask" prefWidth="150.0" />
+            <ComboBox fx:id="TaskList" layoutX="397.0" layoutY="102.0" onAction="#chooseTask" opacity="0.5" prefWidth="150.0" promptText="choose task" />
             <Label layoutX="343.0" layoutY="105.0" text="Task">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -76,8 +76,8 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="grade" layoutX="263.0" layoutY="206.0" />
-            <TextArea fx:id="comments" layoutX="263.0" layoutY="257.0" prefHeight="132.0" prefWidth="203.0" />
+            <TextField fx:id="grade" layoutX="263.0" layoutY="206.0" promptText="insert grade (0-100)" />
+            <TextArea fx:id="comments" layoutX="263.0" layoutY="257.0" prefHeight="132.0" prefWidth="203.0" promptText="write comments abut this task" />
             <Label layoutX="150.0" layoutY="257.0" text="final comments">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -88,7 +88,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="StudentList" layoutX="262.0" layoutY="155.0" onAction="#chooseStudent" prefWidth="150.0" />
+            <ComboBox fx:id="StudentList" layoutX="262.0" layoutY="155.0" onAction="#chooseStudent" opacity="0.51" prefWidth="150.0" promptText="choose student" />
             <Circle fx:id="markTask" fill="#34ff1f" layoutX="466.0" layoutY="167.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>

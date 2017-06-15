@@ -76,12 +76,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     private int isStudentChoosed=0;
     private String chooseTask;
     private String chooseCourse;
+    private String idcourses;
     /*---------------------------------------------------------------------------------*/
-    @FXML
-    void chooseTask(ActionEvent event) {
-    	isTaskChoosed = true;
-   
-    }
+
     
     @FXML
     void TurningBack(ActionEvent event) {
@@ -92,7 +89,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     void saveB(ActionEvent event) {
     	textMSG.setVisible(false);
-    	if(isTaskChoosed){
+    	if(!isTaskChoosed){
 	        chooseTask = TaskList.getValue();
 	    	System.out.println("chooseTask: "+chooseTask);
 	    	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
@@ -163,6 +160,32 @@ public class FillFinalEvaluationController extends QueryController implements In
     	textMSG.setVisible(false);
     	isTaskChoosed = false;
     	String chooseCourse = CourseList.getValue();
+    	 idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+    	 isStudentChoosed = 1;
+    	  	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);
+           	System.out.println("res2: "+res);
+           	if (res==null)
+        	{
+        		textMSG.setText("There are no assignments in this course");
+        		textMSG.setVisible(true);
+        	}
+    		else {
+    	       	ArrayList<ArrayList<String>> res2;
+    	    	//create array list of task name and task id and show in the combobox
+    	    	ArrayList<String> TaskNameList = new ArrayList<String>();
+    	       	for(ArrayList<String> row:res){
+    	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+    	        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	    	}
+    	       	ObservableList obList= FXCollections.observableList(TaskNameList);
+    	    	TaskList.setItems(obList);	
+    			}
+    }
+    @FXML
+    void chooseTask(ActionEvent event) {
+    	isTaskChoosed = true;
+    	chooseTask = TaskList.getValue();
+    	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+idcourses);
     	if (res==null)
@@ -179,13 +202,44 @@ public class FillFinalEvaluationController extends QueryController implements In
     	ObservableList obList= FXCollections.observableList(resultArray);
     	StudentList.setItems(obList);
 		}
+   
     }
-    
    @FXML
     void chooseStudent(ActionEvent event) {
 	   isTaskChoosed = false;
 	   textMSG.setVisible(false);
 	   isStudentChoosed = 1;
+	   String  idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
+	   ArrayList<String> mark = new ArrayList<String> ();
+	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+idtask+ 
+	   			" AND IDcourse="+ idcourses+" AND IDstudent="+ StudentList.getValue());
+	    System.out.println("res:" + res);
+	    if(res ==null){
+	   		textMSG.setText("this student did not submmit the task ");
+	   		textMSG.setVisible(true);
+	   		markTask.setFill(Color.BLACK);
+	   		markTask.setVisible(true);
+	    }
+	    else{
+	   	   mark = res.get(0);
+	   	   System.out.println("mark:" + mark);
+	   	   char[] chars = mark.toString().toCharArray();
+	   	   System.out.println("chars:" + chars[0]);
+	   	   if(chars[1]=='1')
+	   	   {
+	   		   textMSG.setText("this student submmit the task Late ");
+	   		   textMSG.setVisible(true);
+	   		   markTask.setFill(Color.RED);
+	   		   markTask.setVisible(true);
+	   	   }
+	   	   else{
+	   	   textMSG.setText("this student submmit the task in time ");
+	   	   textMSG.setVisible(true);
+	   	   markTask.setFill(Color.GREEN);
+	   	   markTask.setVisible(true);
+	   	   }
+	    }
+	   /*
     	String chooseStudent =  StudentList.getValue();
     	System.out.println("chooseStudent: "+chooseStudent);
     	
@@ -206,11 +260,11 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    	}
 	       	ObservableList obList= FXCollections.observableList(TaskNameList);
 	    	TaskList.setItems(obList);	
-			}
+			}*/
 		}
  
  
-   //func that return to the log in sfreen
+   //func that return to the log in screen
     @FXML
     void LogOut(ActionEvent event) {
 		 try 
