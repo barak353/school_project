@@ -14,6 +14,8 @@ import Parent.ChildDetailsController;
 import Parent.ChoiceChildController;
 import Entity.User;
 import application.QueryController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -37,155 +40,171 @@ public class SystemManagerAddCourseController extends QueryController implements
 	}
 	
 	//-----------------------------------------------------------// 
+	
 	Object nextController=null;	
 
     @FXML
     private TextField hours;
-
     @FXML
     private Text currentSemester;
-
     @FXML
     private Button addCourseButton;
-
     @FXML
     private Button back;
-
     @FXML
     private Text userID;
-
-    @FXML
-    private TextField TeachingUnit;
-
     @FXML
     private Button logout;
-
     @FXML
     private TextField courseName;
-
     @FXML
     private Button addPreCourseButton;
-
     @FXML
-    private TextField course;
-
+    private Text course;
     @FXML
     private Text errorID;
-   
     @FXML
     private Text add;
+    @FXML
+    private ComboBox<String> TeachingUnit;
+    @FXML
+    private Text Coursetext;
+    @FXML
+    private Button addMoreCourseButton;
     
     private String lastCourse = "";
     private String nameCourse = "";
-    private String teachingUnit = "";
     private String Hours = "";
-    
+    private String teachingUnit;
+    private int flag=0;
+
 	//-----------------------------------------------------------// 
     
     @FXML
-    void addCourse(ActionEvent event) {
+    void addCourse(ActionEvent event){
     	boolean isValidInput = true;
-    	
-    	lastCourse = course.getText();
     	nameCourse = courseName.getText();
-    	teachingUnit = TeachingUnit.getText();
     	Hours = hours.getText();
-
     	errorID.setText("");
-    	//empty field ID course
-    	if(lastCourse.equals("")==true){
-    		errorID.setText("ERROR: Please insert valid course ID.");
-    		isValidInput = false;
-    	}
-
-    	else if (lastCourse.length() > 5){
-    		errorID.setText("Course ID can be longer then 5 digits.");
-    		isValidInput = false;
-    	}
-    	
-    	
-    	try{//check if the course ID is only numbers.
-    		Integer.parseInt(lastCourse);
+		add.setText("");
+		course.setText("");
+		
+    	try{	//check if the filed hours is only numbers.
+    		Integer.parseInt(Hours);
     	}
     	catch(NumberFormatException e){
-    		errorID.setText("ERROR: Please insert valid course ID, Course ID most contain only numbers."); 
+    		errorID.setText("ERROR:\nHours most contain only numbers."); 
+    		add.setText("");
+    		course.setText("");
+    		isValidInput = false;
+    	}
+   	
+    	if(nameCourse.equals("")==true || Hours.equals("")==true){	//checks if there is an empty field
+    		errorID.setText("ERROR:\nPlease fill out all fields.");
+    		add.setText("");
+    		course.setText("");
     		isValidInput = false;
     	}
     	
-    	
-    	//Checks if there is an empty field
-    	if(nameCourse.equals("")==true || teachingUnit.equals("")==true || Hours.equals("")==true){
-    		errorID.setText("ERROR: Please fill out all fields.");
+    	else if(flag == 0){	//not choose Teaching Unit.
+    		errorID.setText("ERROR:\nPlease choose Teaching Unit.");
+    		add.setText("");
+    		course.setText("");
     		isValidInput = false;
     	}
-    
-
-
-    	int r = 0;
+		
+	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + nameCourse +"'");
+	    if(res != null){ // check if the name course is already exist in the DB or not exist.
+			errorID.setText("ERROR:\nthis Name Course is exist in DB, Choose another name."); 
+    		add.setText("");
+    		course.setText("");
+    		isValidInput = false;
+		}
+    	
     	Object obj = null;
-	 	if(isValidInput == true){
-	 		obj =  transfferQueryToServer("INSERT INTO courses VALUES ("+course.getText()+",'"+courseName.getText()+"',"+TeachingUnit.getText()+","+hours.getText()+")");
-	 	}
-    	if(isValidInput && obj != null){ 
-    		r = (int) obj;//we want to check if the query was successful.
+    	String idteachingUnit = teachingUnit.substring(teachingUnit.indexOf("(") + 1, teachingUnit.indexOf(")"));//get the idteachingUnit that is inside a ( ).
+    	System.out.println("idteachingUnit: "+ idteachingUnit);
+    	
+    	if(isValidInput == true){  //if the data were inserted properly, added in DB.
+	 		obj =  transfferQueryToServer("INSERT INTO courses(courseName, teachingUnit, hours) VALUES ('"+courseName.getText()+"','"+idteachingUnit+"',"+hours.getText()+")");
+	    	if(obj == null){ //check if data insert to DB
+				add.setText("The course was successfully added in DB.");
+				addPreCourseButton.setVisible(true);
+				addMoreCourseButton.setVisible(true);
+		    	errorID.setText("");
+		    	
+				//The number the DB gave to the ID course
+				ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + nameCourse +"'");
+		        if(res1==null){
+		        	errorID.setText("There is NO such name courses");//show error message.
+		    		add.setText("");
+		    		course.setText("");
+		    		isValidInput = false;
+		        }
+		        else{
+		    		ArrayList<String> chooseIDcourse = new ArrayList<String>();
+		    		chooseIDcourse.add(res1.get(0).get(0));
+		    		String[] id = new String[chooseIDcourse.size()];
+		    		id = chooseIDcourse.toArray(id);
+		    		Coursetext.setVisible(true);
+		    		course.setText(id[0]);
+		    		lastCourse=id[0];
+		        }
+	    	}
     	}
-    	if(isValidInput && obj == null){ 
-			add.setText("The course was successfully added in DB."); 
-    	}
-
-   	 	if(isValidInput && r != -1){//show add pre-course screen if the course was added successful.
-    	}
-   	 	else{//if the course encounter some error so let's check which error is it.
-    		if(isValidInput == true){//check if the course ID is less then 5 digits.
-	        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE idcourses = "+course.getText());
-	    		if(res != null){
-	    			errorID.setText("ERROR: this course ID is already in DB."); 
-	    			isValidInput = false;
-	    		}
-	    		else {
-	    			errorID.setText("ERROR: Teaching unit is not exist in the DB."); 
-	    			isValidInput = false;
-	    		}
-    		}// check if the course ID is already exist in the DB or the course ID is not exist.
-    	 }
-   	 	addPreCourseButton.setVisible(true);
-
-    	}
-    
+    }
     
 		//------------------------------------------// 
 		
-	    @FXML
-	    void addPreCourse(ActionEvent event) {
-	    	try {
-	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddPreCourseWindow.fxml"));
-	    		SystemManagerAddPreCourseController controller = new SystemManagerAddPreCourseController("SystemManagerAddPreCourseController");
-	    		controller.setCourseID(lastCourse);
-		        loader.setController(controller);
-				   Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		        } catch (IOException e) {//problem with the teacherWindow.xml file.
-					System.err.println("Missing SystemManagerAddPreCourseWindow.fxml file");
-					e.printStackTrace();
-				}
-	 	
-	    }
+ 
+    @FXML
+		void addPreCourse(ActionEvent event) {
+    		try {
+		    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddPreCourseWindow.fxml"));
+		    	SystemManagerAddPreCourseController controller = new SystemManagerAddPreCourseController("SystemManagerAddPreCourseController");
+		    	controller.setCourseID(lastCourse);
+			    loader.setController(controller);
+				Pane login_screen_parent = loader.load();
+				Scene login_screen_scene=new Scene(login_screen_parent);
+				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+				app_stage.hide();
+				app_stage.setScene(login_screen_scene);
+				app_stage.show(); 
+    		} 
+	    	catch (IOException e) {//problem with the teacherWindow.xml file.
+				System.err.println("Missing SystemManagerAddPreCourseWindow.fxml file");
+				e.printStackTrace();
+			}
+    	}
 	 
     
+	//------------------------------------------//
+    
+    
+    	@FXML
+    	void addmoreCourse(ActionEvent event) {
+			 try {
+				   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddCourseWindow.fxml"));
+				   loader.setController(new SystemManagerAddCourseController("SystemManagerAddCourseControllerID"));
+				   Pane login_screen_parent = loader.load();
+				        Scene login_screen_scene=new Scene(login_screen_parent);
+						Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+						app_stage.hide();
+						app_stage.setScene(login_screen_scene);
+						app_stage.show(); 
+			        } catch (IOException e) {//problem with the teacherWindow.xml file.
+						System.err.println("Missing SystemManagerAddCourseWindow.fxml file");
+						e.printStackTrace();
+					}
+	    }
+
 	//------------------------------------------// 
 
-
 		@FXML
-		void TurningBack(ActionEvent event)
-		{
+		void TurningBack(ActionEvent event){
 			this.nextController = new SystemManagerMainController("SystemManagerMainControllerID");
 			this.Back("/SystemManager/SystemManagerMainWindow.fxml",nextController, event);
 		}
-
 		
 
 		//------------------------------------------// 
@@ -196,6 +215,29 @@ public class SystemManagerAddCourseController extends QueryController implements
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			
+		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teachingunit");
+	        if(res==null){
+	        	errorID.setText("There is NO such name courses");//show error message.
+	        }
+	        else{
+			    ArrayList<String> teachingunitList = new ArrayList<String>();
+		    	for(ArrayList<String> row:res){
+		    		teachingunitList.add(row.get(1)+" ("+row.get(0)+")");
+		    	}
+			    ObservableList obList= FXCollections.observableList(teachingunitList);
+			    TeachingUnit.setItems(obList);
+	        }
 		}
-	    
+		
+		
+		//------------------------------------------// 
+
+		
+	    @FXML
+	    void teachingUnit(ActionEvent event) {
+			flag = 1;
+			teachingUnit = TeachingUnit.getValue();
+	    }
+
+	   	    
  }

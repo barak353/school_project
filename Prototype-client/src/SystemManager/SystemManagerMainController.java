@@ -46,19 +46,14 @@ public class SystemManagerMainController extends QueryController implements Init
 	
     @FXML
     private Button logout;
-
-
     @FXML
     private Button back;
-
-    
     @FXML
     private Button addNewCourseButton;
-
     @FXML
     private Text userID;
-
-
+    
+    
     @FXML
     void addNewCourse(ActionEvent event) {
 		 try {

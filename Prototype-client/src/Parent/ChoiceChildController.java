@@ -95,7 +95,8 @@ public class ChoiceChildController extends QueryController implements Initializa
 		}
 	}   
 
-    
+	//-----------------------------------------------------------//
+
     @FXML
     void TurningBack(ActionEvent event)
     {
@@ -103,7 +104,8 @@ public class ChoiceChildController extends QueryController implements Initializa
     	this.Back("/Parent/ParentMain.fxml",nextController, event);
     }
    
-    
+	//-----------------------------------------------------------//
+
     @FXML
     void LogOut(ActionEvent event) {
 		 try 
@@ -125,7 +127,8 @@ public class ChoiceChildController extends QueryController implements Initializa
     }
     
 	//-----------------------------------------------------------//
-	@Override
+	
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
@@ -133,15 +136,18 @@ public class ChoiceChildController extends QueryController implements Initializa
 		parentID = user.GetID();
 		
 	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT studenid FROM childparent WHERE PID="+parentID);
-	    
-	    ArrayList<String> childNameList = new ArrayList<String>();
-    	for(ArrayList<String> row:res){
-        	childNameList.add(row.get(0));
-    	}
-    	
-	    ObservableList obList= FXCollections.observableList(childNameList);
-	    childlist.setItems(obList);
-	    
+        if(res==null){
+        	ErrorMSG.setText("There is NO such student");//show error message.
+        }
+        else{
+		    ArrayList<String> childNameList = new ArrayList<String>();
+	    	for(ArrayList<String> row:res){
+	        	childNameList.add(row.get(0));
+	    	}
+	    	
+		    ObservableList obList= FXCollections.observableList(childNameList);
+		    childlist.setItems(obList);
+        }
 	}
 
     @FXML
