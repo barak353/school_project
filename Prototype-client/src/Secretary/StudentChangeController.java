@@ -96,7 +96,6 @@ public class StudentChangeController extends QueryController implements Initiali
 					System.err.println("Missing DeleteStudentFromCourse.fxml file");
 					e.printStackTrace();
 				}
-    		
     }
     //-------------------------------------------------------------------------------------------// 
 	@FXML

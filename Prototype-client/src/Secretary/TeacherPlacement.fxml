@@ -54,33 +54,41 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Label layoutX="195.0" layoutY="128.0" text="Course:">
+            <Label layoutX="169.0" layoutY="128.0" text="Course:" textFill="#29e408">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <ComboBox fx:id="CourseCombo" layoutX="264.0" layoutY="125.0" onAction="#CourseHandler" prefWidth="150.0" promptText="Choose Course:" />
-            <DialogPane layoutX="136.0" layoutY="163.0" prefHeight="161.0" prefWidth="360.0" />
-            <Button fx:id="SaveID" layoutX="282.0" layoutY="332.0" mnemonicParsing="false" onAction="#SaveButtonHandler" text="Save">
+            <DialogPane fx:id="Dialog" layoutX="167.0" layoutY="163.0" prefHeight="145.0" prefWidth="251.0" visible="false" />
+            <Button fx:id="SaveID" layoutX="269.0" layoutY="271.0" mnemonicParsing="false" onAction="#SaveButtonHandler" text="Save" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
                <effect>
-                  <InnerShadow color="#9301f5" />
+                  <InnerShadow color="#29f502" />
                </effect>
             </Button>
-            <Label layoutX="192.0" layoutY="212.0" text="Teacher:">
+            <Label fx:id="TeacherLable" layoutX="175.0" layoutY="226.0" text="Teacher:" textFill="#29e408" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="201.0" layoutY="253.0" text="Class:">
+            <Label fx:id="ClassLable" layoutX="175.0" layoutY="179.0" text="Class:" textFill="#29e408" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="ClassCombo" layoutX="286.0" layoutY="241.0" prefHeight="25.0" prefWidth="106.0" promptText="Choose Class:" />
-            <ComboBox fx:id="TeacherCombo" layoutX="281.0" layoutY="209.0" prefWidth="150.0" promptText="Choose Teacher:" />
+            <ComboBox fx:id="ClassCombo" layoutX="264.0" layoutY="176.0" prefHeight="25.0" prefWidth="150.0" promptText="Choose Class:" visible="false" />
+            <ComboBox fx:id="TeacherCombo" layoutX="264.0" layoutY="223.0" prefWidth="150.0" promptText="Choose Teacher:" visible="false" />
+            <Button fx:id="FinishButton" layoutX="267.0" layoutY="322.0" mnemonicParsing="false" onAction="#FinishButtonHandler" text="Finish" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <effect>
+                  <InnerShadow color="#37ff00" />
+               </effect>
+            </Button>
          </children>
       </Pane>
    </children>
