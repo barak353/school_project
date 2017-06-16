@@ -5,29 +5,17 @@ import java.util.ArrayList;
 public class Class {
 
 	private String ClassName;
-	private String ClassNum;
 	private ArrayList<String> StudentsArray;
 	//--------------------------------------//
-	public Class(String name, String num)
+	public Class(String name)
 	{
 		ClassName=name;
-		ClassNum=num;
 		StudentsArray=new ArrayList<String>();
 	}
 	//--------------------------------------//
 	public void SetName (String name)
 	{
 		this.ClassName=name;
-	}
-	//--------------------------------------//
-	public void SetNum (String num)
-	{
-		this.ClassNum=num;
-	}
-	//--------------------------------------//
-	public String GetNum ()
-	{
-		return this.ClassNum;
 	}
 	//--------------------------------------//
 	public String GetName ()
