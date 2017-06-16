@@ -190,8 +190,12 @@ public class WatchTaskController extends QueryController implements Initializabl
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
-		if(IdTaskInCourseList==null)
+		if(IdTaskInCourseList==null){
 			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			//This lines cleans the Task combobox.
+			 ObservableList obList= FXCollections.observableList(new ArrayList());
+			 comboBoxChooseTask.setItems(obList);
+		}
 		else
 		{
 			ErrorMSG.setText("");//show error message.
@@ -220,13 +224,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 		if(taskRes != null && taskRes.get(0) != null) 
 		{
 		     ArrayList<String> row = taskRes.get(0);
-		     DateFormat df = new SimpleDateFormat("mm-dd-yyyy");
-		     try {
-				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
-				isTaskChoosed = true;
-			} catch (ParseException e) {
-				System.out.println("Error in format from string to date.");
-			}
+		     task = new Task(row.get(0),row.get(1),row.get(2), row.get(3));
+			isTaskChoosed = true;
 		}
 	}
 	

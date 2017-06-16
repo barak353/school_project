@@ -6,9 +6,9 @@ public class Task {
 	private String idTASK;
 	private String idcourse;
 	private String TaskName;
-	private Date SubDate;
+	private String SubDate;
 	
-	public Task(String idTASK, String idcourse, String taskName, Date date) {
+	public Task(String idTASK, String idcourse, String taskName, String date) {
 		super();
 		this.idTASK = idTASK;
 		this.idcourse = idcourse;
@@ -34,10 +34,10 @@ public class Task {
 	public void setTaskName(String taskName) {
 		TaskName = taskName;
 	}
-	public Date getSubDate() {
+	public String getSubDate() {
 		return SubDate;
 	}
-	public void setSubDate(Date subDate) {
+	public void setSubDate(String subDate) {
 		SubDate = subDate;
 	}
 

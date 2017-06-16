@@ -45,6 +45,8 @@ import Entity.User;
  */
 public class SubmitTaskController extends QueryController implements Initializable {
 
+	private static final String DB = null;
+
 	//-----------------------------------------------------------//
 	public SubmitTaskController(String controllerID) 
 	{
@@ -125,10 +127,10 @@ public class SubmitTaskController extends QueryController implements Initializab
 				//add the sub task details to the db
 				
 				
-				//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 				
-				Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES ('" + idTASK + "','" + courseID + ":" + studentID + "')");
-				//--------------------------------------------------------------------------------------------------------
+Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES (" + idTASK + "," + courseID + "," + studentID + "')");
+//--------------------------------------------------------------------------------------------------------
 				
 				
                 System.out.println("You have successfully inserted the data into DB:\ntask "  );
@@ -253,48 +255,27 @@ public class SubmitTaskController extends QueryController implements Initializab
 		     ArrayList<String> row = taskRes.get(0);
 		     ErrorMSG.setText("");
 		     //-----------------------------------------------------------
-		     DateFormat df = new SimpleDateFormat("yyyy-dd-mm");
+		    // DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 		     LocalDate now = LocalDate.now();
 		     
 		     int mark;
 		 
-		     try {
-				task = new Task(row.get(0),row.get(1),row.get(2),(Date) df.parse(row.get(3)));
-				isTaskChoosed = true;
-                 
-				
-				
-				//Check if the date already pass
-				 
-				 LocalDate SubTaskDate= task.getSubDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				 System.out.println(" The sub Date: "  +SubTaskDate);
-				 System.out.println(" The now Date: "  +task.getSubDate());
-				 
-				if ((now.compareTo(SubTaskDate) > 0))
-				 { 
-					 ErrorMSG.setText("The submmision date is pass!!!");
-					 mark=1;
-					 //enter the mark to the query
-					
-			    		return;
-			     }
-			    /* 
-			     *1. add the current  sub date date to the db
-			     *2.add mark to the teacher
-			     *3.fix the date
-			     *4.fix the query
-			     *4.add tests
-			     */
-				 
-				 //------------------------------------------------------------
-				
-				
+		     String DB=row.get(3).substring(0, 12);
+			 task = new Task(row.get(0),row.get(1),row.get(2), DB);
+			 isTaskChoosed = true;
+       
+			if ((now.toString().compareTo(DB) > 0)){
+				System.out.println("now gratter then db");
+				ErrorMSG.setText("The submmision date is pass!!!");
+				 mark=1;
+			}else{
+				System.out.println("db is gratter then now");
 				
 			}
-		     catch (ParseException e)
-		    {
-				System.out.println("Error in format from string to date.");
-			}
+			 //{ 
+			 
+			//	
+				 //enter the mark to the query
 		}
 	}
 }
