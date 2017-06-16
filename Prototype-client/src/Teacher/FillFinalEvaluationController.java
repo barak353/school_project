@@ -72,8 +72,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     
   // private String chooseStudent;
 	
-    private boolean isTaskChoosed;
-    private int isStudentChoosed=0;
+    private boolean isTaskChoosed=false;
+    private boolean isCourseChoosed = false;
+    private boolean isStudentChoosed = false;
     private String chooseTask;
     private String chooseCourse;
     private String idcourses;
@@ -90,52 +91,71 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     void saveB(ActionEvent event) {
     	textMSG.setVisible(false);
-    	if(!isTaskChoosed){
-	        chooseTask = TaskList.getValue();
-	    	System.out.println("chooseTask: "+chooseTask);
-	    	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
-	        chooseCourse = CourseList.getValue();
-	    	chooseCourse = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));
-	    	
-	    	String finalGrade = grade.getText();
-	    	int fnlGrade;
-	    	try{
-	    		fnlGrade = Integer.parseInt(finalGrade);
-	    	}
-	    	catch(NumberFormatException e){
-	    		textMSG.setText("Final grade most contain only numbers.");
-	    		textMSG.setVisible(true);
-	    		return;
-	    	}
-	    	if(fnlGrade > 100 || fnlGrade < 0){
-	    		textMSG.setText("Final grade most be between 100 to 0.");
-	    		textMSG.setVisible(true);
-	    		return;
-	    	}
-	    	String finalCom = comments.getText();
-	        if(comments.getText().trim().isEmpty()){
-	    		textMSG.setText("Please insert a comment.");
-	    		textMSG.setVisible(true);
-	    		return;
-	    	}
-	        if(flag ==0){//if the student did not submit the task(he dont exists in the table
-	        	transfferQueryToServer("INSERT INTO subtask (idTASK, IDcourse, IDstudent, grade, Comments) VALUES ("+chooseTask+","+chooseCourse+","
-	        			+StudentList.getValue()+",'"+finalGrade +"','"+ finalCom +"')");				
-	        	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
-	        	textMSG.setVisible(true);
-	        }
-	        else{
-	    	//insert into the DB the grade and the comments of specific student
-	    	transfferQueryToServer("UPDATE subtask SET grade = "+ finalGrade +", Comments='"+ finalCom +"' WHERE idTASK="
-	    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 
-	    	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
-	    	textMSG.setVisible(true);
-	    	
-	        }
-    	}else{
-	    	textMSG.setText("Please choose Task");
-	    	textMSG.setVisible(true);
+    	if(!isCourseChoosed){
+    		textMSG.setText("please choose course!");
+    		textMSG.setVisible(true);
+    		return;
     	}
+    	else{
+    		if(!isTaskChoosed){
+    			textMSG.setText("please choose task!");
+        		textMSG.setVisible(true);
+        		return;
+    		}
+    		else{
+    			if(isStudentChoosed){
+	    		chooseTask = TaskList.getValue();
+		    	System.out.println("chooseTask: "+chooseTask);
+		    	chooseTask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));
+		    	chooseCourse = CourseList.getValue();
+		    	chooseCourse = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));
+	    	
+		    	String finalGrade = grade.getText();
+		    	if(grade.getText().trim().isEmpty()){
+		    		textMSG.setText("please insert grade");
+	        		textMSG.setVisible(true);
+	        		return;
+		    	}
+		    	int fnlGrade;
+		    	try{
+		    		fnlGrade = Integer.parseInt(finalGrade);
+		    	}
+		    	catch(NumberFormatException e){
+		    		textMSG.setText("Final grade most contain only numbers.");
+		    		textMSG.setVisible(true);
+		    		return;
+		    	}
+		    	if(fnlGrade > 100 || fnlGrade < 0){
+		    		textMSG.setText("Final grade most be between 100 to 0.");
+		    		textMSG.setVisible(true);
+		    		return;
+		    	}
+		    	String finalCom = comments.getText();
+		        if(comments.getText().trim().isEmpty()){
+		    		textMSG.setText("Please insert a comment.");
+		    		textMSG.setVisible(true);
+		    		return;
+		    	}
+		        if(flag ==0){//if the student did not submit the task(he dont exists in the table
+		        	transfferQueryToServer("INSERT INTO subtask (idTASK, IDcourse, IDstudent, grade, Comments) VALUES ("+chooseTask+","+chooseCourse+","
+		        			+StudentList.getValue()+",'"+finalGrade +"','"+ finalCom +"')");				
+		        	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
+		        	textMSG.setVisible(true);
+		        }
+		        else{
+		    	//insert into the DB the grade and the comments of specific student
+		    	transfferQueryToServer("UPDATE subtask SET grade = "+ finalGrade +", Comments='"+ finalCom +"' WHERE idTASK="
+		    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 
+		    	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
+		    	textMSG.setVisible(true);
+		    	
+		        }
+    			}else{
+		    	textMSG.setText("Please choose student!");
+		    	textMSG.setVisible(true);
+	    	}
+	    	}
+	    	}
     	
     }
     
@@ -167,10 +187,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     void chooseCourse(ActionEvent event) {
     	textMSG.setVisible(false);
-    	isTaskChoosed = false;
+    	isCourseChoosed = true;
     	String chooseCourse = CourseList.getValue();
     	 idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-    	 isStudentChoosed = 1;
     	  	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);
            	System.out.println("res2: "+res);
            	if (res==null)
@@ -215,9 +234,8 @@ public class FillFinalEvaluationController extends QueryController implements In
     }
    @FXML
     void chooseStudent(ActionEvent event) {
-	   isTaskChoosed = false;
+	   isStudentChoosed = true;
 	   textMSG.setVisible(false);
-	   isStudentChoosed = 1;
 	   String  idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
 	   ArrayList<String> mark = new ArrayList<String> ();
 	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+idtask+ 

@@ -111,9 +111,11 @@ public void initialize(URL arg0, ResourceBundle arg1) {//this method perform whe
 void saveB(ActionEvent event) {
 	if(isstudentChoosed==0){//Check whether the user has selected a student
 		textMSG.setText("you didn't choose student");
+		textMSG.setVisible(true);
+		return;
 		
 	}
-	textMSG.setVisible(true);
+	
 	
 	//save file to server.
 	Object ans = uploadFileToServer(file,courseID);

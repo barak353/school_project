@@ -69,6 +69,7 @@ public class SetUpTaskController extends QueryController implements Initializabl
     		if(iscourseChoosed==0){
     			textMSG.setText("you didn't choose course");
     			textMSG.setVisible(true);
+    			return;
     			
     		}    		
     			String chooseCourse = CourseList.getValue();
