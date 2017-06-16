@@ -230,13 +230,14 @@ public class SchoolServer extends AbstractServer
 	   break;
 	  case "delete_folder":
 	  case "DELETE_FOLDER":
-	  System.out.println();
 	  File index = new File("file//"+packaged.get("filePath"));
 	  System.out.println("server, filename: " + index.getPath());
-	  	String[]entries = index.list();
-	  for(String s: entries){
-	      File currentFile = new File(index.getPath(),s);
-	      currentFile.delete();
+	  if(index.exists()){//if file is exist in the server then delete him.
+		  	String[]entries = index.list();
+		  for(String s: entries){
+		      File currentFile = new File(index.getPath(),s);
+		      currentFile.delete();
+		  }
 	  }
 	    try {
 			client.sendToClient((Object)packaged);
@@ -246,6 +247,7 @@ public class SchoolServer extends AbstractServer
 			e.printStackTrace(new PrintWriter(errors));
 			writer.println(errors.toString());
 		}
+	    
 	  break;
 	  default:
 			writer.println(date+": Option is not available.");
