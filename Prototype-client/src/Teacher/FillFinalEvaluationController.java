@@ -77,6 +77,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     private String chooseTask;
     private String chooseCourse;
     private String idcourses;
+    private int flag;
     /*---------------------------------------------------------------------------------*/
 
     
@@ -117,12 +118,20 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    		textMSG.setVisible(true);
 	    		return;
 	    	}
+	        if(flag ==0){//if the student did not submit the task(he dont exists in the table
+	        	transfferQueryToServer("INSERT INTO subtask (idTASK, IDcourse, IDstudent, grade, Comments) VALUES ("+chooseTask+","+chooseCourse+","
+	        			+StudentList.getValue()+",'"+finalGrade +"','"+ finalCom +"')");				
+	        	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
+	        	textMSG.setVisible(true);
+	        }
+	        else{
 	    	//insert into the DB the grade and the comments of specific student
 	    	transfferQueryToServer("UPDATE subtask SET grade = "+ finalGrade +", Comments='"+ finalCom +"' WHERE idTASK="
 	    							+chooseTask+" AND IDstudent="+StudentList.getValue()+" AND IDcourse="+ chooseCourse); 
 	    	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
 	    	textMSG.setVisible(true);
-	    	//textMSG.setVisible(false);
+	    	
+	        }
     	}else{
 	    	textMSG.setText("Please choose Task");
 	    	textMSG.setVisible(true);
@@ -214,13 +223,16 @@ public class FillFinalEvaluationController extends QueryController implements In
 	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+idtask+ 
 	   			" AND IDcourse="+ idcourses+" AND IDstudent="+ StudentList.getValue());
 	    System.out.println("res:" + res);
+	    //check the submition of the relevant student
 	    if(res ==null){
 	   		textMSG.setText("this student did not submmit the task ");
 	   		textMSG.setVisible(true);
 	   		markTask.setFill(Color.BLACK);
 	   		markTask.setVisible(true);
+	   		flag = 0;
 	    }
 	    else{
+	    	flag=1;
 	   	   mark = res.get(0);
 	   	   System.out.println("mark:" + mark);
 	   	   char[] chars = mark.toString().toCharArray();
@@ -239,28 +251,7 @@ public class FillFinalEvaluationController extends QueryController implements In
 	   	   markTask.setVisible(true);
 	   	   }
 	    }
-	   /*
-    	String chooseStudent =  StudentList.getValue();
-    	System.out.println("chooseStudent: "+chooseStudent);
-    	
-       	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM subtask WHERE IDstudent="+chooseStudent);
-       	System.out.println("res2: "+res);
-       	if (res==null)
-    	{
-    		textMSG.setText("This student don't submmit any task.");
-    		textMSG.setVisible(true);
-    	}
-		else {
-	       	ArrayList<ArrayList<String>> res2;
-	    	//create array list of task name and task id and show in the combobox
-	    	ArrayList<String> TaskNameList = new ArrayList<String>();
-	       	for(ArrayList<String> row:res){
-	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
-	        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
-	    	}
-	       	ObservableList obList= FXCollections.observableList(TaskNameList);
-	    	TaskList.setItems(obList);	
-			}*/
+	
 		}
  
  
@@ -285,32 +276,3 @@ public class FillFinalEvaluationController extends QueryController implements In
     }
 
 }
-	/* ArrayList<String> mark = new ArrayList<String> ();
-ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+chooseTask+ 
-			" AND IDcourse="+ chooseCourse+" AND IDstudent="+ StudentList.getValue());
- System.out.println("res:" + res);
- if(res ==null){
-		textMSG.setText("this student did not submmit the task ");
-		textMSG.setVisible(true);
-		markTask.setFill(Color.BLACK);
-		markTask.setVisible(true);
- }
- else{
-	   mark = res.get(0);
-	   System.out.println("mark:" + mark);
-	   char[] chars = mark.toString().toCharArray();
-	   System.out.println("chars:" + chars[0]);
-	   if(chars[1]=='1')
-	   {
-		   textMSG.setText("this student submmit the task Late ");
-		   textMSG.setVisible(true);
-		   markTask.setFill(Color.RED);
-		   markTask.setVisible(true);
-	   }
-	   else{
-	   textMSG.setText("this student submmit the task in time ");
-	   textMSG.setVisible(true);
-	   markTask.setFill(Color.GREEN);
-	   markTask.setVisible(true);
-	   }
- }*/
