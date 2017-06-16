@@ -29,53 +29,41 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-	
 public class DeleteStudentFromCourseController extends QueryController implements Initializable {
 	
 	@FXML
 	private Button logout;
-
 	@FXML
 	private Text userID;
-
 	@FXML
 	private Button back;
-
 	@FXML
 	private ComboBox<?> ComboCourse;
-	
 	@FXML
 	private Text ErrCourseMessage;
-
 	@FXML
 	private ComboBox<?> StudentCombo;
-
 	@FXML
 	private Text StudentErr;
-
 	@FXML
 	private Text SuccessMessage;
-	
 	@FXML
 	private DialogPane dialogPane;
-	
 	@FXML
 	private Label StudentsLable;
-
 	@FXML
 	private Button Save;
-	
 	@FXML
 	private Button Finish;
 	
 	Object nextController=null;
 	private ArrayList<ArrayList<String>> StudentsInCourse;
 	private String RequiredStringCourse;
-	private int counter=0;
 	private ArrayList<String> listCourses;
 	private ObservableList L;
 	private String ChosenCourse;
-	
+	private ArrayList<ArrayList<String>> CurrentSemester;
+	private ArrayList<ArrayList<String>> CoursesInSemester;
 	//--------------------------------------------------------//
 	public DeleteStudentFromCourseController(String controllerID)
 	{
@@ -88,22 +76,23 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
 		//--------------------------------------------------//
-   	  	ArrayList<ArrayList<String>> CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
+   	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
    	  	if(CurrentSemester!=null)
    	  	{
    	  		listCourses = new ArrayList<String>();
    	  		//Get Current Semester:
-   	  		ArrayList<ArrayList<String>> CoursesInSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Sem='" +CurrentSemester.get(0).get(0) +"'");
+   	  		CoursesInSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Sem='" +CurrentSemester.get(0).get(0) +"'");
    	  		if(CoursesInSemester!=null)
    	  		{
    	  			for(int i=0;i<CoursesInSemester.size();i++)
    	  			{
+   	  				//All the students that learn the course:
    	  				ArrayList<ArrayList<String>> CourseWithStudents= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityCourse='" + CoursesInSemester.get(i).get(0)+"'");
    	  				//Insert to the combobox only courses with students:
    	  				if(CourseWithStudents!=null)
    	  				{
    	  					ArrayList<ArrayList<String>> CourseName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE idcourses='" + CoursesInSemester.get(i).get(0)+"'");
-   	  					listCourses.add("("+CoursesInSemester.get(i).get(0)+")"+CourseName.get(0).get(0));
+   	  					 listCourses.add("("+CoursesInSemester.get(i).get(0)+")"+CourseName.get(0).get(0));	
    	  				}
    	  			}
      	  		L= FXCollections.observableList(listCourses);
@@ -122,7 +111,6 @@ public class DeleteStudentFromCourseController extends QueryController implement
    	   	  		ErrCourseMessage.setText("There is no courses in this semester.");
    	   	  		Finish.setVisible(true);
    	  		}
-
    	  	}
    	  	else
    	  	{
@@ -147,38 +135,33 @@ public class DeleteStudentFromCourseController extends QueryController implement
     		       {
     		    	   RequiredStringCourse = ChosenCourse.substring(ChosenCourse.indexOf("(") + 1, ChosenCourse.indexOf(")"));
                		   StudentsInCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityCourse='" +RequiredStringCourse+"'");
-
-            		   ArrayList<String> listStudents = new ArrayList<String>();
-        	   	       for(int i=0;i<StudentsInCourse.size();i++)
-        	  		   {
-        	  		    	  ArrayList<ArrayList<String>> StudentsName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userName FROM user WHERE userID='" +StudentsInCourse.get(i).get(0)+"'");
-        	  		    	  System.out.println(StudentsName.get(0).get(0));
-        	  		    	  listStudents.add("("+StudentsInCourse.get(i).get(0)+")- "+StudentsName.get(0).get(0));
-        	  		   }
-        	  		      ObservableList StudentL= FXCollections.observableList( listStudents);
-        	  		      StudentCombo.setItems(StudentL);
-        	  		      //---------------------------------//
-        	  		      //Set visible the next combobox:
-        	  		      StudentErr.setVisible(true);
-        	  		      dialogPane.setVisible(true);
-        	  		      StudentsLable.setVisible(true);
-        	  		      StudentCombo.setVisible(true);
-        	  		      Save.setVisible(true);
-        	  		      SuccessMessage.setVisible(true);
-        	  		      ErrCourseMessage.setText("");
-        	  		      //---------------------------------//
-    		    	   
-    		    	   
-    		       }
-       			  
+               		   if (StudentsInCourse!=null) //If there is students in the course:
+               		   {
+               			   ArrayList<String> listStudents = new ArrayList<String>();
+               			   for(int i=0;i<StudentsInCourse.size();i++)
+               			   {
+          	  		    	  ArrayList<ArrayList<String>> StudentsName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userName FROM user WHERE userID='" +StudentsInCourse.get(i).get(0)+"'");
+          	  		    	  listStudents.add("("+StudentsInCourse.get(i).get(0)+")- "+StudentsName.get(0).get(0));
+               			   }
+          	  		      ObservableList StudentL= FXCollections.observableList( listStudents);
+          	  		      StudentCombo.setItems(StudentL);
+          	  		      //---------------------------------//
+          	  		      //Set visible the next combobox:
+          	  		      StudentErr.setVisible(true);
+          	  		      dialogPane.setVisible(true);
+          	  		      StudentsLable.setVisible(true);
+          	  		      StudentCombo.setVisible(true);
+          	  		      Save.setVisible(true);
+          	  		      SuccessMessage.setVisible(true);
+          	  		      ErrCourseMessage.setText("");
+          	  		      //---------------------------------//   
+               		   }
+    		       }	  
      }
-    		  
-    
     //--------------------------------------------------------//
     @FXML
     void  SaveHandler(ActionEvent event)
     {
-    	 counter++;
     	 String ChosenStudent =  (String) StudentCombo.getValue();
     	 if (ChosenStudent==null)
     	 {
@@ -204,8 +187,7 @@ public class DeleteStudentFromCourseController extends QueryController implement
     		 {
     			 if (StudentsInCourse.get(i).get(0).equals(RequiredStringStudentID))
     			 {
-    				 
-     			     transfferQueryToServer("INSERT INTO studentinprecourse (childID,pCourseID,FinalGrade) VALUES ('" + RequiredStringStudentID + "','" + RequiredStringCourse+ "','" +StudentsInCourse.get(i).get(2)+"')");
+     			     transfferQueryToServer("INSERT INTO studentinprecourse (childID,pCourseID,FinalGrade,TheSemester) VALUES ('" + RequiredStringStudentID + "','" + RequiredStringCourse+ "','" +StudentsInCourse.get(i).get(2)+"','"+CurrentSemester.get(0).get(0)+"')");
     		   		 transfferQueryToServer("DELETE FROM studentincourse WHERE identityStudent="+RequiredStringStudentID+" and identityCourse="+RequiredStringCourse+"");
     		   		 StudentErr.setText("");
     		   		 SuccessMessage.setText("The student was deleted successfully from the course");
@@ -219,23 +201,24 @@ public class DeleteStudentFromCourseController extends QueryController implement
  		                	}
  		                }
  		            });
- 		            time.setRepeats(false);
- 		            time.start();
+ 		             time.setRepeats(false);
+ 		             time.start();
     			 }
     		 }//For
-    		  ArrayList<ArrayList<String>> CheckStudents= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityCourse='" +RequiredStringCourse+"'");
-    		  if(CheckStudents==null) //If there is no more students in course, delete the course from list
-    		  {
-    			  for(int i=0;i<listCourses.size();i++)
-    			  {
-    				  if(listCourses.get(i).equals(ChosenCourse));
-    				  {
-    					  listCourses.remove(i);
-    				  }
-    			  } 
-    			L= FXCollections.observableList(listCourses);
-         	  	ComboCourse.setItems(L);	
-    		  }
+    		 //------------------------------------------------------------------------------------------------//
+    		 listCourses = new ArrayList<String>();
+    		 for(int i=0;i<CoursesInSemester.size();i++)
+	  		 {
+    				ArrayList<ArrayList<String>> CourseWithStudents= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityCourse='" + CoursesInSemester.get(i).get(0)+"'");	  				//Insert to the combobox only courses with students:
+	  				if(CourseWithStudents!=null)
+	  				{
+	  					 ArrayList<ArrayList<String>> CourseName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE idcourses='" + CoursesInSemester.get(i).get(0)+"'");
+	  					 listCourses.add("("+CoursesInSemester.get(i).get(0)+")"+CourseName.get(0).get(0));	
+	  				}
+	  		 }
+  	  		L= FXCollections.observableList(listCourses);
+  	  		ComboCourse.setItems(L);
+    		 	//-------------------------------------------------------------------------------------------//
    			  if(listCourses.isEmpty()==true)
    			  {
    				  ErrCourseMessage.setVisible(true);
@@ -270,9 +253,7 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		        } catch (IOException e) {
 					System.err.println("Missing SecretaryMainController .fxml file");
 					e.printStackTrace();
-				}	 
-    		 
+				}	  
     }
-
 }
     
