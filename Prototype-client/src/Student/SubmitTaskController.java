@@ -89,13 +89,8 @@ public class SubmitTaskController extends QueryController implements Initializab
 
     private File file;
     
-    private int mark;
-    
     private boolean isTaskChoosed = false;
     private boolean isFileUploaded = false;
-    private String chooseCourse;
-    private  String choosedTask;
-    
     
 /**
  * After pressing the appropriate button, this function enters the details of the submitted  task to the DB
@@ -103,15 +98,11 @@ public class SubmitTaskController extends QueryController implements Initializab
  */
     @FXML
     void submitTask(ActionEvent event) {
-    	
     	ErrorMSG.setText(" ");
     	String IDcourse = task.getIdcourse();
     	String idTASK = task.getIdTASK(); 
     	String IDstudent = User.getCurrentLoggedIn().GetID();
-    	if(isTaskChoosed == false)
-    		ErrorMSG.setText("Please choose a task.");
-    		
-    	else{
+    	if(isTaskChoosed == true){
     		if(isFileUploaded == true){
 	        	//save file to server.
 	    		String v = comboBoxChooseCourse.getValue();
@@ -120,23 +111,35 @@ public class SubmitTaskController extends QueryController implements Initializab
 	    		System.out.println("file path: " + courseID + "//" + studentID);
 	    		deleteFolderFromServer(courseID,studentID);
 	    		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
-	    
+	    		//**********************************
+	    		//כאן את צריכה לעשות את השאילתא שמכניסה רשומה אל טבלת ה
+	    		//subtask
+	    		//את מכניסה את 
+	    		//IDcourse
+	    		//שהוא שמור במשתנה בשם
+	    		//IDcourse
+	    		// וגם יש לך את ה-
+	    		//idTASK
+	    		//שמור למעלה
+	    		//**********************************
+	    		
+				
 				//add the sub task details to the db
 				
- 				
-                 //--------------------------------------------------------------------------------------------------------
 				
-                Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES (" + idTASK + "," + courseID + "," + studentID + "," + mark + ")");
-                if( obj==null )//if INSERT operation had failed
-                	 System.out.println("You have failed inserted the data into DB:\ntask "  );
-                   if((int)obj==-1 )//if INSERT operation had failed
-                System.out.println("You have already this  inserted the data into DB:\ntask "  );
-                else
-                	System.out.println("You have successfully inserted the data into DB:\ntask "  );
-                //--------------------------------------------------------------------------------------------------------
-		
+//--------------------------------------------------------------------------------------------------------
+				
+Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES (" + idTASK + "," + courseID + "," + studentID + "')");
+//--------------------------------------------------------------------------------------------------------
+				
+				
+                System.out.println("You have successfully inserted the data into DB:\ntask "  );
+                
+                
 	    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
     		}else ErrorMSG.setText("Please upload a file for submition.");
+    	}else{
+    		ErrorMSG.setText("Please choose a task.");
     	}
     }
 /**
@@ -204,23 +207,29 @@ public class SubmitTaskController extends QueryController implements Initializab
 		isTaskChoosed = false;
     	ErrorMSG.setText(" ");
     	// save the student's choise
-		 chooseCourse = comboBoxChooseCourse.getValue();
+		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+		ArrayList<ArrayList<String>> NullList=null;
 		
 		if(IdTaskInCourseList==null)
 		{
-			comboBoxChooseTask.getItems().clear();
+			//להוסיף כאן מחיקת רשימה קודמת 
 			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			// ObservableList obList1= FXCollections.observableList(NullList);
+			 //comboBoxChooseTask.setItems(obList1);
+			// obList1.clear();
 		}
 		
 		else
 		{
-			comboBoxChooseTask.getItems().clear();
 			for(ArrayList<String> row : IdTaskInCourseList){
 					TaskNameList.add(row.get(0));
 			}
 			 ObservableList obList= FXCollections.observableList(TaskNameList);
+			 if(TaskNameList ==null)
+		    		obList.clear();
+		    	else
 			 comboBoxChooseTask.setItems(obList);
 		}
 	 }
@@ -236,7 +245,7 @@ public class SubmitTaskController extends QueryController implements Initializab
     	isFileUploaded = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-		 choosedTask = comboBoxChooseTask.getValue();
+		String choosedTask = comboBoxChooseTask.getValue();
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
 		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
 		System.out.println("taskRes: "+taskRes);
@@ -246,25 +255,27 @@ public class SubmitTaskController extends QueryController implements Initializab
 		     ArrayList<String> row = taskRes.get(0);
 		     ErrorMSG.setText("");
 		     //-----------------------------------------------------------
-		    // check if the sub date already pass
+		    // DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 		     LocalDate now = LocalDate.now();
-		     String DateDB=row.get(3).substring(0, 12);
-			 task = new Task(row.get(0),row.get(1),row.get(2), DateDB);
+		     
+		     int mark;
+		 
+		     String DB=row.get(3).substring(0, 12);
+			 task = new Task(row.get(0),row.get(1),row.get(2), DB);
 			 isTaskChoosed = true;
        
-			if ((now.toString().compareTo(DateDB) > 0))
-			{
-				System.out.println("now gratter then DateDB");
+			if ((now.toString().compareTo(DB) > 0)){
+				System.out.println("now gratter then db");
 				ErrorMSG.setText("The submmision date is pass!!!");
-				mark = 1;
-			}
-			else
-			{
-				mark = 0;
+				 mark=1;
+			}else{
 				System.out.println("db is gratter then now");
 				
 			}
-		
+			 //{ 
+			 
+			//	
+				 //enter the mark to the query
 		}
 	}
 }

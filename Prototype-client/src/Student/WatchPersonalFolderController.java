@@ -56,13 +56,12 @@ public class WatchPersonalFolderController extends QueryController implements In
     private Text GPA;
     
     @FXML
-    private Text GradeInCourse;
+    private Text TaskList;
     @FXML
     private ComboBox<String> ChooseCours;
     
-  
-    @FXML
-    private Text   ErrorMSG;
+
+   
 
 	 //-----------------------------------------------------------//
     @FXML
@@ -75,8 +74,6 @@ public class WatchPersonalFolderController extends QueryController implements In
     private Text Sgps;
     
     private	ArrayList<String> TaskNameList = new ArrayList<String>();
-    
-    private User user;
     
 
     //----------------------------------------------------------//
@@ -97,25 +94,23 @@ public class WatchPersonalFolderController extends QueryController implements In
 			userID.setText(user.GetUserName());
 		}
 		
-/**
+/** when the user press on  the button "Watch details" he will watch the student personal info on the screen 
  * 
- *  when the user press on  the button "Watch details" he will watch the student personal info on the screen 
- * 
- */
+ * **/
 		
 @FXML
 void WatchStudentDetails(ActionEvent event)
 {
 //public Student(String userId, String userName, String userPSW, String Type, String Email,float GPA)	 
 
- user = User.getCurrentLoggedIn();
+User user = User.getCurrentLoggedIn();
 
 //get student details from the user
 String userId1=user.GetID();
 String userName1=user.GetUserName();
 String userPSW=user.GetUserPassword();
 String Email1= user.GetEmail();
-
+float GPA1=100;
 
 //get the table with the student details
 ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID=" + userId1 );
@@ -129,12 +124,12 @@ Sgps.setText(resultArray.get(0).get(1));//GPA
 
 //----------------------------------------------------------------------------------------------------------------
 //put the names of the courses in the combobox
-ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse,Grade FROM studentincourse WHERE identityStudent="+userId1);	
+ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userId1);	
 System.out.println(StudentInCourseList);
 
 if(StudentInCourseList == null)
 {
-	ErrorMSG.setText("Student is not in this course");//show error message.
+	//ErrorMSG.setText("Student is not in this course");//show error message.
 	return;
 }
 else
@@ -147,14 +142,13 @@ else
 		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
 		if (CoursesNameList==null)
 		{
-			ErrorMSG.setText("There is NO courses.");//show error message
+			//ErrorMSG.setText("There is NO courses.");//show error message
 		}
 		
 		else
 		{
-		ErrorMSG.setText("");//show error message
-       
-		// show the student's course  
+		//ErrorMSG.setText("");//show error message
+		//System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
         courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
         System.out.println(courseNameList);
         ObservableList obList= FXCollections.observableList(courseNameList);
@@ -169,39 +163,36 @@ else
 
 
 /** 
- * This function handle with choosing the specific course  of the student and presenting its grade
+ * This function handle with choosing the specific course and presenting its assignments
  * 
  */	
 	
 @FXML
 void AfterChooseCourse(ActionEvent event)
 {
-
 // save the student's choise//
+
 String chooseCourse = ChooseCours.getValue();
-
-//save the grade's list of the student in the choosen course
 String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-ArrayList<ArrayList<String>> GradeOfStudentInCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Grade FROM studentincourse WHERE identityCourse="+idcourses+" AND identityStudent='"+user.GetID()+"'");
-
-if( GradeOfStudentInCourse==null)
+ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+if(IdTaskInCourseList==null)
 {
-	ErrorMSG.setText("There is NO Grades in this course.");//show error message.
-	return;
+	//ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 }
 else
 {
-	ErrorMSG.setText("");//show error message.
-
-    GradeInCourse.setText(GradeOfStudentInCourse.get(0).get(0).toString());
-
+	//ErrorMSG.setText("");//show error message.
+	for(ArrayList<String> row : IdTaskInCourseList){
+			TaskNameList.add(row.get(0));
+	}
 	
-}
+	//TaskList.setText(TaskNameList);
+	System.out.println(TaskNameList);
+	//להדפיס את הרשימה הזאת כולל ציונים למסך  ולחשב ממוצע 
 }
 }
 
-
-
+}
 			 
 			 
 			 
