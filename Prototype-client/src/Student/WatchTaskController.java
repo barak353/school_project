@@ -107,6 +107,8 @@ public class WatchTaskController extends QueryController implements Initializabl
     private boolean isTaskChoosed = false;
     
     private	ArrayList<String> TaskList = new ArrayList<String>();
+    
+    private ObservableList L;
 
 /**This function is enabled after the user has chosen a course and a specific task 
  * handle the watching task that the teacher upload**/
@@ -157,21 +159,22 @@ public class WatchTaskController extends QueryController implements Initializabl
 		    	ArrayList<ArrayList<String>> CoursesNameList;	    	
 		    	for(ArrayList<String> row:StudentInCourseList){
 			        // put the course list at the comboBoxChooseCourse//
-		    		
 		    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
-		    		
+		    		//This lines cleans the Task combobox
 		    		if (CoursesNameList==null)
 		    		{
 		    			ErrorMSG.setText("There is NO courses.");//show error message
+		    			return;
 		    		}
 		    		
 		    		else
 		    		{
-		    			ErrorMSG.setText("");//show error message
+		    		ErrorMSG.setText("");//show error message
 		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
 			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
-			        ObservableList obList= FXCollections.observableList(courseNameList);
-			        comboBoxChooseCourse.setItems(obList);
+			        
+			        L= FXCollections.observableList(courseNameList);
+			        comboBoxChooseCourse.setItems(L);
 		    		}
 		    	}
 			}
@@ -190,20 +193,27 @@ public class WatchTaskController extends QueryController implements Initializabl
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
-		if(IdTaskInCourseList==null){
-			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
-			//This lines cleans the Task combobox.
-			 ObservableList obList= FXCollections.observableList(new ArrayList());
-			 comboBoxChooseTask.setItems(obList);
+		//if task list is empty
+		if(IdTaskInCourseList==null)
+		{
+
+			 comboBoxChooseTask.getItems().clear();
+			 ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			 return;
 		}
+		//בבחיר קורס בפעם השנייה הקומבו בוקס של הרשימת משימות מציג את הרשימת קורסים של הקדם + הנוכחי
 		else
 		{
+			//This lines cleans the Task combobox
+			comboBoxChooseTask.getItems().clear();
 			ErrorMSG.setText("");//show error message.
-			for(ArrayList<String> row : IdTaskInCourseList){
+			for(ArrayList<String> row : IdTaskInCourseList)
+			{
 					TaskNameList.add(row.get(0));
 			}
-			 ObservableList obList= FXCollections.observableList(TaskNameList);
-			 comboBoxChooseTask.setItems(obList);
+
+			 L= FXCollections.observableList(TaskNameList);
+			 comboBoxChooseTask.setItems(L);
 		}
 	 }
 	
@@ -227,6 +237,14 @@ public class WatchTaskController extends QueryController implements Initializabl
 		     task = new Task(row.get(0),row.get(1),row.get(2), row.get(3));
 			isTaskChoosed = true;
 		}
+		
+		else
+		{
+			SubtaskGrade1.setText("");
+	    	SubtaskComments1.setText("");
+			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			return;
+		}
 	}
 	
 	/*ברק זה ההנדלר לצפייה בקובץ מטלה שהוגשה!!(פתור) 
@@ -245,8 +263,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 		String choosedTask = comboBoxChooseTask.getValue();
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
 		String studentID = User.getCurrentLoggedIn().GetID();
-		//the query return the subtasks of the student un the specific cours
-		//ArrayList<ArrayList<String>> taskSubRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM subtask WHERE IDcourse="+choosedCourse +" AND IDstudent='"+studentID+"'"+" AND idTASK='"++"'");
+		
+		//the query return the subtasks of the student in the specific cours
 		
 		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
 		System.out.println("taskRes: "+taskRes);
@@ -259,16 +277,16 @@ public class WatchTaskController extends QueryController implements Initializabl
 				SubtaskGrade1.setText("");
 		    	SubtaskComments1.setText("");
 		    	ErrorMsg.setText("");
-		    	
+		 //show the detiels of the student's sub task    	
 				ArrayList<ArrayList<String>> taskSubRes1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM subtask WHERE IDcourse="+choosedCourse +" AND IDstudent='"+studentID+"'"+" AND idTASK='"+ row.get(0) +"'");
-				System.out.println( "----taskSubRes:" + taskSubRes1);
+				System.out.println( "taskSubRes:" + taskSubRes1);
 				
 				//if 2
 				if(taskSubRes1 != null )
 				{
 					ArrayList<String> row1 = taskSubRes1.get(0);
 				if(row1.get(4)==null)
-					SubtaskGrade1.setText("Task Grade : you didnt get grade yet");
+					SubtaskGrade1.setText("Task Grade : ");
 				else
 					SubtaskGrade1.setText("Task Grade :" + row1.get(4));
 		    	
@@ -283,13 +301,12 @@ public class WatchTaskController extends QueryController implements Initializabl
 				//else 2
 				else
 				{
-					System.out.println( "There is Not submitted Task  ");
+					SubtaskGrade1.setText("");
+			    	SubtaskComments1.setText("");
 					ErrorMsg.setText("There is Not submitted Task  ");
 				}
 				
 			}
-			
-			
 				
 		}
 		//else 1
@@ -297,16 +314,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 		{
 			SubtaskGrade1.setText("");
 	    	SubtaskComments1.setText("");
-			ErrorMsg.setText("There is Not  Task  ");
+			ErrorMsg.setText("There is Not  Task in this course ");
 		}
-		
-		
-
-		    	 
-            
-			//	subtask = new SubTask(row.get(0),row.get(1),row.get(2),row.get(3),row.get(4),row.get(5));
-				
-
 
 
 }
