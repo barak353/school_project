@@ -52,32 +52,41 @@ public class LoginController extends QueryController implements Initializable{//
     private boolean showNextWindow;//this flag will say if we stay in this scene or if go to the next scene.
     
     private static String userName;
-    
+	//hellooooooo
+
     private static String password;
-    
+	//hellooooooo
+
     public LoginController(String controllerID){
-    	super(controllerID);
+    	super(controllerID);			//hellooooooo
+
     }
     
-    
+	//hellooooooo
+
     @FXML
     void loginIntoTheSystem(ActionEvent event) throws IOException {//Handler of the login button.
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
     	String userID = usernameID.getText();
     	System.out.println("userID: "+userID);
-        password=passwordID.getText();
+        password=passwordID.getText();			//hellooooooo
+
         if(userID.equals("")){
-        	showNextWindow=false;//stay in this scene.
+        	showNextWindow=false;//stay in this scene.			//hellooooooo
+
         	wrongTextID.setText("Please enter username");//show error message.
         }
-        if(password.equals("")){
+        if(password.equals("")){			//hellooooooo
+
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
-        }
+        }			//hellooooooo
+
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + userID + "'");
         String userPassword = null;
-        boolean isUserExist = false;
+        boolean isUserExist = false;			//hellooooooo
+
         ArrayList<String> userDetails = null;
         if(resultArray == null){showNextWindow = false; wrongTextID.setText("User is not exist.");}
         else if(resultArray.isEmpty() == false){//check if there is first row.
@@ -86,9 +95,11 @@ public class LoginController extends QueryController implements Initializable{//
         		      userPassword = userDetails.get(2);//get first userPSW.
         		      isUserExist = true;
         		}else{wrongTextID.setText("Please enter password.");//show error message.
-        			showNextWindow = false;
+        			showNextWindow = false;			//hellooooooo
+
         		}
-        }else{
+        }else{			//hellooooooo
+
 			showNextWindow = false;
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
@@ -97,7 +108,8 @@ public class LoginController extends QueryController implements Initializable{//
 	        		String nextScreen=(resultArray.get(0)).get(3);
 	                Object nextController = null;
 	                switch(nextScreen)
-	                {
+	                {			//hellooooooo
+
 	                 case "P":
 	                	 nextScreen="/Parent/ParentMain.fxml";
 	                	 nextController=new ParentMainController("ParentMainController");
@@ -108,8 +120,14 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 break;
 	                 case "T":
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
+<<<<<<< HEAD
 	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
+=======
+	                	 nextController=new TeacherMainController("TeacherMainController");
+	                	 break;			//hellooooooo
+
+>>>>>>> refs/remotes/origin/Barak
 	                	 
 	                 case "ST":
 	                	 nextScreen="/student/MainWindowStudent.fxml";

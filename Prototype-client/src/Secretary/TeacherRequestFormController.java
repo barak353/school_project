@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TeacherRequestFormController extends QueryController implements Initializable{
+<<<<<<< HEAD
 	
     @FXML
     private Button logout;
@@ -64,10 +65,24 @@ public class TeacherRequestFormController extends QueryController implements Ini
     private String RequiredStringCourse;
     //------------------------------------------------//
 	public TeacherRequestFormController (String controllerID)
+=======
+	@FXML
+	private Text userID;
+	@FXML			//hellooooooo
+
+	private Button logout;
+	@FXML
+	private Button back;			//hellooooooo
+
+	Object nextController=null;
+	//------------------------------------------------//
+	public TeacherRequestFormController(String controllerID)
+>>>>>>> refs/remotes/origin/Barak
 	{
 	       super(controllerID);
 	} 
 	//------------------------------------------------// 
+<<<<<<< HEAD
 	@FXML
 	void TurningBack(ActionEvent event)
 	{
@@ -75,10 +90,25 @@ public class TeacherRequestFormController extends QueryController implements Ini
 		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
 	}
 	
+=======
+    @FXML
+    void TurningBack(ActionEvent event)
+    {			//hellooooooo
+
+    	this.nextController = new AskRequestFormController("AskRequestFormController");
+    	this.Back("/Secretary/WhatFormChoose.fxml",nextController, event);
+		System.out.println();
+		//hellooooooo
+
+    } 
+    //-------------------------------------------------------------------------------------------//
+    
+>>>>>>> refs/remotes/origin/Barak
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+<<<<<<< HEAD
 		//Defining courses list in the semester:
    	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
    	  	if(CurrentSemester!=null)
@@ -121,6 +151,10 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	  		ErrText.setText("There is no semester's in the DB.");
 	  		FinishButton.setVisible(true);
 	  	}
+=======
+		System.out.println();
+
+>>>>>>> refs/remotes/origin/Barak
 	}
 	//--------------------------------------------------------------------------------------------//
 	@FXML

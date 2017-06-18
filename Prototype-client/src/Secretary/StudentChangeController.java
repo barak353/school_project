@@ -103,6 +103,8 @@ public class StudentChangeController extends QueryController implements Initiali
 	{
 		this.nextController = new SecretaryMainController("SecretaryMainController");
 		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
+		System.out.println();
+
 	} 
     //-------------------------------------------------------------------------------------------// 
 

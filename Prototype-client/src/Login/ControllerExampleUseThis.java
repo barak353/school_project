@@ -24,6 +24,7 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 	public ControllerExampleUseThis (String controllerID)
 	{
 			super(controllerID);
+			//hellooooooo
 	}
 	
 	//-----------------------------------------------------------// 
@@ -51,13 +52,23 @@ public class ControllerExampleUseThis extends QueryController implements Initial
 		//-----------------------------------------------------------//
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
-			User user = User.getCurrentLoggedIn();
-			userID.setText(user.GetUserName());
+			User user = User.getCurrentLoggedIn();			//hellooooooo
+
+			userID.setText(user.GetUserName());			//hellooooooo
+
+			//hellooooooo
+
 		}
 		@FXML
 		void TurningBack(ActionEvent event)
 		{
+<<<<<<< HEAD
 			this.nextController = new LoginController("StudentLoginController");
+=======
+			//hellooooooo
+
+			this.nextController = new LoginController("SecretaryLoginController");
+>>>>>>> refs/remotes/origin/Barak
 			this.Back("/Login/LoginWindow.fxml",nextController, event);
 		}
 		

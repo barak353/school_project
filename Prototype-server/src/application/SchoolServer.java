@@ -87,6 +87,7 @@ public class SchoolServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
 {		
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
+<<<<<<< HEAD
 	  String option = (String) packaged.get("key");
 	  System.out.println("handleMessageFromClient");
 	  Object result = null;
@@ -137,6 +138,60 @@ public class SchoolServer extends AbstractServer
 					StringWriter errors = new StringWriter();
 					writer.println(errors.toString());
 					return;
+=======
+	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
+	  System.out.println("executing query: "+strQuery);
+	  packaged.remove("strQuery");
+	    try {
+	    	if(strQuery.substring(0,6).equals("SELECT"))
+	    	{
+	    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
+	    	}
+	    	else if(strQuery.substring(0,6).equals("UPDATE"))
+	    	{
+	    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+							isUpdate=true;
+	    	}
+	    	else if (strQuery.substring(0,6).equals("INSERT"))
+	    	{
+	    		try{
+	    		stmt.executeUpdate(strQuery);
+	    		}catch(SQLException e2){
+	    			System.out.println("Query did nothing becouse data is already in DB.");
+	    			isAlreadyInserted = true ;
+	    		}
+	    		isUpdate=true;
+	    	}
+		} catch (SQLException e1) {
+			System.out.println("Failed to execute query in handleMessageFromClient");
+			e1.printStackTrace();
+		}
+	    Object result = null;
+	    ArrayList<ArrayList<String>> resultArray;
+		  if(isUpdate == false){
+		  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
+			  ResultSetMetaData rsmd;
+			int columnsNumber;
+			try {
+				rsmd = (ResultSetMetaData) rs.getMetaData();
+				columnsNumber = rsmd.getColumnCount();
+			} catch (SQLException e3) {
+				columnsNumber=-1;// there is no Columns.
+				System.err.println("result is empty, there is no Columns.");
+			}
+			 int columnIndex;
+			 ArrayList<String> arr;
+		     try {
+			    while(rs.next()){//while there is still rows in the ResultSet.
+				    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
+				    columnIndex=1;//set to point to the first column.
+				    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
+					    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
+					    columnIndex++;//go to the next column in this row.
+				    }
+				    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+				    result = resultArray;
+>>>>>>> refs/remotes/origin/Barak
 			  }
 		  }catch (SQLException e1) {
 				writer.println(date+": Failed to execute query in handleMessageFromClient");
@@ -300,6 +355,7 @@ public class SchoolServer extends AbstractServer
 	String DBpassword = portController.DBpasswordID.getText();//get the DB password.
 	String DBhost = portController.DBhostID.getText();//get the DB host.
     String DBschema = portController.DBschemaID.getText();//get the DB schema.
+<<<<<<< HEAD
     //set date and writer.
     date = new Date();
 	try {
@@ -310,6 +366,9 @@ public class SchoolServer extends AbstractServer
 		System.out.println("UnsupportedEncodingException");
 	}
     try{
+=======
+	/*try{
+>>>>>>> refs/remotes/origin/Barak
 	port = Integer.parseInt(portController.serverPortD.getText());//get the port of the server to be listening on.
 	}catch(RuntimeException e){
 		portController.errorTextID.setText("Server port most contain only digit's.");
@@ -319,7 +378,7 @@ public class SchoolServer extends AbstractServer
 		writer.println(errors.toString());
 		writer.println(date+": Error: **end of crash**");
 		return;
-	}
+	}*/
 	try 
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -333,7 +392,8 @@ public class SchoolServer extends AbstractServer
 		return;
 	}
 	try {
-		conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
+		conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
+		//conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("Unable to connect to SQL database. Please try other details or start your database.");
 		writer.println(date+": Error: **begining of crash** Unable to connect to SQL database. Please try other details or start your database: ");
@@ -356,8 +416,14 @@ public class SchoolServer extends AbstractServer
 	}
 	try 
 	{
+<<<<<<< HEAD
 		writer.println(date+": SQL connection succeed.");
 		SchoolServer sv = new SchoolServer(5555	);
+=======
+		System.out.println("SQL connection succeed.");
+		//SchoolServer sv = new SchoolServer(port);
+		SchoolServer sv = new SchoolServer(5555);
+>>>>>>> refs/remotes/origin/Barak
 		sv.listen(); //Start listening for connections
 		writer.println(date+": Server started listening to clients on port: "+port);
 	} 

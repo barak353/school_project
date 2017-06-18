@@ -78,6 +78,7 @@ public class ChildDetailsController extends QueryController implements Initializ
 	//-----------------------------------------------------------//
 
 	  
+<<<<<<< HEAD
 	    @FXML
 	    void TurningBack(ActionEvent event)
 	    {
@@ -111,7 +112,15 @@ public class ChildDetailsController extends QueryController implements Initializ
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
+=======
+    @FXML
+    void Back(ActionEvent event) {			//hellooooooo
+
+		 try 
+		 {
+>>>>>>> refs/remotes/origin/Barak
 			
+<<<<<<< HEAD
 			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID="+chooseChild);
 	        if(res==null){
 	        	ErrorMSG.setText("There is NO such Child");//show error message.
@@ -140,6 +149,30 @@ public class ChildDetailsController extends QueryController implements Initializ
 				ArrayList<String> row3 = res3.get(0);
 				semester.setText(row3.get(0));
 	        }
+=======
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
+		        loader.setController(new ChoiceChildController("ChoiceChildController"));
+			    Pane login_screen_parent = loader.load();			//hellooooooo
+
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } 
+		 catch (IOException e) {
+				System.err.println("Missing StudentChange.fxml file");
+				e.printStackTrace();
+				}
+    }
+
+    
+
+    @FXML
+    void LogOut(ActionEvent event) {
+		 try 
+		 {
+>>>>>>> refs/remotes/origin/Barak
 			
 			ArrayList<ArrayList<String>> res4 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
 	        if(res4==null){

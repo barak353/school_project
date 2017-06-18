@@ -71,12 +71,15 @@ public class TeacherPlacementController extends QueryController  implements Init
 	{
 		this.nextController = new SecretaryMainController("SecretaryMainController");
 		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
+		System.out.println();
+
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+<<<<<<< HEAD
 		//Defining courses list in the semester:
    	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
    	  	if(CurrentSemester!=null)
@@ -119,6 +122,10 @@ public class TeacherPlacementController extends QueryController  implements Init
 	  		ErrText.setText("There is no semester's in the DB.");
 	  		FinishButton.setVisible(true);
 	  	}
+=======
+		System.out.println();
+
+>>>>>>> refs/remotes/origin/Barak
 	}
 	//--------------------------------------------------------------------------------------------//
 	@FXML
