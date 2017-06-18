@@ -257,7 +257,9 @@ public class TeacherRequestFormController extends QueryController implements Ini
 		    		    String message="Teacher Change";
 		    		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
 		    		    LocalDateTime now = LocalDateTime.now();
-				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message + "' AND Mdate='" +now+"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+		    		    String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
+
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message + "' AND Mdate='" +Date+"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
 				    	if(result!=null)
 						{
 				    		 ErrText.setText("The message already exists.");
@@ -265,7 +267,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 						}
 				    	else
 				    	{
-				    		transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID) VALUES ('" + message + "','"+now+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
+				    		transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID) VALUES ('" + message + "','"+Date+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
 				    		finishmessage.setText("The message was sended successfully.");
 				    		ErrText.setText("");
 				    	}
