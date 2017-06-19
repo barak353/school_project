@@ -223,7 +223,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 	{
 		String Class= (String) ClassCombo.getValue();
 		String Teach=(String) TeacherCombo.getValue();
-		String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
+
 
 		//----------------------------------------//
 		 if (Class==null || Teach==null)
@@ -233,6 +233,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 		 }
 		 else
 		 {
+			 String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
 			 //Get the chosen teacher:
 			 ArrayList<ArrayList<String>> TeacherCheck=	(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
 			 if(TeacherCheck.get(0).get(3).equals(RequiredStringTeacher)==true)
@@ -252,17 +253,40 @@ public class TeacherPlacementController extends QueryController  implements Init
 		    	 }
 		    	 else
 		    	 {
-		    		    int res2;
-		    		    int resAdd;
-		    	        res2=hoursteacher-hoursCourse;
-		    	        resAdd=hoursteacher+hoursCourse;
-				    	String res=""+res2; 
-				    	transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(0).get(0)); 
-				    	transfferQueryToServer("UPDATE teacherinclassincourse SET Tidentity="+Teacher.get(0).get(0)+" WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
-				    	transfferQueryToServer("UPDATE teacher SET MaxHour="+resAdd+" WHERE teacherid="+ TeacherCheck.get(0).get(3)); 
-				    	finishmessage.setText("Teacher placement change succeeded");
-				    	ErrText.setText("");
-				    	FinishButton.setVisible(true);
+		    		    //Checking the answer from the school director:
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+				    	if(result==null)
+				    	{
+				    		ErrText.setText("There is no such message, can't make the change.");
+				    	    finishmessage.setText("");
+				    	    FinishButton.setVisible(true);
+				    	    SaveID.setVisible(true);
+				    	}
+				    	else
+				    	{	
+				    		if(result.get(0).get(6).equals("YES")==true)
+				    		{
+				    			int res2;
+				    		    int resAdd;
+				    	        res2=hoursteacher-hoursCourse;
+				    	        resAdd=hoursteacher+hoursCourse;
+						    	String res=""+res2; 
+						    	transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(0).get(0)); 
+						    	transfferQueryToServer("UPDATE teacherinclassincourse SET Tidentity="+Teacher.get(0).get(0)+" WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
+						    	transfferQueryToServer("UPDATE teacher SET MaxHour="+resAdd+" WHERE teacherid="+ TeacherCheck.get(0).get(3)); 
+			    		   		transfferQueryToServer("DELETE FROM message WHERE messageNum="+result.get(0).get(0)+"");
+						    	finishmessage.setText("Teacher placement change succeeded");
+						    	ErrText.setText("");
+						    	FinishButton.setVisible(true);	
+				    		}
+				    		else
+				    		{
+				    			ErrText.setText("The school director didn't approved the request.");
+				    			finishmessage.setText("");
+				    			FinishButton.setVisible(true);
+				    			SaveID.setVisible(false);
+				    		}
+				    	}
 				 }	  
 			 }
 		 }//else*/	 

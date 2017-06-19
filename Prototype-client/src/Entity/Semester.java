@@ -10,14 +10,18 @@ public class Semester {
 	private String year;
 	private String type;
 	private boolean status;
+	private static String str;
+	private static String str2;
 	private static Semester currentSemester;
     private ArrayList<String> courseList = null;
     //-------------------------------------------------------//
-	public Semester(String year, String type, boolean status) {
+	public Semester(String year, String type, boolean status,String str,String str2) {
 		
 		this.year = year;
 		this.type = type;
 		this.status = status;
+		this.str=str;
+		this.str2=str2;
 		courseList=new ArrayList<String>();
 	}
 	//-------------------------------------------------------//
@@ -64,4 +68,25 @@ public class Semester {
 		Semester.currentSemester = currentSemester;
 	}
 	//-------------------------------------------------------//
+	public static void setMyString(String str) 
+	{
+		Semester.str=str;
+	}
+	//-------------------------------------------------------//
+	public static String GetMyString() 
+	{
+		return Semester.str;
+	}
+	//-------------------------------------------------------//
+	public static void setMyString2(String str2) 
+	{
+		Semester.str2=str2;
+	}
+	//-------------------------------------------------------//
+	public static String GetMyString2() 
+	{
+		return Semester.str2;
+	}
+	//-------------------------------------------------------//
 }
+

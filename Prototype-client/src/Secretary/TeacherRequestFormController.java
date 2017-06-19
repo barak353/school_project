@@ -79,6 +79,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+		SaveID.setVisible(true);
 		//Defining courses list in the semester:
    	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
    	  	if(CurrentSemester!=null)
@@ -106,6 +107,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
  	  				ErrText.setVisible(true);
  	  				ErrText.setText("There is no courses that open this semester and that students assigned to them.");
  	  				FinishButton.setVisible(true);
+ 	  				SaveID.setVisible(false);
    	  			}
    	  		}
    	  		else
@@ -113,6 +115,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
    	  			ErrText.setVisible(true);
    	  			ErrText.setText("There is no courses in this semester that students learn them.");
    	  		    FinishButton.setVisible(true);
+				SaveID.setVisible(false);
    	  		}
 	  	}
 	  	else
@@ -120,6 +123,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	  		ErrText.setVisible(true);
 	  		ErrText.setText("There is no semester's in the DB.");
 	  		FinishButton.setVisible(true);
+			SaveID.setVisible(false);
 	  	}
 	}
 	//--------------------------------------------------------------------------------------------//
@@ -223,24 +227,27 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	@FXML
 	public void SaveButtonHandler(ActionEvent event)
 	{
+		SaveID.setVisible(true);
 		String Class= (String) ClassCombo.getValue();
 		String Teach=(String) TeacherCombo.getValue();
-		String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
-
 		//----------------------------------------//
 		 if (Class==null || Teach==null)
 		 {
 			 ErrText.setText("Please fill all the fields");
 			 finishmessage.setText("");
+			 FinishButton.setVisible(false);
+	  		 SaveID.setVisible(true);
 		 }
 		 else
 		 {
+			 String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
 			 //Get the chosen teacher:
 			 ArrayList<ArrayList<String>> TeacherCheck=	(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
 			 if(TeacherCheck.get(0).get(3).equals(RequiredStringTeacher)==true)
 			 {
 				 ErrText.setText("The Teacher already teach this class");	
 				 finishmessage.setText("");
+				 FinishButton.setVisible(true);
 			 }
 			 else
 			 {
@@ -259,7 +266,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 		    		    LocalDateTime now = LocalDateTime.now();
 		    		    String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
 
-				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message + "' AND Mdate='" +Date+"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message +"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
 				    	if(result!=null)
 						{
 				    		 ErrText.setText("The message already exists.");
@@ -270,12 +277,9 @@ public class TeacherRequestFormController extends QueryController implements Ini
 				    		transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID) VALUES ('" + message + "','"+Date+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
 				    		finishmessage.setText("The message was sended successfully.");
 				    		ErrText.setText("");
+				    		FinishButton.setVisible(true);
+					    	SaveID.setVisible(false);
 				    	}
-				    	
-				    	finishmessage.setText("The message was sended successfully.");
-				    	ErrText.setText("");
-				    	FinishButton.setVisible(true);
-				    	SaveID.setVisible(false);
 				 }	  
 			 }
 		 }//else*/	 

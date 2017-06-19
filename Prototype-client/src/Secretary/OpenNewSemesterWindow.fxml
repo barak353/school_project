@@ -4,7 +4,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -34,7 +36,7 @@
       </Text>
       <Pane layoutX="1.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="98.0" layoutY="36.0" text="Open new semester" textFill="#1205ff">
+            <Label fx:id="OpenNewSemester" layoutX="98.0" layoutY="36.0" text="Open new semester" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -53,7 +55,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text layoutX="219.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type:">
+            <Text fx:id="TypeText" layoutX="219.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type:">
                <font>
                   <Font size="14.0" />
                </font>
@@ -63,34 +65,42 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="type" layoutX="219.0" layoutY="185.0" promptText="Semester 'A', 'B' or 'C'" />
-            <DialogPane fx:id="dialogID" layoutX="36.0" layoutY="28.0" prefHeight="306.0" prefWidth="522.0" visible="false" />
-            <Text fx:id="dialogText" fill="#7a02e0" layoutX="99.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose from the comboBox which course you want to add to semster: " visible="false" wrappingWidth="396.70019951462746">
+            <TextField fx:id="type1" layoutX="219.0" layoutY="185.0" promptText="Semester 'A', 'B' or 'C'" />
+            <DialogPane fx:id="dialogID" layoutX="198.0" layoutY="28.0" prefHeight="319.0" prefWidth="360.0" visible="false" />
+            <Text fx:id="dialogText" fill="#7a02e0" layoutX="234.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose from the comboBox which course you want to add to semster: " textAlignment="CENTER" visible="false" wrappingWidth="311.70019951462746">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="doneButton" layoutX="127.0" layoutY="270.0" mnemonicParsing="false" onAction="#done" prefHeight="30.0" prefWidth="69.0" text="done" visible="false">
+            <Button fx:id="doneButton" layoutX="236.0" layoutY="269.0" mnemonicParsing="false" onAction="#done" prefHeight="30.0" prefWidth="69.0" text="done" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="addButton" layoutX="437.0" layoutY="270.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="30.0" prefWidth="69.0" text="add" visible="false">
+            <Button fx:id="addButton" layoutX="439.0" layoutY="269.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="30.0" prefWidth="69.0" text="add" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="courseList" layoutX="189.0" layoutY="142.0" prefHeight="30.0" prefWidth="189.0" promptText="Choose course" visible="false" />
-            <Text fx:id="text" fill="#ff0077" layoutX="190.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="205.13671875"> 
+            <ComboBox fx:id="courseList" layoutX="284.0" layoutY="147.0" prefHeight="30.0" prefWidth="189.0" promptText="Choose course" visible="false" />
+            <Text fx:id="text" fill="#ff0077" layoutX="190.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="205.13671875"> 
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fx:id="t" fill="RED" layoutX="201.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="188.50781646370888">
+            <Text fx:id="t" fill="RED" layoutX="201.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.50781646370888">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+            <TextArea fx:id="DataField" layoutX="19.0" layoutY="29.0" prefHeight="319.0" prefWidth="169.0" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <effect>
+                  <InnerShadow color="#66ffce" />
+               </effect>
+            </TextArea>
          </children>
       </Pane>
    </children>

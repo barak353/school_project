@@ -1,6 +1,5 @@
 package Secretary;
 
-import java.awt.Label;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -32,6 +31,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -64,7 +65,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
     @FXML
     private Text t;
     @FXML
-    private TextField type;
+    private TextField type1;
     @FXML
     private DialogPane dialogID;
     @FXML
@@ -75,12 +76,20 @@ public class OpenNewSemesterController extends QueryController implements Initia
     private Button addButton;
     @FXML
     private ComboBox<?> courseList;
+    @FXML
+    private Label OpenNewSemester;
+    @FXML
+    private Text TypeText;
+    @FXML
+    private TextArea DataField;
+    private String AllDetails="";
+    private String Mystr="";
     //----------------------------------------------------------//
     @FXML
     void openSemester(ActionEvent event) 
     {
     	boolean isValidInput = true;
-    	String type = this.type.getText();
+    	String type = this.type1.getText();
     	if(!type.equals("A") && !type.equals("B") && !type.equals("C") && !type.equals("a") && !type.equals("b") && !type.equals("c"))
     	{
     		errorText.setText("Type most be just 'A' or 'B' or 'C'"); 
@@ -109,13 +118,23 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	if(isValidInput == true)
     	{
         	//-------------------------------------------------------------------------------//
-    		Semester semester = new Semester(dtf.format(now),this.type.getText(),true); //Creating new semester
+    		Semester semester = new Semester(dtf.format(now),this.type1.getText(),true,AllDetails,Mystr); //Creating new semester
     		Semester.setCurrentSemester(semester);
     		transfferQueryToServer("UPDATE semester SET status='false' WHERE status= 'true'"); //Update the status of previous semester
     		transfferQueryToServer("INSERT INTO semester (semID,status) VALUES ('" + semester.getYear() + ":" + semester.getType() + "','true')");// Set New semester
     		//-------------------------------------------------------------------//
     		dialogText.setText("Choose course you want to add to semester: " + semester.getType() + "- " +semester.getYear());
     		//Change dialog:
+    		AllDetails=AllDetails+"Semester: "+Semester.getCurrentSemester().getType()+":"+Semester.getCurrentSemester().getYear()+"\n";
+    		DataField.setText(AllDetails);
+    		AllDetails=AllDetails+"Courses:\n";
+    		DataField.setVisible(true);
+    		OpenNewSemester.setVisible(false);
+    		TypeText.setVisible(false);
+    		errorText.setVisible(false);
+    		type1.setVisible(false);
+    		OpenSemester.setVisible(false);
+    		currentDate.setVisible(false);
     		dialogText.setVisible(true);
     		dialogID.setVisible(true);
     	    doneButton.setVisible(true);
@@ -139,6 +158,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
 	@FXML
 	void addCourse(ActionEvent event)
 	{	
+			int counter=0;
 			boolean flag=true;
 	     	ArrayList<ArrayList<String>> res=null;
 			Semester semester=Semester.getCurrentSemester();
@@ -164,6 +184,9 @@ public class OpenNewSemesterController extends QueryController implements Initia
 		    		transfferQueryToServer("INSERT INTO coursesinsemester (Cid,Sem) VALUES ('" + requiredString + "','" + semester.getYear() + ":" + semester.getType() + "')");
 		    		t.setText("");
 		    		text.setText("The course added successfully");
+		    		AllDetails=AllDetails+choise+"\n";
+		    		DataField.setText(AllDetails);
+		    		counter++;
 		    		Timer t = new Timer(1000, new java.awt.event.ActionListener() {
 		                @Override
 		                public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -183,6 +206,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
 	@FXML
 	void done(ActionEvent event)
 	{
+		Semester.setMyString(AllDetails);
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/MergeClassesCourses.fxml"));
 			   loader.setController(new MergeClassesCoursesController("MergeClassesCoursesController"));
