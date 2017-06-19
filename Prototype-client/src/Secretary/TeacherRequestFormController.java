@@ -79,6 +79,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+<<<<<<< HEAD
 		SaveID.setVisible(true);
 		//Defining courses list in the semester:
    	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
@@ -124,6 +125,49 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	  		ErrText.setText("There is no semester's in the DB.");
 	  		FinishButton.setVisible(true);
 			SaveID.setVisible(false);
+=======
+		//Defining courses list in the semester:
+   	  	CurrentSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
+   	  	if(CurrentSemester!=null)
+   	  	{
+   	  		listCourses = new ArrayList<String>();
+   	  		//Get Current Semester:
+   	  		CoursesInSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Sem='" +CurrentSemester.get(0).get(0) +"'");
+   	  		if(CoursesInSemester!=null) //If there is semester in DB.
+   	  		{
+   	  			for(int i=0;i<CoursesInSemester.size();i++)
+   	  			{
+	  				//All the classes that learn the course:
+	  				ArrayList<ArrayList<String>> CourseWithClasses= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE coID='" + CoursesInSemester.get(i).get(0)+"' AND SemesId='"+CurrentSemester.get(0).get(0)+"'");
+	  				//Insert to the combobox only courses with students:
+	  				if(CourseWithClasses!=null)
+	  				{
+	  					ArrayList<ArrayList<String>> CourseName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE idcourses='" + CoursesInSemester.get(i).get(0)+"'");
+	  					listCourses.add("("+CoursesInSemester.get(i).get(0)+")"+CourseName.get(0).get(0));	
+	  				}
+	  			}
+   	  			L= FXCollections.observableList(listCourses);
+   	  			CourseCombo.setItems(L);	
+   	  			if(listCourses.isEmpty()==true)
+   	  			{
+ 	  				ErrText.setVisible(true);
+ 	  				ErrText.setText("There is no courses that open this semester and that students assigned to them.");
+ 	  				FinishButton.setVisible(true);
+   	  			}
+   	  		}
+   	  		else
+   	  		{
+   	  			ErrText.setVisible(true);
+   	  			ErrText.setText("There is no courses in this semester that students learn them.");
+   	  		    FinishButton.setVisible(true);
+   	  		}
+	  	}
+	  	else
+	  	{
+	  		ErrText.setVisible(true);
+	  		ErrText.setText("There is no semester's in the DB.");
+	  		FinishButton.setVisible(true);
+>>>>>>> refs/remotes/origin/school-project
 	  	}
 	}
 	//--------------------------------------------------------------------------------------------//
@@ -227,6 +271,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	@FXML
 	public void SaveButtonHandler(ActionEvent event)
 	{
+<<<<<<< HEAD
 		SaveID.setVisible(true);
 		String Class= (String) ClassCombo.getValue();
 		String Teach=(String) TeacherCombo.getValue();
@@ -280,6 +325,61 @@ public class TeacherRequestFormController extends QueryController implements Ini
 				    		FinishButton.setVisible(true);
 					    	SaveID.setVisible(false);
 				    	}
+=======
+		String Class= (String) ClassCombo.getValue();
+		String Teach=(String) TeacherCombo.getValue();
+		String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
+
+		//----------------------------------------//
+		 if (Class==null || Teach==null)
+		 {
+			 ErrText.setText("Please fill all the fields");
+			 finishmessage.setText("");
+		 }
+		 else
+		 {
+			 //Get the chosen teacher:
+			 ArrayList<ArrayList<String>> TeacherCheck=	(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
+			 if(TeacherCheck.get(0).get(3).equals(RequiredStringTeacher)==true)
+			 {
+				 ErrText.setText("The Teacher already teach this class");	
+				 finishmessage.setText("");
+			 }
+			 else
+			 {
+				 ArrayList<ArrayList<String>> Teacher= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" +RequiredStringTeacher+ "'");
+				 hoursteacher=Integer.parseInt(Teacher.get(0).get(1));
+		    	 if (hoursteacher<hoursCourse)
+		    	 {
+		    	     ErrText.setText("The Teacher exceed her teaching hours.\nPlease choose another teacher");
+		    	     finishmessage.setText("");
+		    	     FinishButton.setVisible(true);
+		    	 }
+		    	 else
+		    	 {
+		    		    String message="Teacher Change";
+		    		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
+		    		    LocalDateTime now = LocalDateTime.now();
+		    		    String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
+
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message + "' AND Mdate='" +Date+"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+				    	if(result!=null)
+						{
+				    		 ErrText.setText("The message already exists.");
+				    		 FinishButton.setVisible(true);
+						}
+				    	else
+				    	{
+				    		transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID) VALUES ('" + message + "','"+Date+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
+				    		finishmessage.setText("The message was sended successfully.");
+				    		ErrText.setText("");
+				    	}
+				    	
+				    	finishmessage.setText("The message was sended successfully.");
+				    	ErrText.setText("");
+				    	FinishButton.setVisible(true);
+				    	SaveID.setVisible(false);
+>>>>>>> refs/remotes/origin/school-project
 				 }	  
 			 }
 		 }//else*/	 

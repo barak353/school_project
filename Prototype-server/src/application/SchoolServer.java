@@ -4,12 +4,18 @@ package application;
 // license found at www.lloseng.com 
 
 import java.io.*;
+import java.nio.file.Files;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+
+import org.apache.commons.io.FileUtils;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSet;
@@ -59,6 +65,10 @@ public class SchoolServer extends AbstractServer
    * @param port The port number to connect on.
    */
  
+  protected static PrintWriter writer;
+  
+  
+  protected static Date date;// will use for showing date in the log.txt file.
   
   public SchoolServer(int port) 
   {
@@ -74,13 +84,10 @@ public class SchoolServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
-  {		
-	  boolean isAlreadyInserted = false;
-	  ResultSet rs = null;
-	  boolean isUpdate=false;
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
+{		
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
+<<<<<<< HEAD
 	  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
 	  System.out.println("executing query: "+strQuery);
 	  packaged.remove("strQuery");
@@ -133,23 +140,177 @@ public class SchoolServer extends AbstractServer
 				    }
 				    resultArray.add(resultRow);//add the resultRow to the ResultArray		
 				    result = resultArray;
+=======
+	  String option = (String) packaged.get("key");
+	  System.out.println("handleMessageFromClient");
+	  Object result = null;
+	  switch(option){
+	  case "Query":
+		  boolean isAlreadyInserted = false;
+		  ResultSet rs = null;
+		  boolean isUpdate=false;
+		  String strQuery=(String) packaged.get("strQuery");//Get the query to be executed that sent from the client.
+		  System.out.println("executing query: "+strQuery);
+			writer.println("executing query: "+strQuery);
+			StringWriter err = new StringWriter();
+		    writer.println(err.toString());
+		  packaged.remove("strQuery");
+		  String queryType = strQuery.substring(0,6);
+		  try {
+			  switch(queryType){
+			  case "SELECT":
+			  case "select":
+			    		rs = (ResultSet) stmt.executeQuery(strQuery);//Execute the query from the client.
+				  break;
+			  case "UPDATE":
+			  case "update":
+		    		stmt.executeUpdate(strQuery);//Execute the query from the client.
+					isUpdate=true;
+			  case "INSERT":
+			  case "insert":
+			  try{
+		    		stmt.executeUpdate(strQuery);
+		    		result = 0;//query succeed.
+		    		}catch(SQLException e2){
+		    			isAlreadyInserted = true ;
+		    		}
+		    		isUpdate=true;
+			  break ;
+			  case "DELETE":
+			  case "delete":
+		    		try{
+		    		stmt.executeUpdate(strQuery);
+		    		result = 0;//query succeed.
+		    		}catch(SQLException e2){
+		    			isAlreadyInserted = true ;
+		    		}
+		    		isUpdate=true;
+			  break;
+			  default:
+					writer.println(date+": Query Type is not exist.");
+					StringWriter errors = new StringWriter();
+					writer.println(errors.toString());
+					return;
+>>>>>>> refs/remotes/origin/school-project
 			  }
-			} catch (SQLException e1) {
-				System.out.println("error in creating ResultArray");
+		  }catch (SQLException e1) {
+				writer.println(date+": Failed to execute query in handleMessageFromClient");
+				StringWriter errors = new StringWriter();
+				e1.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
+				e1.printStackTrace();
 			}
-		  }else{
-			  result = null;
-		  }
-		  if( isAlreadyInserted == true){
-			  result = new Integer(-1);
-		  }
-	    try{
-	    	packaged.put("ResultArray", result);
-	    	client.sendToClient((Object)packaged);
-	    }catch (IOException e) {
-			System.out.println("Unable to send Select msg to client from Server.");
+		      ArrayList<ArrayList<String>> resultArray;
+			  if(isUpdate == false){
+			  resultArray=new ArrayList<ArrayList<String>>();//Create result array to send to the client.
+				  ResultSetMetaData rsmd;
+				int columnsNumber;
+				try {
+					rsmd = (ResultSetMetaData) rs.getMetaData();
+					columnsNumber = rsmd.getColumnCount();
+				} catch (SQLException e3) {
+					columnsNumber=-1;// there is no Columns.
+					writer.println(date+": result is empty, there is no Columns.");
+					StringWriter errors = new StringWriter();
+					e3.printStackTrace(new PrintWriter(errors));
+					writer.println(errors.toString());
+				}
+				 int columnIndex;
+				 ArrayList<String> arr;
+			     try {
+				    while(rs.next()){//while there is still rows in the ResultSet.
+					    ArrayList<String> resultRow=new ArrayList<String>();//create new resultRow
+					    columnIndex=1;//set to point to the first column.
+					    while(columnIndex<=columnsNumber){//while there is still column to copy in the row.
+						    resultRow.add(rs.getString(columnIndex));//get the String of this row in column number columnIndex number.
+						    columnIndex++;//go to the next column in this row.
+					    }
+					    resultArray.add(resultRow);//add the resultRow to the ResultArray		
+					    result = resultArray;
+				  }
+				} catch (SQLException e1) {
+					writer.println(date+": error in creating ResultArray");
+					StringWriter errors = new StringWriter();
+					e1.printStackTrace(new PrintWriter(errors));
+					writer.println(errors.toString());
+				}
+			  }else{
+				  result = null;
+			  }
+			  if( isAlreadyInserted == true){
+				  result = new Integer(-1);
+			  }
+		    try{
+		    	packaged.put("ResultArray", result);
+		    	client.sendToClient((Object)packaged);
+		    }catch (IOException e) {
+				writer.println(date+": Unable to send Select msg to client from Server.");
+				StringWriter errors = new StringWriter();
+				e.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
+			}
+			writer.flush();
+	  break;
+	  case "UPLOAD":
+	  case "upload":
+		  byte[] bytes = (byte[]) packaged.get("file");		  
+		  try {
+			  System.out.println("file path in server: " + "file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType"));
+			FileUtils.writeByteArrayToFile(new File("file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType")), bytes);
+		} catch (IOException e1) {
+			writer.println(date+": Unable to save file from server to pc.");
+			StringWriter errors = new StringWriter();
+			e1.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
 		}
-  }
+	    try {
+			client.sendToClient((Object)packaged);
+		} catch (IOException e) {
+			writer.println(date+": Can't send to client.");
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
+		}
+	  break;
+	  case "DOWNLOAD":
+	  case "download":
+		 /* System.out.println("arrived download");
+		  JFileChooser chooser = new JFileChooser();
+		  File dir = new File("file");
+		  chooser.setCurrentDirectory(dir);
+		  File[] filesInDirectory = chooser.getCurrentDirectory().listFiles();
+		  for ( File file : filesInDirectory ) {
+		      System.out.println(file.getName());
+		  }*/
+	   break;
+	  case "delete_folder":
+	  case "DELETE_FOLDER":
+	  File index = new File("file//"+packaged.get("filePath"));
+	  System.out.println("server, filename: " + index.getPath());
+	  if(index.exists()){//if file is exist in the server then delete him.
+		  	String[]entries = index.list();
+		  for(String s: entries){
+		      File currentFile = new File(index.getPath(),s);
+		      currentFile.delete();
+		  }
+	  }
+	    try {
+			client.sendToClient((Object)packaged);
+		} catch (IOException e) {
+			writer.println(date+": Can't send to client.");
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			writer.println(errors.toString());
+		}
+	    
+	  break;
+	  default:
+			writer.println(date+": Option is not available.");
+			StringWriter errors = new StringWriter();
+			writer.println(errors.toString());  
+	 break;  	
+	  }
+}
 
     
   /**
@@ -194,43 +355,84 @@ public class SchoolServer extends AbstractServer
 	String DBpassword = portController.DBpasswordID.getText();//get the DB password.
 	String DBhost = portController.DBhostID.getText();//get the DB host.
     String DBschema = portController.DBschemaID.getText();//get the DB schema.
+<<<<<<< HEAD
 	/*try{
+=======
+    //set date and writer.
+    date = new Date();
+	try {
+		writer = new PrintWriter("log.txt", "UTF-8");
+	} catch (FileNotFoundException e) {
+		System.out.println("FileNotFoundException");		
+	} catch (UnsupportedEncodingException e) {
+		System.out.println("UnsupportedEncodingException");
+	}
+    try{
+>>>>>>> refs/remotes/origin/school-project
 	port = Integer.parseInt(portController.serverPortD.getText());//get the port of the server to be listening on.
 	}catch(RuntimeException e){
 		portController.errorTextID.setText("Server port most contain only digit's.");
+		writer.println(date+": Error: **begining of crash** Server port most contain only digit's: ");
+		StringWriter errors = new StringWriter();
+		e.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");
 		return;
 	}*/
 	try 
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 	} catch (Exception ex) {
-		portController.errorTextID.setText("Failed to registering the jdbc driver. Register the jdbc driver and try again."); return;}
+		portController.errorTextID.setText("Failed to registering the jdbc driver. Register the jdbc driver and try again."); 
+		writer.println(date+": Error: **begining of crash** Failed to registering the jdbc driver. Register the jdbc driver and try again: ");
+		StringWriter errors = new StringWriter();
+		ex.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");	
+		return;
+	}
 	try {
 		conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/test","root","123456");
 		//conn = (Connection) DriverManager.getConnection("jdbc:mysql://"+DBhost+"/"+DBschema,DBuser,DBpassword);
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("Unable to connect to SQL database. Please try other details or start your database.");
+		writer.println(date+": Error: **begining of crash** Unable to connect to SQL database. Please try other details or start your database: ");
+		StringWriter errors = new StringWriter();
+		e1.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");	
 		return;
 	}//create connection with mysql DB.
 	try {
 		stmt = (Statement) ((java.sql.Connection) conn).createStatement();
 	} catch (SQLException e1) {
 		portController.errorTextID.setText("failed to create Statment from Connection.");
+		writer.println(date+": Error: **begining of crash** failed to create Statment from Connection: ");
+		StringWriter errors = new StringWriter();
+		e1.printStackTrace(new PrintWriter(errors));
+		writer.println(errors.toString());
+		writer.println(date+": Error: **end of crash**");		
 		return;
 	}
 	try 
 	{
+<<<<<<< HEAD
 		System.out.println("SQL connection succeed.");
 		//SchoolServer sv = new SchoolServer(port);
 		SchoolServer sv = new SchoolServer(5555);
+=======
+		writer.println(date+": SQL connection succeed.");
+		SchoolServer sv = new SchoolServer(5555	);
+>>>>>>> refs/remotes/origin/school-project
 		sv.listen(); //Start listening for connections
-		System.out.println("Server started listening to clients.");
+		writer.println(date+": Server started listening to clients on port: "+port);
 	} 
 	catch (Exception ex) 
 	{
 		portController.errorTextID.setText("ERROR - Could not listen for clients!");
 		return;
 	}
+	writer.flush();
 	stage.close();
 	}
 }

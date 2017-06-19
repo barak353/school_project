@@ -223,6 +223,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 	{
 		String Class= (String) ClassCombo.getValue();
 		String Teach=(String) TeacherCombo.getValue();
+<<<<<<< HEAD
 
 
 		//----------------------------------------//
@@ -287,6 +288,48 @@ public class TeacherPlacementController extends QueryController  implements Init
 				    			SaveID.setVisible(false);
 				    		}
 				    	}
+=======
+		String RequiredStringTeacher =  Teach.substring( Teach.indexOf("(") + 1,  Teach.indexOf(")"));
+
+		//----------------------------------------//
+		 if (Class==null || Teach==null)
+		 {
+			 ErrText.setText("Please fill all the fields");
+			 finishmessage.setText("");
+		 }
+		 else
+		 {
+			 //Get the chosen teacher:
+			 ArrayList<ArrayList<String>> TeacherCheck=	(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
+			 if(TeacherCheck.get(0).get(3).equals(RequiredStringTeacher)==true)
+			 {
+				 ErrText.setText("The Teacher already teach this class");	
+				 finishmessage.setText("");
+			 }
+			 else
+			 {
+				 ArrayList<ArrayList<String>> Teacher= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacher WHERE teacherid='" +RequiredStringTeacher+ "'");
+				 hoursteacher=Integer.parseInt(Teacher.get(0).get(1));
+		    	 if (hoursteacher<hoursCourse)
+		    	 {
+		    	     ErrText.setText("The Teacher exceed her teaching hours.\nPlease choose another teacher");
+		    	     finishmessage.setText("");
+		    	     FinishButton.setVisible(true);
+		    	 }
+		    	 else
+		    	 {
+		    		    int res2;
+		    		    int resAdd;
+		    	        res2=hoursteacher-hoursCourse;
+		    	        resAdd=hoursteacher+hoursCourse;
+				    	String res=""+res2; 
+				    	transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(0).get(0)); 
+				    	transfferQueryToServer("UPDATE teacherinclassincourse SET Tidentity="+Teacher.get(0).get(0)+" WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
+				    	transfferQueryToServer("UPDATE teacher SET MaxHour="+resAdd+" WHERE teacherid="+ TeacherCheck.get(0).get(3)); 
+				    	finishmessage.setText("Teacher placement change succeeded");
+				    	ErrText.setText("");
+				    	FinishButton.setVisible(true);
+>>>>>>> refs/remotes/origin/school-project
 				 }	  
 			 }
 		 }//else*/	 
