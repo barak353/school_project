@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -44,35 +43,35 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="184.0" layoutY="122.0" text="StudentID:">
+            <Label layoutX="184.0" layoutY="122.0" text="StudentID:" textFill="#00e823">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="StudentField" layoutX="266.0" layoutY="119.0" onAction="#FilledStudentID" />
-            <Text fx:id="StudentErr" fill="RED" layoutX="34.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="556.13671875">
+            <Text fx:id="StudentErr" fill="RED" layoutX="27.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="556.13671875">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane layoutX="177.0" layoutY="158.0" prefHeight="209.0" prefWidth="239.0" visible="false" />
+            <ComboBox fx:id="StudentCombo" layoutX="266.0" layoutY="119.0" onAction="#StudentChosen" prefWidth="150.0" promptText="Choose Student:" />
+            <DialogPane fx:id="Dialog" layoutX="177.0" layoutY="158.0" prefHeight="209.0" prefWidth="239.0" visible="false" />
             <Button fx:id="Save" layoutX="266.0" layoutY="314.0" mnemonicParsing="false" onAction="#SaveHandler" text="Save" textFill="#0088ff" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
             <ComboBox fx:id="CourseCombo" layoutX="222.0" layoutY="209.0" prefWidth="150.0" promptText="Choose Course:" visible="false" />
-            <Text fill="#0aa1f5" layoutX="194.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courses that open this semester:" visible="false" wrappingWidth="205.25390625">
+            <Text fx:id="LabText" fill="#0aa1f5" layoutX="194.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courses that open this semester:" visible="false" wrappingWidth="205.25390625">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fx:id="CoursesErr" fill="RED" layoutX="95.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="434.2539038658142">
+            <Text fx:id="CoursesErr" fill="RED" layoutX="95.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="434.2539038658142">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fx:id="SuccessMessage" fill="#ff0080" layoutX="95.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="463.13671875">
+            <Text fx:id="SuccessMessage" fill="#ff0080" layoutX="95.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="463.13671875">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
