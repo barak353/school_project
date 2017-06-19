@@ -291,6 +291,6 @@ public class InsertStudentToCourseController extends QueryController implements 
 		    	}//Else courses in semester!=null
 	    	}//Else current semester!=null
 		}//Else chosen stud!=null
-    }//Handler
+    }////Handler
     //----------------------------------------------------------------------//
 }//Class Controller
