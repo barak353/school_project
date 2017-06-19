@@ -4,16 +4,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javax.swing.Timer;
-
+import SystemManager.SystemManagerMainController;
 import Parent.ParentMainController;
+import SchoolManager.SchoolManagerMainController;
 import Parent.ChoiceChildController;
-
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -29,7 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import student.MainWindowStudentController;
+import Student.MainWindowStudentController;
 
 
 public class LoginController extends QueryController implements Initializable{//Second window: login to system.
@@ -53,41 +52,32 @@ public class LoginController extends QueryController implements Initializable{//
     private boolean showNextWindow;//this flag will say if we stay in this scene or if go to the next scene.
     
     private static String userName;
-	//hellooooooo
-
+    
     private static String password;
-	//hellooooooo
-
+    
     public LoginController(String controllerID){
-    	super(controllerID);			//hellooooooo
-
+    	super(controllerID);
     }
     
-	//hellooooooo
-
+    
     @FXML
-    void loginIntoTheSystem(ActionEvent event) {//Handler of the login button.
+    void loginIntoTheSystem(ActionEvent event) throws IOException {//Handler of the login button.
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
     	String userID = usernameID.getText();
     	System.out.println("userID: "+userID);
-        password=passwordID.getText();			//hellooooooo
-
+        password=passwordID.getText();
         if(userID.equals("")){
-        	showNextWindow=false;//stay in this scene.			//hellooooooo
-
+        	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter username");//show error message.
         }
-        if(password.equals("")){			//hellooooooo
-
+        if(password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
-        }			//hellooooooo
-
+        }
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + userID + "'");
         String userPassword = null;
-        boolean isUserExist = false;			//hellooooooo
-
+        boolean isUserExist = false;
         ArrayList<String> userDetails = null;
         if(resultArray == null){showNextWindow = false; wrongTextID.setText("User is not exist.");}
         else if(resultArray.isEmpty() == false){//check if there is first row.
@@ -96,11 +86,9 @@ public class LoginController extends QueryController implements Initializable{//
         		      userPassword = userDetails.get(2);//get first userPSW.
         		      isUserExist = true;
         		}else{wrongTextID.setText("Please enter password.");//show error message.
-        			showNextWindow = false;			//hellooooooo
-
+        			showNextWindow = false;
         		}
-        }else{			//hellooooooo
-
+        }else{
 			showNextWindow = false;
         }
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
@@ -109,29 +97,35 @@ public class LoginController extends QueryController implements Initializable{//
 	        		String nextScreen=(resultArray.get(0)).get(3);
 	                Object nextController = null;
 	                switch(nextScreen)
-	                {			//hellooooooo
-
+	                {
 	                 case "P":
 	                	 nextScreen="/Parent/ParentMain.fxml";
 	                	 nextController=new ParentMainController("ParentMainController");
 	                	 break;
 	                 case "S":
 	                	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
-	                	 nextController=new SecretaryMainController("SecretaryMainController");
+	                	 nextController=new SecretaryMainController("SecretaryMainControllerID");
 	                	 break;
 	                 case "T":
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
-	                	 nextController=new TeacherMainController("TeacherMainController");
-	                	 break;			//hellooooooo
-
+	                	 nextController=new TeacherMainController("TeacherMainControllerID");
+	                	 break;
 	                	 
 	                 case "ST":
 	                	 nextScreen="/student/MainWindowStudent.fxml";
-	                	 nextController=new MainWindowStudentController("StudentController");
+	                	 nextController=new MainWindowStudentController("StudentControllerID");
+	                	 break;
+	                 case "SM":
+	                	 nextScreen="/SystemManager/SystemManagerMainWindow.fxml";
+	                	 nextController=new SystemManagerMainController("SystemManagerControllerID");
+	                	 break;
+	                 case "M":
+	                	 nextScreen="/SchoolManager/SchoolManagerMainWindow.fxml";
+	                	 nextController=new SchoolManagerMainController("SchoolManagerMainControllerID");
 	                	 break;
 	                }
 		         	//set current logged in user.
-		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4));
+		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4),userDetails.get(5));
 		         	User.setCurrentLoggedIn(currentUser);
 			         try {//change to login scene.
 				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
@@ -144,6 +138,7 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.show(); 
 			         } catch (IOException e) {
 						System.out.println("Missing fxml file");
+						throw e;
 					}
 	            }else{
 	            	wrongTextID.setText("Wrong password, please try again.");//show error message.

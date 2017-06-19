@@ -1,4 +1,4 @@
-package student;
+package Student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import Login.LoginController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
-import User.User;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +21,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the student's actions and is responsible for presenting the student's main screen
+ *
+ */
 public class MainWindowStudentController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
@@ -51,14 +56,17 @@ public class MainWindowStudentController extends QueryController implements Init
 
     @FXML
     private Text userID;
-
-
-
+/**
+ * 
+ * After pressing the appropriate button, this function leads to the: Viewing task by student
+ * @param event
+ */
     @FXML
     void WatchT(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchTask.fxml"));
-			   loader.setController(new WatchTaskController("WatchTaskControllerID"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Student/WatchTaskWindow.fxml"));
+			   WatchTaskController controller = new WatchTaskController("WatchTaskControllerID");
+			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -66,16 +74,21 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing WatchTask.fxml file");
+					System.err.println("Missing WatchTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }
-
+/**
+ * 
+ * After pressing the appropriate button, this function leads to the:  submission task  controller
+ * 
+ */
     @FXML
     void SubmitHomeWork(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitHomeWork.fxml"));
-			   loader.setController(new SubmitHomeWorkController("SubmitHomeWorkController"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
+			   SubmitTaskController controller = new SubmitTaskController("SubmitTaskControllerID");
+			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -83,11 +96,14 @@ public class MainWindowStudentController extends QueryController implements Init
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing SubmitHomeWork.fxml file");
+					System.err.println("Missing SubmitTaskWindow.fxml file");
 					e.printStackTrace();
 				}
     }
-
+/**
+ * After pressing the appropriate button, this function leads to the: Viewing personal folder by student
+ * @param event
+ */
     @FXML
     void WatchPersonalFolder(ActionEvent event) {
 		 try {
@@ -114,7 +130,7 @@ public class MainWindowStudentController extends QueryController implements Init
 		@FXML
 		void TurningBack(ActionEvent event)
 		{
-			this.nextController = new LoginController("SecretaryLoginController");
+			this.nextController = new LoginController("StudentLoginController");
 			this.Back("/Login/LoginWindow.fxml",nextController, event);
 		}
  }

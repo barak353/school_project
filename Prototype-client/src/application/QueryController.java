@@ -1,14 +1,16 @@
 package application;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
 import Login.LoginController;
+import Secretary.AddStudentToClassController;
 import Secretary.SecretaryMainController;
 import Secretary.TeacherPlacementController;
-import User.User;
+import Entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
-	
 
 	private static ClientGui connection;//connection will old the connection to the server.
 
@@ -29,7 +30,7 @@ public class QueryController{
     
     private String backScreen="";
         
-    private String controllerID;
+    protected String controllerID;
         
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
@@ -39,13 +40,89 @@ public class QueryController{
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
     }
     
+    protected Object deleteFolderFromServer(String folder,String secondFolder){
+    	String filePath = folder + "//" + secondFolder;
+    	packaged.put("file","empty");
+    	packaged.put("key","DELETE_FOLDER");
+    	packaged.put("filePath",filePath);
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    		try{
+    			connection.wait();
+    		}catch(InterruptedException e){
+    			e.printStackTrace();
+    		}
+    	}
+    	packaged.remove("key");    	
+    	packaged.remove("filePath");
+    	Object result = packaged.get("file");
+    	packaged.remove("file");
+    	return result;
+    }
+    
+    protected Object downloadFileFromServer(String folder,String secondFolder){
+    	String filePath = folder + "//" + secondFolder;
+    	packaged.put("file","empty");
+    	packaged.put("key","DOWNLOAD");
+    	packaged.put("filePath",filePath);
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    		try{
+    			connection.wait();
+    		}catch(InterruptedException e){
+    			e.printStackTrace();
+    		}
+    	}
+    	packaged.remove("key");    	
+    	packaged.remove("filePath");
+    	Object result = packaged.get("file");
+    	packaged.remove("file");
+    	return result;
+    }
+    
+    protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.
+        // Get the size of the file
+    	String fileName = file.getName();
+    	String fileType = fileName.split("\\.")[1];
+    	fileName = fileName.split("\\.")[0];
+    	packaged.put("key","upload");
+    	packaged.put("fileName",fileName);
+    	packaged.put("fileType",fileType);
+        byte[] bytes = null;
+		try {
+			bytes = Files.readAllBytes(file.toPath());
+		} catch (IOException e1) {
+			System.err.println("Unable to convert from file to byte[]");
+			e1.printStackTrace();
+		}
+    	packaged.put("file",bytes);//Send file to be save in the server.
+    	packaged.put("folderName",folderName);//the folder name that the file will be save.
+    	connection.handleMessageFromClientUI((Object)packaged);
+    	synchronized(connection){//wait for ResultArray from server.
+    		try{
+    			connection.wait();
+    		}catch(InterruptedException e){
+    			e.printStackTrace();
+    		}
+    	}
+    	packaged.remove("fileName");
+    	packaged.remove("fileType");
+    	Object result = packaged.get("file");//Get the result that returned from the server.
+    	packaged.remove("file");//Remove result from packaged.
+    	packaged.remove("folderName",folderName);
+    	return result;
+    }
+    
     static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);
     }
     
     protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
+    	packaged.put("key","Query");
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
+    	System.out.println("send query: " + strQuery);
+
     	synchronized(connection){//wait for ResultArray from server.
     			try{
     				connection.wait();
@@ -53,10 +130,12 @@ public class QueryController{
     				e.printStackTrace();
     			}
     	}
+    	System.out.println("return from server");
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	return result;
     }
+    
     
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.
     	this.packaged=packaged;
@@ -65,9 +144,9 @@ public class QueryController{
  	void setbackScreen(String backScreen){
  		this.backScreen=backScreen;
  	}
-	//-----------------------------------------------------------------------// 	
+	 	
 	@FXML
-	void LogOutScreen(ActionEvent event)
+	protected void LogOutScreen(ActionEvent event)
 	{
 		try {
 	 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
@@ -100,6 +179,7 @@ public class QueryController{
 					e.printStackTrace();
 				}
 	} 
+	
 	
 	protected void finalize(){
     	controllerHashMap.put(controllerID, this);//remove this key from the HashMap.

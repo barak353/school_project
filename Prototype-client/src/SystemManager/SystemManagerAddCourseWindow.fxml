@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="19.0" prefHeight="25.0" prefWidth="92.0" text="User Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נוסיף פה את השם של מי שמחובר" wrappingWidth="221.7607421875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Pane layoutY="53.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+         <children>
+            <Label layoutX="152.0" layoutY="14.0" text="Add new course" textFill="#1205ff">
+               <font>
+                  <Font name="System Bold" size="43.0" />
+               </font>
+            </Label>
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="addCourseButton" layoutX="270.0" layoutY="301.0" mnemonicParsing="false" onAction="#addCourse" text="Add Course" />
+            <Text fx:id="Coursetext" layoutX="178.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Course ID is:" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="179.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="177.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teaching unit:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="177.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours per week:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField fx:id="courseName" layoutX="314.0" layoutY="163.0" promptText="couse name" />
+            <TextField fx:id="hours" layoutX="314.0" layoutY="255.0" promptText="hours per week" />
+            <Text fx:id="errorID" fill="RED" layoutX="378.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="148.5078125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="76.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter course detail :" wrappingWidth="232.5703125">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="addPreCourseButton" layoutX="484.0" layoutY="367.0" mnemonicParsing="false" onAction="#addPreCourse" text="Add Pre-Course" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Text fx:id="add" fill="#36d721" layoutX="187.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="252.7607421875">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="TeachingUnit" layoutX="313.0" layoutY="208.0" onAction="#teachingUnit" opacity="0.78" prefWidth="150.0" promptText="teaching unit" />
+            <Text fx:id="course" fill="#36d721" layoutX="318.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="60.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="addMoreCourseButton" layoutX="482.0" layoutY="327.0" mnemonicParsing="false" onAction="#addmoreCourse" text="Add more Course" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

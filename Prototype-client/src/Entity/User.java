@@ -1,4 +1,4 @@
-package User;
+package Entity;
 
 public class User {
 
@@ -9,7 +9,7 @@ public class User {
 	private String Email;
 	private static User currentLoggedIn=null;
 	//-------------------------------------------------------------------//
-	public User(String userId, String userName, String userPSW, String Type, String Email)
+	public User(String userId, String userName, String userPSW, String Type, String Email, String Isclocked)
 	{
 		this.userId = userId;
 		this.userName = userName;

@@ -2,11 +2,11 @@ package Parent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
-import User.User;
-//import Parent.ChoiceChildController;
+import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +30,8 @@ public class ParentMainController extends QueryController implements Initializab
 	} 
 	
 	//-----------------------------------------------------------//
-	
+	Object nextController=null;	
+
     @FXML
     private Button logout;
 
@@ -38,50 +39,60 @@ public class ParentMainController extends QueryController implements Initializab
     private Button back;
 
     @FXML
+    private Text textMSG;
+    
+    @FXML
     private Text userID;
-	
+    
+    @FXML
+    private Text ErrorMSG;
+
     @FXML
     private Button ViewChildPersonalDetails;
     
+
+    private String parentID;
+
 	//-----------------------------------------------------------//
 
+    
+    
     @FXML
     void ViewChildPersonalDetails(ActionEvent event){
+    	
     	try {
-		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
-	        loader.setController(new ChoiceChildController("ChoiceChildController"));
-			Pane login_screen_parent = loader.load();
-	        Scene login_screen_scene=new Scene(login_screen_parent);
-			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-			app_stage.hide();
-			app_stage.setScene(login_screen_scene);
-			app_stage.show(); 
-        } catch (IOException e) {
+    		System.out.println("parentID: "+parentID);
+    	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Block FROM parent WHERE parentID="+parentID);
+    	    String block = (res.get(0)).get(0);
+    		if( block.equals("1")){
+        		ErrorMSG.setText("Blocked user, you cannot view child details!"); //show error message.
+        	}
+    		else{
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Parent/ChoiceChild.fxml"));
+		        loader.setController(new ChoiceChildController("ChoiceChildController"));
+				Pane login_screen_parent = loader.load();
+		        Scene login_screen_scene=new Scene(login_screen_parent);
+				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+				app_stage.hide();
+				app_stage.setScene(login_screen_scene);
+				app_stage.show(); 
+				}
+    		}
+    	
+    	catch (IOException e) {
 			System.err.println("Missing ChoiceChild.fxml file");
 			e.printStackTrace();
 		}
 	}  
     
+    
     @FXML
-    void Back(ActionEvent event) {
-		 try 
-		 {
-			
-			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
-		        loader.setController(new LoginController("LoginController"));
-			    Pane login_screen_parent = loader.load();
-			        Scene login_screen_scene=new Scene(login_screen_parent);
-					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
-					app_stage.hide();
-					app_stage.setScene(login_screen_scene);
-					app_stage.show(); 
-		        } 
-		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
-				e.printStackTrace();
-				}
+    void TurningBack(ActionEvent event)
+    {
+    	this.nextController = new LoginController("LoginController");
+    	this.Back("/Login/LoginWindow.fxml",nextController, event);
     }
-
+   
     
     @FXML
     void LogOut(ActionEvent event) {
@@ -98,7 +109,7 @@ public class ParentMainController extends QueryController implements Initializab
 					app_stage.show(); 
 		        } 
 		 catch (IOException e) {
-				System.err.println("Missing StudentChange.fxml file");
+				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
     }
@@ -108,5 +119,9 @@ public class ParentMainController extends QueryController implements Initializab
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
+		
+		parentID = user.GetID();
+
+		
 	}
 }

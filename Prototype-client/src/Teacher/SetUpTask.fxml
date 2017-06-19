@@ -40,17 +40,22 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="CourseList" layoutX="241.0" layoutY="161.0" prefWidth="150.0" />
+            <ComboBox fx:id="CourseList" layoutX="241.0" layoutY="161.0" onAction="#chooseCourse" opacity="0.52" prefWidth="150.0" promptText="choose course" />
             <Label layoutX="182.0" layoutY="164.0" text="course">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="Continue" layoutX="276.0" layoutY="227.0" mnemonicParsing="false" onAction="#UploadTask" text="Continue">
+            <Button fx:id="Continue" layoutX="276.0" layoutY="227.0" mnemonicParsing="false" onAction="#Continue" text="Continue">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Text fx:id="textMSG" fill="#ff0707" layoutX="451.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="you didn't choose course" visible="false" wrappingWidth="126.705078125">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

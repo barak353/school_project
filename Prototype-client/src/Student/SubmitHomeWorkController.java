@@ -1,4 +1,4 @@
-package student;
+package Student;
 
 import application.QueryController;
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -24,7 +26,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Text fx:id="userID" layoutX="197.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="221.7607421875">
+      <Text fx:id="userID" layoutX="197.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="78.0439453125">
          <font>
             <Font size="14.0" />
          </font>
@@ -41,19 +43,18 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="openFile" layoutX="266.0" layoutY="170.0" mnemonicParsing="false" onAction="#saveB" text="open file">
+            <Button fx:id="openFile" layoutX="266.0" layoutY="170.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="91.0" text="open file">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="StudentList" layoutX="239.0" layoutY="116.0" prefWidth="150.0" />
-            <Label layoutX="182.0" layoutY="118.0" text="student">
+            <ComboBox fx:id="StudentList" layoutX="239.0" layoutY="116.0" onAction="#chooseStudent" opacity="0.54" prefWidth="150.0" promptText="choose student" />
+            <Label layoutX="165.0" layoutY="118.0" text="student">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="219.0" layoutY="229.0" prefHeight="138.0" prefWidth="222.0" />
-            <Label layoutX="81.0" layoutY="229.0" text="write comments">
+            <Label layoutX="149.0" layoutY="232.0" text="save new file">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -63,7 +64,33 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Text fx:id="textMSG" fill="RED" layoutX="465.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="106.17578125">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="uploadFile" layoutX="266.0" layoutY="228.0" mnemonicParsing="false" onAction="#upload" text="upload file">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Text fx:id="textMSG" fill="RED" layoutX="458.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB. " visible="false" wrappingWidth="121.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Circle fx:id="markTask" fill="#20ee4d" layoutX="446.0" layoutY="129.0" radius="12.0" stroke="#080808" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>
+      <Label layoutX="281.0" layoutY="21.0" prefHeight="25.0" prefWidth="106.0" text="course Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Text fx:id="courseName" layoutX="381.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="91.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

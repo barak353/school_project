@@ -41,11 +41,16 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#Back" text="Back">
+            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="147.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="312.5419921875">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
