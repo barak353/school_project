@@ -20,6 +20,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * this controller handles whit the main of the teacher,what action the teacher has in the system
+ * 
+ */
 
 
 public class TeacherMainController extends QueryController implements Initializable{

@@ -26,6 +26,13 @@ import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 
+/**
+ * 
+ * this controller handles the action: fill final evaluation of student in specific task, by teacher
+ * first, the teacher choose the course she teaches ,then choose task and then, choose the student she want to fill about him
+ * 
+ */
+
 
 public class FillFinalEvaluationController extends QueryController implements Initializable {
 
@@ -81,13 +88,21 @@ public class FillFinalEvaluationController extends QueryController implements In
     private int flag;
     /*---------------------------------------------------------------------------------*/
 
+    /**
+     * function that return to the last screen
+     * @param event
+     */
     
     @FXML
     void TurningBack(ActionEvent event) {
     	this.nextController = new TeacherMainController("TeacherMainController");
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
-    //
+    
+    /**
+     *  After pressing the save button, this function insert to the DB the grade and the comments about specific task in course
+     * @param event
+     */
     @FXML
     void saveB(ActionEvent event) {
     	textMSG.setVisible(false);
@@ -159,6 +174,10 @@ public class FillFinalEvaluationController extends QueryController implements In
     	
     }
     
+    /**
+     * this function initialize the screen white the name of the user, and the combobox  of course
+     */
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
@@ -183,6 +202,11 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    CourseList.setItems(obList);
     	}
     }
+    
+    /**
+     *  After choose course in the combobox, this function initialize the combobox of task in this course
+     * @param event
+     */
     
     @FXML
     void chooseCourse(ActionEvent event) {
@@ -209,6 +233,12 @@ public class FillFinalEvaluationController extends QueryController implements In
     	    	TaskList.setItems(obList);	
     			}
     }
+    
+    /**
+     *  After choose task in the combobox, this function initialize the combobox of student in this course
+     * @param event
+     */
+    
     @FXML
     void chooseTask(ActionEvent event) {
     	isTaskChoosed = true;
@@ -230,8 +260,14 @@ public class FillFinalEvaluationController extends QueryController implements In
     	ObservableList obList= FXCollections.observableList(resultArray);
     	StudentList.setItems(obList);
 		}
-   
     }
+    
+    /**
+     *  After choose student in the combobox, this function show the mark 
+     *  about the submission of this student in the task that the teacher was choose.
+     *  this mark show if the student submit the task and if yes, if the student submit late or in time.
+     * @param event
+     */ 
    @FXML
     void chooseStudent(ActionEvent event) {
 	   isStudentChoosed = true;
@@ -271,9 +307,12 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    }
 	
 		}
+ /**
+  * function that return to the log in screen
+  * @param event
+  */
  
- 
-   //func that return to the log in screen
+
     @FXML
     void LogOut(ActionEvent event) {
 		 try 

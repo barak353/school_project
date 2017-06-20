@@ -30,7 +30,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
+/**
+ * 
+ * this controller handles the action: checks home work of student by teacher
+ * 
+ */
 
 public class UploadTaskController extends QueryController implements Initializable {
 

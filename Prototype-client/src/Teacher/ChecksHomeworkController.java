@@ -23,7 +23,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 
-
+/**
+ * 
+ * this controller handles the action: checks home work of student by teacher
+ * first, the teacher choose course ,then task and Continue to another screen - task of student
+ * 
+ */
 
 public class ChecksHomeworkController extends QueryController implements Initializable {
 
@@ -60,6 +65,10 @@ public class ChecksHomeworkController extends QueryController implements Initial
     @FXML
     private Text ErrorMSG;
     
+    /**
+     * this function initialize the screen white the name of the user, and the combobox  of course
+     */
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
@@ -79,13 +88,20 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	    CourseList.setItems(obList);
     }
     
-    
+    /**
+     * this function check if the user choose task from the combobox
+     * @param event
+     */
 
     @FXML
     void ChooseTask(ActionEvent event) {
     	ErrorMSG.setText("");
        	isTaskChoosed = true;
     }
+    /**
+     *  After choose course in the combobox, this function initialize the combobox of task in this course
+     * @param event
+     */
     
     @FXML
     void chooseCourse(ActionEvent event) {
@@ -123,6 +139,13 @@ public class ChecksHomeworkController extends QueryController implements Initial
    
    }
     
+    
+    /**
+     *  After pressing the Continue button, this function check if the use choose from the combobox course and task,
+     *  if yes, the system Continue to the next screen - task of student
+     * @param event
+     */
+    
     @FXML
     void Continue(ActionEvent event) {
     	try {
@@ -153,13 +176,23 @@ public class ChecksHomeworkController extends QueryController implements Initial
 		}
     }
     
+    /**
+     * function that return to the last screen
+     * @param event
+     */
+    
+   
     @FXML
     void TurningBack(ActionEvent event) {
     	this.nextController = new TeacherMainController("TeacherMainController");
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
     
-
+    /**
+     * function that return to the log in screen
+     * @param event
+     */
+    
     @FXML
     void LogOut(ActionEvent event) {
 		 try 

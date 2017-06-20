@@ -22,6 +22,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * this controller handles the action: set up task for course by teacher
+ * first, the teacher choose course ,then Continue to another screen - upload task
+ * 
+ */
 
 
 public class SetUpTaskController extends QueryController implements Initializable {
@@ -57,12 +63,23 @@ public class SetUpTaskController extends QueryController implements Initializabl
    
   //-----------------------------------------------------------//
 
+    /**
+     * function that return to the last screen
+     * @param event
+     */
+    
     @FXML
     void TurningBack(ActionEvent event) {
     	this.nextController = new TeacherMainController("TeacherMainController");
     	this.Back("/Teacher/TeacherMain.fxml",nextController, event);
     }
 
+    /**
+     *  After pressing the Continue button, this function check if the user choose from the combobox course,
+     *  if yes, the system Continue to the next screen -  upload task
+     * @param event
+     */
+    
     @FXML
     void Continue(ActionEvent event) {
     	try {
@@ -92,6 +109,9 @@ public class SetUpTaskController extends QueryController implements Initializabl
 				}
     }
     
+    /**
+     * this function initialize the screen white the name of the user, and the combobox  of course
+     */
     
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
@@ -111,7 +131,10 @@ public class SetUpTaskController extends QueryController implements Initializabl
 	    CourseList.setItems(obList);
     }
 
-  /*----------------------------------------------------------------------------------------------------------------*/  
+    /**
+     * function that return to the log in screen
+     * @param event
+     */ 
     @FXML
     void LogOut(ActionEvent event) {
 		 try 
@@ -131,6 +154,12 @@ public class SetUpTaskController extends QueryController implements Initializabl
 				e.printStackTrace();
 				}
     }
+    
+    /**
+     * this function check if the user choose course from the combobox
+     * @param event
+     */
+
     @FXML
     void chooseCourse(ActionEvent event) {
     	iscourseChoosed = 1;
