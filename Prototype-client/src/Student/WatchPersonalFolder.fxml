@@ -31,7 +31,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane fx:id="nofar" layoutX="2.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
+      <Pane fx:id="nofar" layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
             <Label layoutX="95.0" layoutY="44.0" text="Watch Personal Folder" textFill="#1205ff">
                <font>
@@ -44,7 +44,7 @@
                </font>
             </Button>
             <Button fx:id="ButtonNew" layoutX="246.0" layoutY="108.0" mnemonicParsing="false" onAction="#WatchStudentDetails" prefHeight="25.0" prefWidth="161.0" text="Watch Details" />
-            <Label layoutX="54.0" layoutY="139.0" text="Student Name :  ">
+            <Label layoutX="49.0" layoutY="139.0" text="Student Name :  ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
@@ -52,27 +52,31 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label layoutX="61.0" layoutY="340.0" prefHeight="17.0" prefWidth="69.0" text="GPA :">
+            <Label layoutX="54.0" layoutY="273.0" prefHeight="17.0" prefWidth="69.0" text="GPA :">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
             <SplitPane layoutX="63.0" layoutY="272.0" />
-            <Text fx:id="Sname" layoutX="161.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
+            <Text fx:id="Sname" layoutX="169.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
             <Text fx:id="Sid" layoutX="136.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.99999986588955" />
-            <Text fx:id="Sgps" layoutX="107.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="184.13671875" />
+            <Text fx:id="Sgps" layoutX="112.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="184.13671875" />
             <Label layoutX="56.0" layoutY="197.0" prefHeight="17.0" prefWidth="80.0" text="Course:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <ComboBox fx:id="ChooseCours" layoutX="142.0" layoutY="193.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
-            <Label layoutX="54.0" layoutY="225.0" prefHeight="17.0" prefWidth="69.0" text="Task List :">
+            <Label layoutX="54.0" layoutY="241.0" prefHeight="17.0" prefWidth="115.0" text="Grade In Course:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Text fx:id="TaskList" layoutX="131.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.13671875" />
-            <Button layoutX="322.0" layoutY="197.0" mnemonicParsing="false" onAction="#AfterChooseCourse" text="Watch Tasks" />
+            <Text fx:id="GradeInCourse" layoutX="169.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.13671875" />
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="257.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.1367217078805">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

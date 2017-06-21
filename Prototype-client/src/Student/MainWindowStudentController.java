@@ -81,6 +81,7 @@ public class MainWindowStudentController extends QueryController implements Init
 /**
  * 
  * After pressing the appropriate button, this function leads to the:  submission task  controller
+ * @param event
  * 
  */
     @FXML
@@ -121,7 +122,7 @@ public class MainWindowStudentController extends QueryController implements Init
 				}
     } 
 	 //-----------------------------------------------------------// 
-		//-----------------------------------------------------------//
+
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
