@@ -12,6 +12,7 @@ import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
@@ -76,6 +77,16 @@ public class LoginController extends QueryController implements Initializable{//
         	wrongTextID.setText("Please enter password.");//show error message.
         }
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + userID + "'");
+        ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
+    	if(res != null){
+    		ArrayList<String> row = res.get(0);
+    		System.out.println("row.get(0):"+row.get(0));
+    		String[] parts = row.get(0).split(":");
+    		Semester sem = null;
+    		System.out.println("parts[0]:"+parts[0]+", parts[1]:"+parts[1]);
+    		if(row != null)Semester.setCurrentSemester(sem =new Semester(parts[0],parts[1],row.get(1).equals("true"),"",""));
+    		System.out.println(sem);
+    	}
         String userPassword = null;
         boolean isUserExist = false;
         ArrayList<String> userDetails = null;
@@ -110,7 +121,6 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
 	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
-	                	 
 	                 case "ST":
 	                	 nextScreen="/student/MainWindowStudent.fxml";
 	                	 nextController=new MainWindowStudentController("StudentControllerID");
@@ -127,7 +137,7 @@ public class LoginController extends QueryController implements Initializable{//
 		         	//set current logged in user.
 		         	User currentUser = new User(userDetails.get(0),userName = userDetails.get(1),userPassword,userDetails.get(3),userDetails.get(4),userDetails.get(5));
 		         	User.setCurrentLoggedIn(currentUser);
-			         try {//change to login scene.
+		            try {//change to login scene.
 				        FXMLLoader loader = new FXMLLoader(getClass().getResource(nextScreen));
 				        loader.setController(nextController);
 				        Pane login_screen_parent = loader.load();

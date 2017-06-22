@@ -88,5 +88,9 @@ public class Semester {
 		return Semester.str2;
 	}
 	//-------------------------------------------------------//
+	@Override
+	public String toString() {
+		return "Semester [year=" + year + ", type=" + type + ", status=" + status + ", courseList=" + courseList + "]";
+	}
 }
 

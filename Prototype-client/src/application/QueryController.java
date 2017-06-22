@@ -133,6 +133,7 @@ public class QueryController{
     	System.out.println("return from server");
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
+    	packaged.remove("key");
     	return result;
     }
     

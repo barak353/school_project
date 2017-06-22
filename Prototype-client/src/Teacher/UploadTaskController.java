@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import Login.LoginController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.event.ActionEvent;
@@ -141,7 +142,9 @@ public class UploadTaskController extends QueryController implements Initializab
     		return;
     	}
     	String task = TaskName.getText();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID);
+    	Semester semester = Semester.getCurrentSemester();
+    	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"'");
     	if(res != null){
     		for(ArrayList<String> row: res){
     			System.out.println(row.get(0)+", task:" + task);
@@ -153,13 +156,13 @@ public class UploadTaskController extends QueryController implements Initializab
     		textMSG.setVisible(true);
     		return;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
-    							+ courseID + ",'" +setDate.getValue()+"')");
+    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"')");
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
-		//Object ans = uploadFileToServer(file,courseID);
-		//System.out.println("arrived");
+		Object ans = uploadFileToServer(file,IDsem+"//"+courseID);
+		System.out.println("arrived");
 		isDateSetted = false;
     }
 
