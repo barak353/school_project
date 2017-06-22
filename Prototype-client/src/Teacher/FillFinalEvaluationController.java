@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.collections.FXCollections;
@@ -77,6 +78,8 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     private Text textMSG;
     
+    @FXML
+    private Text semesterID;
   // private String chooseStudent;
 	
     private boolean isTaskChoosed=false;
@@ -86,6 +89,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     private String chooseCourse;
     private String idcourses;
     private int flag;
+    private Semester semester;
     /*---------------------------------------------------------------------------------*/
 
     /**
@@ -200,6 +204,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     	//print the array list in the combbox
 	    ObservableList obList= FXCollections.observableList(courseNameList);;
 	    CourseList.setItems(obList);
+    	semester = Semester.getCurrentSemester();
+    	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+	    semesterID.setText(semesterID.getText()+IDsem);;
     	}
     }
     
@@ -213,9 +220,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     	textMSG.setVisible(false);
     	isCourseChoosed = true;
     	String chooseCourse = CourseList.getValue();
+    	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
     	 idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-    	  	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);
-           	System.out.println("res2: "+res);
+    	  	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses+" AND IDsem='"+IDsem+"'");
            	if (res==null)
         	{
         		textMSG.setText("There are no assignments in this course");
@@ -226,8 +233,8 @@ public class FillFinalEvaluationController extends QueryController implements In
     	    	//create array list of task name and task id and show in the combobox
     	    	ArrayList<String> TaskNameList = new ArrayList<String>();
     	       	for(ArrayList<String> row:res){
-    	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
-    	        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	        	//res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+    	        	TaskNameList.add(res.get(0).get(0));
     	    	}
     	       	ObservableList obList= FXCollections.observableList(TaskNameList);
     	    	TaskList.setItems(obList);	

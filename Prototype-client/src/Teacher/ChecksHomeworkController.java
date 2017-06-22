@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Login.LoginController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.collections.FXCollections;
@@ -108,17 +109,15 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	ErrorMSG.setText("");
     	String chooseCourse = CourseList.getValue();
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-    	System.out.println("idcorse: "+idcourses);
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idTASK FROM task WHERE idcorse="+idcourses);     
-    	System.out.println("choosecours,idcourse: "+ chooseCourse +idcourses);
-    	System.out.println("res: "+res);
+    	Semester semester = Semester.getCurrentSemester();
+    	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE IDsem='"+IDsem+"' AND idcorse="+idcourses);     
     	if(res != null){
-	    	ArrayList<ArrayList<String>> res2;
+	    	//ArrayList<ArrayList<String>> res2;
 	    	ArrayList<String> TaskNameList = new ArrayList<String>();
 	       	for(ArrayList<String> row:res){
-	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
-	        	System.out.println("res2.get(0).get(0): "+res2.get(0).get(0));
-	        	TaskNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+	        	//res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
+	        	TaskNameList.add(row.get(0));
 	    	}
 	       	System.out.println("task: "+ TaskNameList);
 	       	obList= FXCollections.observableList(TaskNameList);
