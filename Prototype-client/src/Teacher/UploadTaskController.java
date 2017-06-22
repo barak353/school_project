@@ -161,8 +161,11 @@ public class UploadTaskController extends QueryController implements Initializab
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
+    	String[] parts = IDsem.split(":");
+    	String part1 = parts[0]; // year
+    	String part2 = parts[1]; // type
+    	IDsem = parts[0]+parts[1];
 		Object ans = uploadFileToServer(file,IDsem+"//"+courseID);
-		System.out.println("arrived");
 		isDateSetted = false;
     }
 
