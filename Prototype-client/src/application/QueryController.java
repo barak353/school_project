@@ -109,7 +109,7 @@ public class QueryController{
     	packaged.remove("fileType");
     	Object result = packaged.get("file");//Get the result that returned from the server.
     	packaged.remove("file");//Remove result from packaged.
-    	packaged.remove("folderName",folderName);
+    	packaged.remove("folderName");
     	return result;
     }
     

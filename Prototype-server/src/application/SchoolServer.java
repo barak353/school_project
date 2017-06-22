@@ -219,14 +219,15 @@ public class SchoolServer extends AbstractServer
 	  break;
 	  case "DOWNLOAD":
 	  case "download":
-		 /* System.out.println("arrived download");
-		  JFileChooser chooser = new JFileChooser();
-		  File dir = new File("file");
-		  chooser.setCurrentDirectory(dir);
-		  File[] filesInDirectory = chooser.getCurrentDirectory().listFiles();
-		  for ( File file : filesInDirectory ) {
-		      System.out.println(file.getName());
-		  }*/
+		  File download = new File("file//"+packaged.get("filePath"));
+		    try {
+				client.sendToClient((Object)packaged);
+			} catch (IOException e) {
+				writer.println(date+": Can't send to client.");
+				StringWriter errors = new StringWriter();
+				e.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
+			}
 	   break;
 	  case "delete_folder":
 	  case "DELETE_FOLDER":

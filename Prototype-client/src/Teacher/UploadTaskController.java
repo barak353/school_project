@@ -75,9 +75,9 @@ public class UploadTaskController extends QueryController implements Initializab
      
     private String courseID;
     private String courseN;
-    
+    private boolean isUploaded = false;
     private File file;
-
+    private boolean isDateSetted = false;
 	//-----------------------------------------------------------//
     
     @FXML
@@ -90,6 +90,8 @@ public class UploadTaskController extends QueryController implements Initializab
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
     	courseName.setText(courseN);
+    	isDateSetted = false;
+    	isUploaded = false;
     }
     @FXML
     void LogOut(ActionEvent event) {//return to the log in screen
@@ -116,61 +118,54 @@ public class UploadTaskController extends QueryController implements Initializab
     }
     
     @FXML
+    void setDate(ActionEvent event) {
+		textMSG.setText("");
+    	isDateSetted = true;
+    }
+    
+    @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
+		textMSG.setText("");
+    	if(setDate.getValue()==null){
+    		textMSG.setText("Please insert submission date of task");
+    		textMSG.setVisible(true);
+    		return;
+    	}
+    	if(isUploaded == false){textMSG.setText("Please upload file.");return;}
+    	if(isDateSetted == false){textMSG.setText("Please set date.");return;}
         LocalDate now = LocalDate.now();
     	LocalDate choseDate =(LocalDate)setDate.getValue();
-    	System.out.println(now +","+choseDate);
     	if(TaskName.getText().trim().isEmpty()){
-    		textMSG.setText("you don't insert name of task");
+    		textMSG.setText("Please insert task name.");
     		textMSG.setVisible(true);
     		return;
     	}
     	String task = TaskName.getText();
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID);
-      	ArrayList<String> listTask = new ArrayList() ;
-      	System.out.println("res:"+ res);
-    	//create array list of task name 
-    	ArrayList<String> TaskNameList = new ArrayList<String>();
-    	System.out.println("tasklistis:"+TaskNameList);
-    	for(int i=0;i<res.size();i++){
-    		listTask.addAll(res.get(i));
-    		
+    	if(res != null){
+    		for(ArrayList<String> row: res){
+    			System.out.println(row.get(0)+", task:" + task);
+    			if(((String)row.get(0)).equals(task)){textMSG.setText("This task name is already exists.");return;}
+    		}
     	}
-       	System.out.println("tasklistis2:"+listTask);
-       	for(int i=0;i<listTask.size();i++)
-    	if(task.equals(listTask.get(i))){
-    		textMSG.setText("This task name already exists");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    	if(setDate.getValue()==null){
-    		textMSG.setText("you don't insert submmision date of task");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    
-    	
         if (now.compareTo(choseDate) > 0) {//check if the date is pass
-            System.out.println(now +"is after"+ choseDate);
-    	
     		textMSG.setText("the submmision date is pass");
     		textMSG.setVisible(true);
     		return;
    	} 
-    	
     	transfferQueryToServer("INSERT INTO task (TaskName,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
     							+ courseID + ",'" +setDate.getValue()+"')");
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
-		System.out.println("send file to server");
-
-		Object ans = uploadFileToServer(file,courseID);
-		System.out.println("arrived");
+		//Object ans = uploadFileToServer(file,courseID);
+		//System.out.println("arrived");
+		isDateSetted = false;
     }
 
 	@FXML
 	void upload(ActionEvent event) {
+		textMSG.setText("");
 		JFileChooser chooser= new JFileChooser();
 		int choice = chooser.showOpenDialog(chooser);
 		if (choice != JFileChooser.APPROVE_OPTION) return;
@@ -179,6 +174,7 @@ public class UploadTaskController extends QueryController implements Initializab
 			System.out.println("file or directory denoted by this abstract pathname exists.");
 		else
 			System.out.println("file or directory denoted by this abstract pathname is not exists.");
+		isUploaded = true;
 	}
     
     
