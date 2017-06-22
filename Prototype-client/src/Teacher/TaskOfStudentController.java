@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 
 import javafx.scene.control.ComboBox;
 import Login.LoginController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.collections.FXCollections;
@@ -78,7 +79,7 @@ public TaskOfStudentController(String controllerID)
 		 
 		  private String courseID;
 		  private String courseN;
-		  private String idtask;
+		  private String taskName;
 		  private File file;
 		  private int isstudentChoosed = 0;  
 		
@@ -151,9 +152,10 @@ public TaskOfStudentController(String controllerID)
 	   isstudentChoosed = 1;
 	   ArrayList<String> mark = new ArrayList<String> ();
 	   String chooseStudent= StudentList.getValue();
-	   System.out.println("chooseStudent:" + chooseStudent);
-	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE idTASK="+idtask+ 
-				" AND IDcourse="+ courseID+" AND IDstudent="+ chooseStudent);
+       Semester semester = Semester.getCurrentSemester();
+       String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE mytaskname='"+taskName+ 
+				"' AND IDNcourse="+ courseID+" AND stIDENT="+ chooseStudent + " AND semesterName='"+IDsem+"'");
 	   System.out.println("res:" + res);
 	   if(res ==null){
 			textMSG.setText("this student did not submmit the task ");
@@ -235,8 +237,8 @@ public TaskOfStudentController(String controllerID)
 		
 	}
 	
-	public void setTaskID(String idtask) {
-		this.idtask = idtask;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 		
 	}
 	

@@ -131,7 +131,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	       	obList= FXCollections.observableList(new ArrayList());
 	       	System.out.println("obList: "+obList);
 	       	TaskL.setItems(obList);
-	    	ErrorMSG.setText("This course dosen't have any tasj to show");
+	    	ErrorMSG.setText("This course dosen't have any tasks to show");
 
     		}
 
@@ -150,15 +150,14 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	try {
 		    	ErrorMSG.setText("");
     	  		if(isCourseChoosed && isTaskChoosed)	{	
-	    			String chooseTask = TaskL.getValue();
-	        		String idtask = chooseTask.substring(chooseTask.indexOf("(") + 1, chooseTask.indexOf(")"));//get the idtask that is inside a ( ).
+	    			String choosedTaskName = TaskL.getValue();//get TaskName.
 	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Teacher/TaskOfStudent.fxml"));
 	        		TaskOfStudentController controller = new TaskOfStudentController("TaskOfStudentController");
 	        		String chooseCourse = CourseList.getValue();
 	        		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 	        		controller.setCourseN(chooseCourse);
 	        		controller.setCourseID(idcourses);
-	        		controller.setTaskID(idtask);
+	        		controller.setTaskName(choosedTaskName);
 			        loader.setController(controller);
 			        Pane login_screen_parent = loader.load();
 					Scene login_screen_scene=new Scene(login_screen_parent);

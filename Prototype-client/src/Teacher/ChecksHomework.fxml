@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
@@ -63,7 +59,7 @@
                </font>
             </Label>
             <ComboBox fx:id="TaskL" layoutX="241.0" layoutY="171.0" onAction="#ChooseTask" opacity="0.49" prefWidth="150.0" promptText="choose task" />
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="294.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="188.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="228.99999725818634">
                <font>
                   <Font size="14.0" />
                </font>
