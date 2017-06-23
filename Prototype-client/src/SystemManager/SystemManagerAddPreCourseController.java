@@ -28,6 +28,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the System Manager actions and is responsible for presenting the System Add Pre-Course screen
+ *
+ */
+
 public class SystemManagerAddPreCourseController extends QueryController implements Initializable{
 	//-----------------------------------------------------------//
 	
@@ -64,7 +70,12 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     private int flag=0;
 
 	
-	//------------------------------------------// 
+	//-----------------------------------------------------------//
+    
+    /**
+     * function that return to the last screen
+     * @param event
+     */
 	
 	@FXML
 	void TurningBack(ActionEvent event)
@@ -73,18 +84,15 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 		this.Back("/SystemManager/SystemManagerAddCourseWindow.fxml",nextController, event);
 	}
 
-	
-	//------------------------------------------// 
-
-    
-	public void setCourseID(String lastCourse) {
-		// TODO Auto-generated method stub
-		this.lastCourse = lastCourse;
-	}
-
     
 	//------------------------------------------// 
 
+    /**
+     *  After pressing the addPrecourse button, this function check if the user choose from the ComboBox pre-Courses,
+     *  if yes, the system Inserts data into the database and sends the lastCourse to the next Controller
+     *  the system Continue to the next screen -  add Pre course
+     * @param event
+     */   
 		
     @FXML
     void addPrecourse(ActionEvent event) 
@@ -144,6 +152,12 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     
 	//------------------------------------------// 
     
+    /**
+     *  After pressing the finish button,
+     *  the system Continue to the next screen -  add course
+     * @param event
+     */   
+  
     @FXML
     void finish(ActionEvent event) {
 		 try {
@@ -163,7 +177,10 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     
   //------------------------------------------// 
     
-    
+    /**
+     * this function initialize the screen whit the name of the user, id last Course and the ComboBox pre-courses list.
+     */
+   
   	@Override
   	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
   		User user = User.getCurrentLoggedIn();
@@ -172,7 +189,7 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 
 	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses!='" + lastCourse +"'");
         if(res==null){
-        	errorID.setText("There is NO such courses");//show error message.
+        	errorID.setText("NO found courses");//show error message.
         }
         else{
 		    ArrayList<String> precourses = new ArrayList<String>();
@@ -188,13 +205,26 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
   	
 //------------------------------------------//  	
   
-  	
+    /**
+     * this function check if the user choose pre-Courses from the ComboBox
+     * @param event
+     */
+
     @FXML
     void preCourses(ActionEvent event) {
 		flag = 1;
 		PreCourses = preCourses.getValue();
 
     }
+
+	
+	//------------------------------------------// 
+
+    
+	public void setCourseID(String lastCourse) {
+		// TODO Auto-generated method stub
+		this.lastCourse = lastCourse;
+	}
 
 
 }

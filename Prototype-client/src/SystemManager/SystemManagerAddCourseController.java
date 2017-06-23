@@ -30,6 +30,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the System Manager actions and is responsible for presenting the Add Course screen
+ *
+ */
+
 public class SystemManagerAddCourseController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
@@ -79,6 +85,13 @@ public class SystemManagerAddCourseController extends QueryController implements
     private int flag=0;
 
 	//-----------------------------------------------------------// 
+   
+    /**
+     *  After pressing the addCourse button, this function check if the user fill out all fields and choose from the ComboBox teaching Unit,
+     *  if yes, the system Inserts data into the database 
+     *  and the system show the ID course,the add Pre-Course Button and the add More Course Button
+     * @param event
+     */   
     
     @FXML
     void addCourse(ActionEvent event){
@@ -136,7 +149,7 @@ public class SystemManagerAddCourseController extends QueryController implements
 				//The number the DB gave to the ID course
 				ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + nameCourse +"'");
 		        if(res1==null){
-		        	errorID.setText("There is NO such name courses");//show error message.
+		        	errorID.setText("NO found name courses");//show error message.
 		    		add.setText("");
 		    		course.setText("");
 		    		isValidInput = false;
@@ -156,7 +169,13 @@ public class SystemManagerAddCourseController extends QueryController implements
     
 		//------------------------------------------// 
 		
- 
+    /**
+     *  After pressing the addPreCourse button,
+     *  the system Continue to the next screen -  Add Pre-Course
+     *  and sends the lastCourse to the next Controller
+     * @param event
+     */   
+
     @FXML
 		void addPreCourse(ActionEvent event) {
     		try {
@@ -180,6 +199,11 @@ public class SystemManagerAddCourseController extends QueryController implements
     
 	//------------------------------------------//
     
+    /**
+     *  After pressing the addmoreCourse button,
+     *  the system Continue to the next screen -  Add Course
+     * @param event
+     */ 
     
     	@FXML
     	void addmoreCourse(ActionEvent event) {
@@ -198,8 +222,13 @@ public class SystemManagerAddCourseController extends QueryController implements
 					}
 	    }
 
-	//------------------------------------------// 
-
+    	//-----------------------------------------------------------//
+    	   
+        /**
+         * function that return to the last screen
+         * @param event
+         */
+    	
 		@FXML
 		void TurningBack(ActionEvent event){
 			this.nextController = new SystemManagerMainController("SystemManagerMainControllerID");
@@ -209,7 +238,10 @@ public class SystemManagerAddCourseController extends QueryController implements
 
 		//------------------------------------------// 
 	    
-	    
+	    /**
+	     * this function initialize the screen whit the name of the user and the ComboBox teaching unit list.
+	     */
+
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
@@ -217,7 +249,7 @@ public class SystemManagerAddCourseController extends QueryController implements
 			
 		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teachingunit");
 	        if(res==null){
-	        	errorID.setText("There is NO such name courses");//show error message.
+	        	errorID.setText("NO found teaching unit");//show error message.
 	        }
 	        else{
 			    ArrayList<String> teachingunitList = new ArrayList<String>();
@@ -232,7 +264,11 @@ public class SystemManagerAddCourseController extends QueryController implements
 		
 		//------------------------------------------// 
 
-		
+	    /**
+	     * this function check if the user choose teaching Unit from the ComboBox
+	     * @param event
+	     */
+
 	    @FXML
 	    void teachingUnit(ActionEvent event) {
 			flag = 1;

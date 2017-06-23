@@ -20,6 +20,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the parents actions and is responsible for presenting the parents main screen
+ *
+ */
+
 public class ParentMainController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
@@ -54,9 +60,13 @@ public class ParentMainController extends QueryController implements Initializab
     private String parentID;
 
 	//-----------------------------------------------------------//
-
     
-    
+    /**
+     *  After pressing the ViewChildPersonalDetails button, this function check if the user blocked,
+     *  if no, the system Continue to the next screen -  Choice Child
+     *  else, the system shows a message that the user is blocked
+     * @param event
+     */   
     @FXML
     void ViewChildPersonalDetails(ActionEvent event){
     	
@@ -86,13 +96,26 @@ public class ParentMainController extends QueryController implements Initializab
 	}  
     
     
+	//-----------------------------------------------------------//
+   
+    /**
+     * function that return to the last screen
+     * @param event
+     */
+
     @FXML
     void TurningBack(ActionEvent event)
     {
     	this.nextController = new LoginController("LoginController");
     	this.Back("/Login/LoginWindow.fxml",nextController, event);
     }
-   
+    
+	//-----------------------------------------------------------//
+  
+    /**
+     * function that return to the log in screen
+     * @param event
+     */ 
     
     @FXML
     void LogOut(ActionEvent event) {
@@ -115,7 +138,12 @@ public class ParentMainController extends QueryController implements Initializab
     }
     
 	//-----------------------------------------------------------//
-	@Override
+	
+    /**
+     * this function initialize the screen whit the name of the user and parent id.
+     */
+       
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());

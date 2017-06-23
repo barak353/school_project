@@ -26,6 +26,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * this controller handles the action: Child Details
+ *
+ */
 
 public class ChildDetailsController extends QueryController implements Initializable{
 
@@ -66,6 +71,8 @@ public class ChildDetailsController extends QueryController implements Initializ
     private Text ErrorMSG;
     @FXML
     private Text Class;
+    @FXML
+    private Text GradeInCourse;
     
     boolean status = true;
     
@@ -74,9 +81,15 @@ public class ChildDetailsController extends QueryController implements Initializ
     private String childID;
     
     private String choosecourse;
+    
+    private int flag=0;
 
 	//-----------------------------------------------------------//
 
+	    /**
+	     * function that return to the last screen
+	     * @param event
+	     */
 	  
 	    @FXML
 	    void TurningBack(ActionEvent event)
@@ -84,8 +97,14 @@ public class ChildDetailsController extends QueryController implements Initializ
 	    	this.nextController = new ChoiceChildController("ChoiceChildController");
 	    	this.Back("/Parent/ChoiceChild.fxml",nextController, event);
 	    }
-	   
-	    
+
+		//-----------------------------------------------------------//
+
+	    /**
+	     * function that return to the log in screen
+	     * @param event
+	     */ 
+
 	    @FXML
 	    void LogOut(ActionEvent event) {
 			 try 
@@ -107,14 +126,20 @@ public class ChildDetailsController extends QueryController implements Initializ
 	    }
 	    
 		//-----------------------------------------------------------//
+	    
+	    /**
+	     * this function initialize the screen whit the name of the user, childID, child name, the class, GPA and the ComboBox course list.
+	     */
+	    
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			
+			//get the table with the student details (Sid, gpa, Class)
 			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student WHERE studentID="+chooseChild);
-	        if(res==null){
-	        	ErrorMSG.setText("There is NO such Child");//show error message.
+	        if(res==null){ //No records found
+	        	ErrorMSG.setText("NO found Child");//show error message.
 	        }
 	        else{
 				ArrayList<String> row = res.get(0);
@@ -123,50 +148,92 @@ public class ChildDetailsController extends QueryController implements Initializ
 				Class.setText(row.get(2));
 	        }
 	        
+			//get the table with the student details (Sname)
 			ArrayList<ArrayList<String>> res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userName FROM user WHERE userID="+chooseChild);
-	        if(res2==null){
-	        	ErrorMSG.setText("There is NO such Child name");//show error message.
+	        if(res2==null){//No records found
+	        	ErrorMSG.setText("NO found Child name");//show error message.
 	        }
 	        else{
 				ArrayList<String> row2 = res2.get(0);
 				Sname.setText(row2.get(0));
 	        }
 	        
+			//get the table with the curr semester (semester)
 			ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester WHERE status='" + status +"'");
-	        if(res3==null){
-	        	ErrorMSG.setText("There is NO such curr semester");//show error message.
+	        if(res3==null){//No records found
+	        	ErrorMSG.setText("NO found curr semester");//show error message.
 	        }
 	        else{
 				ArrayList<String> row3 = res3.get(0);
 				semester.setText(row3.get(0));
 	        }
-			
-			ArrayList<ArrayList<String>> res4 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+chooseChild);
-	        if(res4==null){
-	        	ErrorMSG.setText("There is NO such student in course");//show error message.
+	  
+	        
+	      //put the names of the courses in the ComboBox
+	        ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse,Grade FROM studentincourse WHERE identityStudent="+chooseChild);	
+	        System.out.println(StudentInCourseList);
+	        if(StudentInCourseList == null){
+	        	ErrorMSG.setText("Student is not in this course");//show error message.
+	        	return;
 	        }
 	        else{
-				ArrayList<String> childNameList = new ArrayList<String>();
-		    	for(ArrayList<String> row4:res4){
-		        	childNameList.add(row4.get(0));
-		    	}
-			    ObservableList obList= FXCollections.observableList(childNameList);
-			    courselist.setItems(obList);
+	        	 //save list of the names of the courses of the student
+	        	ArrayList<String> courseNameList = new ArrayList<String>();
+	        	ArrayList<ArrayList<String>> CoursesNameList;	    	
+	        	for(ArrayList<String> row:StudentInCourseList){
+	                // put the course list at the comboBoxChooseCourse//
+	        		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+	        		if (CoursesNameList==null){
+	        			ErrorMSG.setText("There is NO courses.");//show error message
+	        		}
+	        		
+	        		else{
+	        			ErrorMSG.setText("");//show error message
+		        		// show the student's course  
+		                courseNameList.add((CoursesNameList.get(0)).get(0)+" ("+(CoursesNameList.get(0)).get(1)+")");
+		                System.out.println(courseNameList);
+		                ObservableList obList= FXCollections.observableList(courseNameList);
+		                courselist.setItems(obList);
+	        		}
+	        	}
 	        }
 		}
+		
+		
+		//-----------------------------------------------------------//
+	    
+		/**
+		 * This function handle with choosing the specific course  of the student and presenting its grade
+	     * @param event
+	     */
+
+	    @FXML
+	    void chooseCourse(ActionEvent event) {
+			flag=1;
+			
+			// save the student's choice//
+			choosecourse = courselist.getValue();
+	
+			//save the grade's list of the student in the choosen course
+			String idcourses = choosecourse.substring(choosecourse.indexOf("(") + 1, choosecourse.indexOf(")"));//get the idcourses that is inside a ( ).
+			ArrayList<ArrayList<String>> GradeOfStudentInCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Grade FROM studentincourse WHERE identityCourse="+idcourses+" AND identityStudent='"+chooseChild+"'");
+
+			if( GradeOfStudentInCourse==null){
+				ErrorMSG.setText("There is NO Grades in this course.");//show error message.
+				return;
+			}
+			else{
+				ErrorMSG.setText("");//show error message.
+			    GradeInCourse.setText(GradeOfStudentInCourse.get(0).get(0).toString());
+			}
+	    } 
+	   
 		//-----------------------------------------------------------//
 
 
 		public void setChooseChild(String chooseChild) {
 			this.chooseChild = chooseChild;
 		}
-		
 
-	    @FXML
-	    void chooseCourse(ActionEvent event) {
-			choosecourse = courselist.getValue();
-	    }
-
-    
 }
 
