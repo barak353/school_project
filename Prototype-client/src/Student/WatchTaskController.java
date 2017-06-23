@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Entity.Course;
+import Entity.Semester;
 import Entity.SubTask;
 import Entity.Task;
 import Entity.User;
@@ -119,15 +120,26 @@ public class WatchTaskController extends QueryController implements Initializabl
     	if(isTaskChoosed == true){
         	FXMLLoader loader = null;
         	ErrorMSG.setText(" ");
-	    	String userHomeFolder = System.getProperty("user.home");
-	    	File textFile = new File(userHomeFolder, "mytext.txt");
-	    	try {
-				BufferedWriter out = new BufferedWriter(new FileWriter(textFile));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    	WatchTaskController controller;
+        	String choosedTask = comboBoxChooseTask.getValue();
+        	String chooseCourse = comboBoxChooseCourse.getValue();
+    		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+        	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+        	String semFile = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
+        	String studentID = User.getCurrentLoggedIn().GetID();
+        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM  subtask WHERE semesterName='"+sem
+    								+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
+    								" AND stIDENT="+ studentID);
+        	String fileName;
+        	if(res == null)ErrorMsg.setText("Teacher didnt upload task for this course.");
+        	else {
+        		ArrayList<String> row = res.get(0);
+        		if(row != null ){
+        			fileName = row.get(0);
+        			if(fileName != null)
+        			     downloadFileFromServer(semFile+"//"+idcourses+"//"+studentID,fileName );
+        			else ErrorMSG.setText("Teacher didn't upload a task.");
+        		}else ErrorMSG.setText("Teacher didn't upload a task.");
+        	}
     	}else{
     		ErrorMSG.setText("Please choose course and task");
     	}
@@ -198,7 +210,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 		//if task list is empty
 		if(IdTaskInCourseList==null)
 		{
-
 			 comboBoxChooseTask.getItems().clear();
 			 ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 			 return;
@@ -268,12 +279,10 @@ public class WatchTaskController extends QueryController implements Initializabl
 		String choosedTask = comboBoxChooseTask.getValue();
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
 		String studentID = User.getCurrentLoggedIn().GetID();
-		
+
 		//the query return the subtasks of the student in the specific cours
 		
 		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
-		System.out.println("taskRes: "+taskRes);
-		//if 1
 		if(taskRes != null && taskRes.get(0) != null)
 		{
 			isTaskChoosed = true;

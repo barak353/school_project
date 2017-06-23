@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import org.apache.commons.io.FileUtils;
+
 import Login.LoginController;
 import Secretary.AddStudentToClassController;
 import Secretary.SecretaryMainController;
@@ -26,7 +29,7 @@ public class QueryController{
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
    
-    public static HashMap <String ,QueryController> controllerHashMap;//This will hold all the controller by their ID.
+    public static HashMap <String ,QueryController> controllerHashMap = new HashMap <String ,QueryController>();;//This will hold all the controller by their ID.
     
     private String backScreen="";
         
@@ -34,7 +37,9 @@ public class QueryController{
         
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
-		controllerHashMap=new HashMap <String ,QueryController>();
+		//controllerHashMap=new HashMap <String ,QueryController>();
+    	controllerHashMap.remove("controllerID");
+    	controllerHashMap.remove(controllerID);
     	controllerHashMap.put(controllerID, this);//Save pointer to this controller in the HashMap.
 		packaged=new HashMap <String ,Object>();
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
@@ -60,8 +65,8 @@ public class QueryController{
     	return result;
     }
     
-    protected File downloadFileFromServer(String folder,String secondFolder){
-    	String filePath = folder + "//" + secondFolder;
+    protected File downloadFileFromServer(String folder,String fileName){
+    	String filePath = folder + "//" + fileName;
     	packaged.put("file","empty");
     	packaged.put("key","DOWNLOAD");
     	packaged.put("filePath",filePath);
@@ -74,9 +79,12 @@ public class QueryController{
     		}
     	}
     	packaged.remove("key");    	
-    	
     	byte[] bytes = (byte[]) packaged.get("file");
-		//FileUtils.writeByteArrayToFile(new File("download//"+packaged.get("filePath")+"."+packaged.get("fileType")), bytes);
+		try {
+			FileUtils.writeByteArrayToFile(new File("download//"+packaged.get("filePath")), bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		packaged.remove("filePath");
     	File file = null;
     	packaged.remove("file");
@@ -127,7 +135,7 @@ public class QueryController{
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
     			try{
-    				while(!connection.isready())connection.wait();
+    				connection.wait();
     			}catch(InterruptedException e){
     				e.printStackTrace();
     			}
@@ -186,8 +194,8 @@ public class QueryController{
 	
 	
 	protected void finalize(){
-    	controllerHashMap.put(controllerID, this);//remove this key from the HashMap.
-		packaged.remove("controllerID");//remove this key from the packaged.
+    	controllerHashMap.remove("controllerID");
+    	controllerHashMap.remove(controllerID);
 	}
 	
 

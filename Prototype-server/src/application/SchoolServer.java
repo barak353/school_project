@@ -88,7 +88,6 @@ public class SchoolServer extends AbstractServer
 {		
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;
 	  String option = (String) packaged.get("key");
-	  System.out.println("handleMessageFromClient");
 	  Object result = null;
 	  switch(option){
 	  case "Query":
@@ -187,7 +186,7 @@ public class SchoolServer extends AbstractServer
 				  result = new Integer(-1);
 			  }
 		    try{
-		    	System.out.println("result send to cclient: "+result);
+		    	packaged.remove("ResultArray");
 		    	packaged.put("ResultArray", result);
 		    	client.sendToClient((Object)packaged);
 		    }catch (IOException e) {
