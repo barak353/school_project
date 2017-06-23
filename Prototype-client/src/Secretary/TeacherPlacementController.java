@@ -254,7 +254,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 		    	 else
 		    	 {
 		    		    //Checking the answer from the school director:
-				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messageteacher WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
 				    	if(result==null)
 				    	{
 				    		ErrText.setText("There is no such message, can't make the change.");

@@ -62,8 +62,8 @@ public class AskRequestFormController extends QueryController  implements Initia
     void AddStudent(ActionEvent event)
     {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/StudentRequestForm.fxml"));
-			   loader.setController(new StudentRequestFormController("StudentRequestFormController"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/InsertStudentRequestForm.fxml"));
+			   loader.setController(new InsertStudentRequestFormController("StudentRequestFormController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -71,7 +71,25 @@ public class AskRequestFormController extends QueryController  implements Initia
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {//problem with the teacherWindow.xml file.
-					System.err.println("Missing LoginWindows.fxml file");
+					System.err.println("InsertStudentRequestForm.fxml file");
+					e.printStackTrace();
+				}
+    }
+    //-------------------------------------------------------------------------------------------// 
+    @FXML
+    void DeleteStudent (ActionEvent event)
+    { 
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/DeleteStudentRequestForm.fxml"));
+			   loader.setController(new DeleteStudentRequestFormController("DeleteStudentRequestFormController"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("InsertStudentRequestForm.fxml file");
 					e.printStackTrace();
 				}
     }

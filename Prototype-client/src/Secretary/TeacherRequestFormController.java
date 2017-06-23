@@ -71,8 +71,8 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	@FXML
 	void TurningBack(ActionEvent event)
 	{
-		this.nextController = new SecretaryMainController("SecretaryMainController");
-		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
+		this.nextController = new AskRequestFormController("AskRequestFormController");
+		this.Back("/Secretary/WhatFormChoose.fxml",nextController, event);
 	}
 	
 	@Override
@@ -265,8 +265,8 @@ public class TeacherRequestFormController extends QueryController implements Ini
 		    		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
 		    		    LocalDateTime now = LocalDateTime.now();
 		    		    String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messageteacher WHERE type='" +message+ "' AND CourID='"+ RequiredStringCourse+"' AND CLASidentity='"+Class+"' AND TEACHid='"+RequiredStringTeacher+"'");
 
-				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + message +"' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
 				    	if(result!=null)
 						{
 				    		 ErrText.setText("The message already exists.");
@@ -274,7 +274,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 						}
 				    	else
 				    	{
-				    		transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID) VALUES ('" + message + "','"+Date+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
+					    	transfferQueryToServer("INSERT INTO messageteacher (TEACHid,CLASidentity,CourID,type,Answer,Mdate) VALUES ('"+RequiredStringTeacher+"','"+Class+"','"+RequiredStringCourse +"','"+message+ "','"+"NULL"+"','"+Date+"')");
 				    		finishmessage.setText("The message was sended successfully.");
 				    		ErrText.setText("");
 				    		FinishButton.setVisible(true);

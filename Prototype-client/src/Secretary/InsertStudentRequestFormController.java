@@ -1,6 +1,8 @@
 package Secretary;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -21,7 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.text.Text;
 
-public class StudentRequestFormController extends QueryController implements Initializable{
+public class InsertStudentRequestFormController extends QueryController implements Initializable{
 		
     @FXML
     private Button logout;
@@ -59,7 +61,7 @@ public class StudentRequestFormController extends QueryController implements Ini
     private String ChosenStudent;
 	Object nextController=null;
 	//----------------------------------------------------------------------//
-	public StudentRequestFormController(String controllerID)
+	public InsertStudentRequestFormController(String controllerID)
 	{
 			super(controllerID);
 	} 
@@ -143,7 +145,8 @@ public class StudentRequestFormController extends QueryController implements Ini
 	    	}
 	    	else
 	    	{
-		    	ArrayList<ArrayList<String>> MessageCheck= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
+		    	ArrayList<ArrayList<String>> MessageCheck = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messagestudent WHERE type='" + "Student Insert" + "' AND CouID='"+ ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
+
 		    	if(MessageCheck!=null)
 		    	{
 		    		CoursesErr.setText("The message is already exists in DB.");
@@ -162,7 +165,10 @@ public class StudentRequestFormController extends QueryController implements Ini
 		    	}
 		    	else
 		    	{
-		    			//transfferQueryToServer("INSERT INTO message (type,Mdate,TEACHid,CLASidentity,CouID,Answer,StuIdentity) VALUES ('" +"Student Insert" + "','"+Date+"','"+ RequiredStringTeacher + "','" + Class +"','"+ RequiredStringCourse+"')");
+		    			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
+		    			LocalDateTime now = LocalDateTime.now();
+		    			String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
+		    		    transfferQueryToServer("INSERT INTO messagestudent (StuIdentity,CouID,type,Mdate,Answer) VALUES ('"+ChosenStudent+"','"+ChosenCourse+"','"+"Student Insert" + "','"+Date+"','"+"NULL"+"')");
 	    		   		SuccessMessage.setVisible(true);
 	    		   		SuccessMessage.setText("The message was sended successfully.");
 	    		   	 Timer time = new Timer(2500, new java.awt.event.ActionListener() {

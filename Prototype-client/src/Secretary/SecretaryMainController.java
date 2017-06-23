@@ -123,10 +123,6 @@ void StudentChange(ActionEvent event)
 void ClassDefine(ActionEvent event)
 {
 			
-	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('A2')");
-	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('B3')");
-	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('C4')");
-	 transfferQueryToServer("INSERT INTO class (ClassID) VALUES ('C5')");
 			 try {
 				   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/ClassDefine.fxml"));
 				   loader.setController(new ClassDefineController("ClassDefineController"));

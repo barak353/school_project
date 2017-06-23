@@ -119,9 +119,20 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	{
         	//-------------------------------------------------------------------------------//
     		Semester semester = new Semester(dtf.format(now),this.type1.getText(),true,AllDetails,Mystr); //Creating new semester
-    		Semester.setCurrentSemester(semester);
+    		
     		transfferQueryToServer("UPDATE semester SET status='false' WHERE status= 'true'"); //Update the status of previous semester
     		transfferQueryToServer("INSERT INTO semester (semID,status) VALUES ('" + semester.getYear() + ":" + semester.getType() + "','true')");// Set New semester
+			
+    		ArrayList<ArrayList<String>> StudentsInCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse");
+		    if(StudentsInCourse!=null)
+		    {
+		    	for(int i=0;i<StudentsInCourse.size();i++)
+		    	{
+		    		transfferQueryToServer("INSERT INTO studentinprecourse (childID,pCourseID,FinalGrade,TheSemester) VALUES ('" + StudentsInCourse.get(i).get(0) + "','" + StudentsInCourse.get(i).get(1)+ "','" +StudentsInCourse.get(i).get(2)+"','"+semester.getCurrentSemester().getYear()+":"+semester.getCurrentSemester().getType()+"')");
+		    		transfferQueryToServer("DELETE FROM studentincourse WHERE identityStudent="+StudentsInCourse.get(i).get(0)+" and identityCourse="+StudentsInCourse.get(i).get(1)+"");
+		    	}
+		    }
+    		Semester.setCurrentSemester(semester);
     		//-------------------------------------------------------------------//
     		dialogText.setText("Choose course you want to add to semester: " + semester.getType() + "- " +semester.getYear());
     		//Change dialog:

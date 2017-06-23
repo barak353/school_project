@@ -70,6 +70,8 @@ public class MergeClassesCoursesController extends QueryController implements In
       private ArrayList<String> studentsAssigned;
       @FXML
       private TextArea errorlog;
+      private ArrayList<ArrayList<String>> SName;
+      private boolean specialP=true;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
@@ -134,7 +136,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    {
 		    	
 		    	RequiredStringCourse = CourseChoise.substring(CourseChoise.indexOf("(") + 1, CourseChoise.indexOf(")"));
-		    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+ "'");
+		    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + ClassChoise + "' AND coID='" +RequiredStringCourse+"'");
 			    if (result!=null) //The class already assigned to the course
 			    {
 					t.setText("The class: "+ClassChoise+" is already assgined to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
@@ -180,8 +182,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 				    	    ArrayList<ArrayList<String>> CheckStudentAlreadyAssigned= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityStudent='" + StudentsInClass.get(j).get(0) + "' AND identityCourse='" +RequiredStringCourse+"'");
 				    	    if(CheckStudentAlreadyAssigned!=null) //If the student already assigned alone to the course
 				    	    {
+				    	    	specialP=false;
+				    	    	PreFlag=false;
 				    	    	err.setVisible(true);
-				    	    	err.setText("The student already assigned to the course: "+CourseChoise+" by exceptional registration.");
+			        	    	SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
+			        	    	sem.setMyString2(sem.GetMyString2()+"\n--------------------------------------\n"+"The student ("+StudentsInClass.get(j).get(0)+") - "+SName.get(0).get(1)+" already assigned to the course: "+CourseChoise+" by exceptional registration.");
+			        	    	errorlog.setText(sem.GetMyString2());
 				    	    	 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
 						                @Override
 						                public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -203,12 +209,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 				        	    {
 				        	    	errorlog.setVisible(true);
 				        	    	PreFlag=false;
-				        	    	ArrayList<ArrayList<String>> SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
+				        	    	SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
 		        				    sem.setMyString2(sem.GetMyString2()+"\n---------------------------------------------\n"+"\nThe student: ("+StudentsInClass.get(j).get(0)+") - "+SName.get(0).get(1)+"\n didn't fill the pre courses:");
 		        	    			for(int k=0;k<PreCoursesOfCourse.size();k++)
 		        	    			{
 			        				    ArrayList<ArrayList<String>> CName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + PreCoursesOfCourse.get(k).get(0) +"'");
-		        				        sem.setMyString2(sem.GetMyString2()+"\n"+"("+PreCoursesOfCourse.get(k).get(0)+") - "+CName.get(0).get(1));
+		        				        sem.setMyString2(sem.GetMyString2()+"\n"+"("+PreCoursesOfCourse.get(k).get(0)+") - "+CName.get(0).get(1)+"\n");
 		        				        errorlog.setText(sem.GetMyString2());
 		        	    			}
 				        	    }
@@ -218,23 +224,22 @@ public class MergeClassesCoursesController extends QueryController implements In
 						        	 {
 						        	    	for(int r=0;r<PreCourseOfStudent.size();r++)
 						        	    	{
-						        	    		if(PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true && PreCourseOfStudent.get(r).get(2).compareTo("55")>=0)//If found the pre course
+						        	    		if(PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true && Integer.parseInt(PreCourseOfStudent.get(r).get(2))<55)//If found the pre course
 						        	    		{
 						        	    			break;
 						        	    		}
-						        	    		else if((r==PreCourseOfStudent.size()-1 && PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==false) || (r==PreCourseOfStudent.size()-1 && PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true &&PreCourseOfStudent.get(r).get(2).compareTo("55")<0))
+						        	    		else if((r==PreCourseOfStudent.size()-1 && PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==false) || (r==PreCourseOfStudent.size()-1 && PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true && Integer.parseInt(PreCourseOfStudent.get(r).get(2))<55))
 						        	    		{
 						        	    			errorlog.setVisible(true);
 						        	    			PreFlag=false; //The student dont match 1 pre course
 						        	    			if(counterPrint==0) 
 						        	    			{
-						        				        ArrayList<ArrayList<String>> SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
+						        				        SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
 						        				        sem.setMyString2(sem.GetMyString2()+"------------------------------------\n"+"The student: ("+StudentsInClass.get(j).get(0)+") - "+SName.get(0).get(1)+"\n didn't fill the pre courses:");
-						        	    				errorlog.setText(sem.GetMyString2());
 						        	    			}
 						        	    			counterPrint++;
 					        				        ArrayList<ArrayList<String>> CName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + PreCoursesOfCourse.get(k).get(0) +"'");
-					        				        sem.setMyString2(sem.GetMyString2()+"\n"+"("+PreCoursesOfCourse.get(k).get(0)+") - "+CName.get(0).get(1));
+					        				        sem.setMyString2(sem.GetMyString2()+"\n"+"("+PreCoursesOfCourse.get(k).get(0)+") - "+CName.get(0).get(1)+"\n");
 					        				       
 					        				        errorlog.setText(sem.GetMyString2());
 						        	    		}
@@ -248,8 +253,14 @@ public class MergeClassesCoursesController extends QueryController implements In
 				    	    if(PreFlag==false)
 				    	    {
 				    	    	err.setVisible(true);
-				    	    	err.setText("The student: "+StudentsInClass.get(j).get(0)+"  can't be assigned to the course: "+CourseChoise);
-				    	    	 Timer time = new Timer(2000, new java.awt.event.ActionListener() {
+				    	    	SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + StudentsInClass.get(j).get(0) +"'");
+				    	    	if(specialP==true)
+				    	    	{
+				    	    		sem.setMyString2(sem.GetMyString2()+"\n--------------------------------------\n"+"The student ("+StudentsInClass.get(j).get(0)+") - "+SName.get(0).get(1)+" can't be assigned to the course: "+CourseChoise);
+				    	    		errorlog.setText(sem.GetMyString2());			
+				    	    	}
+				    	    	
+				    	    	Timer time = new Timer(3000, new java.awt.event.ActionListener() {
 						                @Override
 						                public void actionPerformed(java.awt.event.ActionEvent e) {
 						                	try{
@@ -275,7 +286,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 				        {
 				        	err.setVisible(true);
 				        	err.setText("All the students in the class:  "+ ClassChoise +" doesn't fill the pre condotions.\nCan't assign the class to the course.");
-				        	Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+				        	Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 					                @Override
 					                public void actionPerformed(java.awt.event.ActionEvent e) {
 					                	try{
@@ -475,11 +486,17 @@ public class MergeClassesCoursesController extends QueryController implements In
 			 	    			for(int w=0;w<studentsAssigned.size();w++)
 			 	    			{
 					 	    		transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade) VALUES ('" + studentsAssigned.get(w) + "','" + RequiredStringCourse + "','" +"0"+"')");
+							    	ArrayList<ArrayList<String>> c= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinprecourse WHERE childID='" + studentsAssigned.get(w) + "' AND pCourseID='" +RequiredStringCourse+"'");
+					 	    		if(c!=null)//If the student doing aggain the course
+					 	    		{
+							    		transfferQueryToServer("DELETE FROM studentinprecourse WHERE childID="+studentsAssigned.get(w)+" and pCourseID="+RequiredStringCourse+"");
+					 	    		}
 			 	    			}
 				 	    		finishtxt.setText("The class: "+ClassChoise+" assgined successfully to the course: "+CourseChoise.substring(CourseChoise.indexOf(")") + 1,CourseChoise.length()));
 				 	    		studentsAssigned=null;
 				 	    		sem.setMyString2("");
 				 	    		errorlog.setText(sem.GetMyString2());
+				 	    		
 			 	    		}
 			 	    		
 			 	    		Timer time = new Timer(2500, new java.awt.event.ActionListener() {
