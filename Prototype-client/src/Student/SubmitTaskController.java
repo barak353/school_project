@@ -1,4 +1,4 @@
-package Student;
+	package Student;
 
 import application.QueryController;
 import javafx.collections.FXCollections;
@@ -34,6 +34,7 @@ import javax.swing.JFileChooser;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Entity.Course;
+import Entity.Semester;
 import Entity.Task;
 import Entity.User;
 
@@ -102,15 +103,14 @@ public class SubmitTaskController extends QueryController implements Initializab
  * @param event
  */
     @FXML
-    void submitTask(ActionEvent event) {
-    	
+    void submitTask(ActionEvent event){
     	ErrorMSG.setText(" ");
     	if (isTaskChoosed == true)
-    { 
-    	String IDcourse = task.getIdcourse();
-    	String idTASK = task.getIdTASK(); 
+    	{ 
+    	String IDNcourse = task.getIdcourse();
+    	String TaskName = task.getTaskName(); 
     	String IDstudent = User.getCurrentLoggedIn().GetID();
-    	
+    	String IDsem = task.getIDsem();
         if(isFileUploaded == true)
         {
 	        	//save file to server.
@@ -119,27 +119,25 @@ public class SubmitTaskController extends QueryController implements Initializab
 	    		String studentID = User.getCurrentLoggedIn().GetID();
 	    		System.out.println("file path: " + courseID + "//" + studentID);
 	    		deleteFolderFromServer(courseID,studentID);
-	    		Object ans = uploadFileToServer(file,courseID + "//" + studentID);
+	    		String semYT = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
+	    		Object ans = uploadFileToServer(file,semYT + "//" +courseID + "//" + studentID);
 	    
 				//add the sub task details to the db
 				
  				
                  //--------------------------------------------------------------------------------------------------------
 				
-                Object obj =transfferQueryToServer("INSERT INTO subtask (idTASK,IDcourse,IDstudent,Mark) VALUES (" + idTASK + "," + courseID + "," + studentID + "," + mark + ")");
+                Object obj =transfferQueryToServer("INSERT INTO subtask (stIDENT,mytaskname,semesterName,IDNcourse,Mark,fileExtN) VALUES (" + studentID + ",'" + TaskName + "','" + IDsem + "'," + IDNcourse + "," 
+                									+ mark + ",'"+ file.getName() +"')");
                 if( obj==null )//if INSERT operation had failed
-                	 System.out.println("You have failed inserted the data into DB:\ntask "  );
-                   if((int)obj==-1 )//if INSERT operation had failed
-                System.out.println("You have already this  inserted the data into DB:\ntask "  );
-                else
-                	System.out.println("You have successfully inserted the data into DB:\ntask "  );
-                //--------------------------------------------------------------------------------------------------------
-		
-	    		ErrorMSG.setText("The file was submitted succesfuly to the server.");
+     	    		ErrorMSG.setText("You have failed inserted the data into DB.");
+                else if((int)obj==-1 )//if INSERT operation had failed
+                		ErrorMSG.setText("You have already inserted this data into DB.");
+                	 else
+         	    		ErrorMSG.setText("You have successfully inserted the data into DB.");
     	}//isFileUploaded
         else ErrorMSG.setText("Please upload a file for submition.");
     }//isTaskChoosed
-    	
     else
 		ErrorMSG.setText("Please choose a task.");
     	
@@ -246,7 +244,8 @@ public class SubmitTaskController extends QueryController implements Initializab
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		 choosedTask = comboBoxChooseTask.getValue();
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
-		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
+		String curSem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'"+" AND IDsem='"+ curSem +"'");
 		System.out.println("taskRes: "+taskRes);
 		String idTask = null;
 		if(taskRes != null && taskRes.get(0) != null) 
@@ -257,7 +256,8 @@ public class SubmitTaskController extends QueryController implements Initializab
 		    // check if the sub date already pass
 		     LocalDate now = LocalDate.now();
 		     String DateDB=row.get(3).substring(0, 12);
-			 task = new Task(row.get(0),row.get(1),row.get(2), DateDB);
+			 task = new Task(row.get(0),row.get(1),row.get(2), DateDB, row.get(4));
+			 System.out.println("task: "+task);
 			 isTaskChoosed = true;
        
 			if ((now.toString().compareTo(DateDB) > 0))

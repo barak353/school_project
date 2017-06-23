@@ -140,10 +140,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
 	    	ErrorMSG.setText("This course dosen't have any tasks to show");
 
     		}
-
-   
    }
-    
     
     /**
      *  After pressing the Continue button, this function check if the use choose from the combobox course and task,

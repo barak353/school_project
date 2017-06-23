@@ -77,6 +77,9 @@ public TaskOfStudentController(String controllerID)
 		 @FXML
 		 private Text courseName;
 		 
+		 @FXML
+		 private Text TaskName;
+		 
 		  private String courseID;
 		  private String courseN;
 		  private String taskName;
@@ -103,13 +106,16 @@ public TaskOfStudentController(String controllerID)
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
 		courseName.setText(courseN);
+		TaskName.setText(taskName);
 		ObservableList obList;
 		//A query that shows students who Registered to this course
-		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+courseID);
+		String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT stIDENT FROM subtask WHERE IDNcourse="+courseID
+																									+" AND mytaskname='"+ taskName +"'"+" AND semesterName='"+ sem +"'");
 		System.out.println("task-res: "+res);
 		if (res==null)
 		{
-			textMSG.setText("There is no Student that registered to this course.");
+			textMSG.setText("This student dose'nt submit the task.");
 			textMSG.setVisible(true);
 		    obList= FXCollections.observableList(new ArrayList());;
 		    StudentList.setItems(obList);

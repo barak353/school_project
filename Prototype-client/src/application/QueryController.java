@@ -103,6 +103,7 @@ public class QueryController{
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
     		try{
+    			
     			connection.wait();
     		}catch(InterruptedException e){
     			e.printStackTrace();
@@ -128,15 +129,18 @@ public class QueryController{
 
     	synchronized(connection){//wait for ResultArray from server.
     			try{
-    				connection.wait();
+    				while(!connection.isready())connection.wait();
     			}catch(InterruptedException e){
     				e.printStackTrace();
     			}
+    			connection.setFlagFalse();
     	}
     	System.out.println("return from server");
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
+    	packaged.remove("strQuery");//Remove strQuery from packaged.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	packaged.remove("key");
+    	System.out.println("client-result:"+result);
     	return result;
     }
     

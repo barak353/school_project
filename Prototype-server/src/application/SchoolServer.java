@@ -172,7 +172,8 @@ public class SchoolServer extends AbstractServer
 					    }
 					    resultArray.add(resultRow);//add the resultRow to the ResultArray		
 					    result = resultArray;
-				  }
+				    }
+				    System.out.println("server-restlt: "+result);
 				} catch (SQLException e1) {
 					writer.println(date+": error in creating ResultArray");
 					StringWriter errors = new StringWriter();
@@ -183,9 +184,11 @@ public class SchoolServer extends AbstractServer
 				  result = null;
 			  }
 			  if( isAlreadyInserted == true){
+				  System.out.println("isAlreadyInserted");
 				  result = new Integer(-1);
 			  }
 		    try{
+		    	System.out.println("result send to cclient: "+result);
 		    	packaged.put("ResultArray", result);
 		    	client.sendToClient((Object)packaged);
 		    }catch (IOException e) {

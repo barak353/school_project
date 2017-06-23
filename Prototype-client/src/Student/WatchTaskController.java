@@ -237,8 +237,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 		if(taskRes != null && taskRes.get(0) != null) 
 		{
 		     ArrayList<String> row = taskRes.get(0);
-		     task = new Task(row.get(0),row.get(1),row.get(2), row.get(3));
-			isTaskChoosed = true;
+		     task = new Task(row.get(0),row.get(1),row.get(2), row.get(3),row.get(4));
+			 isTaskChoosed = true;
 		}
 		
 		else
