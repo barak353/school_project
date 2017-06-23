@@ -173,7 +173,6 @@ public class SchoolServer extends AbstractServer
 					    resultArray.add(resultRow);//add the resultRow to the ResultArray		
 					    result = resultArray;
 				    }
-				    System.out.println("server-restlt: "+result);
 				} catch (SQLException e1) {
 					writer.println(date+": error in creating ResultArray");
 					StringWriter errors = new StringWriter();
@@ -245,7 +244,6 @@ public class SchoolServer extends AbstractServer
 	  case "delete_folder":
 	  case "DELETE_FOLDER":
 	  File index = new File("file//"+packaged.get("filePath"));
-	  System.out.println("server, filename: " + index.getPath());
 	  if(index.exists()){//if file is exist in the server then delete him.
 		  	String[]entries = index.list();
 		  for(String s: entries){

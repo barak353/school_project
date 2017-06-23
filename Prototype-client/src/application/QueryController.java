@@ -125,8 +125,6 @@ public class QueryController{
     	packaged.put("key","Query");
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
     	connection.handleMessageFromClientUI((Object)packaged);
-    	System.out.println("send query: " + strQuery);
-
     	synchronized(connection){//wait for ResultArray from server.
     			try{
     				while(!connection.isready())connection.wait();
@@ -135,12 +133,10 @@ public class QueryController{
     			}
     			connection.setFlagFalse();
     	}
-    	System.out.println("return from server");
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
     	packaged.remove("strQuery");//Remove strQuery from packaged.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	packaged.remove("key");
-    	System.out.println("client-result:"+result);
     	return result;
     }
     

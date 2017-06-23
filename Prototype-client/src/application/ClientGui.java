@@ -85,7 +85,6 @@ public class ClientGui extends AbstractClient
     }
     catch(IOException e)
     {
-    	System.out.println("Error send packaged to server from handleMessageFromClientUI");
     	e.printStackTrace();
     }
   }

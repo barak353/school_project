@@ -126,7 +126,6 @@ public TaskOfStudentController(String controllerID)
 		for(ArrayList<String> row:res){
 			studentList.add(row.get(0));
 		}
-		System.out.println("studentlist: "+studentList);
 		//print the array list in the combbox
 	    obList= FXCollections.observableList(studentList);;
 	    StudentList.setItems(obList);
@@ -137,7 +136,6 @@ public TaskOfStudentController(String controllerID)
     void openFile(ActionEvent event) {
     	//downloadFileFromServer(folder, secondFolder);
     	File file = new File("file//test.*");
-    	System.out.println("is test file exist: " + file.exists());
     }
     
 	   /**
