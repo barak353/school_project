@@ -74,19 +74,25 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
         String teacherID = user.GetID();
-    	
+	    ObservableList obList= FXCollections.observableList(new ArrayList());;
+	    CourseList.setItems(obList);
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	System.out.println("res: "+res);
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
-    	
-    	for(ArrayList<String> row:res){
-        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
-    		courseNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+    	if(res == null){
+    		obList= FXCollections.observableList(new ArrayList());
+    		CourseList.setItems(obList);
+         }else{
+	    	for(ArrayList<String> row:res){
+	        	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
+	    		courseNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
+	    	}
+	    	System.out.println("courseNameList: "+courseNameList);
+	    	
+		    obList= FXCollections.observableList(courseNameList);
+		    CourseList.setItems(obList);
     	}
-    	System.out.println("courseNameList: "+courseNameList);
-    	
-	    ObservableList<String> obList= FXCollections.observableList(courseNameList);
-	    CourseList.setItems(obList);
     }
     
     /**

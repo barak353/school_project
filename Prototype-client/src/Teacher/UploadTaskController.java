@@ -156,8 +156,8 @@ public class UploadTaskController extends QueryController implements Initializab
     		textMSG.setVisible(true);
     		return;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate) VALUES ('" + TaskName.getText() + "', " 
-    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"')");
+    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN) VALUES ('" + TaskName.getText() + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"','" + file.getName() + "')");
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
@@ -186,8 +186,6 @@ public class UploadTaskController extends QueryController implements Initializab
     
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
-		// TODO Auto-generated method stub
-		
 	}
 
 }

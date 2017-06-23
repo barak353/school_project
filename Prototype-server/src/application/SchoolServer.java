@@ -200,7 +200,6 @@ public class SchoolServer extends AbstractServer
 	  case "upload":
 		  byte[] bytes = (byte[]) packaged.get("file");		  
 		  try {
-			  System.out.println("file path in server: " + "file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType"));
 			FileUtils.writeByteArrayToFile(new File("file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType")), bytes);
 		} catch (IOException e1) {
 			writer.println(date+": Unable to save file from server to pc.");
@@ -219,8 +218,19 @@ public class SchoolServer extends AbstractServer
 	  break;
 	  case "DOWNLOAD":
 	  case "download":
-		  File download = new File("file//"+packaged.get("filePath"));
+		    File download = new File("file//"+packaged.get("filePath"));
+	        byte[] bytes2 = null;
+			try {
+				bytes2 = Files.readAllBytes(download.toPath());
+			} catch (IOException e1) {
+				writer.println(date+": Unable to convert from file to byte[].");
+				StringWriter errors = new StringWriter();
+				e1.printStackTrace(new PrintWriter(errors));
+				writer.println(errors.toString());
+			}
 		    try {
+		    	packaged.remove("file");
+		    	packaged.put("file", bytes2);
 				client.sendToClient((Object)packaged);
 			} catch (IOException e) {
 				writer.println(date+": Can't send to client.");

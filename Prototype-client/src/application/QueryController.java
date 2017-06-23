@@ -60,7 +60,7 @@ public class QueryController{
     	return result;
     }
     
-    protected Object downloadFileFromServer(String folder,String secondFolder){
+    protected File downloadFileFromServer(String folder,String secondFolder){
     	String filePath = folder + "//" + secondFolder;
     	packaged.put("file","empty");
     	packaged.put("key","DOWNLOAD");
@@ -74,10 +74,13 @@ public class QueryController{
     		}
     	}
     	packaged.remove("key");    	
-    	packaged.remove("filePath");
-    	Object result = packaged.get("file");
+    	
+    	byte[] bytes = (byte[]) packaged.get("file");
+		//FileUtils.writeByteArrayToFile(new File("download//"+packaged.get("filePath")+"."+packaged.get("fileType")), bytes);
+		packaged.remove("filePath");
+    	File file = null;
     	packaged.remove("file");
-    	return result;
+    	return file;
     }
     
     protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.

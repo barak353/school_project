@@ -103,13 +103,16 @@ public TaskOfStudentController(String controllerID)
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
 		courseName.setText(courseN);
+		ObservableList obList;
 		//A query that shows students who Registered to this course
-		
 		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+courseID);
+		System.out.println("task-res: "+res);
 		if (res==null)
 		{
 			textMSG.setText("There is no Student that registered to this course.");
 			textMSG.setVisible(true);
+		    obList= FXCollections.observableList(new ArrayList());;
+		    StudentList.setItems(obList);
 		}
 		else{
 		ArrayList<String> studentList = new ArrayList<String>();
@@ -119,11 +122,18 @@ public TaskOfStudentController(String controllerID)
 		}
 		System.out.println("studentlist: "+studentList);
 		//print the array list in the combbox
-	    ObservableList obList= FXCollections.observableList(studentList);;
+	    obList= FXCollections.observableList(studentList);;
 	    StudentList.setItems(obList);
 		}
 	}
 	
+    @FXML
+    void openFile(ActionEvent event) {
+    	//downloadFileFromServer(folder, secondFolder);
+    	File file = new File("file//test.*");
+    	System.out.println("is test file exist: " + file.exists());
+    }
+    
 	   /**
      *  After pressing the save button, this function insert to the DB the file whit the comment of the teacher about the submission of the student
      * @param event
