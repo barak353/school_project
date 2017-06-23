@@ -116,7 +116,7 @@ public class WatchTaskController extends QueryController implements Initializabl
  * @param event
  * */
     @FXML
-    void watchTask(ActionEvent event) {
+    void watchTeacherTask(ActionEvent event) {
     	if(isTaskChoosed == true){
         	FXMLLoader loader = null;
         	ErrorMSG.setText(" ");
@@ -135,7 +135,7 @@ public class WatchTaskController extends QueryController implements Initializabl
         		ArrayList<String> row = res.get(0);
         		if(row != null ){
         			fileName = row.get(0);
-        			if(fileName != null)
+        			if(fileName != null && !fileName.equals(""))
         			     downloadFileFromServer(semFile+"//"+idcourses+"//"+studentID,fileName );
         			else ErrorMSG.setText("Teacher didn't upload a task.");
         		}else ErrorMSG.setText("Teacher didn't upload a task.");
@@ -271,7 +271,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	 * @param event
 	 * */    
     @FXML
-    void watchSubTask(ActionEvent event) 
+    void watchStudentTask(ActionEvent event) 
     {
 		isTaskChoosed = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();

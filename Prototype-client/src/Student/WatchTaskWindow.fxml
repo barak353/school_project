@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
@@ -32,15 +36,15 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="ButtonNew" layoutX="89.0" layoutY="285.0" mnemonicParsing="false" onAction="#watchTask" text="Watch Task -teacher Upload">
+            <Button fx:id="ButtonNew" layoutX="68.0" layoutY="292.0" mnemonicParsing="false" onAction="#watchTeacherTask" text="Watch Task - Teacher Upload">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Label layoutX="201.0" layoutY="104.0" prefHeight="17.0" prefWidth="265.0" text="Please choose a course">
+            <Label layoutX="222.0" layoutY="118.0" prefHeight="20.0" prefWidth="163.0" text="Please choose a course">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
-            <Label layoutX="202.0" layoutY="191.0" prefHeight="17.0" prefWidth="138.0" text="Please choose a task">
+            <Label layoutX="222.0" layoutY="209.0" prefHeight="17.0" prefWidth="138.0" text="Please choose a task">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
@@ -48,19 +52,19 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <ComboBox fx:id="comboBoxChooseCourse" layoutX="209.0" layoutY="139.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
-            <ComboBox fx:id="comboBoxChooseTask" layoutX="209.0" layoutY="229.0" onAction="#AfterChooseTask" prefWidth="150.0" />
+            <ComboBox fx:id="comboBoxChooseCourse" layoutX="222.0" layoutY="138.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
+            <ComboBox fx:id="comboBoxChooseTask" layoutX="222.0" layoutY="231.0" onAction="#AfterChooseTask" prefWidth="150.0" />
             <Text fx:id="ErrorMSG" fill="RED" layoutX="202.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button layoutX="365.0" layoutY="285.0" mnemonicParsing="false" onAction="#watchSubTask" prefHeight="25.0" prefWidth="234.0" text="Watch Submitted Task-studentUpload">
+            <Button layoutX="351.0" layoutY="292.0" mnemonicParsing="false" onAction="#watchStudentTask" prefHeight="25.0" prefWidth="187.0" text="Watch Task - Student Upload">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Text fx:id="SubtaskGrade1" layoutX="386.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="138.00000183284283" />
+            <Text fx:id="SubtaskGrade1" layoutX="337.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.0" />
             <Text fx:id="ErrorMsg" fill="RED" layoutX="228.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="137.99999728798866">
                <font>
                   <Font name="System Bold" size="12.0" />
