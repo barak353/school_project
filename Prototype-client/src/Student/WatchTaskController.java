@@ -1,5 +1,8 @@
 package Student;
 
+
+
+
 import application.QueryController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -103,6 +106,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     private Task task;
     
     private boolean isTaskChoosed = false;
+    private boolean isCourseChoosed = false;
     
     private	ArrayList<String> TaskList = new ArrayList<String>();
     
@@ -160,7 +164,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
-				ErrorMSG.setText("Student is not in this course");//show error message.
+				ErrorMSG.setText("You are not enrolled in courses ");//show error message.
+				isCourseChoosed = false;
 				return;
 			}
 			else
@@ -174,12 +179,14 @@ public class WatchTaskController extends QueryController implements Initializabl
 		    		//This lines cleans the Task combobox
 		    		if (CoursesNameList==null)
 		    		{
-		    			ErrorMSG.setText("There is NO courses.");//show error message
+		    			ErrorMSG.setText("You are not enrolled in courses ");//show error message
+		    			isCourseChoosed = false;
 		    			return;
 		    		}
 		    		
 		    		else
 		    		{
+		    		isCourseChoosed = true;	
 		    		ErrorMSG.setText("");//show error message
 		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
 			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
@@ -200,6 +207,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 	void AfterChooseCourse(ActionEvent event)
 	{
 	// save the student's choise//
+		if (isCourseChoosed == true)
+		{
 		isTaskChoosed = false;
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -211,7 +220,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 			 ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 			 return;
 		}
-		//בבחיר קורס בפעם השנייה הקומבו בוקס של הרשימת משימות מציג את הרשימת קורסים של הקדם + הנוכחי
+		
 		else
 		{
 			//This lines cleans the Task combobox
@@ -225,6 +234,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 			 L= FXCollections.observableList(TaskNameList);
 			 comboBoxChooseTask.setItems(L);
 		}
+		}
+		
 	 }
 	
 	/**
@@ -234,6 +245,8 @@ public class WatchTaskController extends QueryController implements Initializabl
 	@FXML
 	void AfterChooseTask(ActionEvent event) 
 	{
+		if (isCourseChoosed == true)
+		{
 		isTaskChoosed = false;
 		String choosedCourse = comboBoxChooseCourse.getValue();
 		choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -256,12 +269,11 @@ public class WatchTaskController extends QueryController implements Initializabl
 			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 			return;
 		}
+		}
+		isTaskChoosed = false;
 	}
 	
-	/*ברק זה ההנדלר לצפייה בקובץ מטלה שהוגשה!!(פתור) 
-	*
-	*
-	*/
+	
 	
 	/** This function is enabled after the user has chosen a course and a specific task
 	 * handle the watching sub task that the student submit*
@@ -284,11 +296,19 @@ public class WatchTaskController extends QueryController implements Initializabl
 	    	
 	    	if(res == null){ErrorMSG.setText("Student did not submmit this task.");return;}
 	    	isTaskChoosed = false;
-	    	if(res.get(0) == null){ErrorMSG.setText("Student did not submmit this task.");return;}
+	    	if(res.get(0) == null){
+	    		ErrorMSG.setText("Student did not submmit this task.");return;
+	    		}
+	    
 	    	String fileName= res.get(0).get(0);
 	    	downloadFileFromServer(semFile+"//"+choosedCourse+"//"+studentID, fileName);
 	    	ErrorMSG.setText("Download was successful, please check the download folder.");
-		}else ErrorMSG.setText("Please choose course and task.");
+		}
+		else ErrorMSG.setText("Please choose course and task.");
+		
+		
+		
+		
 		
 		
 		

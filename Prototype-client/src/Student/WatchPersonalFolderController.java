@@ -77,6 +77,7 @@ public class WatchPersonalFolderController extends QueryController implements In
     private	ArrayList<String> TaskNameList = new ArrayList<String>();
     
     private User user;
+    private boolean isCourseChoosed = false;
     
 
     //----------------------------------------------------------//
@@ -110,6 +111,7 @@ void WatchStudentDetails(ActionEvent event)
  user = User.getCurrentLoggedIn();
 
 //get student details from the user
+ isCourseChoosed = false;
 String userId1=user.GetID();
 String userName1=user.GetUserName();
 String userPSW=user.GetUserPassword();
@@ -122,9 +124,10 @@ System.out.println(resultArray);
 
 //print the student detailes to the screen
 
-Sname.setText(user.GetUserName());
+/*Sname.setText(user.GetUserName());
 Sid.setText(resultArray.get(0).get(0));
 Sgps.setText(resultArray.get(0).get(1));//GPA
+*/
 
 //----------------------------------------------------------------------------------------------------------------
 //put the names of the courses in the combobox
@@ -133,12 +136,20 @@ System.out.println(StudentInCourseList);
 
 if(StudentInCourseList == null)
 {
-	ErrorMSG.setText("Student is not in this course");//show error message.
+	ErrorMSG.setText("You are not enrolled in courses");//show error message.
+	isCourseChoosed = false;
+	Sname.setText(user.GetUserName());
+	Sid.setText(resultArray.get(0).get(0));
 	return;
 }
 else
 {
-	 //save list of the names of the courses of the student
+	Sname.setText(user.GetUserName());
+	Sid.setText(resultArray.get(0).get(0));
+	Sgps.setText(resultArray.get(0).get(1));
+	
+	//save list of the names of the courses of the student
+	isCourseChoosed = true;
 	ArrayList<String> courseNameList = new ArrayList<String>();
 	ArrayList<ArrayList<String>> CoursesNameList;	    	
 	for(ArrayList<String> row:StudentInCourseList){
@@ -146,7 +157,7 @@ else
 		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
 		if (CoursesNameList==null)
 		{
-			ErrorMSG.setText("There is NO courses.");//show error message
+			ErrorMSG.setText("You are not enrolled in courses");//show error message
 		}
 		
 		else
@@ -165,8 +176,6 @@ else
 
 }
 
-
-
 /** 
  * This function handle with choosing the specific course  of the student and presenting its grade
  * @param event
@@ -175,10 +184,10 @@ else
 @FXML
 void AfterChooseCourse(ActionEvent event)
 {
-
+if (isCourseChoosed == true)
+{
 // save the student's choise//
 String chooseCourse = ChooseCours.getValue();
-
 //save the grade's list of the student in the choosen course
 String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 ArrayList<ArrayList<String>> GradeOfStudentInCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Grade FROM studentincourse WHERE identityCourse="+idcourses+" AND identityStudent='"+user.GetID()+"'");
@@ -195,6 +204,7 @@ else
     GradeInCourse.setText(GradeOfStudentInCourse.get(0).get(0).toString());
 
 	
+}
 }
 }
 }

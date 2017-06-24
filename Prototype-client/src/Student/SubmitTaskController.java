@@ -92,8 +92,10 @@ public class SubmitTaskController extends QueryController implements Initializab
     
     private int mark;
     
+    private boolean isCourseChoosed = false;
     private boolean isTaskChoosed = false;
     private boolean isFileUploaded = false;
+    
     private String chooseCourse;
     private  String choosedTask;
     
@@ -105,6 +107,9 @@ public class SubmitTaskController extends QueryController implements Initializab
     @FXML
     void submitTask(ActionEvent event){
     	ErrorMSG.setText(" ");
+    	if (isCourseChoosed == false)
+    	{
+    	
     	if (isTaskChoosed == true)
     	{ 
     	String IDNcourse = task.getIdcourse();
@@ -140,7 +145,8 @@ public class SubmitTaskController extends QueryController implements Initializab
     }//isTaskChoosed
     else
 		ErrorMSG.setText("Please choose a task.");
-    	
+    	}
+    	ErrorMSG.setText("Submission Failed - You are not enrolled in courses");
     }
 /**
  * After pressing the appropriate button, this function loads the task file    
@@ -172,7 +178,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
-				ErrorMSG.setText("Student is not in this course");//show error message.
+				ErrorMSG.setText("You are not enrolled in courses");//show error message.
 				return;
 			}
 			else
@@ -206,6 +212,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 	{
 		isFileUploaded = false; 
 		isTaskChoosed = false;
+		isCourseChoosed=false;
     	ErrorMSG.setText(" ");
     	// save the student's choise
 		 chooseCourse = comboBoxChooseCourse.getValue();
@@ -215,11 +222,13 @@ public class SubmitTaskController extends QueryController implements Initializab
 		if(IdTaskInCourseList==null)
 		{
 			comboBoxChooseTask.getItems().clear();
-			ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
+			ErrorMSG.setText("There is NO Tasks in this course");//show error message.
+			isCourseChoosed=false;
 		}
 		
 		else
 		{
+			isCourseChoosed=true;
 			comboBoxChooseTask.getItems().clear();
 			for(ArrayList<String> row : IdTaskInCourseList){
 					TaskNameList.add(row.get(0));
@@ -236,6 +245,12 @@ public class SubmitTaskController extends QueryController implements Initializab
 	@FXML
 	void AfterChooseTask(ActionEvent event)
 	{
+		if (isCourseChoosed==false)
+		{
+			isTaskChoosed = false;
+	    	isFileUploaded = false;
+		}
+		else {
 		User user = User.getCurrentLoggedIn();
     	ErrorMSG.setText(" ");
     	isTaskChoosed = false;
@@ -263,7 +278,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 			if ((now.toString().compareTo(DateDB) > 0))
 			{
 				
-				ErrorMSG.setText("The submmision date is pass!!!");
+				ErrorMSG.setText("The submmision date is pass!");
 				mark = 1;
 			}
 			else
@@ -273,7 +288,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 			}
 		
 		}
-	}
+	}}
 }
 
 

@@ -74,7 +74,7 @@
             <Text fx:id="GradeInCourse" layoutX="169.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.13671875" />
             <Text fx:id="ErrorMSG" fill="RED" layoutX="257.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.1367217078805">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Text>
          </children>
