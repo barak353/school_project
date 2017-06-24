@@ -54,21 +54,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="84.0" layoutY="227.0" prefHeight="30.0" prefWidth="178.0" text="save student checked task:">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
             <Text fx:id="textMSG" fill="RED" layoutX="465.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="106.17578125">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Button fx:id="uploadFile" layoutX="266.0" layoutY="228.0" mnemonicParsing="false" onAction="#upload" text="upload file">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
             <Text fx:id="textMSG" fill="RED" layoutX="458.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB. " visible="false" wrappingWidth="121.0">
                <font>
                   <Font name="System Bold" size="14.0" />

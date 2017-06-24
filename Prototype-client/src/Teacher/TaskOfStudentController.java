@@ -223,25 +223,6 @@ public TaskOfStudentController(String controllerID)
 	   
 	
 	}
-	/**
-	 * function that upload file to the DB - the file is the comments of the teacher in the submission of the student
-	 * @param event
-	 */
-	
-	@FXML
-	void upload(ActionEvent event){//func that upload a file into the DB
-		if(isFileOpened == false){textMSG.setText("You have to first open and view the student submmited task.");return;}
-		if(isstudentChoosed == 1){
-			JFileChooser chooser= new JFileChooser();
-			int choice = chooser.showOpenDialog(chooser);
-			if (choice != JFileChooser.APPROVE_OPTION) return;
-			file = chooser.getSelectedFile();
-			String semFile = Semester.getCurrentSemester().getYear() +Semester.getCurrentSemester().getType();
-			uploadFileToServer(file,semFile+"//"+courseID+"//"+User.getCurrentLoggedIn().GetID()+"//"+StudentList.getValue());
-			textMSG.setText("File was upload successfuly.");
-			isFileOpened = false;
-		}else textMSG.setText("Please choose student.");
-	}
 	
 	/**
 	 * function that return to the log in screen

@@ -141,77 +141,68 @@ public class WatchTaskController extends QueryController implements Initializabl
         			fileName = row.get(0);
         			if(fileName != null && !fileName.equals("")){
         			     downloadFileFromServer(semFile+"//"+idcourses,fileName );
-        			     ErrorMSG.setText("Download was successful, please check the download folder.");
+        			     ErrorMSG.setText("Download was successful, please check foler: "+semFile+"//"+idcourses+"//"+fileName);
         				}
         			else ErrorMSG.setText("Teacher didn't upload a task.");
         		}else ErrorMSG.setText("Teacher didn't upload a task.");
         	}
     	}else{
-    		System.out.println("!2,isTaskChoosed: "+isTaskChoosed);
     		ErrorMSG.setText("Please choose course and task.");
     	}
     }
     
     @FXML
-    void watchCheckedTask(ActionEvent event) {
+    void viewCommentTask(ActionEvent event) {
     	if(isTaskChoosed == true){
+    		ErrorMSG.setVisible(true);
         	ErrorMSG.setText(" ");
+        	System.out.println("1");
         	String choosedTask = comboBoxChooseTask.getValue();
         	String chooseCourse = comboBoxChooseCourse.getValue();
     		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
         	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
         	String semFile = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
         	String studentID = User.getCurrentLoggedIn().GetID();
+        	System.out.println("2");
+
         	ArrayList<ArrayList<String>> resChecked = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	if(resChecked == null){ErrorMSG.setText("Teacher did not checked this task.");return;}
-        	ArrayList<ArrayList<String>> resMark = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT MARK FROM  subtask WHERE semesterName='"+sem
-					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
-					" AND stIDENT="+ studentID);
-        	if(resMark == null){ErrorMSG.setText("You did not submmit this task, teacher comments saved in "+sem+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+        	System.out.println("3");
 
-        	ArrayList<ArrayList<String>> resComments = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT grade,comments FROM  subtask WHERE semesterName='"+sem
+        	if(resChecked == null){ErrorMSG.setText("You did not submit this task.");return;}
+        	System.out.println("4");
+
+        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT grade,Comments FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	if(resComments == null){ErrorMSG.setText("Teacher did not checked this task.");return;}
-        	if(resComments.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
-        	if(resComments.get(1) == null){ErrorMSG.setText("Teacher did not comment this task");return;}
-        	File file = new File(sem+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+        	System.out.println("5");
+
+        	if(res == null){ErrorMSG.setText("You did not submit this task.");return;}
+        	System.out.println("6");
+
+        	if(res.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
+        	System.out.println("9");
+
+        	if(res.get(0).get(0) == null || res.get(0).get(1) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
+        	System.out.println("10");
+        	String semfile = Semester.getCurrentSemester().getYear() + Semester.getCurrentSemester().getType();
+        	File file = new File(semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+        	System.out.println("file: "+semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
         	file.getParentFile().mkdirs();
-        	PrintWriter printWriter = null;
-			try {
-				printWriter = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				ErrorMSG.setText("Error in writing comments to file");
-				return;
-			}
-        	printWriter.println("course: "+idcourses+", task: "+choosedTask+", student: "+studentID);
-        	printWriter.println("grade: "+resComments.get(1));
-        	printWriter.println("comments: "+resComments.get(0));
-			StringWriter write = new StringWriter();
-			printWriter.println(write.toString());
-			printWriter.flush();
+        	try{
+            	PrintWriter printWriter = new PrintWriter(file);
+        		    //printWriter.println ("course: "+idcourses+", task: "+choosedTask+", student: "+studentID+"/n"+"grade: "+res.get(1)+"/n"+"comments: "+res.get(0));
+            	printWriter.println ("test");    
+            	printWriter.close (); 
+         	   System.out.println("done");
+
+        	} catch (IOException e) {
+        	   System.out.println("error");
         	}
-        	/*(String fileName;
-        	if(res == null)ErrorMSG.setText("Teacher did not checked this task.");
-        	else {
-        		ArrayList<String> row = res.get(0);
-        		if(row != null ){
-        			fileName = row.get(0);
-        			if(fileName != null && !fileName.equals("")){
-        			     downloadFileFromServer(semFile+"//"+idcourses+"//"+User.getCurrentLoggedIn().GetID(),fileName );
-        			     ErrorMSG.setText("Download was successful, please check the download folder.");
-        				}
-        			else ErrorMSG.setText("Teacher didn't checked this task.");
-        		}else ErrorMSG.setText("Teacher didn't checked this task.");
-        	}
-    	}else{
-    		ErrorMSG.setText("Please choose course and task");
-    	}*/
     	}
     }
-   
+    
     @FXML
 	 void TurningBack(ActionEvent event)
 	    {
@@ -363,7 +354,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	    
 	    	String fileName= res.get(0).get(0);
 	    	downloadFileFromServer(semFile+"//"+choosedCourse+"//"+studentID, fileName);
-	    	ErrorMSG.setText("Download was successful, please check the download folder.");
+	    	ErrorMSG.setText("Download was successful, please check the folder: "+semFile+"//"+choosedCourse+"//"+studentID+"//"+ fileName);
 		}
 		else ErrorMSG.setText("Please choose course and task.");
 		

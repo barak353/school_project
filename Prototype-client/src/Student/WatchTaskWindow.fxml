@@ -71,7 +71,7 @@
                </font>
             </Text>
             <Text fx:id="SubtaskComments1" fill="#00e41e" layoutX="410.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875" />
-            <Button layoutX="195.0" layoutY="343.0" mnemonicParsing="false" onAction="#watchCheckedTask" text="Watch teacher checked task">
+            <Button layoutX="195.0" layoutY="343.0" mnemonicParsing="false" onAction="#viewCommentTask" text="View teacher's task comments">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

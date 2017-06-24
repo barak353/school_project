@@ -193,9 +193,6 @@ public class SubmitTaskController extends QueryController implements Initializab
 		    	for(ArrayList<String> row:StudentInCourseList){
 			        // put the course list at the comboBoxChooseCourse//
 		    		CoursesNameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
-		    	
-		   		
-		    		System.out.println("(CoursesNameList.get(0)).get(1): "+(CoursesNameList.get(0)).get(1));
 			        courseNameList.add((CoursesNameList.get(0)).get(0)+"("+(CoursesNameList.get(0)).get(1)+")");
 			        ObservableList obList= FXCollections.observableList(courseNameList);
 			    	if(CoursesNameList ==null)
@@ -265,7 +262,6 @@ public class SubmitTaskController extends QueryController implements Initializab
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
 		String curSem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
 		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'"+" AND IDsem='"+ curSem +"'");
-		System.out.println("taskRes: "+taskRes);
 		String idTask = null;
 		if(taskRes != null && taskRes.get(0) != null) 
 		{
@@ -276,7 +272,6 @@ public class SubmitTaskController extends QueryController implements Initializab
 		     LocalDate now = LocalDate.now();
 		     String DateDB=row.get(3).substring(0, 12);
 			 task = new Task(row.get(0),row.get(1),row.get(2), DateDB, row.get(4));
-			 System.out.println("task: "+task);
 			 isTaskChoosed = true;
        
 			if ((now.toString().compareTo(DateDB) > 0))
