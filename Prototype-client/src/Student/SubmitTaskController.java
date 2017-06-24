@@ -130,7 +130,7 @@ public class SubmitTaskController extends QueryController implements Initializab
                 Object obj =transfferQueryToServer("INSERT INTO subtask (stIDENT,mytaskname,semesterName,IDNcourse,Mark,fileExtN) VALUES (" + studentID + ",'" + TaskName + "','" + IDsem + "'," + IDNcourse + "," 
                 									+ mark + ",'"+ file.getName() +"')");
                 if( obj==null )//if INSERT operation had failed
-     	    		ErrorMSG.setText("You have failed inserted the data into DB.");
+     	    		ErrorMSG.setText("You succeed, task was upload.");
                 else if((int)obj==-1 )//if INSERT operation had failed
                 		ErrorMSG.setText("You have already inserted this data into DB.");
                 	 else
