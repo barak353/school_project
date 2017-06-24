@@ -21,8 +21,11 @@ import javafx.stage.Stage;
 import java.awt.Label;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -159,10 +162,38 @@ public class WatchTaskController extends QueryController implements Initializabl
         	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
         	String semFile = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
         	String studentID = User.getCurrentLoggedIn().GetID();
-        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM  subtask WHERE semesterName='"+sem
+        	ArrayList<ArrayList<String>> resChecked = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	String fileName;
+        	if(resChecked == null){ErrorMSG.setText("Teacher did not checked this task.");return;}
+        	ArrayList<ArrayList<String>> resMark = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT MARK FROM  subtask WHERE semesterName='"+sem
+					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
+					" AND stIDENT="+ studentID);
+        	if(resMark == null){ErrorMSG.setText("You did not submmit this task, teacher comments saved in "+sem+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+
+        	ArrayList<ArrayList<String>> resComments = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT grade,comments FROM  subtask WHERE semesterName='"+sem
+					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
+					" AND stIDENT="+ studentID);
+        	if(resComments == null){ErrorMSG.setText("Teacher did not checked this task.");return;}
+        	if(resComments.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
+        	if(resComments.get(1) == null){ErrorMSG.setText("Teacher did not comment this task");return;}
+        	File file = new File(sem+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+        	file.getParentFile().mkdirs();
+        	PrintWriter printWriter = null;
+			try {
+				printWriter = new PrintWriter(file);
+			} catch (FileNotFoundException e) {
+				ErrorMSG.setText("Error in writing comments to file");
+				return;
+			}
+        	printWriter.println("course: "+idcourses+", task: "+choosedTask+", student: "+studentID);
+        	printWriter.println("grade: "+resComments.get(1));
+        	printWriter.println("comments: "+resComments.get(0));
+			StringWriter write = new StringWriter();
+			printWriter.println(write.toString());
+			printWriter.flush();
+        	}
+        	/*(String fileName;
         	if(res == null)ErrorMSG.setText("Teacher did not checked this task.");
         	else {
         		ArrayList<String> row = res.get(0);
@@ -177,6 +208,7 @@ public class WatchTaskController extends QueryController implements Initializabl
         	}
     	}else{
     		ErrorMSG.setText("Please choose course and task");
+    	}*/
     	}
     }
    

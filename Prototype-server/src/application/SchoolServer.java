@@ -253,16 +253,13 @@ public class SchoolServer extends AbstractServer
 				writer.println(errors.toString());
 			}
 	   break;
-	  case "delete_folder":
-	  case "DELETE_FOLDER":
-	  File index = new File("file//"+packaged.get("filePath"));
-	  if(index.exists()){//if file is exist in the server then delete him.
-		  	String[]entries = index.list();
-		  for(String s: entries){
-		      File currentFile = new File(index.getPath(),s);
-		      currentFile.delete();
+	  case "delete_file":
+	  case "DELETE_FILE":
+	  File toDelete = new File("file//"+packaged.get("filePath"));
+	  System.out.println("toDelete: "+toDelete.getPath());
+	  if(toDelete.exists()){//if file is exist in the server then delete him.
+		  toDelete.delete();
 		  }
-	  }
 	    try {
 			client.sendToClient((Object)packaged);
 		} catch (IOException e) {

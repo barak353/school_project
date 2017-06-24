@@ -45,10 +45,10 @@ public class QueryController{
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
     }
     
-    protected Object deleteFolderFromServer(String folder,String secondFolder){
-    	String filePath = folder + "//" + secondFolder;
+    protected Object deleteFileFromServer(String folder,String fileName){
+    	String filePath = folder + "//" + fileName;
     	packaged.put("file","empty");
-    	packaged.put("key","DELETE_FOLDER");
+    	packaged.put("key","DELETE_FILE");
     	packaged.put("filePath",filePath);
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.

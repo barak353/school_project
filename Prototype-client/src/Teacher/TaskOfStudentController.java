@@ -84,7 +84,9 @@ public TaskOfStudentController(String controllerID)
 		  private String courseN;
 		  private String taskName;
 		  private File file;
-		  private int isstudentChoosed = 0;  
+		  private int isstudentChoosed = 0;
+
+		private boolean isFileOpened;  
 		
 		  
 		    /**
@@ -171,12 +173,12 @@ public TaskOfStudentController(String controllerID)
             	if(res.get(0) != null){
         	    	downloadFileFromServer(semFile+"//"+courseID+"//"+StudentList.getValue(), res.get(0).get(0));
         	    	textMSG.setText("Your file is saved in folder: "+semFile+"/"+courseID+"/"+StudentList.getValue());
+        	    	isFileOpened = true;
             	}else textMSG.setText("Student did'nt submmit the task.");
             }else textMSG.setText("Student did'nt submmit the task.");
     	}else textMSG.setText("Please choose student.");
     }
     
-
 	 /**
      *  After choose student in the combobox, this function show the mark 
      *  about the submission of this student in the task that the teacher was chosen.
@@ -227,7 +229,8 @@ public TaskOfStudentController(String controllerID)
 	 */
 	
 	@FXML
-	void upload(ActionEvent event) {//func that upload a file into the DB
+	void upload(ActionEvent event){//func that upload a file into the DB
+		if(isFileOpened == false){textMSG.setText("You have to first open and view the student submmited task.");return;}
 		if(isstudentChoosed == 1){
 			JFileChooser chooser= new JFileChooser();
 			int choice = chooser.showOpenDialog(chooser);
@@ -236,6 +239,7 @@ public TaskOfStudentController(String controllerID)
 			String semFile = Semester.getCurrentSemester().getYear() +Semester.getCurrentSemester().getType();
 			uploadFileToServer(file,semFile+"//"+courseID+"//"+User.getCurrentLoggedIn().GetID()+"//"+StudentList.getValue());
 			textMSG.setText("File was upload successfuly.");
+			isFileOpened = false;
 		}else textMSG.setText("Please choose student.");
 	}
 	
@@ -248,7 +252,6 @@ public TaskOfStudentController(String controllerID)
 	void LogOut(ActionEvent event) {
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
