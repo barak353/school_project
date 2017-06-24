@@ -65,6 +65,9 @@ public class FillFinalEvaluationController extends QueryController implements In
 
     @FXML
     private Button back;
+    
+    @FXML
+    private Button AVG;
 
     @FXML
     private ComboBox<String> CourseList;
@@ -223,9 +226,11 @@ public class FillFinalEvaluationController extends QueryController implements In
     void chooseCourse(ActionEvent event) {
     	textMSG.setVisible(false);
     	String chooseCourse = CourseList.getValue();
+    	System.out.println("chooseCourse: "+chooseCourse);
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
     	 idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-    	  	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses+" AND IDsem='"+IDsem+"'");
+    	 System.out.println("idcourses: "+idcourses);
+    	 ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses+" AND IDsem='"+IDsem+"'");
            	if (res==null)
         	{
         		textMSG.setText("There are no assignments in this course");
@@ -348,6 +353,23 @@ public class FillFinalEvaluationController extends QueryController implements In
 				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
+    }
+
+    @FXML
+    void CalAvg(ActionEvent event) {
+    	String avg = new String();
+   	System.out.println("stIDENT="+StudentList.getValue());
+   	System.out.println("IDNcourse="+idcourses);
+   	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT AVG(grade) FROM subtask WHERE stIDENT="+StudentList.getValue()+
+		        		" AND IDNcourse="+idcourses);
+    if(res == null){
+    	System.out.println("error");
+   		
+    }
+   	System.out.println("avg:"+res);
+   	avg = res.get(0).get(0);
+   	System.out.println("avg1:"+avg);
+   	 transfferQueryToServer("UPDATE studentincourse SET Grade='"+ avg +"' WHERE stIDENT="+StudentList.getValue()+" AND identityCourse="+idcourses+")");
     }
 
 }
