@@ -156,10 +156,12 @@ public class FillFinalEvaluationController extends QueryController implements In
 		    		return;
 		    	}
 		        if(flag ==0){//if the student did not submit the task(he dont exists in the table
-		        	transfferQueryToServer("INSERT INTO subtask (idTASK, IDcourse, IDstudent, grade, Comments) VALUES ("+chooseTask+","+chooseCourse+","
-		        			+StudentList.getValue()+",'"+finalGrade +"','"+ finalCom +"')");				
+		        	String sem = Semester.getCurrentSemester().getYear() + ":" + Semester.getCurrentSemester().getType();
+		        	transfferQueryToServer("INSERT INTO subtask (semesterName,mytaskname, IDNcourse, stIDENT, grade, Comments) VALUES ('"+sem+"','"+chooseTask+"',"+chooseCourse+","
+		        			+StudentList.getValue()+","+finalGrade +",'"+ finalCom +"')");	
 		        	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
 		        	textMSG.setVisible(true);
+
 		        }
 		        else{
 		    	//insert into the DB the grade and the comments of specific student
@@ -240,7 +242,6 @@ public class FillFinalEvaluationController extends QueryController implements In
     	       	ObservableList obList= FXCollections.observableList(TaskNameList);
     	    	TaskList.setItems(obList);	
     	    	isCourseChoosed = true;
-    	    	isTaskChoosed = false;
     			}
     }
     
@@ -251,7 +252,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     
     @FXML
     void chooseTask(ActionEvent event) {
-    	if(isCourseChoosed == true)
+    	if(isCourseChoosed == true){
 	    	chooseTask = TaskList.getValue();
 	    	String chooseCourse = CourseList.getValue();
 	    	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -261,7 +262,7 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    		textMSG.setText("there is no information in the DB");
 	    		textMSG.setVisible(true);
 	    	}
-			else {
+    		else {
 		    	ArrayList<String> resultArray = new ArrayList<String>();
 		    	//loop for insert the id of the student to array list for the combobox
 		    	for(ArrayList<String> row:res){
@@ -271,6 +272,7 @@ public class FillFinalEvaluationController extends QueryController implements In
 		    	StudentList.setItems(obList);
 			}
 	    	isTaskChoosed = true;
+    	}
     }
     
     /**
@@ -299,7 +301,6 @@ public class FillFinalEvaluationController extends QueryController implements In
 		   		textMSG.setVisible(true);
 		   		markTask.setFill(Color.BLACK);
 		   		markTask.setVisible(true);
-		   		isTaskChoosed = false;
 		   		flag = 0;
 		    }
 		    else{

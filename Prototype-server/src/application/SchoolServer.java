@@ -118,6 +118,12 @@ public class SchoolServer extends AbstractServer
 		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
 		    			isAlreadyInserted = true ;
+						writer.println(date+": Data is already inserted.");
+						StringWriter errors = new StringWriter();
+						e2.printStackTrace(new PrintWriter(errors));
+						writer.println(errors.toString());
+						e2.printStackTrace();
+						writer.flush();
 		    		}
 		    		isUpdate=true;
 			  break ;
@@ -128,6 +134,12 @@ public class SchoolServer extends AbstractServer
 		    		result = 0;//query succeed.
 		    		}catch(SQLException e2){
 		    			isAlreadyInserted = true ;
+						writer.println(date+": Data is already inserted.");
+						StringWriter errors = new StringWriter();
+						e2.printStackTrace(new PrintWriter(errors));
+						writer.println(errors.toString());
+						e2.printStackTrace();
+						writer.flush();
 		    		}
 		    		isUpdate=true;
 			  break;
@@ -201,6 +213,7 @@ public class SchoolServer extends AbstractServer
 	  case "upload":
 		  byte[] bytes = (byte[]) packaged.get("file");		  
 		  try {
+			 System.out.println("server-upload: file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType"));
 			FileUtils.writeByteArrayToFile(new File("file//"+packaged.get("folderName")+"//"+packaged.get("fileName")+"."+packaged.get("fileType")), bytes);
 		} catch (IOException e1) {
 			writer.println(date+": Unable to save file from server to pc.");

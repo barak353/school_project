@@ -119,6 +119,8 @@ public class WatchTaskController extends QueryController implements Initializabl
     @FXML
     void watchTeacherTask(ActionEvent event) {
     	if(isTaskChoosed == true){
+    		System.out.println("2");
+    		isTaskChoosed = false;
         	ErrorMSG.setText(" ");
         	String choosedTask = comboBoxChooseTask.getValue();
         	String chooseCourse = comboBoxChooseCourse.getValue();
@@ -142,11 +144,41 @@ public class WatchTaskController extends QueryController implements Initializabl
         		}else ErrorMSG.setText("Teacher didn't upload a task.");
         	}
     	}else{
-    		ErrorMSG.setText("Please choose course and task");
+    		System.out.println("!2,isTaskChoosed: "+isTaskChoosed);
+    		ErrorMSG.setText("Please choose course and task.");
     	}
     }
     
-
+    @FXML
+    void watchCheckedTask(ActionEvent event) {
+    	if(isTaskChoosed == true){
+        	ErrorMSG.setText(" ");
+        	String choosedTask = comboBoxChooseTask.getValue();
+        	String chooseCourse = comboBoxChooseCourse.getValue();
+    		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
+        	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+        	String semFile = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
+        	String studentID = User.getCurrentLoggedIn().GetID();
+        	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM  subtask WHERE semesterName='"+sem
+					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
+					" AND stIDENT="+ studentID);
+        	String fileName;
+        	if(res == null)ErrorMSG.setText("Teacher did not checked this task.");
+        	else {
+        		ArrayList<String> row = res.get(0);
+        		if(row != null ){
+        			fileName = row.get(0);
+        			if(fileName != null && !fileName.equals("")){
+        			     downloadFileFromServer(semFile+"//"+idcourses+"//"+User.getCurrentLoggedIn().GetID(),fileName );
+        			     ErrorMSG.setText("Download was successful, please check the download folder.");
+        				}
+        			else ErrorMSG.setText("Teacher didn't checked this task.");
+        		}else ErrorMSG.setText("Teacher didn't checked this task.");
+        	}
+    	}else{
+    		ErrorMSG.setText("Please choose course and task");
+    	}
+    }
    
     @FXML
 	 void TurningBack(ActionEvent event)
@@ -254,15 +286,13 @@ public class WatchTaskController extends QueryController implements Initializabl
 		System.out.println("choosedCourse: "+choosedCourse+" choosedTask: "+choosedTask);
 		ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
 		System.out.println("taskRes: "+taskRes);
-		String idTask = null;
 		if(taskRes != null && taskRes.get(0) != null) 
 		{
 		     ArrayList<String> row = taskRes.get(0);
 		     task = new Task(row.get(0),row.get(1),row.get(2), row.get(3),row.get(4));
+		     System.out.println("1");
 			 isTaskChoosed = true;
-		}
-		
-		else
+		}else
 		{
 			SubtaskGrade1.setText("");
 	    	SubtaskComments1.setText("");
@@ -270,7 +300,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 			return;
 		}
 		}
-		isTaskChoosed = false;
 	}
 	
 	

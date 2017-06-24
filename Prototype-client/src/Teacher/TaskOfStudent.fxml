@@ -33,7 +33,7 @@
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="149.0" layoutY="28.0" text="Task of student" textFill="#1205ff">
+            <Label layoutX="149.0" layoutY="28.0" text="Student's Task" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -54,16 +54,11 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="149.0" layoutY="232.0" text="save new file">
+            <Label layoutX="84.0" layoutY="227.0" prefHeight="30.0" prefWidth="178.0" text="save student checked task:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="save" layoutX="529.0" layoutY="367.0" mnemonicParsing="false" onAction="#saveB" text="save">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
             <Text fx:id="textMSG" fill="RED" layoutX="465.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The changes was seccessfuly saved in the DB." visible="false" wrappingWidth="106.17578125">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -80,6 +75,11 @@
                </font>
             </Text>
             <Circle fx:id="markTask" fill="#20ee4d" layoutX="446.0" layoutY="129.0" radius="12.0" stroke="#080808" strokeType="INSIDE" visible="false" />
+            <Label layoutX="61.0" layoutY="175.0" text="open student submmited task:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Label layoutX="246.0" layoutY="12.0" prefHeight="25.0" prefWidth="106.0" text="Course Name:">

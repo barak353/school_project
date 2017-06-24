@@ -54,7 +54,7 @@
                </font></Button>
             <ComboBox fx:id="comboBoxChooseCourse" layoutX="222.0" layoutY="138.0" onAction="#AfterChooseCourse" prefWidth="150.0" />
             <ComboBox fx:id="comboBoxChooseTask" layoutX="222.0" layoutY="231.0" onAction="#AfterChooseTask" prefWidth="150.0" />
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="202.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="29.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,13 +64,18 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Text fx:id="SubtaskGrade1" layoutX="337.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.0" />
-            <Text fx:id="ErrorMsg" fill="RED" layoutX="228.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="137.99999728798866">
+            <Text fx:id="SubtaskGrade1" layoutX="387.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="187.0" />
+            <Text fx:id="ErrorMsg" fill="RED" layoutX="29.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="150.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="SubtaskComments1" fill="#00e41e" layoutX="387.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="115.13671875" />
+            <Text fx:id="SubtaskComments1" fill="#00e41e" layoutX="410.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875" />
+            <Button layoutX="195.0" layoutY="343.0" mnemonicParsing="false" onAction="#watchCheckedTask" text="Watch teacher checked task">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Button fx:id="logout" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#LogOutScreen" text="LogOut">
