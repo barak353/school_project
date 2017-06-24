@@ -24,6 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the teacher placement action.
+ */
 public class TeacherPlacementController extends QueryController  implements Initializable{
 	
     @FXML
@@ -66,13 +70,24 @@ public class TeacherPlacementController extends QueryController  implements Init
 	       super(controllerID);
 	} 
 	//------------------------------------------------// 
+	/**
+	 * 
+	 * The function Turning back return's to the main screen of the secretary.
+	 * @param event
+	 */
 	@FXML
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new SecretaryMainController("SecretaryMainController");
 		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
 	}
-	
+	/**
+	 * 
+	 * Initialize function, shows the logged in user, also initialize the combobox of courses that open in the current 
+	 * semester and courses that classes already assigned to them for making teacher change only.
+	 * @param arg0
+	 * @param arg1
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
@@ -121,6 +136,14 @@ public class TeacherPlacementController extends QueryController  implements Init
 	  	}
 	}
 	//--------------------------------------------------------------------------------------------//
+	/**
+	 * 
+	 * The function CourseHandler will be called when the secretry will choose a course, than the classes that
+	 * learn this chosen course will appear in the combobox of the classes.
+	 * In addition, all the teacher's that belong's to the teaching unit of the chosen course will appear in
+	 * the teacher's combobox.
+	 * @param event
+	 */
 	@FXML
 	public void CourseHandler (ActionEvent event)
 	{
@@ -200,6 +223,11 @@ public class TeacherPlacementController extends QueryController  implements Init
 			 }
 		}
 	}
+	/**
+	 * 
+	 * The function Finish will return us to the main window of the secretary.
+	 * @param event
+	 */
 	@FXML
 	void FinishButtonHandler(ActionEvent event)
 	{
@@ -218,6 +246,13 @@ public class TeacherPlacementController extends QueryController  implements Init
 				}
 	}
 	//--------------------------------------------------------------------------------------------//
+	/**
+	 * 
+	 * This function will check if the chosen teacher can teach the chosen class in the chosen course, checks
+	 * if the teacher didn't exceed her teaching hour's and if all the conditions are fullfiled, this function 
+	 * will make the teacher placement change.
+	 * @param event
+	 */
 	@FXML
 	public void SaveButtonHandler(ActionEvent event)
 	{
@@ -254,7 +289,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 		    	 else
 		    	 {
 		    		    //Checking the answer from the school director:
-				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messageteacher WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CouID='"+ RequiredStringCourse+"'");
+				    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messageteacher WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CourID='"+ RequiredStringCourse+"'");
 				    	if(result==null)
 				    	{
 				    		ErrText.setText("There is no such message, can't make the change.");
@@ -264,7 +299,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 				    	}
 				    	else
 				    	{	
-				    		if(result.get(0).get(6).equals("YES")==true)
+				    		if(result.get(0).get(4).equals("YES")==true)
 				    		{
 				    			int res2;
 				    		    int resAdd;
@@ -274,7 +309,7 @@ public class TeacherPlacementController extends QueryController  implements Init
 						    	transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(0).get(0)); 
 						    	transfferQueryToServer("UPDATE teacherinclassincourse SET Tidentity="+Teacher.get(0).get(0)+" WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
 						    	transfferQueryToServer("UPDATE teacher SET MaxHour="+resAdd+" WHERE teacherid="+ TeacherCheck.get(0).get(3)); 
-			    		   		transfferQueryToServer("DELETE FROM message WHERE messageNum="+result.get(0).get(0)+"");
+			    		   		transfferQueryToServer("DELETE FROM messageteacher WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CourID='"+ RequiredStringCourse+ "'");
 						    	finishmessage.setText("Teacher placement change succeeded");
 						    	ErrText.setText("");
 						    	FinishButton.setVisible(true);	

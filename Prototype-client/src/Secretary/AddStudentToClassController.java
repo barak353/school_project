@@ -1,6 +1,7 @@
 package Secretary;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,6 +22,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+/**
+ * 
+ * This controller handles the secretary's actions and is responsible for presenting the secretary's main screen
+ *
+ */
 public class AddStudentToClassController extends QueryController  implements Initializable{
 
 	Object nextController=null;

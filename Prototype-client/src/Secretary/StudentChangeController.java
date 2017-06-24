@@ -31,6 +31,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+/**
+ * 
+ * This controller handles the student change action- the secretary will choose what
+ * action she wants to do- insert student to course or delete student from course.
+ */
 public class StudentChangeController extends QueryController implements Initializable{
 
 	    @FXML
@@ -55,6 +60,12 @@ public class StudentChangeController extends QueryController implements Initiali
 			super(controllerID);
 	} 
     //----------------------------------------------------------------------//
+	/**
+	 * 
+	 * Initialize function, shows the logged in user. 
+	 * @param arg0
+	 * @param arg1
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -62,7 +73,12 @@ public class StudentChangeController extends QueryController implements Initiali
 		userID.setText(user.GetUserName());
 	}
     //----------------------------------------------------------------------//
-    @FXML
+	/**
+	 * 
+	 * The function Add Student will show the Insert Student window.
+	 * @param event
+	 */
+	@FXML
     void AddStudent(ActionEvent event)
     {
     	 try {
@@ -80,7 +96,12 @@ public class StudentChangeController extends QueryController implements Initiali
 				}
     }
     //----------------------------------------------------------------------//
-    @FXML
+	/**
+	 * 
+	 * The function Delete Student will show the Delete Student window.
+	 * @param event
+	 */
+	@FXML
     void DeleteStudent(ActionEvent event)
     {
       	 try {
@@ -98,7 +119,12 @@ public class StudentChangeController extends QueryController implements Initiali
 				}
     }
     //-------------------------------------------------------------------------------------------// 
-	@FXML
+    /**
+	 * 
+	 * The function Turning back return's to the main screen of the secretary.
+	 * @param event
+	 */
+    @FXML
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new SecretaryMainController("SecretaryMainController");

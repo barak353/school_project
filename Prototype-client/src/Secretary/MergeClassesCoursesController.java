@@ -22,7 +22,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
-
+/**
+ * 
+ * This controller handles the action of assigning classes to courses in new semester.
+ */
 public class MergeClassesCoursesController extends QueryController implements Initializable {
 	
 	  private Object nextController=null;
@@ -79,6 +82,11 @@ public class MergeClassesCoursesController extends QueryController implements In
 		;
 	  }
 	  //-----------------------------------------------------------// 
+	 /**
+	 * 
+	 * The function Turning back return's to the main screen of the secretary.
+	 * @param event
+	 */
 	  @FXML
 	  void AssignHandler(ActionEvent event) 
 	  {
@@ -345,14 +353,16 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    }// Else - all the fields were filled
 	  }
     //-----------------------------------------------------------------------------------------//
-	@FXML
+	
+	  @FXML
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new OpenNewSemesterController("OpenNewID");
 		this.Back("/Secretary/OpenNewSemesterWindow.fxml",nextController,event);
 	}
 	//-----------------------------------------------------------------------------------------//
-	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
+	
+	  public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
 		//------------------------------------------------------------------//
@@ -422,6 +432,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 		}
 	}
 	//-----------------------------------------------------------------------------------------//
+	
 	 @FXML
 	 void AssignTeacher(ActionEvent event)
 	 {

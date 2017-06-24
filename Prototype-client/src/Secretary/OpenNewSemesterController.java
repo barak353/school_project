@@ -38,6 +38,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the Open new semester action.
+ */
 public class OpenNewSemesterController extends QueryController implements Initializable{
 	
 	//-----------------------------------------------------------//
@@ -85,6 +89,13 @@ public class OpenNewSemesterController extends QueryController implements Initia
     private String AllDetails="";
     private String Mystr="";
     //----------------------------------------------------------//
+    /**
+	 * 
+	 * The function Open semester will check if the details of the new semester are correct,
+	 * if so, the function will enter to the DB the new semester and update the status of the 
+	 * previous one.
+	 * @param event
+	 */
     @FXML
     void openSemester(ActionEvent event) 
     {
@@ -166,7 +177,13 @@ public class OpenNewSemesterController extends QueryController implements Initia
     	//------------------------------------------------------------------//
     }
     //-------------------------------------------------------------------------------------------//
-	@FXML
+    /**
+	 * 
+	 * The function add course will enter the chosen courses from the combobox to the DB, to 
+	 * the table: courses in semester, this courses will be open in this new current semester.
+	 * @param event
+	 */
+    @FXML
 	void addCourse(ActionEvent event)
 	{	
 			int counter=0;
@@ -214,7 +231,13 @@ public class OpenNewSemesterController extends QueryController implements Initia
 	    	}
 	}
 	//-------------------------------------------------------------------------------------------//
-	@FXML
+    /**
+	 * 
+	 * The function done will finish the action of adding courses to the new semester, and will
+	 * open new window of assigning classes to courses.
+	 * @param event
+	 */
+    @FXML
 	void done(ActionEvent event)
 	{
 		Semester.setMyString(AllDetails);
@@ -233,7 +256,12 @@ public class OpenNewSemesterController extends QueryController implements Initia
 				}
 	}
 	    //-----------------------------------------------------------------------------------------//
-		@FXML
+    /**
+	 * 
+	 * The function Turning back return's to the main screen of the secretary.
+	 * @param event
+	 */
+    	@FXML
 		void TurningBack(ActionEvent event)
 		{
 			this.nextController = new SecretaryMainController("SecretaryMainControllerID");
@@ -241,7 +269,13 @@ public class OpenNewSemesterController extends QueryController implements Initia
 		}
 	
 	    //-----------------------------------------------------------------------------------------//
-		@Override
+    	/**
+    	 * 
+    	 * Initialize function, shows the logged in user, and show's the current date of opening new semester.
+    	 * @param arg0
+    	 * @param arg1
+    	 */
+    	@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());

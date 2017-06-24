@@ -182,7 +182,7 @@ public class DeleteStudentFromCourseController extends QueryController implement
     	 else
     	 {
      		String RequiredStringStudentID = ChosenStudent.substring(ChosenStudent.indexOf("(") + 1, ChosenStudent.indexOf(")")); 
-	    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='" + "Student Delete" + "' AND CouID='"+ RequiredStringCourse+"'");
+	    	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messagestudent WHERE type='" + "Student Delete" + "' AND CouID='"+ RequiredStringCourse+"' AND StuIdentity='"+RequiredStringStudentID+"'");
 	    	if(result==null)
 	    	{
 	    		 ErrCourseMessage.setText("There is no such message, can't make the change.");
@@ -191,7 +191,7 @@ public class DeleteStudentFromCourseController extends QueryController implement
 	    	}
 	    	else
 	    	{
-	    		if(result.get(0).get(6).equals("YES")==false)
+	    		if(result.get(0).get(4).equals("YES")==false)
 	    		{
 	    			ErrCourseMessage.setText("The school director didn't approved the request.");
 	    			SuccessMessage.setText("");
@@ -205,7 +205,7 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		    			 {
 		     			     transfferQueryToServer("INSERT INTO studentinprecourse (childID,pCourseID,FinalGrade,TheSemester) VALUES ('" + RequiredStringStudentID + "','" + RequiredStringCourse+ "','" +StudentsInCourse.get(i).get(2)+"','"+CurrentSemester.get(0).get(0)+"')");
 		    		   		 transfferQueryToServer("DELETE FROM studentincourse WHERE identityStudent="+RequiredStringStudentID+" and identityCourse="+RequiredStringCourse+"");
-		    		   		 transfferQueryToServer("DELETE FROM message WHERE messageNum="+result.get(0).get(0)+"");
+		    		   		 transfferQueryToServer("DELETE FROM messagestudent WHERE type='" + "Student Delete" + "' AND CouID='"+ RequiredStringCourse+"' AND StuIdentity='"+RequiredStringStudentID+"'");
 		    		   		 StudentErr.setText("");
 		    		   		 SuccessMessage.setText("The student was deleted successfully from the course");
 		    		  		 Timer time = new Timer(1500, new java.awt.event.ActionListener() {

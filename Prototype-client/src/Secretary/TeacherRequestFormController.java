@@ -1,6 +1,7 @@
 package Secretary;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +27,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This controller handles the teacher request form, for sending him to the school director.
+ *
+ */
 public class TeacherRequestFormController extends QueryController implements Initializable{
 	
     @FXML
@@ -68,13 +74,24 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	       super(controllerID);
 	} 
 	//------------------------------------------------// 
+	/**
+	 * 
+	 * Turning Back function, returns to the question window that asks what message form the secretary wants.
+	 * @param event
+	 */
 	@FXML
 	void TurningBack(ActionEvent event)
 	{
 		this.nextController = new AskRequestFormController("AskRequestFormController");
 		this.Back("/Secretary/WhatFormChoose.fxml",nextController, event);
 	}
-	
+	/**
+	 * 
+	 * Initialize function, shows the logged in user, also initialize the combobox of courses that open in the current 
+	 * semester and courses that classes already assigned to them for making teacher change only.
+	 * @param arg0
+	 * @param arg1
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
@@ -127,6 +144,14 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	  	}
 	}
 	//--------------------------------------------------------------------------------------------//
+	/**
+	 * 
+	 * The function CourseHandler will be called when the secretry will choose a course, than the classes that
+	 * learn this chosen course will appear in the combobox of the classes.
+	 * In addition, all the teacher's that belong's to the teaching unit of the chosen course will appear in
+	 * the teacher's combobox.
+	 * @param event
+	 */
 	@FXML
 	public void CourseHandler (ActionEvent event)
 	{
@@ -206,6 +231,11 @@ public class TeacherRequestFormController extends QueryController implements Ini
 			 }
 		}
 	}
+	/**
+	 * 
+	 * The function Finish will return us to the main window of the secretary.
+	 * @param event
+	 */
 	@FXML
 	void FinishButtonHandler(ActionEvent event)
 	{
@@ -224,6 +254,13 @@ public class TeacherRequestFormController extends QueryController implements Ini
 				}
 	}
 	//--------------------------------------------------------------------------------------------//
+	/**
+	 * 
+	 * This function will check if the chosen teacher can teach the chosen class in the chosen course, checks
+	 * if the teacher didn't exceed her teaching hour's and if all the conditions are fullfiled, this function 
+	 * send the message to the school manager.
+	 * @param event
+	 */
 	@FXML
 	public void SaveButtonHandler(ActionEvent event)
 	{

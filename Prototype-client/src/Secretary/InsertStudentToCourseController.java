@@ -143,7 +143,7 @@ public class InsertStudentToCourseController extends QueryController implements 
 	    	}
 	    	else
 	    	{
-		    	ArrayList<ArrayList<String>> MessageCheck= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM message WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
+		    	ArrayList<ArrayList<String>> MessageCheck= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messagestudent WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
 		    	if(MessageCheck==null)
 		    	{
 		    		CoursesErr.setText("There is no such message.\nCan't make the change.");
@@ -162,10 +162,15 @@ public class InsertStudentToCourseController extends QueryController implements 
 		    	}
 		    	else
 		    	{
-		    		if(MessageCheck.get(0).get(6).equals("YES")==true)
+		    		if(MessageCheck.get(0).get(4).equals("YES")==true)
 		    		{
 			    		transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade) VALUES ('" + ChosenStudent + "','" + ChosenCourse + "','" + "" + "')");
-	    		   		transfferQueryToServer("DELETE FROM message WHERE messageNum="+MessageCheck.get(0).get(0)+"");
+	    		   		transfferQueryToServer("DELETE FROM messagestudent WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
+	    		   		ArrayList<ArrayList<String>> c= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinprecourse WHERE childID='" + ChosenStudent + "' AND pCourseID='" +ChosenCourse+"'");
+		 	    		if(c!=null)//If the student doing aggain the course
+		 	    		{
+				    		transfferQueryToServer("DELETE FROM studentinprecourse WHERE childID="+ChosenStudent+" and pCourseID="+ChosenCourse+"");
+		 	    		}
 	    		   		SuccessMessage.setVisible(true);
 	    		   		SuccessMessage.setText("The student: "+ChosenStud+"inserted successfully to the course: "+Course);
 	    		   	 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
