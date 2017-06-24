@@ -369,7 +369,7 @@ public class FillFinalEvaluationController extends QueryController implements In
    	System.out.println("avg:"+res);
    	avg = res.get(0).get(0);
    	System.out.println("avg1:"+avg);
-   	 transfferQueryToServer("UPDATE studentincourse SET Grade='"+ avg +"' WHERE stIDENT="+StudentList.getValue()+" AND identityCourse="+idcourses+")");
+   	 transfferQueryToServer("UPDATE studentincourse SET Grade='"+avg+"' WHERE stIDENT="+StudentList.getValue()+" AND identityCourse="+idcourses+")");
     }
 
 }
