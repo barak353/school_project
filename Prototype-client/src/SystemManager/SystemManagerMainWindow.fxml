@@ -36,11 +36,6 @@
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <Button fx:id="back" layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
             <Button fx:id="addNewCourseButton" layoutX="239.0" layoutY="115.0" mnemonicParsing="false" onAction="#addNewCourse" text="Add new course" />
          </children>
       </Pane>

@@ -49,8 +49,6 @@ private Button StudentChangeID;
 private Button ClassDefineID;  
 @FXML
 private Button logout;
-@FXML
-private Button back;
 
 /**
  * 
@@ -166,18 +164,6 @@ void ClassDefine(ActionEvent event)
 						e.printStackTrace();
 					}
 } 
-//-------------------------------------------------------------------------------------------------//
-/**
- * 
- * After pressing the appropriate button, this function leads to the: Log in screen.
- * @param event
- */
-@FXML
-void TurningBack(ActionEvent event)
-{
-	this.nextController = new LoginController("SecretaryLoginController");
-	this.Back("/Login/LoginWindow.fxml",nextController, event);
-}
 //-------------------------------------------------------------------------------------------------//
 /**
  * 

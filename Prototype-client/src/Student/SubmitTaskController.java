@@ -126,8 +126,10 @@ public class SubmitTaskController extends QueryController implements Initializab
 	            ArrayList<ArrayList<String>> res =(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM subtask WHERE semesterName='"+ semQ +"' AND mytaskname='" 
 						+ TaskName + "' AND IDNcourse=" + courseID 
 							+ " AND stIDENT=" + studentID);
-	            if(res.get(0) == null || res.get(0).get(0) == null){ErrorMSG.setText("Can't override submmited file.");return;}
-	            deleteFileFromServer(IDsemQ+"//"+courseID+"//"+studentID, res.get(0).get(0));
+	            if(res != null && (res.get(0) != null || res.get(0).get(0) != null)){
+	            	ErrorMSG.setText("Override submmited file.");
+	            	deleteFileFromServer(IDsemQ+"//"+courseID+"//"+studentID, res.get(0).get(0));
+        		}
 	    		String semYT = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
 	    		Object ans = uploadFileToServer(file,semYT + "//" +courseID + "//" + studentID);
 				//add the sub task details to the db

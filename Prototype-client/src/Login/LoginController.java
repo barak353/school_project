@@ -118,10 +118,8 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextController=new ParentMainController("ParentMainController");
 	                	 break;
 	                 case "S":
-	             		Log.print("1");
 	                	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
 	                	 nextController=new SecretaryMainController("SecretaryMainControllerID");
-	             		Log.print("2");
 	                	 break;
 	                 case "T":
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
@@ -155,6 +153,7 @@ public class LoginController extends QueryController implements Initializable{//
 			    		transfferQueryToServer("UPDATE user SET status = 11 WHERE userID="+User.getCurrentLoggedIn().GetID());
 			         } catch (IOException e) {
 	            		Log.print("LoginController: "+e.getStackTrace().toString());
+	            		e.printStackTrace();
 					}
 	            }else{
 	            	wrongTextID.setText("Wrong password, please try again.");//show error message.

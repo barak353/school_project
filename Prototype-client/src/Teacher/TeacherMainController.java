@@ -52,9 +52,6 @@ public class TeacherMainController extends QueryController implements Initializa
 	    private Button ChecksHomework;
 
 	    @FXML
-	    private Button back;
-
-	    @FXML
 	    private Text userID;
 
 	
@@ -113,12 +110,6 @@ public class TeacherMainController extends QueryController implements Initializa
 	     				}
 	    } 
 	  //-------------------------------------------------------------------------------------------------//
-	    @FXML
-	    void TurningBack(ActionEvent event)
-	    {
-	    	this.nextController = new LoginController("LoginController");
-	    	this.Back("/Login/LoginWindow.fxml",nextController, event);
-	    }
 	   
 	    public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 	    	User user = User.getCurrentLoggedIn();

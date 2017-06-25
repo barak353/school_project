@@ -48,8 +48,6 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     private Button SubmitHomeWork;
 
-    @FXML
-    private Button back;
 
     @FXML
     private Button ButtonNew;
@@ -128,12 +126,7 @@ public class MainWindowStudentController extends QueryController implements Init
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 		}
-		@FXML
-		void TurningBack(ActionEvent event)
-		{
-			this.nextController = new LoginController("StudentLoginController");
-			this.Back("/Login/LoginWindow.fxml",nextController, event);
-		}
+
  }
 	    
 

@@ -53,8 +53,6 @@ public class SystemManagerMainController extends QueryController implements Init
     @FXML
     private Button logout;
     @FXML
-    private Button back;
-    @FXML
     private Button addNewCourseButton;
     @FXML
     private Text userID;
@@ -103,14 +101,4 @@ public class SystemManagerMainController extends QueryController implements Init
          * function that return to the last screen
          * @param event
          */
-		
-		@FXML
-		void TurningBack(ActionEvent event)
-		{
-			this.nextController = new LoginController("StudentLoginController");
-			this.Back("/Login/LoginWindow.fxml",nextController, event);
-		}
-
-
-	
  }

@@ -34,7 +34,7 @@ public class QueryController{
     private String backScreen="";
         
     protected String controllerID;
-        
+
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
 		//controllerHashMap=new HashMap <String ,QueryController>();
@@ -45,6 +45,11 @@ public class QueryController{
     	packaged.put("controllerID",controllerID);//Send this controller ID with the packaged.
     }
     
+    /**
+     * This method gets a String the represents the folder name and a String that represent the file name.
+     * With this two Strings the method gets the file name in the folder name and delete the file and return 0 on failed and the deleted File on success.
+     *      * @param event
+     */ 
     protected Object deleteFileFromServer(String folder,String fileName){
     	String filePath = folder + "//" + fileName;
     	packaged.put("file","empty");
@@ -64,7 +69,11 @@ public class QueryController{
     	packaged.remove("file");
     	return result;
     }
-    
+    /**
+     * This method gets a String the represents the folder name and a String that represent the file name.
+     * With this two Strings the method gets the file name in the folder name and return the file as a File.
+     *      * @param event
+     */ 
     protected File downloadFileFromServer(String folder,String fileName){
     	String filePath = folder + "//" + fileName;
     	packaged.put("file","empty");
@@ -90,7 +99,10 @@ public class QueryController{
     	packaged.remove("file");
     	return file;
     }
-    
+    /**
+     * This method gets a File and a String that represent the folder name to save the File in the server.
+     * @param event
+     */ 
     protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.
         // Get the size of the file
     	String fileName = file.getName();
@@ -124,11 +136,17 @@ public class QueryController{
     	packaged.remove("folderName");
     	return result;
     }
-    
+    /**
+     * A static method that connect the client to the server.
+     * @param event
+     */ 
     static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);
     }
-    
+    /**
+     * gets Query as a String to be excuted in the server, return Object as answer.
+     * @param event
+     */ 
     protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("key","Query");
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
@@ -156,7 +174,11 @@ public class QueryController{
  	void setbackScreen(String backScreen){
  		this.backScreen=backScreen;
  	}
-	 	
+ 	
+    /**
+     * function that return to the log in screen
+     * @param event
+     */ 
 	@FXML
 	protected void LogOutScreen(ActionEvent event)
 	{
@@ -177,6 +199,11 @@ public class QueryController{
 		User.setCurrentLoggedIn(null);
 	} 
 	//-----------------------------------------------------------------------//
+    /**
+     * This method gets window name and controller Object and an event.
+     * The method change the main Stage to show this window with his nextController. 
+     *      * @param event
+     */ 
 	protected void Back(String window, Object nextController,ActionEvent event)
 	{
 		 try {
@@ -194,7 +221,10 @@ public class QueryController{
 				}
 	} 
 	
-	
+    /**
+     * This method finalize the QueryController class.
+     *      * @param event
+     */ 
 	protected void finalize(){
     	controllerHashMap.remove("controllerID");
     	controllerHashMap.remove(controllerID);

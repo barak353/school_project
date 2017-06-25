@@ -156,8 +156,8 @@ public class UploadTaskController extends QueryController implements Initializab
     		textMSG.setVisible(true);
     		return;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN) VALUES ('" + TaskName.getText() + "', " 
-    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"','" + file.getName() + "')");
+    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + TaskName.getText() + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"','" + file.getName() + "',"+ User.getCurrentLoggedIn().GetID() +")");
     	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	textMSG.setVisible(true);
