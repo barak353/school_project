@@ -72,39 +72,20 @@ public class LoginController extends QueryController implements Initializable{//
         if(userID.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter username");//show error message.
-            Log.print("LoginController: "+"Please enter username");
 
         }
         if(password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
-            Log.print("LoginController: "+"Please enter password.");
         }
-		Log.print("LoginController: "+"1");
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID=" + userID );
-        Log.print("LoginController: "+"2.1");
         ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
-        Log.print("LoginController: "+"2.2");
-        Log.print("LoginController: "+"resultArray: "+resultArray);
-        Log.print("LoginController: "+"res: "+res);
         if(res != null){
-            Log.print("LoginController: "+"2.3");
-
     		ArrayList<String> row = res.get(0);
-            Log.print("LoginController: "+"2.4");
-
     		String[] parts = row.get(0).split(":");
-            Log.print("LoginController: "+"2.5");
-
     		Semester sem = null;
-            Log.print("LoginController: "+"2.6");
-
     		if(row != null)Semester.setCurrentSemester(sem =new Semester(parts[0],parts[1],row.get(1).equals("true"),"",""));
-            Log.print("LoginController: "+"2.7");
-
         }
-		Log.print("LoginController: "+"2");
-
         String userPassword = null;
         boolean isUserExist = false;
         ArrayList<String> userDetails = null;
@@ -120,11 +101,14 @@ public class LoginController extends QueryController implements Initializable{//
         }else{
 			showNextWindow = false;
         }
-		Log.print("LoginController: "+"3");
 
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
+	        		ArrayList<ArrayList<String>> status = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT status FROM user WHERE userID="+userID);
+	                if(status != null)
+	                	if(status.get(0) != null)
+	                		if(status.get(0).get(0).equals("11")){wrongTextID.setText("User is already logged in into the system.");return;}
 	        		String nextScreen=(resultArray.get(0)).get(3);
 	                Object nextController = null;
 	                switch(nextScreen)
@@ -144,12 +128,8 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
 	                 case "ST":
-	             		Log.print("LoginController: "+"4");
-
 	                	 nextScreen="/student/MainWindowStudent.fxml";
 	                	 nextController=new MainWindowStudentController("StudentControllerID");
-	             		Log.print("LoginController: "+"5");
-
 	                	 break;
 	                 case "SM":
 	                	 nextScreen="/SystemManager/SystemManagerMainWindow.fxml";
@@ -172,6 +152,7 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.hide();
 						app_stage.setScene(login_screen_scene);
 						app_stage.show(); 
+			    		transfferQueryToServer("UPDATE user SET status = 11 WHERE userID="+User.getCurrentLoggedIn().GetID());
 			         } catch (IOException e) {
 	            		Log.print("LoginController: "+e.getStackTrace().toString());
 					}

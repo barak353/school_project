@@ -173,6 +173,8 @@ public class QueryController{
 	 					System.err.println("Missing StudentChange.fxml file");
 	 					e.printStackTrace();
 	 				}
+		ArrayList<ArrayList<String>> status = (ArrayList<ArrayList<String>>) transfferQueryToServer("UPDATE user SET status = 00 WHERE userID="+User.getCurrentLoggedIn().GetID());
+		User.setCurrentLoggedIn(null);
 	} 
 	//-----------------------------------------------------------------------//
 	protected void Back(String window, Object nextController,ActionEvent event)
