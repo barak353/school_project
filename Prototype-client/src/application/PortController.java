@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import Entity.Log;
 import Login.LoginController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,10 +37,10 @@ public class PortController {//Second window: connect to server...
     void connect(ActionEvent event) {//Handler of the connect button.
     	String hostID;
     	String portID;
+    	new Log();
 	    	showNextWindow=true;
     		hostID=this.hostID.getText();//get host from User.
 	    	portID=this.portID.getText();//get port from User.
-
 	    	if(hostID.equals("") && portID.equals("")){//If User didn't enter port and host, then use the default host and default port..
 		    		hostID=DEFUALT_HOST;
 		    		portID=DEFUALT_PORT;

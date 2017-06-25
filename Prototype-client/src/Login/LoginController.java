@@ -12,6 +12,7 @@ import Parent.ChoiceChildController;
 import Secretary.AskRequestFormController;
 import Secretary.SecretaryMainController;
 import Teacher.TeacherMainController;
+import Entity.Log;
 import Entity.Semester;
 import Entity.User;
 import application.QueryController;
@@ -66,27 +67,44 @@ public class LoginController extends QueryController implements Initializable{//
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
     	String userID = usernameID.getText();
-    	System.out.println("userID: "+userID);
+		Log.print("LoginController: "+"userID: "+userID);
         password=passwordID.getText();
         if(userID.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter username");//show error message.
+            Log.print("LoginController: "+"Please enter username");
+
         }
         if(password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
+            Log.print("LoginController: "+"Please enter password.");
         }
-        ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + userID + "'");
+		Log.print("LoginController: "+"1");
+        ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID=" + userID );
+        Log.print("LoginController: "+"2.1");
         ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
-    	if(res != null){
+        Log.print("LoginController: "+"2.2");
+        Log.print("LoginController: "+"resultArray: "+resultArray);
+        Log.print("LoginController: "+"res: "+res);
+        if(res != null){
+            Log.print("LoginController: "+"2.3");
+
     		ArrayList<String> row = res.get(0);
-    		System.out.println("row.get(0):"+row.get(0));
+            Log.print("LoginController: "+"2.4");
+
     		String[] parts = row.get(0).split(":");
+            Log.print("LoginController: "+"2.5");
+
     		Semester sem = null;
-    		System.out.println("parts[0]:"+parts[0]+", parts[1]:"+parts[1]);
+            Log.print("LoginController: "+"2.6");
+
     		if(row != null)Semester.setCurrentSemester(sem =new Semester(parts[0],parts[1],row.get(1).equals("true"),"",""));
-    		System.out.println(sem);
-    	}
+            Log.print("LoginController: "+"2.7");
+
+        }
+		Log.print("LoginController: "+"2");
+
         String userPassword = null;
         boolean isUserExist = false;
         ArrayList<String> userDetails = null;
@@ -102,6 +120,8 @@ public class LoginController extends QueryController implements Initializable{//
         }else{
 			showNextWindow = false;
         }
+		Log.print("LoginController: "+"3");
+
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
@@ -114,16 +134,22 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextController=new ParentMainController("ParentMainController");
 	                	 break;
 	                 case "S":
+	             		Log.print("1");
 	                	 nextScreen="/Secretary/SecretaryMainWindow.fxml";
 	                	 nextController=new SecretaryMainController("SecretaryMainControllerID");
+	             		Log.print("2");
 	                	 break;
 	                 case "T":
 	                	 nextScreen="/Teacher/TeacherMain.fxml";
 	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
 	                 case "ST":
+	             		Log.print("LoginController: "+"4");
+
 	                	 nextScreen="/student/MainWindowStudent.fxml";
 	                	 nextController=new MainWindowStudentController("StudentControllerID");
+	             		Log.print("LoginController: "+"5");
+
 	                	 break;
 	                 case "SM":
 	                	 nextScreen="/SystemManager/SystemManagerMainWindow.fxml";
@@ -147,8 +173,7 @@ public class LoginController extends QueryController implements Initializable{//
 						app_stage.setScene(login_screen_scene);
 						app_stage.show(); 
 			         } catch (IOException e) {
-						System.out.println("Missing fxml file");
-						throw e;
+	            		Log.print("LoginController: "+e.getStackTrace().toString());
 					}
 	            }else{
 	            	wrongTextID.setText("Wrong password, please try again.");//show error message.
@@ -166,7 +191,7 @@ public class LoginController extends QueryController implements Initializable{//
             	try{
             		successfulID.setText("");// make successfulID disappear after 4 seconds.
             	}catch(java.lang.NullPointerException e1){
-            		//This is happen because we moved to fast to the other screen
+            		Log.print("LoginController: "+e1.getStackTrace().toString());
             	}
             }
         });

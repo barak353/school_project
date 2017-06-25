@@ -388,7 +388,9 @@ public class SchoolServer extends AbstractServer
 		return;
 	}
 	writer.flush();
-	stage.close();
+	portController.errorTextID.setText("Server is running.");
+	portController.connectID.setVisible(false);
+	//stage.close();
 	}
 }
 //End of Server class
