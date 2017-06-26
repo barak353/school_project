@@ -244,7 +244,7 @@ public class FillFinalEvaluationController extends QueryController implements In
 	    CourseList.setItems(obList);
     	semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-	    semesterID.setText(semesterID.getText()+IDsem);;
+	    semesterID.setText(semesterID.getText()+IDsem);
     	}
     }
     

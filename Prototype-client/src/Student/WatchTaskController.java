@@ -156,47 +156,33 @@ public class WatchTaskController extends QueryController implements Initializabl
     	if(isTaskChoosed == true){
     		ErrorMSG.setVisible(true);
         	ErrorMSG.setText(" ");
-        	System.out.println("1");
         	String choosedTask = comboBoxChooseTask.getValue();
         	String chooseCourse = comboBoxChooseCourse.getValue();
     		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
         	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
         	String semFile = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
         	String studentID = User.getCurrentLoggedIn().GetID();
-        	System.out.println("2");
-
         	ArrayList<ArrayList<String>> resChecked = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	System.out.println("3");
-
         	if(resChecked == null){ErrorMSG.setText("You did not submit this task.");return;}
-        	System.out.println("4");
-
         	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT grade,Comments FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	System.out.println("5");
-
         	if(res == null){ErrorMSG.setText("You did not submit this task.");return;}
-        	System.out.println("6");
-
         	if(res.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
-        	System.out.println("9");
-
         	if(res.get(0).get(0) == null || res.get(0).get(1) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
-        	System.out.println("10");
         	String semfile = Semester.getCurrentSemester().getYear() + Semester.getCurrentSemester().getType();
-        	File file = new File(semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
-        	System.out.println("file: "+semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"//comments.txt");
+        	File file = new File("download//"+semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"-comments.txt");
         	file.getParentFile().mkdirs();
         	try{
             	PrintWriter printWriter = new PrintWriter(file);
         		    //printWriter.println ("course: "+idcourses+", task: "+choosedTask+", student: "+studentID+"/n"+"grade: "+res.get(1)+"/n"+"comments: "+res.get(0));
-            	printWriter.println ("test");    
+            	printWriter.println ("Task name: "+choosedTask+", Semester: " + sem + ", Course ID = " + idcourses + ", Student ID: " + studentID);    
+            	printWriter.println ("================");
+            	printWriter.println ("Grade: " + res.get(0).get(0));   
+            	printWriter.println ("Comments: " + res.get(0).get(1));   
             	printWriter.close (); 
-         	   System.out.println("done");
-
         	} catch (IOException e) {
         	   System.out.println("error");
         	}
