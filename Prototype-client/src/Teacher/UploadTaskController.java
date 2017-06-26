@@ -33,7 +33,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * this controller handles the action: checks home work of student by teacher
+ * this controller handles the action:upload task for specific course by teacher
  * 
  */
 
@@ -142,7 +142,11 @@ public class UploadTaskController extends QueryController implements Initializab
 		textMSG.setText("");
     	isDateSetted = true;
     }
-    
+    /**
+     * this function save in the DB a new task in course that the teacher upload, 
+     * the information that save : name of task, submission date ,and file 
+     * @param event
+     */
     @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
 		textMSG.setText("");
@@ -188,6 +192,11 @@ public class UploadTaskController extends QueryController implements Initializab
 		Object ans = uploadFileToServer(file,IDsem+"//"+courseID);
 		isDateSetted = false;
     }
+    
+    /**
+     * This function uploads a file to the system and check if the user upload file
+     * @param event
+     */
 
 	@FXML
 	void upload(ActionEvent event) {
