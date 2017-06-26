@@ -79,21 +79,34 @@ public class UploadTaskController extends QueryController implements Initializab
     private boolean isUploaded = false;
     private File file;
     private boolean isDateSetted = false;
+    private String teacherID;
 	//-----------------------------------------------------------//
-    
+    /**
+     * function that return to the last screen
+     * @param event
+     */
     @FXML
 	void TurningBack(ActionEvent event) {//return to the last screen
     	this.nextController = new SetUpTaskController("SetUpTaskControllerID");
     	this.Back("/Teacher/SetUpTask.fxml",nextController, event);
     }
-	
+    
+    /**
+     * this function initialize the screen white the name of the user
+     */
+    
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
+    	teacherID = user.GetID();
     	courseName.setText(courseN);
     	isDateSetted = false;
     	isUploaded = false;
     }
+    /**
+     * function that return to the log in screen
+     * @param event
+     */ 
     @FXML
     void LogOut(ActionEvent event) {//return to the log in screen
 		 try 
@@ -113,10 +126,16 @@ public class UploadTaskController extends QueryController implements Initializab
 				e.printStackTrace();
 				}
     }
-    
+  
     public void setCourseN(String courseN){
     	this.courseN = courseN;
     }
+    
+    
+    /**
+     * this function check if the user set date
+     * @param event
+     */
     
     @FXML
     void setDate(ActionEvent event) {
@@ -144,7 +163,8 @@ public class UploadTaskController extends QueryController implements Initializab
     	String task = TaskName.getText();
     	Semester semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"'");
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"' AND "
+    			+ "Teach="+teacherID);
     	if(res != null){
     		for(ArrayList<String> row: res){
     			System.out.println(row.get(0)+", task:" + task);

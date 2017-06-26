@@ -59,6 +59,7 @@ public class ChecksHomeworkController extends QueryController implements Initial
     @FXML
     private Text userID;
     private ObservableList<String> obList;
+    private String teacherID;
     
     private boolean isCourseChoosed = false;
     private boolean isTaskChoosed = false;
@@ -73,10 +74,10 @@ public class ChecksHomeworkController extends QueryController implements Initial
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
-        String teacherID = user.GetID();
+         teacherID = user.GetID();
 	    ObservableList obList= FXCollections.observableList(new ArrayList());;
 	    CourseList.setItems(obList);
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
     	System.out.println("res: "+res);
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
@@ -117,7 +118,8 @@ public class ChecksHomeworkController extends QueryController implements Initial
     	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
     	Semester semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE IDsem='"+IDsem+"' AND idcorse="+idcourses);     
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE IDsem='"+IDsem+"' AND idcorse="+idcourses+
+    			" AND Teach="+teacherID);     
     	if(res != null){
 	    	//ArrayList<ArrayList<String>> res2;
 	    	ArrayList<String> TaskNameList = new ArrayList<String>();

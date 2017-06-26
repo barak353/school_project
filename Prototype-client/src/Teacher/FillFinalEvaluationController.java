@@ -94,6 +94,7 @@ public class FillFinalEvaluationController extends QueryController implements In
     private int flag;
     private Semester semester;
     private String studentID;
+    private String teacherID;
     /*---------------------------------------------------------------------------------*/
 
     /**
@@ -174,8 +175,38 @@ public class FillFinalEvaluationController extends QueryController implements In
 		    							+chooseTask+"' AND stIDENT="+StudentList.getValue()+" AND IDNcourse="+ chooseCourse + " AND semesterName='"+ sem +"'"); 
 		    	textMSG.setText("You have successfully inserted the data into the DB:\ngrade " +finalGrade +" to student: "+ StudentList.getValue() );
 		    	textMSG.setVisible(true);
-		    	
 		        }
+		        //update GPA of student in course
+		    	String avg = new String();
+		       	System.out.println("stIDENT="+StudentList.getValue());
+		       	System.out.println("IDNcourse="+idcourses);
+		       	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT AVG(grade) FROM subtask WHERE stIDENT="+StudentList.getValue()+
+		    		        		" AND IDNcourse="+idcourses);
+		        if(res == null){
+		        	System.out.println("error");
+		       		
+		        }
+		 		System.out.println("avg:"+res);
+		       	avg = res.get(0).get(0);
+		       	float avg1 = Float.parseFloat(avg);
+		       	String avgsave = String.format("%.2f", avg1);
+		       	System.out.println("avg1:"+avgsave);
+		       	 transfferQueryToServer("UPDATE studentincourse SET Grade='"+avgsave+"' WHERE identityStudent="+StudentList.getValue()+" AND identityCourse="+idcourses);
+		       	 //update the general GPA of the student
+		     	String gpa = new String();
+		       	System.out.println("stIDENT="+StudentList.getValue());
+		       	   	ArrayList<ArrayList<String>> res1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT AVG(Grade) FROM studentincourse WHERE identityStudent="+StudentList.getValue());
+		        if(res1 == null){
+		        	System.out.println("error");
+		       		
+		        }
+		       	System.out.println("gpa:"+gpa);
+		       	gpa = res1.get(0).get(0);
+		       	float gpa1 = Float.parseFloat(gpa);
+		       	String gpasave = String.format("%.2f", gpa1);
+		       	System.out.println("gpa1:"+gpasave);
+		       	 transfferQueryToServer("UPDATE student SET GPA='"+gpasave+"' WHERE StudentID="+StudentList.getValue());
+    			
     			}else{
 		    	textMSG.setText("Please choose student!");
 		    	textMSG.setVisible(true);
@@ -192,9 +223,9 @@ public class FillFinalEvaluationController extends QueryController implements In
     public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
-    	String teacherID = user.GetID();
+    	 teacherID = user.GetID();
     	
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
     	if (res==null)
     	{
     		textMSG.setText("there is no courses in the DB.");
@@ -225,12 +256,13 @@ public class FillFinalEvaluationController extends QueryController implements In
     @FXML
     void chooseCourse(ActionEvent event) {
     	textMSG.setVisible(false);
-    	String chooseCourse = CourseList.getValue();
+    	 chooseCourse = CourseList.getValue();
     	System.out.println("chooseCourse: "+chooseCourse);
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
     	 idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
     	 System.out.println("idcourses: "+idcourses);
-    	 ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses+" AND IDsem='"+IDsem+"'");
+    	 ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses+" AND IDsem='"+IDsem+"'"+
+    			 " AND Teach="+ teacherID);
            	if (res==null)
         	{
         		textMSG.setText("There are no assignments in this course");
@@ -238,7 +270,7 @@ public class FillFinalEvaluationController extends QueryController implements In
         	}
     		else {
     	       	ArrayList<ArrayList<String>> res2;
-    	    	//create array list of task name and task id and show in the combobox
+    	    	//create array list of task name and task id that this teacher uploaded and show in the combobox
     	    	ArrayList<String> TaskNameList = new ArrayList<String>();
     	       	for(ArrayList<String> row:res){
     	        	//res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,idTASK FROM task WHERE idTASK="+row.get(0));
@@ -259,9 +291,33 @@ public class FillFinalEvaluationController extends QueryController implements In
     void chooseTask(ActionEvent event) {
     	if(isCourseChoosed == true){
 	    	chooseTask = TaskList.getValue();
-	    	String chooseCourse = CourseList.getValue();
-	    	String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-	    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+idcourses);
+			ArrayList<ArrayList<String>> res1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT clasID FROM teacherinclassincourse WHERE Tidentity="+teacherID+
+					" AND coID="+idcourses);
+			if(res1==null){
+				textMSG.setText("There is no class that registered to this course with this teacher.");
+				textMSG.setVisible(true);
+			}
+			ArrayList<String> clas = new ArrayList<String>();
+			for(ArrayList<String> row:res1){
+	    	    if(row != null) clas.add(row.get(0));
+	    	}
+			System.out.println("class="+clas);
+
+			//A query that shows Students registered for this course, and in this class the teacher teaches
+			String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+			if(clas.isEmpty()){
+				textMSG.setVisible(true);
+				textMSG.setText("There is no class that registered to this course with this teacher."); 
+				return;
+				}
+			
+				String query="SELECT identityStudent FROM studentincourse WHERE";
+				for(String c: clas){
+					query += " IdenClas=" +"'"+ c+"'" + " OR";
+				}
+				query = query.substring(0, query.length() - 2);
+				ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>)
+						transfferQueryToServer(query);
 	    	if (res==null)
 	    	{
 	    		textMSG.setText("there is no information in the DB");

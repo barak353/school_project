@@ -67,9 +67,6 @@ public TaskOfStudentController(String controllerID)
 		
 		 @FXML
 		 private Text textMSG;
-		 
-	    @FXML
-	   private Button uploadFile;
 
 	    @FXML
 	    private Circle markTask;
@@ -79,12 +76,19 @@ public TaskOfStudentController(String controllerID)
 		 
 		 @FXML
 		 private Text TaskName;
+
+		 @FXML
+		 private Button uploadnewfile;
+
+
 		 
 		  private String courseID;
 		  private String courseN;
 		  private String taskName;
 		  private File file;
 		  private int isstudentChoosed = 0;
+		  private String teacherID;
+		  private boolean isUploaded = false;
 
 		private boolean isFileOpened;  
 		
@@ -100,48 +104,43 @@ public TaskOfStudentController(String controllerID)
 			this.Back("/Teacher/ChecksHomework.fxml",nextController, event);
 		}
 		 
-	 /**
-	  * this function initialize the screen whit the name of the user,name of the course that chosen and the combobox of the student 
-	  */
-	 
-	/*public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
-		User user = User.getCurrentLoggedIn();
-		userID.setText(user.GetUserName());
-		courseName.setText(courseN);
-		TaskName.setText(taskName);
-		ObservableList obList;
-		//A query that shows students who Registered to this course
-		String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT stIDENT FROM subtask WHERE IDNcourse="+courseID
-																									+" AND mytaskname='"+ taskName +"'"+" AND semesterName='"+ sem +"'");
-		if (res==null)
-		{
-			textMSG.setText("This student dose'nt submit the task.");
-			textMSG.setVisible(true);
-		    obList= FXCollections.observableList(new ArrayList());;
-		    StudentList.setItems(obList);
-		}
-		else{
-		ArrayList<String> studentList = new ArrayList<String>();
-		//loop for insert the id of the student to array list for the combobox
-		for(ArrayList<String> row:res){
-			studentList.add(row.get(0));
-		}
-		//print the array list in the combbox
-	    obList= FXCollections.observableList(studentList);;
-	    StudentList.setItems(obList);
-		}
-	}*/
-		 
+		 /**
+		  * this function initialize the screen whit the name of the user,name of the course that chosen and the combobox of the student 
+		  */
 		 public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 				User user = User.getCurrentLoggedIn();
 				userID.setText(user.GetUserName());
+				teacherID = user.GetID();
 				courseName.setText(courseN);
 				TaskName.setText(taskName);
-				//A query that shows students who Registered to this course
+				ArrayList<ArrayList<String>> res1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT clasID FROM teacherinclassincourse WHERE Tidentity="+teacherID+
+						" AND coID="+courseID);
+				if(res1==null){
+					textMSG.setText("There is no class that registered to this course with this teacher.");
+					textMSG.setVisible(true);
+				}
+				ArrayList<String> clas = new ArrayList<String>();
+				for(ArrayList<String> row:res1){
+    	    	    if(row != null) clas.add(row.get(0));
+    	    	}
+				int amountClass = clas.size();
+				System.out.println("class="+clas);
+				
+				//A query that shows Students registered for this course, and in this class the teacher teaches
 				String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-				ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>)
-						transfferQueryToServer("SELECT identityStudent FROM studentincourse WHERE identityCourse="+courseID);
+				if(clas.isEmpty()){
+					textMSG.setVisible(true);
+					textMSG.setText("There is no class that registered to this course with this teacher."); 
+					return;
+					}
+				
+					String query="SELECT identityStudent FROM studentincourse WHERE";
+					for(String c: clas){
+						query += " IdenClas=" +"'"+ c+"'" + " OR";
+					}
+					query = query.substring(0, query.length() - 2);
+					ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>)
+							transfferQueryToServer(query);
 						if (res==null)
 						{
 							textMSG.setText("There is no Student that registered to this course.");
@@ -166,11 +165,11 @@ public TaskOfStudentController(String controllerID)
     	if(isstudentChoosed == 1){
     		String sem = Semester.getCurrentSemester().getYear() +":"+ Semester.getCurrentSemester().getType();
     		String semFile = Semester.getCurrentSemester().getYear() +""+ Semester.getCurrentSemester().getType();
-            ArrayList<ArrayList<String>> res =(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM subtask WHERE semesterName='"+ sem +"' AND mytaskname='" 
+            ArrayList<ArrayList<String>> res =(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN,mark FROM subtask WHERE semesterName='"+ sem +"' AND mytaskname='" 
             								+ taskName + "' AND IDNcourse=" + courseID 
             									+ " AND stIDENT=" + StudentList.getValue());
             if(res != null ){
-            	if(res.get(0) != null){
+            	if(res.get(0) != null && res.get(0).get(0) != null && res.get(0).get(1) != null){
         	    	downloadFileFromServer(semFile+"//"+courseID+"//"+StudentList.getValue(), res.get(0).get(0));
         	    	textMSG.setText("Your file is saved in folder: "+semFile+"/"+courseID+"/"+StudentList.getValue());
         	    	isFileOpened = true;
@@ -195,7 +194,7 @@ public TaskOfStudentController(String controllerID)
 	   ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Mark FROM subtask WHERE mytaskname='"+taskName+ 
 				"' AND IDNcourse="+ courseID+" AND stIDENT="+ chooseStudent + " AND semesterName='"+IDsem+"'");
 	   System.out.println("res:" + res);
-	   if(res ==null){
+	   if(res == null || res.get(0)==null || res.get(0).get(0)==null){
 			textMSG.setText("this student did not submmit the task ");
 			textMSG.setVisible(true);
 			markTask.setFill(Color.BLACK);
@@ -262,6 +261,36 @@ public TaskOfStudentController(String controllerID)
 		this.taskName = taskName;
 		
 	}
+	
+
+    @FXML
+    void UploadNewFile(ActionEvent event) {
+    	textMSG.setText("");
+    	JFileChooser chooser= new JFileChooser();
+    	int choice = chooser.showOpenDialog(chooser);
+    	if (choice != JFileChooser.APPROVE_OPTION) return;
+    	file = chooser.getSelectedFile();
+    	if (file.exists())
+    		System.out.println("file or directory denoted by this abstract pathname exists.");
+    	else
+    		System.out.println("file or directory denoted by this abstract pathname is not exists.");
+    	isUploaded = true;
+    	
+        
+
+    }
+    
+    @FXML
+    void saveB(ActionEvent event) {
+    	if (isUploaded){
+    		textMSG.setText("the uplade Succeeded");
+    	textMSG.setVisible(true);
+    	}
+    	else{
+    		textMSG.setText(" you did not uplade new file");
+        	textMSG.setVisible(true);
+    	}
+    }
 	
 
 }	
