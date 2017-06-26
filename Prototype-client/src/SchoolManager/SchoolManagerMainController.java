@@ -110,8 +110,25 @@ public class SchoolManagerMainController extends QueryController {
     
     
     @FXML
-    void viewMessages(ActionEvent event) {
-
+    void viewMessages(ActionEvent event)
+    {
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/ViewMessage.fxml"));
+			   loader.setController(new ViewMessageController("ViewMessageController"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("Missing ViewMessage.fxml file");
+					e.printStackTrace();
+				}
+    	
+    	
+    	
+    	
     }
 
 }
