@@ -91,7 +91,6 @@
             </Text>
             <ComboBox fx:id="StudentList" layoutX="262.0" layoutY="155.0" onAction="#chooseStudent" opacity="0.51" prefWidth="150.0" promptText="choose student" />
             <Circle fx:id="markTask" fill="#34ff1f" layoutX="466.0" layoutY="167.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-            <Button fx:id="AVG" layoutX="102.0" layoutY="370.0" mnemonicParsing="false" onAction="#CalAvg" text="update AVG to student" />
          </children>
       </Pane>
       <Text fx:id="semesterID" layoutX="308.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester: ">
