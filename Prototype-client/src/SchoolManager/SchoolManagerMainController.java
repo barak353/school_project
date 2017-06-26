@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import Student.WatchTaskController;
+import SystemManager.SystemManagerAddCourseController;
 
 public class SchoolManagerMainController extends QueryController {
 
@@ -58,7 +59,19 @@ public class SchoolManagerMainController extends QueryController {
 
     @FXML
     void viewAllInformation(ActionEvent event) {
-
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/viewAllInformationWindow.fxml"));
+			   loader.setController(new viewAllInformationController("viewAllInformationControllerID"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("Missing viewAllInformationWindow.fxml file");
+					e.printStackTrace();
+				}
     }
 
     @FXML
