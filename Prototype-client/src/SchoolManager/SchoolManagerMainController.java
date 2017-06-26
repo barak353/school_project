@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import Student.WatchTaskController;
 
-public class SchoolManagerMainController extends QueryController implements Initializable {
+public class SchoolManagerMainController extends QueryController {
 
 	// -----------------------------------------------------------//
 
@@ -45,63 +45,25 @@ public class SchoolManagerMainController extends QueryController implements Init
 
 	@FXML
 	private Text userID;
-
-    @FXML
-    private ComboBox<String> taskList;
-	
-	@FXML
-	void upload(ActionEvent event) {
-		
-		JFileChooser chooser= new JFileChooser();
-
-		int choice = chooser.showOpenDialog(chooser);
-
-		if (choice != JFileChooser.APPROVE_OPTION) return;
-
-		File file = chooser.getSelectedFile();
-		
-		//File file = new File(filePath.getText());
-		if (file.exists())
-			System.out.println("file or directory denoted by this abstract pathname exists.");
-		else
-			System.out.println("file or directory denoted by this abstract pathname is not exists.");
-		//Object ans = transfferFileToServer(file);
-		System.out.println("arrived");
-	}
 	
     @FXML
-    void chooseTask(ActionEvent event) {
+    void blockParentalAccess(ActionEvent event) {
 
     }
-	
-	@FXML
-	/*void download(ActionEvent event) {
-		boolean isCourses = true;
-		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse=1111");
-		if(res == null) {System.out.println("There is no courses"); isCourses = false;}
-		ArrayList<String> row = res.get(0);
-		if(row == null) {System.out.println("There is no courses"); isCourses = false;}
-		if(isCourses == true) 
-		super.download();
-	}*/
 
-	// -----------------------------------------------------------//
-	// -----------------------------------------------------------//
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {// this method
-															// perform when this
-															// controller scene
-															// is showing up.
-		User user = User.getCurrentLoggedIn();
-		userID.setText(user.GetUserName());
-	}
+    @FXML
+    void generateReports(ActionEvent event) {
 
+    }
 
-	
-	@FXML
-	void TurningBack(ActionEvent event) {
-		this.nextController = new LoginController("StudentLoginController");
-		this.Back("/Login/LoginWindow.fxml", nextController, event);
-	}
+    @FXML
+    void viewAllInformation(ActionEvent event) {
+
+    }
+
+    @FXML
+    void viewMessages(ActionEvent event) {
+
+    }
 
 }
