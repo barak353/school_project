@@ -94,7 +94,7 @@ public class GenerateReportsController extends QueryController implements Initia
     private int flagBetween=0;
     private int flagChoose=0;
     private int flagSemester=0;
-    
+    private ObservableList<String> classesNames = FXCollections.observableArrayList();;
     
 	//-----------------------------------------------------------//
     
@@ -275,6 +275,7 @@ public class GenerateReportsController extends QueryController implements Initia
 	        		System.out.println("semesters: "+semesters);
 	    			ArrayList<ArrayList<String>>  avgBetClas= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT clasID,AVG(AVG) FROM teacherinclassincourse WHERE Tidentity=" + chooseChoose + " AND (" + semesters +") GROUP BY clasID");
 	        		System.out.println("avgBetClas: "+avgBetClas);
+	        		//if(avgBetClas == )
 	        		int numOfClass = avgBetClas.size();
 	        		System.out.println("numOfClass: "+numOfClass);
 
@@ -288,8 +289,9 @@ public class GenerateReportsController extends QueryController implements Initia
 		        		series.getData().add(new XYChart.Data(avgBetClas.get(j).get(0), Double.parseDouble(avgBetClas.get(j).get(1))));
 		        		System.out.println("A: "+ avgBetClas.get(j).get(0));
 		        	}
-		        	System.out.println("str: "+str);
-		        	ObservableList<String> classesNames = FXCollections.observableArrayList();
+		        	for(String tm : str) System.out.println("tm: "+tm);
+		        	classesNames.clear();
+		        	
 		        	classesNames.addAll(Arrays.asList(str));
 		        	x.setCategories(classesNames);
 	                histID.getData().addAll(series);
