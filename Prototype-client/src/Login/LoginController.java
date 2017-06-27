@@ -67,16 +67,16 @@ public class LoginController extends QueryController implements Initializable{//
     	//create query for searching for teacher User, and check if the password that was entered is correct.
     	showNextWindow = true;
     	String userID = usernameID.getText();
-		Log.print("LoginController: "+"userID: "+userID);
         password=passwordID.getText();
         if(userID.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter username");//show error message.
-
+        	return;
         }
         if(password.equals("")){
         	showNextWindow=false;//stay in this scene.
         	wrongTextID.setText("Please enter password.");//show error message.
+        	return;
         }
         ArrayList<ArrayList<String>> resultArray= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID=" + userID );
         ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='true'");
@@ -101,7 +101,6 @@ public class LoginController extends QueryController implements Initializable{//
         }else{
 			showNextWindow = false;
         }
-
         if(showNextWindow==true){//if required fields are ok then perform their code, else stay in these scene.
         	if(isUserExist==true){
 	        	if(userPassword.equals(password)){
