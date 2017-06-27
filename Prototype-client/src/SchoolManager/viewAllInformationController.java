@@ -206,6 +206,15 @@ public class viewAllInformationController extends QueryController implements Ini
         	}
     	break;
     	case "Users":
+        	ArrayList<ArrayList<String>> users = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userID, userName, userPSW, Type, Email, status FROM user");
+    		if(users == null){setText += "There is no users to show.\n"; infoArea.setText(setText); return;}
+        	if(users != null && users.get(0) != null && users.get(0).get(0) != null){
+    			for(ArrayList<String> row : users){
+    				setText += "User ID: " + row.get(0) + ", User Name: " + row.get(1) + ", User Password: " + row.get(2) + ", User Type: " + row.get(3) + ", Email: " + row.get(4) + ", Status: " + row.get(5) + "\n";
+					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
+    			}
+			}
+		infoArea.setText(setText);
     	break;
     	}
     }

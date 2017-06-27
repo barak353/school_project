@@ -51,17 +51,13 @@ public class SchoolManagerMainController extends QueryController {
 	@FXML
     private Button GenerateReports;
 
-
-	
 	// -----------------------------------------------------------//
-
 	
     @FXML
     void blockParentalAccess(ActionEvent event)
     {
    	 try 
 	 {
-		
 		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/BlockParentalAccessWindow.fxml"));
 	        loader.setController(new BlockParentalAccessController ("BlockParentalAccessController "));
 		    Pane login_screen_parent = loader.load();
@@ -75,8 +71,6 @@ public class SchoolManagerMainController extends QueryController {
 			System.err.println("Missing LoginWindow.fxml file");
 			e.printStackTrace();
 			}
-		   
-  
     }
 
     
