@@ -206,7 +206,28 @@ public class FillFinalEvaluationController extends QueryController implements In
 		       	String gpasave = String.format("%.2f", gpa1);
 		       	System.out.println("gpa1:"+gpasave);
 		       	 transfferQueryToServer("UPDATE student SET GPA='"+gpasave+"' WHERE StudentID="+StudentList.getValue());
-    			
+		       	 //update the avg of teacher in class in course
+		     	String sem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+		      	String avgt = new String();
+		        	System.out.println("stIDENT="+StudentList.getValue());
+		        	ArrayList<ArrayList<String>> res0 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT IdenClas FROM studentincourse WHERE identityStudent="+StudentList.getValue()
+		        	+" AND identityCourse="+idcourses);
+		         if(res0 == null){
+		         	System.out.println("error");
+		         }
+		         String clas = new String(res0.get(0).get(0));
+		        	   	ArrayList<ArrayList<String>> res3 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT AVG(Grade) FROM studentincourse WHERE identityCourse="+idcourses
+		        	   			+" AND IdenClas='"+clas+"'");
+		         if(res3 == null){
+		         	System.out.println("error");
+		         }
+		        	avgt = res3.get(0).get(0);
+		        	float avgt1 = Float.parseFloat(avgt);
+		        	String avgtsave = String.format("%.2f", avgt1);
+		        	System.out.println("avgtsave:"+avgtsave);
+		        	 transfferQueryToServer("UPDATE teacherinclassincourse SET AVG='"+avgtsave+"' WHERE clasID='"+clas+ "' AND coID="+idcourses+" AND SemesId='"+sem+"'");
+		     
+		     
     			}else{
 		    	textMSG.setText("Please choose student!");
 		    	textMSG.setVisible(true);
@@ -410,24 +431,6 @@ public class FillFinalEvaluationController extends QueryController implements In
 				e.printStackTrace();
 				}
     }
-
-    @FXML
-    void CalAvg(ActionEvent event) {
-    	String avg = new String();
-   	System.out.println("stIDENT="+StudentList.getValue());
-   	System.out.println("IDNcourse="+idcourses);
-   	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT AVG(grade) FROM subtask WHERE stIDENT="+StudentList.getValue()+
-		        		" AND IDNcourse="+idcourses);
-    if(res == null){
-    	System.out.println("error");
-   		
-    }
-   	System.out.println("avg:"+res);
-   	avg = res.get(0).get(0);
-   	float avg1 = Float.parseFloat(avg);
-   	String avgsave = String.format("%.2f", avg1);
-   	System.out.println("avg1:"+avgsave);
-   	 transfferQueryToServer("UPDATE studentincourse SET Grade='"+avgsave+"' WHERE identityStudent="+StudentList.getValue()+" AND identityCourse="+idcourses);
     }
 
-}
+

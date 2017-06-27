@@ -36,6 +36,7 @@ public class SchoolManagerMainController extends QueryController {
 
 	// -----------------------------------------------------------//
 
+	
 	Object nextController = null;
 
 	@FXML
@@ -47,16 +48,42 @@ public class SchoolManagerMainController extends QueryController {
 	@FXML
 	private Text userID;
 	
+	@FXML
+    private Button GenerateReports;
+
+	
+	// -----------------------------------------------------------//
+
+	
     @FXML
     void blockParentalAccess(ActionEvent event) {
 
     }
 
+    
     @FXML
-    void generateReports(ActionEvent event) {
+    void GenerateReports(ActionEvent event) {
+		 try 
+		 {
+			
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/GenerateReportsWindow.fxml"));
+		        loader.setController(new GenerateReportsController("GenerateReportsController"));
+			    Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } 
+		 catch (IOException e) {
+				System.err.println("Missing LoginWindow.fxml file");
+				e.printStackTrace();
+				}
 
     }
 
+    
+    
     @FXML
     void viewAllInformation(ActionEvent event) {
 		 try {
@@ -74,9 +101,34 @@ public class SchoolManagerMainController extends QueryController {
 				}
     }
 
+    
     @FXML
-    void viewMessages(ActionEvent event) {
+    void generateReports(ActionEvent event) {
 
+    }
+    
+    
+    
+    @FXML
+    void viewMessages(ActionEvent event)
+    {
+		 try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/ViewMessage.fxml"));
+			   loader.setController(new ViewMessageController("ViewMessageController"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {//problem with the teacherWindow.xml file.
+					System.err.println("Missing ViewMessage.fxml file");
+					e.printStackTrace();
+				}
+    	
+    	
+    	
+    	
     }
 
 }

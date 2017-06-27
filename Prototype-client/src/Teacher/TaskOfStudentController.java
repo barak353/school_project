@@ -159,7 +159,10 @@ public TaskOfStudentController(String controllerID)
 						    StudentList.setItems(obList);
 						}
 			}		 
-	
+		   /**
+		     * This function open a file from the system that the student is upload and check if the user chosen a student
+		     * @param event
+		     */
     @FXML
     void openFile(ActionEvent event) {
     	if(isstudentChoosed == 1){
@@ -261,7 +264,10 @@ public TaskOfStudentController(String controllerID)
 		this.taskName = taskName;
 		
 	}
-	
+	   /**
+     * This function uploads a file to the system and check if the user upload file
+     * @param event
+     */
 
     @FXML
     void UploadNewFile(ActionEvent event) {
@@ -279,7 +285,10 @@ public TaskOfStudentController(String controllerID)
         
 
     }
-    
+    /**
+     * After press on save, the function check if the user upload a new file
+     * @param event
+     */
     @FXML
     void saveB(ActionEvent event) {
     	if (isUploaded){
