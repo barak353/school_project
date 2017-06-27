@@ -50,9 +50,7 @@ public class SchoolManagerMainController extends QueryController {
 	
 	@FXML
     private Button GenerateReports;
-	
-	@FXML
-	private Button viewMessages ;
+
 
 	
 	// -----------------------------------------------------------//
@@ -122,15 +120,8 @@ public class SchoolManagerMainController extends QueryController {
 				}
     }
 
-    
     @FXML
-    void generateReports(ActionEvent event) {
-
-    }
-    
-    
-
-    void viewMessages(ActionEvent event)
+    void viewMessage(ActionEvent event)
     {
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/ViewMessage.fxml"));

@@ -126,7 +126,7 @@ public class BlockParentalAccessController extends QueryController implements In
 		@FXML
 		void AfterChooseStudent(ActionEvent event)
 		{
-		
+			ErrorMSG.setText(" ");
 		// save the student's choise
 	    
 		String chooseStudent1 = ChooseStudent.getValue();
@@ -171,6 +171,7 @@ public class BlockParentalAccessController extends QueryController implements In
 		  @FXML
 		  	 void AftherBlock(ActionEvent event)
 		  	    {
+			     ErrorMSG.setText(" ");
 		  	    //set the stasus
 			     int BlockStatus=0;
 			     if (IsChooseSudent &&IsChooseParent)
@@ -184,7 +185,7 @@ public class BlockParentalAccessController extends QueryController implements In
 			     {
 			    	 ErrorMSG.setText("couldnt block parent , please choose student!");//show error message
 			     }
-			     
+			   
 			  
 		  	    }
 		
