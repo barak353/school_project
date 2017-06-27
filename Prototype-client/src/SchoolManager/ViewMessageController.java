@@ -40,6 +40,9 @@ public class ViewMessageController extends QueryController implements Initializa
    
     @FXML
     private Text err;
+    
+    @FXML
+    private Text success;
   
     @FXML
     private ListView<String> List;
@@ -60,6 +63,7 @@ public class ViewMessageController extends QueryController implements Initializa
     private int TypeFlag=0;
     private int flag=0;
     private String RequiredMessageNumber;
+    private int index;
 	//----------------------------------------------------------------------//
 	public ViewMessageController(String controllerID)
 	{
@@ -99,9 +103,12 @@ public class ViewMessageController extends QueryController implements Initializa
     	}
     	else
     	{
-    		if(flag==1)err.setText("There is no message's for the school director.");
-    		List.setVisible(false);
-    		ReadB.setVisible(false);
+    		if(flag==1)
+    		{
+    			err.setText("There is no message's for the school director.");
+    			List.setVisible(false);
+    			ReadB.setVisible(false);
+    		}
     	}
     	flag=0;
 	}
@@ -119,6 +126,7 @@ public class ViewMessageController extends QueryController implements Initializa
 		  int i;
 		  //---------------------------------------------//
 		  String ChosenMessage=List.getSelectionModel().getSelectedItem();
+		  index=List.getSelectionModel().getSelectedIndex();
 		  if(ChosenMessage==null)
 		  {
 			  err.setText("Choose message please.");
@@ -183,7 +191,22 @@ public class ViewMessageController extends QueryController implements Initializa
 		    	Approve.setVisible(false);
 				Disapprove.setVisible(false);
 				TextA.setVisible(false);
-				List.getSelectionModel().clearSelection();
+				success.setText("The answer was sended successfully");
+				 Timer t = new Timer(1500, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                	try{
+		                	
+		        				success.setText("");
+		                	}catch(java.lang.NullPointerException e1){
+		                		
+		                	}
+		                }
+		            });
+		            t.setRepeats(false);
+		            t.start();
+		        	List.getSelectionModel().clearSelection();
+    				List.getItems().remove(index);
 		  }
 		  else if(TypeFlag==2)
 		  {
@@ -191,10 +214,32 @@ public class ViewMessageController extends QueryController implements Initializa
 		    	Approve.setVisible(false);
 				Disapprove.setVisible(false);
 				TextA.setVisible(false);
-				List.getSelectionModel().clearSelection();
+				success.setText("The answer was sended successfully");
+				 Timer t = new Timer(1500, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                	try{
+		                		
+		        				success.setText("");
+		                	}catch(java.lang.NullPointerException e1){
+		                		
+		                	}
+		                }
+		            });
+		            t.setRepeats(false);
+		            t.start();
+		            List.getSelectionModel().clearSelection();
+		        	List.getItems().remove(index);
 		  }
-		  
-	  	}
+		  //---------------------------------------------------------------------//
+		  if(List.getItems().size()==0)
+		  {
+			  err.setText("There is no message's for the school director.");
+  			  List.setVisible(false);
+  			  ReadB.setVisible(false);
+  			  success.setText("");
+		  }
+	  	}//Approved
 	    //----------------------------------------------------------------------//
 	    @FXML
 	    void DisapproveHandler(ActionEvent event)
@@ -205,7 +250,22 @@ public class ViewMessageController extends QueryController implements Initializa
 			    	Approve.setVisible(false);
 					Disapprove.setVisible(false);
 					TextA.setVisible(false);
-					List.getSelectionModel().clearSelection();
+					success.setText("The answer was sended successfully");
+					 Timer t = new Timer(1500, new java.awt.event.ActionListener() {
+			                @Override
+			                public void actionPerformed(java.awt.event.ActionEvent e) {
+			                	try{
+
+			        				success.setText("");
+			                	}catch(java.lang.NullPointerException e1){
+			                		
+			                	}
+			                }
+			            });
+			            t.setRepeats(false);
+			            t.start();
+                		List.getSelectionModel().clearSelection();
+        				List.getItems().remove(index);
 			  }
 			  else if(TypeFlag==2)
 			  {
@@ -213,9 +273,32 @@ public class ViewMessageController extends QueryController implements Initializa
 			    	Approve.setVisible(false);
 					Disapprove.setVisible(false);
 					TextA.setVisible(false);
-					List.getSelectionModel().clearSelection();
+					success.setText("The answer was sended successfully");
+					 Timer t = new Timer(1500, new java.awt.event.ActionListener() {
+			                @Override
+			                public void actionPerformed(java.awt.event.ActionEvent e) {
+			                	try{
+			                	
+			        				success.setText("");
+			                	}catch(java.lang.NullPointerException e1){
+			                		
+			                	}
+			                }
+			            });
+			            t.setRepeats(false);
+			            t.start();
+			        	List.getSelectionModel().clearSelection();
+        				List.getItems().remove(index);
 			  }
-	    }
+	    	  if(List.getItems().size()==0)
+			  {
+				  err.setText("There is no message's for the school director.");
+	  			  List.setVisible(false);
+	  			  ReadB.setVisible(false);
+	  			  success.setText("");
+			  }
+	    }//Disapprove
 	    //----------------------------------------------------------------------//
+	    
 }
 

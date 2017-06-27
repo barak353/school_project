@@ -73,6 +73,11 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Text>
+                        <Text fx:id="success" fill="#ff0088" layoutX="19.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="368.13672602176666">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Text>
                      </children>
                   </AnchorPane>
               </items>
