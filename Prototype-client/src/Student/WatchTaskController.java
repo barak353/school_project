@@ -166,11 +166,11 @@ public class WatchTaskController extends QueryController implements Initializabl
         	ArrayList<ArrayList<String>> resChecked = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	if(resChecked == null){ErrorMSG.setText("You did not submit this task.");return;}
+        	if(resChecked == null){ErrorMSG.setText("You did not submit this task, or Teacher did not grade this task.");return;}
         	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT grade,Comments FROM  subtask WHERE semesterName='"+sem
 					+"' AND mytaskname='"+choosedTask+"' AND IDNcourse="+idcourses+
 					" AND stIDENT="+ studentID);
-        	if(res == null){ErrorMSG.setText("You did not submit this task.");return;}
+        	if(res == null){ErrorMSG.setText("Teacher did not grade this task.");return;}
         	if(res.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
         	if(res.get(0).get(0) == null || res.get(0).get(1) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
         	String semfile = Semester.getCurrentSemester().getYear() + Semester.getCurrentSemester().getType();

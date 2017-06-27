@@ -31,7 +31,7 @@
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="129.0" layoutY="43.0" text="Generate Reports" textFill="#1205ff">
+            <Label layoutX="131.0" layoutY="7.0" text="Generate Reports" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -41,34 +41,48 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="of" layoutX="108.0" layoutY="161.0" onAction="#Of" prefWidth="150.0" />
-            <ComboBox fx:id="between" layoutX="324.0" layoutY="123.0" onAction="#Between" prefWidth="150.0" />
+            <ComboBox fx:id="of" layoutX="110.0" layoutY="132.0" onAction="#Of" prefWidth="150.0" />
+            <ComboBox fx:id="between" layoutX="326.0" layoutY="87.0" onAction="#Between" prefWidth="150.0" />
             <Button fx:id="view" layoutX="472.0" layoutY="365.0" mnemonicParsing="false" onAction="#View" prefHeight="30.0" prefWidth="113.0" text="show diagram">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="choose" layoutX="394.0" layoutY="161.0" onAction="#Choose" prefWidth="150.0" visible="false" />
-            <Text fx:id="ErrorMSG" fill="RED" layoutX="131.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="312.5419921875">
+            <ComboBox fx:id="choose" layoutX="51.0" layoutY="205.0" onAction="#Choose" prefWidth="150.0" visible="false" />
+            <Text fx:id="ErrorMSG" fill="RED" layoutX="127.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="312.5419921875">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Text fx:id="thechoose" layoutX="287.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="113.0">
+            <Text fx:id="thechoose" layoutX="50.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="113.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text layoutX="50.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of that :" wrappingWidth="62.0">
+            <Text layoutX="52.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of that :" wrappingWidth="62.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text layoutX="50.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How the grades change between different :" wrappingWidth="274.0">
+            <Text layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How the grades change between different :" wrappingWidth="274.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+            <Text fx:id="semesterText" layoutX="53.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="how many semesters?" visible="false" wrappingWidth="150.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="semester" layoutX="51.0" layoutY="278.0" onAction="#Semester" prefWidth="150.0" visible="false" />
+            <BarChart fx:id="histID" layoutX="243.0" layoutY="160.0" legendVisible="false" prefHeight="215.0" prefWidth="342.0" visible="false">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" fx:id="x" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="y" side="LEFT" />
+              </yAxis>
+            </BarChart>
          </children>
       </Pane>
    </children>
