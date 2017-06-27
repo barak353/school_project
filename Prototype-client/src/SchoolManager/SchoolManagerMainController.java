@@ -65,7 +65,6 @@ public class SchoolManagerMainController extends QueryController {
     void GenerateReports(ActionEvent event) {
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/GenerateReportsWindow.fxml"));
 		        loader.setController(new GenerateReportsController("GenerateReportsController"));
 			    Pane login_screen_parent = loader.load();
@@ -79,10 +78,7 @@ public class SchoolManagerMainController extends QueryController {
 				System.err.println("Missing LoginWindow.fxml file");
 				e.printStackTrace();
 				}
-
     }
-
-    
     
     @FXML
     void viewAllInformation(ActionEvent event) {
@@ -100,14 +96,6 @@ public class SchoolManagerMainController extends QueryController {
 					e.printStackTrace();
 				}
     }
-
-    
-    @FXML
-    void generateReports(ActionEvent event) {
-
-    }
-    
-    
     
     @FXML
     void viewMessages(ActionEvent event)
@@ -125,10 +113,5 @@ public class SchoolManagerMainController extends QueryController {
 					System.err.println("Missing ViewMessage.fxml file");
 					e.printStackTrace();
 				}
-    	
-    	
-    	
-    	
     }
-
 }

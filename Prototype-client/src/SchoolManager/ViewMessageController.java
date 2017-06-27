@@ -115,7 +115,6 @@ public class ViewMessageController extends QueryController implements Initializa
 	 //----------------------------------------------------------------------//
 	  @FXML
 	    void TurningBack(ActionEvent event) {
-
 			this.nextController = new SchoolManagerMainController("SchoolManagerMainController");
 			this.Back("/SchoolManager/SchoolManagerMainWindow.fxml",nextController, event);
 	    }
@@ -298,6 +297,7 @@ public class ViewMessageController extends QueryController implements Initializa
 	  			  success.setText("");
 			  }
 	    }//Disapprove
+
 	    //----------------------------------------------------------------------//
 	    
 }

@@ -54,6 +54,11 @@
                   <Font size="14.0" />
                </font>
             </Text>
+            <Button layoutX="36.0" layoutY="46.0" mnemonicParsing="false" onAction="#TurningBack" text="Back">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

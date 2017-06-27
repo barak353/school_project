@@ -193,7 +193,6 @@ public class GenerateReportsController extends QueryController implements Initia
     	flagBetween=1;
 		// save the between choice//
 		chooseBetween = between.getValue();
-
     }
     
 	//------------------------------------------// 
