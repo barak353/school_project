@@ -51,13 +51,32 @@ public class SchoolManagerMainController extends QueryController {
 	@FXML
     private Button GenerateReports;
 
+
 	
 	// -----------------------------------------------------------//
 
 	
     @FXML
-    void blockParentalAccess(ActionEvent event) {
-
+    void blockParentalAccess(ActionEvent event)
+    {
+   	 try 
+	 {
+		
+		    FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/BlockParentalAccessWindow.fxml"));
+	        loader.setController(new BlockParentalAccessController ("BlockParentalAccessController "));
+		    Pane login_screen_parent = loader.load();
+		        Scene login_screen_scene=new Scene(login_screen_parent);
+				Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+				app_stage.hide();
+				app_stage.setScene(login_screen_scene);
+				app_stage.show(); 
+	        } 
+	 catch (IOException e) {
+			System.err.println("Missing LoginWindow.fxml file");
+			e.printStackTrace();
+			}
+		   
+  
     }
 
     
@@ -96,9 +115,9 @@ public class SchoolManagerMainController extends QueryController {
 					e.printStackTrace();
 				}
     }
-    
+
     @FXML
-    void viewMessages(ActionEvent event)
+    void viewMessage(ActionEvent event)
     {
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/SchoolManager/ViewMessage.fxml"));

@@ -166,6 +166,7 @@ public class ChoiceChildController extends QueryController implements Initializa
         }
         else{
         	 //save list of the names of the courses of the student
+        	
         	ArrayList<String> childNameList = new ArrayList<String>();
         	ArrayList<ArrayList<String>> ChildNameList;	    	
         	for(ArrayList<String> row:childList){

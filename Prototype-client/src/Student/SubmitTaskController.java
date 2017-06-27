@@ -37,6 +37,7 @@ import Entity.Course;
 import Entity.Semester;
 import Entity.Task;
 import Entity.User;
+import Login.LoginController;
 
 
 /**
@@ -289,7 +290,31 @@ public class SubmitTaskController extends QueryController implements Initializab
 			}
 		
 		}
-	}}
+	
+		}}
+	  /**
+     * function that return to the log in screen
+     * @param event
+     */ 
+    @FXML
+    void LogOut(ActionEvent event) {
+		 try 
+		 {
+			
+			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
+		        loader.setController(new LoginController("LoginController"));
+			    Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } 
+		 catch (IOException e) {
+				System.err.println("Missing LoginWindow.fxml file");
+				e.printStackTrace();
+				}
+    }
 }
 
 
