@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="662.0" prefWidth="944.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="975.0" prefWidth="1687.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="824.0" layoutY="6.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+      <Label layoutX="1567.0" layoutY="6.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -31,20 +31,29 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Pane layoutY="61.0" prefHeight="602.0" prefWidth="944.0" style="-fx-background-color: #F0e7FF;">
+      <Pane layoutY="61.0" prefHeight="915.0" prefWidth="1687.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="281.0" layoutY="27.0" text="View All Information" textFill="#1205ff">
+            <Label layoutX="635.0" layoutY="14.0" text="View All Information" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
             </Label>
-            <ComboBox fx:id="chooseInfo" layoutX="412.0" layoutY="118.0" onAction="#printInfo" prefHeight="25.0" prefWidth="159.0" />
-            <Text layoutX="412.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose type of information:">
+            <ComboBox fx:id="chooseInfo" layoutX="766.0" layoutY="106.0" onAction="#printInfo" prefHeight="25.0" prefWidth="159.0" />
+            <Text layoutX="766.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose type of information:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TextArea fx:id="infoArea" layoutX="-2.0" layoutY="149.0" prefHeight="451.0" prefWidth="944.0" />
+            <TextArea fx:id="infoArea" layoutX="2.0" layoutY="136.0" prefHeight="777.0" prefWidth="1687.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </TextArea>
+            <Text fx:id="ERRmsg" fill="RED" layoutX="25.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
