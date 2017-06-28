@@ -31,7 +31,11 @@ public class PortController {
     @FXML
     protected PasswordField DBpasswordID;
     
-    
+    /**
+     * This method start the servers and do qualty checks.
+     *      * @param event
+     *      @return void
+     */ 
     @FXML
     void connect(ActionEvent event) {
     	String errorMessage="Please provide: ";

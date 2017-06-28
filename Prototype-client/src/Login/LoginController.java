@@ -32,7 +32,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import Student.MainWindowStudentController;
 
-
+/**
+ * This class responsible for checking user details and password and log in the user to the system.
+ */
 public class LoginController extends QueryController implements Initializable{//Second window: login to system.
 
 
@@ -61,7 +63,10 @@ public class LoginController extends QueryController implements Initializable{//
     	super(controllerID);
     }
     
-    
+    /**
+     * this function responsible for checking user details and password and log in the user to the system.
+     * @return void
+     */
     @FXML
     void loginIntoTheSystem(ActionEvent event) throws IOException {//Handler of the login button.
     	//create query for searching for teacher User, and check if the password that was entered is correct.

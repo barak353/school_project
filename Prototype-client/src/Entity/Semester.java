@@ -15,6 +15,10 @@ public class Semester {
 	private static Semester currentSemester;
     private ArrayList<String> courseList = null;
     //-------------------------------------------------------//
+	/**
+	 * Hold semester information.
+	 * @author Barak
+	 */
 	public Semester(String year, String type, boolean status,String str,String str2) {
 		
 		this.year = year;

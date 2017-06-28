@@ -10,7 +10,10 @@ public class SubTask {
 	private float Grade;
 	private int Mark;
 	private String Comments;
-	
+	/**
+	 * Hold subtask information.
+	 * @author Barak
+	 */
 	public SubTask(String idTASK, String idcourse,String SID, int mark,float grade,String comments) {
 		super();
 		this.idTASK = idTASK;
@@ -20,7 +23,10 @@ public class SubTask {
 		Comments=comments;
 		Sid=SID;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getIdTASK() {
 		return idTASK;
 	}
@@ -34,15 +40,24 @@ public class SubTask {
 		this.idcourse = idcourse;
 	}
 	
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getcomments() {
 		return Comments;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public float getgrade() {
 		return Grade;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public void setMark(int m) {
 	this.Mark=m	;
 	}

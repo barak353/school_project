@@ -33,6 +33,12 @@ public class PortController {//Second window: connect to server...
     private Text errorTextID;
     
     private boolean showNextWindow = false;//this flag will say if we stay in this scene or if go to the next scene.
+    
+    /**
+     * This method connect with the server using port and op.
+     *      * @param event
+     *      @return void
+     */ 
     @FXML
     void connect(ActionEvent event) {//Handler of the connect button.
     	String hostID;

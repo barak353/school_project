@@ -49,6 +49,7 @@ public class QueryController{
      * This method gets a String the represents the folder name and a String that represent the file name.
      * With this two Strings the method gets the file name in the folder name and delete the file and return 0 on failed and the deleted File on success.
      *      * @param event
+     *      @return Object
      */ 
     protected Object deleteFileFromServer(String folder,String fileName){
     	String filePath = folder + "//" + fileName;
@@ -73,6 +74,7 @@ public class QueryController{
      * This method gets a String the represents the folder name and a String that represent the file name.
      * With this two Strings the method gets the file name in the folder name and return the file as a File.
      *      * @param event
+     *      @return File
      */ 
     protected File downloadFileFromServer(String folder,String fileName){
     	String filePath = folder + "//" + fileName;
@@ -102,6 +104,7 @@ public class QueryController{
     /**
      * This method gets a File and a String that represent the folder name to save the File in the server.
      * @param event
+     * @return Object
      */ 
     protected Object uploadFileToServer(File file,String folderName){//Send packaged to server, and wait for answer. And then return the answer.
         // Get the size of the file
@@ -146,6 +149,7 @@ public class QueryController{
     /**
      * gets Query as a String to be excuted in the server, return Object as answer.
      * @param event
+     * @return Object
      */ 
     protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("key","Query");
@@ -178,6 +182,7 @@ public class QueryController{
     /**
      * function that return to the log in screen
      * @param event
+     * @return void
      */ 
 	@FXML
 	protected void LogOutScreen(ActionEvent event)
@@ -203,6 +208,7 @@ public class QueryController{
      * This method gets window name and controller Object and an event.
      * The method change the main Stage to show this window with his nextController. 
      *      * @param event
+     *      @return void
      */ 
 	protected void Back(String window, Object nextController,ActionEvent event)
 	{
@@ -224,6 +230,7 @@ public class QueryController{
     /**
      * This method finalize the QueryController class.
      *      * @param event
+     *      @return void
      */ 
 	protected void finalize(){
     	controllerHashMap.remove("controllerID");

@@ -8,7 +8,10 @@ public class Task {
 	private String SubDate;
 	private String IDsem;
 	private String fileExtN;
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public Task(String TaskName, String IDsem, String idcourse, String date, String fileExtN) {
 		super();
 		this.IDsem = IDsem;
@@ -17,25 +20,40 @@ public class Task {
 		this.fileExtN = fileExtN;
 		SubDate = date;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	@Override
 	public String toString() {
 		return "Task [TaskName=" + TaskName + ", idcourse=" + idcourse + ", SubDate=" + SubDate + ", IDsem=" + IDsem
 				+ ", fileExtN=" + fileExtN + "]";
 	}
-
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getfileExtN() {
 		return fileExtN;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getIDsem() {
 		return IDsem;
 	}
-	
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getTaskName() {
 		return TaskName;
 	}
-
+	/**
+	 * Hold task information.
+	 * @author Barak
+	 */
 	public String getIdcourse() {
 		return idcourse;
 	}
