@@ -20,7 +20,7 @@ public class Teacher extends User {
 	 * set hours
 	 * @author Barak
 	 *  @return void
-	 *  @param String
+	 *  @param void
 	 */
 	public void SetHours(String Max)
 	{

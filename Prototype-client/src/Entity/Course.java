@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 /**
  * This class will hold the Course information from the DB.
- * @return void
  */
 public class Course {
 	private String idcourses;
@@ -30,7 +29,7 @@ public class Course {
 
 	/**
 	 * get Course ID.
-	 * @return void
+	 * @return String
 	 * 
 	 */
 	public String getIdcourses() {
@@ -38,8 +37,6 @@ public class Course {
 	}
 	/**
 	 * set course ID.
-	 * @return void
-	 * @param String
 	 */
 	public void setIdcourses(String idcourses) {
 		this.idcourses = idcourses;
@@ -53,8 +50,6 @@ public class Course {
 	}
 	/**
 	 * set course name.
-	 * @return void
-	 * @param String
 	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
@@ -68,7 +63,6 @@ public class Course {
 	}
 	/**
 	 * set teaching unit.
-	 * @return void
 	 */
 	public void setTeachingUnit(String teachingUnit) {
 		this.teachingUnit = teachingUnit;
@@ -83,8 +77,6 @@ public class Course {
 	}
 	/**
 	 * set hours.
-	 * @return void
-	 * @param String
 	 */
 	public void setHours(String hours) {
 		this.hours = hours;
