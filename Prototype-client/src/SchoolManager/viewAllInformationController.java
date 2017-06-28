@@ -60,6 +60,11 @@ public class viewAllInformationController extends QueryController implements Ini
     @FXML
     private TextArea infoArea;
 
+    
+    /**
+     * Prints all information as stored in data base by choosing type of reports.
+     * @param event
+     */
     @FXML
     void printInfo(ActionEvent event) {
 		boolean isNext = false;
@@ -68,25 +73,32 @@ public class viewAllInformationController extends QueryController implements Ini
     	ERRmsg.setText("");
     	switch(chooseInfo.getValue()){
     	case "Semesters":
-    		setText += "Semesters: \n  -------------- \n";
-    		ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester");
-    		if(res == null || res.get(0) == null){setText += "/n**There is no class in semester in the system.**/n/n";infoArea.setText(setText); isNext = true;}
-    		if(isNext == false){
-	    		for(ArrayList<String> row : res){
-	    			if(row.get(0) != null){setText += "Semester ID: " + row.get(0) +", status: " + row.get(1) + "\n";}
-	    		}
-    		}
-    		isNext = false;
-    		setText += "\nCourses in semesters: \n  -------------- \n";
-    		ArrayList<ArrayList<String>> res2= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses");
-    		if(res2 == null || res2.get(0) == null){setText += "/n**There is no class in semester in the system.**/n/n";infoArea.setText(setText); isNext = true;}
-    		if(isNext == false){
-	    		for(ArrayList<String> row : res2){
-	    			if(row.get(0) != null){setText += "Semester ID: " + row.get(1) +", Course ID: " + row.get(0) + "\n";}
-	    		}
-    		}
-    		isNext = false;
-			infoArea.setText(setText);
+			setText += "<<Semesters:>> \n";
+        	ArrayList<ArrayList<String>> semester = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID,status FROM semester");
+    		if(semester == null){setText += "There is no courses from the current semester to show.\n"; infoArea.setText(setText); return;}
+        	if(semester != null && semester.get(0) != null && semester.get(0).get(0) != null){
+    			for(ArrayList<String> row : semester){
+					setText += "Semester ID: " + row.get(0) + ", Status: " + row.get(1) + "\n";
+					setText += "<<Courses in semester:>> \n";
+		        	ArrayList<ArrayList<String>> semesters = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses,courseName FROM coursesinsemester,courses WHERE  Cid=idcourses AND Sem='" + row.get(0)+"'");
+		    		if(semesters == null){setText += "There are no courses in this semester.\n"; infoArea.setText(setText);}
+		        	if(semesters != null && semesters.get(0) != null && semesters.get(0).get(0) != null){
+		    			for(ArrayList<String> row2 : semesters){
+							setText += "Course ID: " + row2.get(0) + "Course Name: " + row2.get(1) +"\n";
+		    			}
+					}
+					setText += "<<Courses in semester:>> \n";
+		        	ArrayList<ArrayList<String>> pCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT precourse FROM precourse WHERE currCourse='" + row.get(0)+"'");
+		    		if(pCourse == null){setText += "There are no precourses to this course.\n"; infoArea.setText(setText);}
+		        	if(pCourse != null && pCourse.get(0) != null && pCourse.get(0).get(0) != null){
+		    			for(ArrayList<String> row2 : pCourse){
+							setText += "preCourse ID: " + row2.get(0) + "\n";
+		    			}
+					}
+					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
+    			}
+			}
+    		infoArea.setText(setText);
     	break;
     	case "Students":
     		ArrayList<ArrayList<String>> students= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT StudentID,GPA,Age FROM student");
@@ -142,6 +154,17 @@ public class viewAllInformationController extends QueryController implements Ini
 			    				}
 		    				}
 	    				}
+	        			
+	        			setText += "<<Students parents>> \n";
+	        			ArrayList<ArrayList<String>> sParent= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT parentID,Block FROM childparent,parent WHERE PID=ParentID AND studenid="+ row.get(0));
+	        			if(sParent == null){setText += "This student dosen't have parents\n ";}
+	    				else{
+	    					for(ArrayList<String> row4 : sParent){
+			        			if(row4 != null && row4.get(0) != null){
+			    					setText += "Parent ID: " + row4.get(0) + ", Block: " + row4.get(1) +"\n";
+			    				}
+		    				}
+	    				}
     				}
     			}
 				setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
@@ -180,6 +203,16 @@ public class viewAllInformationController extends QueryController implements Ini
 			    				}
 		    				}
 	    				}
+	        			setText += "<<Tasks that this teacher submitted.>> \n";
+	    				ArrayList<ArrayList<String>> tSUB= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,IDsem,idcorse,SubDate,fileExtN FROM task WHERE Teach=" + row2.get(0));
+	        			if(tSUB == null){setText += "This teacher has no submitted tasks.\n ";}
+	        			else{
+	    					for(ArrayList<String> row6 : tSUB){
+			        			if(row6 != null && row6.get(0) != null){
+			    					setText += "Task Name: " + row6.get(0) + ", Semester ID: " + row6.get(1) + ", Course ID: " + row6.get(2) + ", Submission Date: " + row6.get(3) + ", File Name: " + row6.get(4) + "\n";
+			    				}
+		    				}
+	    				}
 					}
 					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
     			}
@@ -187,23 +220,64 @@ public class viewAllInformationController extends QueryController implements Ini
 			infoArea.setText(setText);
     	break;
     	case "Courses":
-    		
+			setText += "<<Courses:>> \n";
+        	ArrayList<ArrayList<String>> courses = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses,courseName,teachingUnit,hours FROM courses");
+    		if(courses == null){setText += "There is no courses from the current semester to show.\n"; infoArea.setText(setText); return;}
+        	if(courses != null && courses.get(0) != null && courses.get(0).get(0) != null){
+    			for(ArrayList<String> row : courses){
+					setText += "Couse ID: " + row.get(0) + ", Course Name: " + row.get(1) + ", Teaching Unit: " + row.get(2) + ", Hours: " + row.get(3) + "\n";
+					setText += "<<Semesters when the course was transferred:>> \n";
+		        	ArrayList<ArrayList<String>> semesters = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Sem FROM coursesinsemester WHERE Cid=" + row.get(0));
+		    		if(semesters == null){setText += "There are no semesters in which the course was transferred.\n"; infoArea.setText(setText);}
+		        	if(semesters != null && semesters.get(0) != null && semesters.get(0).get(0) != null){
+		    			for(ArrayList<String> row2 : semesters){
+							setText += "Semester ID: " + row2.get(0) + "\n";
+		    			}
+					}
+					setText += "<<Precourses:>> \n";
+		        	ArrayList<ArrayList<String>> pCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT precourse FROM precourse WHERE currCourse=" + row.get(0));
+		    		if(pCourse == null){setText += "There are no precourses to this course.\n"; infoArea.setText(setText);}
+		        	if(pCourse != null && pCourse.get(0) != null && pCourse.get(0).get(0) != null){
+		    			for(ArrayList<String> row2 : pCourse){
+							setText += "preCourse ID: " + row2.get(0) + "\n";
+		    			}
+					}
+					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
+    			}
+			}
+    		infoArea.setText(setText);
     	break;
     	case "Classes":
-    		
+			setText += "<<Classes:>> \n";
+        	ArrayList<ArrayList<String>> classes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT classID FROM class");
+    		if(classes == null){setText += "There is no classes to show.\n"; infoArea.setText(setText); return;}
+        	if(classes != null && classes.get(0) != null && classes.get(0).get(0) != null){
+    			for(ArrayList<String> row : classes){
+    				setText += "Class ID: " + row.get(0) + "\n";
+    				setText += "<<Students:>> \n";
+		        	ArrayList<ArrayList<String>> pCourse = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT stuID FROM studentinclass WHERE identityclass='" + row.get(0) + "'");
+		    		if(pCourse == null){setText += "There are no students in this class.\n"; infoArea.setText(setText);}
+		        	if(pCourse != null && pCourse.get(0) != null && pCourse.get(0).get(0) != null){
+		    			for(ArrayList<String> row2 : pCourse){
+							setText += "Student ID: " + row2.get(0) + "\n";
+		    			}
+					}
+					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
+    			}
+			}
+    		infoArea.setText(setText);
     	break;
     	case "Tasks":
-        	ArrayList<ArrayList<String>> semestersC = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT count(semID) FROM semester");
-
-        	ArrayList<ArrayList<String>> semesters = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester");
-        	if(semesters != null){
-        		if(semesters.get(0) != null){
-        			for(ArrayList<String> row : semesters){
-        				
-        				
-        			}
-        		}        		
-        	}
+			setText += "<<Tasks:>> \n";
+        	ArrayList<ArrayList<String>> tasks = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName,IDsem,idcorse,SubDate,fileExtN FROM task");
+    		if(tasks == null){setText += "There is no tasks to show.\n"; infoArea.setText(setText); return;}
+        	if(tasks != null && tasks.get(0) != null && tasks.get(0).get(0) != null){
+    			for(ArrayList<String> row : tasks){
+					setText += "Task Name: " + row.get(0) + ", Semester ID: " + row.get(1) + ", Course ID: " + row.get(2) + ", Submission Date: " + row.get(3) + ", File Name: " + row.get(4) + "\n";
+					setText += "\n__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n";
+    			}
+			}
+    		infoArea.setText(setText);
     	break;
     	case "Users":
         	ArrayList<ArrayList<String>> users = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userID, userName, userPSW, Type, Email, status FROM user");
@@ -223,7 +297,6 @@ public class viewAllInformationController extends QueryController implements Ini
      * function that return to the last screen
      * @param event
      */
-	
 	@FXML
 	void TurningBack(ActionEvent event)
 	{
@@ -241,13 +314,13 @@ public class viewAllInformationController extends QueryController implements Ini
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
 			ArrayList<String> chooseInfo = new ArrayList<String>();
-			chooseInfo.add("Semesters");
-			chooseInfo.add("Classes");
-			chooseInfo.add("Courses");
-			chooseInfo.add("Teachers");
-			chooseInfo.add("Users");
-			chooseInfo.add("Tasks");
 			chooseInfo.add("Students");
+			chooseInfo.add("Teachers");
+			chooseInfo.add("Courses");
+			chooseInfo.add("Semesters");
+			chooseInfo.add("Users");
+			chooseInfo.add("Classes");
+			chooseInfo.add("Tasks");
 		    ObservableList obList= FXCollections.observableList(chooseInfo);;
 		    this.chooseInfo.setItems(obList);
 		}
