@@ -280,7 +280,6 @@ public class ViewMessageController extends QueryController implements Initializa
 			                	
 			        				success.setText("");
 			                	}catch(java.lang.NullPointerException e1){
-			                		
 			                	}
 			                }
 			            });

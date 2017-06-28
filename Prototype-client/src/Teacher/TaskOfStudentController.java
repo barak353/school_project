@@ -77,10 +77,6 @@ public TaskOfStudentController(String controllerID)
 		 @FXML
 		 private Text TaskName;
 
-		 @FXML
-		 private Button uploadnewfile;
-
-
 		 
 		  private String courseID;
 		  private String courseN;
@@ -269,22 +265,6 @@ public TaskOfStudentController(String controllerID)
      * @param event
      */
 
-    @FXML
-    void UploadNewFile(ActionEvent event) {
-    	textMSG.setText("");
-    	JFileChooser chooser= new JFileChooser();
-    	int choice = chooser.showOpenDialog(chooser);
-    	if (choice != JFileChooser.APPROVE_OPTION) return;
-    	file = chooser.getSelectedFile();
-    	if (file.exists())
-    		System.out.println("file or directory denoted by this abstract pathname exists.");
-    	else
-    		System.out.println("file or directory denoted by this abstract pathname is not exists.");
-    	isUploaded = true;
-    	
-        
-
-    }
     /**
      * After press on save, the function check if the user upload a new file
      * @param event

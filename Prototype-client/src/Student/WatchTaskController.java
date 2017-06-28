@@ -122,6 +122,7 @@ public class WatchTaskController extends QueryController implements Initializabl
  * */
     @FXML
     void watchTeacherTask(ActionEvent event) {
+    	ErrorMSG.setText("");
     	if(isTaskChoosed == true){
     		System.out.println("2");
     		isTaskChoosed = false;
@@ -154,6 +155,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     
     @FXML
     void viewCommentTask(ActionEvent event) {
+    	ErrorMSG.setText("");
     	if(isTaskChoosed == true){
     		ErrorMSG.setVisible(true);
         	ErrorMSG.setText(" ");
@@ -174,6 +176,7 @@ public class WatchTaskController extends QueryController implements Initializabl
         	if(res.get(0) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
         	if(res.get(0).get(0) == null || res.get(0).get(1) == null){ErrorMSG.setText("Teacher did not grade this task");return;}
         	String semfile = Semester.getCurrentSemester().getYear() + Semester.getCurrentSemester().getType();
+		     ErrorMSG.setText("Please check foler: download//"+semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"-comments.txt");
         	File file = new File("download//"+semfile+"//"+idcourses+"//"+studentID+"//"+choosedTask+"-comments.txt");
         	file.getParentFile().mkdirs();
         	try{
@@ -248,6 +251,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	@FXML
 	void AfterChooseCourse(ActionEvent event)
 	{
+    	ErrorMSG.setText("");
 	// save the student's choise//
 		if (isCourseChoosed == true)
 		{
@@ -287,6 +291,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	@FXML
 	void AfterChooseTask(ActionEvent event) 
 	{
+    	ErrorMSG.setText("");
 		if (isCourseChoosed == true)
 		{
 		isTaskChoosed = false;
@@ -321,6 +326,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     @FXML
     void watchStudentTask(ActionEvent event) 
     {
+    	ErrorMSG.setText("");
 		if(isTaskChoosed == true){
 			ErrorMSG.setText("");
 			String choosedCourse = comboBoxChooseCourse.getValue();
@@ -344,65 +350,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 	    	ErrorMSG.setText("Download was successful, please check the folder: "+semFile+"//"+choosedCourse+"//"+studentID+"//"+ fileName);
 		}
 		else ErrorMSG.setText("Please choose course and task.");
-		
-		
-		
-		
-		
-		
-		
-		//the query return the subtasks of the student in the specific cours
-		
-		/*ArrayList<ArrayList<String>> taskRes = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM task WHERE idcorse="+choosedCourse +" AND TaskName='"+choosedTask+"'");
-		if(taskRes != null && taskRes.get(0) != null)
-		{
-			isTaskChoosed = true;
-			for(ArrayList<String> row : taskRes)
-			{
-				SubtaskGrade1.setText("");
-		    	SubtaskComments1.setText("");
-		    	ErrorMSG.setText("");
-		 //show the detiels of the student's sub task    	
-				ArrayList<ArrayList<String>> taskSubRes1 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM subtask WHERE IDcourse="+choosedCourse +" AND IDstudent='"+studentID+"'"+" AND idTASK='"+ row.get(0) +"'");
-				System.out.println( "taskSubRes:" + taskSubRes1);
-				
-				//if 2
-				if(taskSubRes1 != null )
-				{
-					ArrayList<String> row1 = taskSubRes1.get(0);
-				if(row1.get(4)==null)
-					SubtaskGrade1.setText("Task Grade : ");
-				else
-					SubtaskGrade1.setText("Task Grade :" + row1.get(4));
-		    	
-		    	if(row1.get(5)==null)
-		    		SubtaskComments1.setText("Task Comments :");
-		    
-		    	else
-		    		SubtaskComments1.setText("Task Comments :" + row1.get(5));
-		    	
-		    	
-		    	}
-				//else 2
-				else
-				{
-					SubtaskGrade1.setText("");
-			    	SubtaskComments1.setText("");
-					ErrorMSG.setText("There is Not submitted Task  ");
-				}
-				
-			}
-				
-		}
-		//else 1
-		else
-		{
-			SubtaskGrade1.setText("");
-	    	SubtaskComments1.setText("");
-			ErrorMSG.setText("There is Not  Task in this course ");
-		}*/
-
-
 }
     /**
      * function that return to the log in screen
@@ -412,7 +359,6 @@ public class WatchTaskController extends QueryController implements Initializabl
     void LogOut(ActionEvent event) {
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
