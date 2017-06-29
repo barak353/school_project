@@ -40,6 +40,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import Student.MainWindowStudentController;
+/**
+ * 
+ * this controller handles the action: Generate Reports
+ *
+ */
 
 
 public class GenerateReportsController extends QueryController implements Initializable{
@@ -94,8 +99,10 @@ public class GenerateReportsController extends QueryController implements Initia
     private int flagBetween=0;
     private int flagChoose=0;
     private int flagSemester=0;
-    private ObservableList<String> classesNames = FXCollections.observableArrayList();;
-    
+    private ObservableList<String> classesNames = FXCollections.observableArrayList();
+    private ObservableList<String> TeachersNames = FXCollections.observableArrayList();
+    private ObservableList<String> CourseNames = FXCollections.observableArrayList();
+
 	//-----------------------------------------------------------//
     
     /**
@@ -111,6 +118,10 @@ public class GenerateReportsController extends QueryController implements Initia
 	}
 	//------------------------------------------// 
     
+	/**
+     * this function check if the user choose Teacher/Class/Course from the ComboBox
+     * @param event
+     */
 	
     @FXML
     void Of(ActionEvent event) {
@@ -121,7 +132,7 @@ public class GenerateReportsController extends QueryController implements Initia
 		    thechoose.setText("Choose Teacher :");
 		    choose.setVisible(true);
 		    ArrayList<ArrayList<String>> List = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT teacherid FROM teacher");
-	        System.out.println(List);
+		    System.out.println(List);
 	        if(List == null){
 	        	ErrorMSG.setText("No found teacher");//show error message.
 	        	return;
@@ -135,6 +146,7 @@ public class GenerateReportsController extends QueryController implements Initia
 	        		NameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userID,userName FROM user WHERE userID="+row.get(0));
 	        		if (NameList==null){
 	        			ErrorMSG.setText("There is NO found teacher.");//show error message
+	        			return;
 	        		}
 	        		
 	        		else{
@@ -153,8 +165,9 @@ public class GenerateReportsController extends QueryController implements Initia
 		    thechoose.setText("Choose Class :");
 		    choose.setVisible(true);
 		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT ClassID FROM Class");
-	        if(res==null){
+		    if(res==null){
 	        	ErrorMSG.setText("NO found course");//show error message.
+	        	return;
 	        }
 	        else{
 			    ArrayList<String> List = new ArrayList<String>();
@@ -170,8 +183,9 @@ public class GenerateReportsController extends QueryController implements Initia
 		    thechoose.setText("Choose Course :");
 		    choose.setVisible(true);
 		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses, courseName FROM courses");
-	        if(res==null){
+		    if(res==null){
 	        	ErrorMSG.setText("NO found course");//show error message.
+	        	return;
 	        }
 	        else{
 			    ArrayList<String> List = new ArrayList<String>();
@@ -187,7 +201,11 @@ public class GenerateReportsController extends QueryController implements Initia
     
 	//------------------------------------------// 
    
-    
+    /**
+     * this function check if the user choose Teacher/Class/Course from the ComboBox
+     * @param event
+     */
+  
     @FXML
     void Between(ActionEvent event) {
     	flagBetween=1;
@@ -196,7 +214,11 @@ public class GenerateReportsController extends QueryController implements Initia
     }
     
 	//------------------------------------------// 
-    
+    /**
+     * this function check if the user choose id Teacher/Class/Course from the ComboBox
+     * @param event
+     */
+
     @FXML
     void Choose(ActionEvent event) {
     	flagChoose = 1;
@@ -211,7 +233,11 @@ public class GenerateReportsController extends QueryController implements Initia
 		
     	ArrayList<Integer> ListSemester = new ArrayList<Integer>();
     	ArrayList<ArrayList<String>> semestersC = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT COUNT(semID) FROM semester");
-    	if(semestersC != null){
+        if(semestersC == null){
+        	ErrorMSG.setText("No found semester");//show error message.
+        	return;
+        }
+        else{
     		if(semestersC.get(0) != null){
     			int end = Integer.parseInt(semestersC.get(0).get(0));
     			for(int i = 1 ; i <= end ; i++){
@@ -224,7 +250,12 @@ public class GenerateReportsController extends QueryController implements Initia
     }
     
 	//------------------------------------------// 
-    
+   
+    /**
+     * this function check if the user choose Semester from the ComboBox
+     * @param event
+     */
+   
     @FXML
     void Semester(ActionEvent event) {
     	flagSemester = 1;
@@ -234,9 +265,14 @@ public class GenerateReportsController extends QueryController implements Initia
     }
     
 	//------------------------------------------// 
-     
+    /**
+     * this function check if the user choose all the file in the ComboBox and view diagram
+     * @param event
+     */
     @FXML
     void View(ActionEvent event) {
+    	ErrorMSG.setText("");//show error message.
+
     	if(flagOf==0 || flagChoose==0 || flagBetween==0){
     		ErrorMSG.setText("You have not selected all fields");//show error message.
     		return;
@@ -258,120 +294,186 @@ public class GenerateReportsController extends QueryController implements Initia
     		
     		histID.getData().clear();
     		switch(between.getValue()+"-"+of.getValue()){
-    		case "Classes-Teacher":
-    			if(chooseSemester > 0){
-	    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
-	        		System.out.println("res: " + res);
-	        		ArrayList<String> semesterList = new ArrayList<String>();
-	        		for(int i=0 ; i < chooseSemester; i++)
-	        			semesterList.add(res.get(i).get(0));
-	        		System.out.println("semesterList: "+semesterList);
-	        		String semesters = "";
-	        		for(String str : semesterList){
-	        			semesters += " Semesid='" + str + "' OR ";
-	        		}
-	        		semesters = semesters.substring(0,semesters.length() - 3);
-	        		System.out.println("semesters: "+semesters);
-	    			ArrayList<ArrayList<String>>  avgBetClas= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT clasID,AVG(AVG) FROM teacherinclassincourse WHERE Tidentity=" + chooseChoose + " AND (" + semesters +") GROUP BY clasID");
-	        		System.out.println("avgBetClas: "+avgBetClas);
-	        		//if(avgBetClas == )
-	        		int numOfClass = avgBetClas.size();
-	        		System.out.println("numOfClass: "+numOfClass);
-
-	                x.setLabel("Teacher");
-	        		y.setLabel("Class");
-
-	        		XYChart.Series series = new XYChart.Series<>();
-	        		String[] str = new String[numOfClass];
-		        	for(int j = 0 ; j < numOfClass; j++){
-		        		str[j] = avgBetClas.get(j).get(0);
-		        		series.getData().add(new XYChart.Data(avgBetClas.get(j).get(0), Double.parseDouble(avgBetClas.get(j).get(1))));
-		        		System.out.println("A: "+ avgBetClas.get(j).get(0));
-		        	}
-		        	for(String tm : str) System.out.println("tm: "+tm);
-		        	classesNames.clear();
-		        	
-		        	classesNames.addAll(Arrays.asList(str));
-		        	x.setCategories(classesNames);
-	                histID.getData().addAll(series);
-
-	    			histID.setVisible(true);
-
-    			}
-    			break;
-    			
-			case "Teachers-Class":
-    			if(chooseSemester > 0){
-	    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
-	        		System.out.println("res: " + res);
-	        		ArrayList<String> semesterList = new ArrayList<String>();
-	        		for(int i=0 ; i < chooseSemester; i++)
-	        			semesterList.add(res.get(i).get(0));
-	        		System.out.println("semesterList: "+semesterList);
-	        		String semesters = "";
-	        		for(String str : semesterList){
-	        			semesters += " Semesid='" + str + "' OR ";
-	        		}
-	        		semesters = semesters.substring(0,semesters.length() - 3);
-	        		System.out.println("semesters: "+semesters);
-	    			ArrayList<ArrayList<String>>  avgBetClas= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tidentity,AVG(AVG) FROM teacherinclassincourse WHERE clasID='" + chooseChoose + "' AND (" + semesters +") GROUP BY Tidentity");
-	        		System.out.println("avgBetClas: "+avgBetClas);
-	        		/*
-	        		int numOfClass = avgBetClas.get(0).size();
-	        		System.out.println("numOfClass: "+numOfClass);
-
-	                x.setLabel("Teacher");
-	        		y.setLabel("Class");
-
-	        		XYChart.Series series = new XYChart.Series<>();
-	        		String[] str = new String[numOfClass +1];
-		        	for(int j = 0 ; j <= numOfClass; j++){
-		        		str[j] = avgBetClas.get(j).get(0);
-		        		series.getData().add(new XYChart.Data(avgBetClas.get(j).get(0), Double.parseDouble(avgBetClas.get(j).get(1))));
-		        		System.out.println("A: "+ avgBetClas.get(j).get(0));
-		        	}
-		        	System.out.println("str: "+str);
-		        	ObservableList<String> classesNames = FXCollections.observableArrayList();
-		        	classesNames.addAll(Arrays.asList(str));
-		        	x.setCategories(classesNames);
-	                histID.getData().addAll(series);
-
-	    			histID.setVisible(true);
-	    			*/
-    			}
-				break;
-				
-				
-			case "Courses-Class":
-    			if(chooseSemester > 0){
-	    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
-	        		System.out.println("res: " + res);
-	        		ArrayList<String> semesterList = new ArrayList<String>();
-	        		for(int i=0 ; i < chooseSemester; i++)
-	        			semesterList.add(res.get(i).get(0));
-	        		System.out.println("semesterList: "+semesterList);
-	        		String semesters = "";
-	        		for(String str : semesterList){
-	        			semesters += " Semesid='" + str + "' OR ";
-	        		}
-	        		semesters = semesters.substring(0,semesters.length() - 3);
-	        		System.out.println("semesters: "+semesters);
-	    			ArrayList<ArrayList<String>>  avgBetClas= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID,AVG(AVG) FROM teacherinclassincourse WHERE clasID='" + chooseChoose + "' AND (" + semesters +") GROUP BY coID");
-	        		System.out.println("avgBetClas: "+avgBetClas);
-    			}
-			break;
     		
-			default:
-    			ErrorMSG.setText("There is no reports that available for this option.");//show error message.
-    		break;
-    		}
-       	}
+	    		case "Classes-Teacher":
+	    			if(chooseSemester > 0){
+		    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
+		    	        if(res == null){
+		    	        	ErrorMSG.setText("No found semester");//show error message.
+		    	        	return;
+		    	        }
+		    	        else{
+			    			System.out.println("res: " + res);
+			        		ArrayList<String> semesterList = new ArrayList<String>();
+			        		for(int i=0 ; i < chooseSemester; i++)
+			        			semesterList.add(res.get(i).get(0));
+			        		System.out.println("semesterList: "+semesterList);
+			        		String semesters = "";
+			        		for(String str : semesterList){
+			        			semesters += " Semesid='" + str + "' OR ";
+			        		}
+			        		semesters = semesters.substring(0,semesters.length() - 3);
+			        		System.out.println("semesters: "+semesters);
+			    			ArrayList<ArrayList<String>>  avgBetClas= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT clasID,AVG(AVG) FROM teacherinclassincourse WHERE Tidentity=" + chooseChoose + " AND (" + semesters +") GROUP BY clasID");
+			    	        if(avgBetClas == null){
+			    	        	ErrorMSG.setText("No found avg Clas");//show error message.
+			    	        	return;
+			    	        }
+		
+			    	        else{
+				    			System.out.println("avgBetClas: "+avgBetClas);
+				        		int numOfClass = avgBetClas.size();
+				        		System.out.println("numOfClass: "+numOfClass);
+			
+				                x.setLabel("Teacher");
+				        		y.setLabel("Class");
+			
+				        		XYChart.Series series = new XYChart.Series<>();
+				        		String[] str = new String[numOfClass];
+					        	for(int j = 0 ; j < numOfClass; j++){
+					        		str[j] = avgBetClas.get(j).get(0);
+					        		series.getData().add(new XYChart.Data(avgBetClas.get(j).get(0), Double.parseDouble(avgBetClas.get(j).get(1))));
+					        		System.out.println("A: "+ avgBetClas.get(j).get(0));
+					        	}
+					        	for(String tm : str) System.out.println("tm: "+tm);
+					        	classesNames.clear();
+					        	
+					        	classesNames.addAll(Arrays.asList(str));
+					        	x.setCategories(classesNames);
+				                histID.getData().addAll(series);
+			
+				    			histID.setVisible(true);
+			    	        }
+		    			}
+	    			}
+	    			break;
+	    			
+				case "Teachers-Class":
+	    			if(chooseSemester > 0){
+		    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
+		    	        if(res == null){
+		    	        	ErrorMSG.setText("No found semester");//show error message.
+		    	        	return;
+		    	        }
+		    	        else{	    			
+			    			System.out.println("res: " + res);
+			        		ArrayList<String> semesterList = new ArrayList<String>();
+			        		for(int i=0 ; i < chooseSemester; i++)
+			        			semesterList.add(res.get(i).get(0));
+			        		System.out.println("semesterList: "+semesterList);
+			        		String semesters = "";
+			        		for(String str : semesterList){
+			        			semesters += " Semesid='" + str + "' OR ";
+			        		}
+			        		semesters = semesters.substring(0,semesters.length() - 3);
+			        		System.out.println("semesters: "+semesters);
+							
+			    			ArrayList<ArrayList<String>>  avgBetTeacher= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tidentity,AVG(AVG) FROM teacherinclassincourse WHERE clasID='" + chooseChoose + "' AND (" + semesters +") GROUP BY Tidentity");
+			    	        if(avgBetTeacher == null){
+			    	        	ErrorMSG.setText("No found avg Class");//show error message.
+			    	        	return;
+			    	        }
+		
+			    	        else{
+				    			System.out.println("avgBetTeacher: "+avgBetTeacher);
+				        		int numOfTeacher = avgBetTeacher.size();
+				        		System.out.println("numOfTeacher: "+numOfTeacher);
+			
+				                x.setLabel("Teacher");
+				        		y.setLabel("AVG");
+			
+				        		XYChart.Series series = new XYChart.Series<>();
+				        		String[] str = new String[numOfTeacher];
+					        	for(int j = 0 ; j < numOfTeacher; j++){					    	        
+					        		str[j] = avgBetTeacher.get(j).get(0);
+					        		series.getData().add(new XYChart.Data(avgBetTeacher.get(j).get(0), Double.parseDouble(avgBetTeacher.get(j).get(1))));
+					        		System.out.println("A: "+ avgBetTeacher.get(j).get(0));
+					        	}
+					        	for(String tm : str) 
+									System.out.println("tm: "+tm);
+					        	TeachersNames.clear();
+					        	
+					        	TeachersNames.addAll(Arrays.asList(str));
+					        	x.setCategories(TeachersNames);
+				                histID.getData().addAll(series);
+			
+				    			histID.setVisible(true);
+			    	        }
+		    	        }
+	    			}
+					break;
+					
+					
+					
+				case "Courses-Class":
+	    			if(chooseSemester > 0){
+		    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
+		    	        if(res == null){
+		    	        	ErrorMSG.setText("No found semester");//show error message.
+		    	        	return;
+		    	        }
+		    	        else{	    			
+			    			System.out.println("res: " + res);
+			        		ArrayList<String> semesterList = new ArrayList<String>();
+			        		for(int i=0 ; i < chooseSemester; i++)
+			        			semesterList.add(res.get(i).get(0));
+			        		System.out.println("semesterList: "+semesterList);
+			        		String semesters = "";
+			        		for(String str : semesterList){
+			        			semesters += " Semesid='" + str + "' OR ";
+			        		}
+			        		semesters = semesters.substring(0,semesters.length() - 3);
+			        		System.out.println("semesters: "+semesters);
+		
+			        		
+			    			ArrayList<ArrayList<String>> avgBetCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID,AVG(AVG) FROM teacherinclassincourse WHERE clasID='" + chooseChoose + "' AND (" + semesters +") GROUP BY Tidentity");
+			    	        if(avgBetCourse == null){
+			    	        	ErrorMSG.setText("No found avg Class");//show error message.
+			    	        	return;
+			    	        }
+		
+			    	        else{	
+				        		System.out.println("avgBetCourse: "+avgBetCourse);
+				        		int numOfCourse = avgBetCourse.size();
+				        		System.out.println("numOfCourse: "+numOfCourse);
+			
+				                x.setLabel("Course");
+				        		y.setLabel("AVG");
+			
+				        		XYChart.Series series = new XYChart.Series<>();
+				        		String[] str = new String[numOfCourse];
+					        	for(int j = 0 ; j < numOfCourse; j++){
+					        		str[j] = avgBetCourse.get(j).get(0);
+					        		series.getData().add(new XYChart.Data(avgBetCourse.get(j).get(0), Double.parseDouble(avgBetCourse.get(j).get(1))));
+					        		System.out.println("A: "+ avgBetCourse.get(j).get(0));
+					        	}
+					        	for(String tm : str) 
+									System.out.println("tm: "+tm);
+					        	CourseNames.clear();
+					        	
+					        	CourseNames.addAll(Arrays.asList(str));
+					        	x.setCategories(CourseNames);
+				                histID.getData().addAll(series);
+			
+				    			histID.setVisible(true);
+			    	        }
+		    	        }
+	    			}
+				break;
+	    		
+				default:
+	    			ErrorMSG.setText("There is no reports that available for this option.");//show error message.
+	    		break;
+	    		}
+	       }
 	
     }
     
 	//------------------------------------------//    
+    
     /**
-     * this function initialize the screen whit the name of the user.
+     * this function initialize the screen whit the name of the user
+     * and Initializing the ListBetween and ListOf 
      * 
      */
 
@@ -398,3 +500,6 @@ public class GenerateReportsController extends QueryController implements Initia
 		}  	
         //-----------------------------------------------------------//
 }
+
+
+
