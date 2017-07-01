@@ -123,6 +123,7 @@ public class ViewMessageController extends QueryController implements Initializa
 	  void ReadButtonHandler(ActionEvent event) 
 	  {
 		  int i;
+		  TypeFlag=0;
 		  //---------------------------------------------//
 		  String ChosenMessage=List.getSelectionModel().getSelectedItem();
 		  index=List.getSelectionModel().getSelectedIndex();
@@ -149,10 +150,12 @@ public class ViewMessageController extends QueryController implements Initializa
 			  Disapprove.setVisible(true);
 			  TextA.setVisible(true);
 			  RequiredMessageNumber = ChosenMessage.substring(ChosenMessage.indexOf("(") + 1, ChosenMessage.indexOf(")"));
-			  String requiredType= ChosenMessage.substring(13,20);
+			  String requiredType= ChosenMessage.substring(14,21);
+			  System.out.println("-------->"+requiredType);
 			  //If the choise is student change:
 			  if(requiredType.equals("Student")==true)
 			  {
+				  
 				  TypeFlag=1; //Student Type
 				  //Search the message:
 				  for(i=0;i<AllTheMessagesStudents.size();i++)
@@ -164,7 +167,7 @@ public class ViewMessageController extends QueryController implements Initializa
 				  }
 				  TextA.setText(AllTheMessagesStudents.get(i).get(6));
 			  }
-			  else //Teacher Change
+			  else if(requiredType.equals("Student")==false)//Teacher Change
 			  {
 				  TypeFlag=2; //Teacher Type
 				  //Search the message:
@@ -178,7 +181,6 @@ public class ViewMessageController extends QueryController implements Initializa
 				  TextA.setText(AllTheMessagesTeachers.get(i).get(7));
 			  }
 		  }
-
 	  }
 	 //----------------------------------------------------------------------//
 	  @FXML
