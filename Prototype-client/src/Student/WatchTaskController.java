@@ -261,10 +261,20 @@ public class WatchTaskController extends QueryController implements Initializabl
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
 		ArrayList<ArrayList<String>> resClass = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT IdenClas FROM studentincourse WHERE identityCourse="+idcourses
 				+" AND identityStudent="+userID1);
+		if(resClass==null)
+		{
+			 ErrorMSG.setText("There is NO class in this course.");//show error message.
+			 return;
+		}
 		idTClass = 	resClass.get(0).get(0);
 		System.out.println("idTClass=" +idTClass);
 		ArrayList<ArrayList<String>> resTeacher = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tidentity FROM teacherinclassincourse WHERE coID="+idcourses
 				+" AND clasID='"+idTClass+"'");
+		if(resTeacher==null)
+		{
+			 ErrorMSG.setText("There is NO teacher in this course.");//show error message.
+			 return;
+		}
 		idTeacher = resTeacher.get(0).get(0);
 		System.out.println("idTeacher=" +idTeacher);
 		isTaskChoosed = false;
