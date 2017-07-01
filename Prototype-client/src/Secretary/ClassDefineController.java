@@ -24,6 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;;
+/**
+ * 
+ * This controller handles the function's of assgining students to classes.
+ */
 public class ClassDefineController extends QueryController implements Initializable{
 	
 	@FXML
@@ -47,6 +51,11 @@ public class ClassDefineController extends QueryController implements Initializa
 			super(controllerID);
 	} 
 	//------------------------------------------------//
+	 /**
+  	 * Initialize function, shows the logged in user, and initialize the classes combobox.
+  	 * @param arg0
+  	 * @param arg1
+  	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
@@ -70,6 +79,11 @@ public class ClassDefineController extends QueryController implements Initializa
 		
 	}
 	//------------------------------------------------//
+	  /**
+			 * 
+			 * The function TurningBack return's to the main wondow of the secretary.
+			 * @param event
+			 */
     @FXML
     void TurningBack(ActionEvent event)
     {
@@ -77,7 +91,11 @@ public class ClassDefineController extends QueryController implements Initializa
     	this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
     } 
     //-----------------------------------------------//
-
+	  /**
+			 * 
+			 * The function  ChoosenClass open new window of student's insert after choosing the class we assign for.
+			 * @param event
+			 */
     @FXML
     void ChoosenClass (ActionEvent event)
     {
@@ -98,6 +116,10 @@ public class ClassDefineController extends QueryController implements Initializa
           				}
     }
     //--------------------------------------------//
+	  /**
+			 * 
+			 * The function  GetClassName is a static function that save's the class name for the next window.
+			 */
 	public static String GetClassName(){
 		return CLASSNAME;
 	}

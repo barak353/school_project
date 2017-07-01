@@ -33,7 +33,7 @@
       </Text>
       <Pane layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="62.0" layoutY="32.0" text="Insert Student To Course" textFill="#1205ff">
+            <Label layoutX="74.0" layoutY="32.0" text="Insert Student Request" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="184.0" layoutY="122.0" text="StudentID:" textFill="#05da50">
+            <Label layoutX="184.0" layoutY="122.0" text="StudentID:" textFill="#00e823">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -55,13 +55,13 @@
             </Text>
             <ComboBox fx:id="StudentCombo" layoutX="266.0" layoutY="119.0" onAction="#StudentChosen" prefWidth="150.0" promptText="Choose Student:" />
             <DialogPane fx:id="Dialog" layoutX="177.0" layoutY="158.0" prefHeight="209.0" prefWidth="239.0" visible="false" />
-            <Button fx:id="Save" layoutX="266.0" layoutY="314.0" mnemonicParsing="false" onAction="#SaveHandler" text="Send" textFill="#05da50">
+            <Button fx:id="Send" layoutX="266.0" layoutY="314.0" mnemonicParsing="false" onAction="#SaveHandler" text="Send" textFill="#0088ff" visible="false">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <ComboBox fx:id="CourseCombo" layoutX="222.0" layoutY="209.0" prefWidth="150.0" promptText="Choose Course:" visible="false" />
-            <Text fx:id="LabText" fill="#05da50" layoutX="194.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courses that open this semester:" visible="false" wrappingWidth="205.25390625">
+            <ComboBox fx:id="CourseCombo" layoutX="222.0" layoutY="209.0" onAction="#ChooseCourseHandler" prefWidth="150.0" promptText="Choose Course:" visible="false" />
+            <Text fx:id="LabText" fill="#0aa1f5" layoutX="194.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courses that open this semester:" visible="false" wrappingWidth="205.25390625">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -76,6 +76,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+            <ComboBox fx:id="ClassCombo" layoutX="222.0" layoutY="263.0" prefWidth="150.0" promptText="Choose Class:" visible="false" />
          </children>
       </Pane>
    </children>

@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * This controller handles the secretary's actions and is responsible for presenting the secretary's main screen
+ * This controller handles the action of adding a student to class.
  *
  */
 public class AddStudentToClassController extends QueryController  implements Initializable{
@@ -61,6 +61,11 @@ public class AddStudentToClassController extends QueryController  implements Ini
 			ChosenClass=new Class(ClassDefineController.GetClassName());
 	} 
 	//------------------------------------------------// 
+	 /**
+  	 * Initialize function, shows the logged in user, and showing the chosen class in the previous screen.
+  	 * @param arg0
+  	 * @param arg1
+  	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
@@ -69,19 +74,35 @@ public class AddStudentToClassController extends QueryController  implements Ini
 		
 	}
 	//------------------------------------------------// 
-    @FXML
+	  /**
+	 * 
+	 * The function TurningBack return's to the class define window.
+	 * @param event
+	 */
+	@FXML
     void TurningBack(ActionEvent event)
     {
         this.nextController = new ClassDefineController("ClassDefineController");
     	this.Back("/Secretary/ClassDefine.fxml",nextController, event);
     } 
 	//------------------------------------------------// 
-    @FXML
+	  /**
+		 * 
+		 * The function AddMore clear the previous ID of the student.
+		 * @param event
+		 */
+	@FXML
     void AddMore(ActionEvent event)
     {
     	StudentID.clear();
     } 
 	//------------------------------------------------//
+	  /**
+			 * 
+			 * The function Save check's the student ID that was entered and adding him to the Arraylist
+			 * of students in the class.
+			 * @param event
+			 */
     @FXML
     void Save(ActionEvent event) //Enter StudentID:
     {
@@ -213,6 +234,11 @@ public class AddStudentToClassController extends QueryController  implements Ini
         }
     } 
 	//------------------------------------------------//
+    /**
+	 * 
+	 * The function SaveAndExit copy all the ArrayList of students that was assigned to the class to the DB.
+	 * @param event
+	 */
     @FXML
     void SaveAndExit(ActionEvent event)
     {

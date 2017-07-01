@@ -18,7 +18,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * This controller handles the action of showing to the user a choose form of a message.
+ */
 public class AskRequestFormController extends QueryController  implements Initializable{
     
 	//------------------------------------------------//
@@ -40,6 +43,11 @@ public class AskRequestFormController extends QueryController  implements Initia
     private Button logout;
     @FXML
     private Button back;
+    /**
+	 * 
+	 * The function TeacherChangeForm open the teacher change request form.
+	 * @param event
+	 */
     @FXML
     void TeacherChangeForm(ActionEvent event)
     {
@@ -58,6 +66,11 @@ public class AskRequestFormController extends QueryController  implements Initia
 				}
     }
     //-----------------------------------------------------------------------------------------//
+    /**
+  	 * 
+  	 * The function AddStudent open the insert student form.
+  	 * @param event
+  	 */
     @FXML
     void AddStudent(ActionEvent event)
     {
@@ -76,6 +89,11 @@ public class AskRequestFormController extends QueryController  implements Initia
 				}
     }
     //-------------------------------------------------------------------------------------------// 
+    /**
+  	 * 
+  	 * The function DeleteStudent open the delete student form.
+  	 * @param event
+  	 */
     @FXML
     void DeleteStudent (ActionEvent event)
     { 
@@ -94,6 +112,11 @@ public class AskRequestFormController extends QueryController  implements Initia
 				}
     }
     //-------------------------------------------------------------------------------------------// 
+    /**
+   	 * 
+   	 * The function TurningBack return's to the main screen of the secretary.
+   	 * @param event
+   	 */
     @FXML
     void TurningBack(ActionEvent event)
     {
@@ -101,7 +124,12 @@ public class AskRequestFormController extends QueryController  implements Initia
     	this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
     } 
     //-------------------------------------------------------------------------------------------//
-	@Override
+	 /**
+  	 * Initialize function, shows the logged in user.
+  	 * @param arg0
+  	 * @param arg1
+  	 */
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());

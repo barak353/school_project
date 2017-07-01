@@ -60,7 +60,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <ComboBox fx:id="CourseCombo" layoutX="222.0" layoutY="209.0" prefWidth="150.0" promptText="Choose Course:" visible="false" />
+            <ComboBox fx:id="CourseCombo" layoutX="222.0" layoutY="209.0" onAction="#ChooseCourseHandler" prefWidth="150.0" promptText="Choose Course:" visible="false" />
             <Text fx:id="LabText" fill="#0aa1f5" layoutX="194.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courses that open this semester:" visible="false" wrappingWidth="205.25390625">
                <font>
                   <Font name="System Bold" size="13.0" />

@@ -100,6 +100,11 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </TextArea>
+            <Button fx:id="Finish" layoutX="458.0" layoutY="513.0" mnemonicParsing="false" onAction="#FinishHandler" text="Finish" visible="false">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

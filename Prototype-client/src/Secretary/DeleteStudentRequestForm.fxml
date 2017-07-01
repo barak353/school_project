@@ -33,7 +33,7 @@
       </Text>
       <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="20.0" layoutY="23.0" text="Delete Student From Course" textFill="#1205ff">
+            <Label layoutX="66.0" layoutY="25.0" text="Delete Student Request" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>

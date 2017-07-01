@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.swing.Timer;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -68,6 +71,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
     @FXML
     private Button FinishButton;
     private String RequiredStringCourse;
+    private String ChosenCourse;
     //------------------------------------------------//
 	public TeacherRequestFormController (String controllerID)
 	{
@@ -157,14 +161,9 @@ public class TeacherRequestFormController extends QueryController implements Ini
 	{
 		int counter=0;
 		int MyFlag=1;
-		String ChosenCourse=(String) CourseCombo.getValue();
-		if(ChosenCourse==null)
-		{
-			ErrText.setText("Please choose a course.");
-			 finishmessage.setText("");
-		}
+		ChosenCourse=(String) CourseCombo.getValue();
 		//-----------------------------------------------//
-		else
+		if(ChosenCourse!=null)
 		{
 			 ArrayList<String> listClasses = new ArrayList<String>();
 			 RequiredStringCourse = ChosenCourse.substring(ChosenCourse.indexOf("(") + 1, ChosenCourse.indexOf(")"));
@@ -285,6 +284,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 				 ErrText.setText("The Teacher already teach this class");	
 				 finishmessage.setText("");
 				 FinishButton.setVisible(true);
+				 TeacherCombo.getSelectionModel().clearSelection();
 			 }
 			 else
 			 {
@@ -295,6 +295,7 @@ public class TeacherRequestFormController extends QueryController implements Ini
 		    	     ErrText.setText("The Teacher exceed her teaching hours.\nPlease choose another teacher");
 		    	     finishmessage.setText("");
 		    	     FinishButton.setVisible(true);
+		    	     TeacherCombo.getSelectionModel().clearSelection();
 		    	 }
 		    	 else
 		    	 {
@@ -307,15 +308,63 @@ public class TeacherRequestFormController extends QueryController implements Ini
 				    	if(result!=null)
 						{
 				    		 ErrText.setText("The message already exists.");
-				    		 FinishButton.setVisible(true);
+				    		 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+					                @Override
+					                public void actionPerformed(java.awt.event.ActionEvent e) {
+					                	try{
+					                		 ErrText.setText("");
+					                	}catch(java.lang.NullPointerException e1){
+					                		
+					                	}
+					                }
+					            });
+					            time.setRepeats(false);
+					            time.start();
+					            FinishButton.setVisible(true);
+					            SaveID.setVisible(false);
+						    	TeacherCombo.getSelectionModel().clearSelection();
+						    	ClassCombo.getSelectionModel().clearSelection();
+						    	Dialog.setVisible(false);
+								ClassCombo.setVisible(false);
+								TeacherCombo.setVisible(false);
+								SaveID.setVisible(false);
+								TeacherLable.setVisible(false);
+								ClassLable.setVisible(false);
+								CourseCombo.getSelectionModel().clearSelection();
 						}
 				    	else
 				    	{
-					    	transfferQueryToServer("INSERT INTO messageteacher (TEACHid,CLASidentity,CourID,type,Answer,Mdate) VALUES ('"+RequiredStringTeacher+"','"+Class+"','"+RequiredStringCourse +"','"+message+ "','"+"NULL"+"','"+Date+"')");
+					    	ArrayList<ArrayList<String>> result2= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messageteacher WHERE type='" +message+ "' AND CourID='"+ RequiredStringCourse+"' AND CLASidentity='"+Class+"'");
+					    	if(result2!=null)
+					    	{
+			    		   		transfferQueryToServer("DELETE FROM messageteacher WHERE type='" + "Teacher Change" + "' AND CLASidentity='"+Class+"' AND CourID='"+ RequiredStringCourse+ "'");
+					    	}
+					    	transfferQueryToServer("INSERT INTO messageteacher (TEACHid,CLASidentity,CourID,type,Answer,Mdate,Messag) VALUES ('"+RequiredStringTeacher+"','"+Class+"','"+RequiredStringCourse +"','"+message+ "','"+"NULL"+"','"+Date+"','"+"Hello,\nTeacher Change Please:\nTeacher: "+Teach+"\nClass:"+Class+"\nCourse:"+ChosenCourse+"')");
 				    		finishmessage.setText("The message was sended successfully.");
+				    		 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+					                @Override
+					                public void actionPerformed(java.awt.event.ActionEvent e) {
+					                	try{
+					                		finishmessage.setText("");
+					                	}catch(java.lang.NullPointerException e1){
+					                		
+					                	}
+					                }
+					            });
+					            time.setRepeats(false);
+					            time.start();
 				    		ErrText.setText("");
 				    		FinishButton.setVisible(true);
 					    	SaveID.setVisible(false);
+					    	TeacherCombo.getSelectionModel().clearSelection();
+					    	ClassCombo.getSelectionModel().clearSelection();
+					    	Dialog.setVisible(false);
+							ClassCombo.setVisible(false);
+							TeacherCombo.setVisible(false);
+							SaveID.setVisible(false);
+							TeacherLable.setVisible(false);
+							ClassLable.setVisible(false);
+							CourseCombo.getSelectionModel().clearSelection();
 				    	}
 				 }	  
 			 }

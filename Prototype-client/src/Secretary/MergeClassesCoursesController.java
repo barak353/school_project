@@ -1,5 +1,6 @@
 package Secretary;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -16,12 +17,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 /**
  * 
  * This controller handles the action of assigning classes to courses in new semester.
@@ -75,16 +81,44 @@ public class MergeClassesCoursesController extends QueryController implements In
       private TextArea errorlog;
       private ArrayList<ArrayList<String>> SName;
       private boolean specialP=true;
+      @FXML
+      private Button Finish;
 	  //-----------------------------------------------------------//
 	  public MergeClassesCoursesController (String controllerID)
 	  {
 			super(controllerID);
-		;
+		
 	  }
-	  //-----------------------------------------------------------// 
+	  //-----------------------------------------------------------//
+	  /**
+	  * 
+	  * The function FinishHandler return's to the main screen of the secretary.
+	  * @param event
+	  */
+	  @FXML
+	  void FinishHandler(ActionEvent event)
+	  {
+		  try {
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/SecretaryMainWindow.fxml"));
+			   loader.setController(new SecretaryMainController("SecretaryMainController"));
+			   Pane login_screen_parent = loader.load();
+			        Scene login_screen_scene=new Scene(login_screen_parent);
+					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
+					app_stage.hide();
+					app_stage.setScene(login_screen_scene);
+					app_stage.show(); 
+		        } catch (IOException e) {
+					System.err.println("Missing SecretaryMainController.fxml file");
+					e.printStackTrace();
+				}
+		  
+		  
+	  }
 	 /**
 	 * 
-	 * The function Turning back return's to the main screen of the secretary.
+	 * The function AssignHandler assignes the chosen class to the chosen course after cheking 
+	 * conditions first.
+	 * Also fill's the appropriate teachers from the same teaching unit of the chosen course.
 	 * @param event
 	 */
 	  @FXML
@@ -160,6 +194,8 @@ public class MergeClassesCoursesController extends QueryController implements In
 			            });
 			            time.setRepeats(false);
 			            time.start();
+			            CourseL.getSelectionModel().clearSelection();
+			            ClassL.getSelectionModel().clearSelection();
 					flag=false;
 			    }
 			    else 
@@ -232,7 +268,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 						        	 {
 						        	    	for(int r=0;r<PreCourseOfStudent.size();r++)
 						        	    	{
-						        	    		if(PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true && Integer.parseInt(PreCourseOfStudent.get(r).get(2))<55)//If found the pre course
+						        	    		if(PreCoursesOfCourse.get(k).get(0).equals(PreCourseOfStudent.get(r).get(1))==true && Integer.parseInt(PreCourseOfStudent.get(r).get(2))>55)//If found the pre course
 						        	    		{
 						        	    			break;
 						        	    		}
@@ -306,10 +342,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 					            });
 					            time.setRepeats(false);
 					            time.start();
+					            CourseL.getSelectionModel().clearSelection();
+					            ClassL.getSelectionModel().clearSelection();
 				        }
 				        else //Can assign the class without the exceptional students:
 				        {
-				        	sem.setMyString(sem.GetMyString()+"------------------------------------------\n"+"Class: "+ClassChoise+" -->  Course: "+CourseChoise);
+				        	sem.setMyString(sem.GetMyString()+"\n------------------------------------------\n"+"Class: "+ClassChoise+" -->  Course: "+CourseChoise);
 					    	DataField.setText(sem.GetMyString());
 				        	OK=1;
 				        }
@@ -353,7 +391,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 		    }// Else - all the fields were filled
 	  }
     //-----------------------------------------------------------------------------------------//
-	
+	  /**
+		 * 
+		 * The function TurningBack return's to the open new semester window.
+		 * conditions first.
+		 * @param event
+		 */
 	  @FXML
 	void TurningBack(ActionEvent event)
 	{
@@ -361,7 +404,13 @@ public class MergeClassesCoursesController extends QueryController implements In
 		this.Back("/Secretary/OpenNewSemesterWindow.fxml",nextController,event);
 	}
 	//-----------------------------------------------------------------------------------------//
-	
+	 /**
+  	 * 
+  	 * Initialize function, shows the logged in user, and initialize the courses combobox that open in this current semester.
+  	 * In addition, initialize the classes combobox.
+  	 * @param arg0
+  	 * @param arg1
+  	 */
 	  public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 		User user = User.getCurrentLoggedIn();
 		userID.setText(user.GetUserName());
@@ -432,7 +481,13 @@ public class MergeClassesCoursesController extends QueryController implements In
 		}
 	}
 	//-----------------------------------------------------------------------------------------//
-	
+	  /**
+		 * 
+		 * The function AssignTeacher checks if the chosen teacher didn't exceed her teaching hours,
+		 * and if not- assign's the chosen class to the chosen course with the chosen teacher.
+		 * conditions first.
+		 * @param event
+		 */
 	 @FXML
 	 void AssignTeacher(ActionEvent event)
 	 {
@@ -479,6 +534,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 				            });
 				            time.setRepeats(false);
 				            time.start();
+				            Platform.runLater(() -> teacherList.getSelectionModel().clearSelection());
 			 	    	   flag=true;
 			 	      }
 			 	      else if(flag==true)
@@ -496,7 +552,7 @@ public class MergeClassesCoursesController extends QueryController implements In
 				 	    		transfferQueryToServer("UPDATE teacher SET MaxHour="+res+" WHERE teacherid="+ Teacher.get(i).GetID()); //Update the status of previous semester
 			 	    			for(int w=0;w<studentsAssigned.size();w++)
 			 	    			{
-					 	    		transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade) VALUES ('" + studentsAssigned.get(w) + "','" + RequiredStringCourse + "','" +"0"+"')");
+					 	    		transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade,IdenClas) VALUES ('" + studentsAssigned.get(w) + "','" + RequiredStringCourse + "','" +"0"+"','"+ClassChoise+"')");
 							    	ArrayList<ArrayList<String>> c= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinprecourse WHERE childID='" + studentsAssigned.get(w) + "' AND pCourseID='" +RequiredStringCourse+"'");
 					 	    		if(c!=null)//If the student doing aggain the course
 					 	    		{
@@ -507,7 +563,12 @@ public class MergeClassesCoursesController extends QueryController implements In
 				 	    		studentsAssigned=null;
 				 	    		sem.setMyString2("");
 				 	    		errorlog.setText(sem.GetMyString2());
-				 	    		
+				 	    		CourseL.getSelectionModel().clearSelection();
+				 	    		ClassL.getSelectionModel().clearSelection();
+				 	    		diaID.setVisible(false);
+				 	    		chooseteachertext.setVisible(false);
+				 	    		teacherList.setVisible(false);
+				 	    		Finish.setVisible(true);
 			 	    		}
 			 	    		
 			 	    		Timer time = new Timer(2500, new java.awt.event.ActionListener() {

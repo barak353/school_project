@@ -1,6 +1,7 @@
 package Secretary;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -29,6 +30,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+/**
+ * 
+ * This controller handles the action: delete student from course by exceptional approval.
+ */
 public class DeleteStudentFromCourseController extends QueryController implements Initializable {
 	
 	@FXML
@@ -70,6 +76,12 @@ public class DeleteStudentFromCourseController extends QueryController implement
 			super(controllerID);
 	} 
 	//--------------------------------------------------------//
+	 /**
+  	 * Initialize function, shows the logged in user, and initialize the courses combobox that open in this current semester,
+  	 * and includes students assigining to them.
+  	 * @param arg0
+  	 * @param arg1
+  	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -120,6 +132,11 @@ public class DeleteStudentFromCourseController extends QueryController implement
    	  	}
 	}
 	//--------------------------------------------------------//
+	  /**
+	 * 
+	 * The function TurningBack return's to the choose student function window.
+	 * @param event
+	 */
     @FXML
 	void TurningBack(ActionEvent event)
 	{
@@ -127,6 +144,11 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		this.Back("/Secretary/StudentChange.fxml",nextController,event);
 	}
     //--------------------------------------------------------//
+    /**
+	 * 
+	 * The function ChooseCourseHandler open to the user the student's that are assigned to this chosen course.
+	 * @param event
+	 */
     @FXML
     void ChooseCourseHandler(ActionEvent event)
     {
@@ -159,6 +181,13 @@ public class DeleteStudentFromCourseController extends QueryController implement
     		       }	  
      }
     //--------------------------------------------------------//
+	  /**
+	 * 
+	 * The function SaveHandler checks if the school director approved the request with those chosen details, and if so-
+	 * delete the student from the course.
+	 * In addition, initialize again the comboboxes of the students in the course.
+	 * @param event
+	 */
     @FXML
     void  SaveHandler(ActionEvent event)
     {
@@ -186,16 +215,56 @@ public class DeleteStudentFromCourseController extends QueryController implement
 	    	if(result==null)
 	    	{
 	    		 ErrCourseMessage.setText("There is no such message, can't make the change.");
+	    		 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                try{
+		                	ErrCourseMessage.setText("");
+		                }catch(java.lang.NullPointerException e1){
+		                		
+		                }
+		                }
+		            });
+		      time.setRepeats(false);
+		      time.start();
 	    		 SuccessMessage.setText("");
 	    		 Finish.setVisible(true);
+	    		 StudentErr.setVisible(true);
+ 	  		     dialogPane.setVisible(false);
+ 	  		     StudentsLable.setVisible(false);
+ 	  		     StudentCombo.setVisible(false);
+ 	  		     Save.setVisible(false);
+ 	  		     SuccessMessage.setVisible(false);
+ 	  		     StudentCombo.getSelectionModel().clearSelection();
+ 	  		     ComboCourse.getSelectionModel().clearSelection();
 	    	}
 	    	else
 	    	{
-	    		if(result.get(0).get(4).equals("YES")==false)
+	    		if(result.get(0).get(5).equals("YES")==false)
 	    		{
 	    			ErrCourseMessage.setText("The school director didn't approved the request.");
+	    			Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                try{
+		                	ErrCourseMessage.setText("");
+		                }catch(java.lang.NullPointerException e1){
+		                		
+		                }
+		                }
+		            });
+		      time.setRepeats(false);
+		      time.start();
 	    			SuccessMessage.setText("");
 	    			Finish.setVisible(true);
+	    			StudentErr.setVisible(true);
+	 	  		    dialogPane.setVisible(false);
+	 	  		    StudentsLable.setVisible(false);
+	 	  		    StudentCombo.setVisible(false);
+	 	  		    Save.setVisible(false);
+	 	  		    SuccessMessage.setVisible(false);
+	 	  		    StudentCombo.getSelectionModel().clearSelection();
+	 	  		    ComboCourse.getSelectionModel().clearSelection();
 	    		}
 	    		else
 	    		{
@@ -220,6 +289,14 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		 		            });
 		 		             time.setRepeats(false);
 		 		             time.start();
+		 		             StudentErr.setVisible(false);
+		 	 	  		     dialogPane.setVisible(false);
+		 	 	  		     StudentsLable.setVisible(false);
+		 	 	  		     StudentCombo.setVisible(false);
+		 	 	  		     Save.setVisible(false);
+		 	 	  		     SuccessMessage.setVisible(true);
+		 	 	  		     StudentCombo.getSelectionModel().clearSelection();
+		 	 	  		     ComboCourse.getSelectionModel().clearSelection();
 		    			 }
 		    		 }//For
 		    		 //------------------------------------------------------------------------------------------------//
@@ -241,6 +318,14 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		   				  ErrCourseMessage.setVisible(true);
 		   	       		  ErrCourseMessage.setText("There is no more courses that open this semester and that students assigned to them.");
 		   	       		  Finish.setVisible(true);
+				   	      StudentErr.setVisible(true);
+			 	  		  dialogPane.setVisible(false);
+			 	  		  StudentsLable.setVisible(false);
+			 	  		  StudentCombo.setVisible(false);
+			 	  		  Save.setVisible(false);
+			 	  		  SuccessMessage.setVisible(false);
+			 	  		  StudentCombo.getSelectionModel().clearSelection();
+			 	  		  ComboCourse.getSelectionModel().clearSelection();
 		   			  }
 		       		   
 		    	      StudentErr.setVisible(false);
@@ -248,9 +333,9 @@ public class DeleteStudentFromCourseController extends QueryController implement
 		  		      StudentsLable.setVisible(false);
 		  		      StudentCombo.setVisible(false);
 		  		      Save.setVisible(false);
-		  		      ComboCourse.setValue(null);
+		  		      StudentCombo.getSelectionModel().clearSelection();
 		  		      ComboCourse.getSelectionModel().clearSelection();
-		  		      StudentCombo.setValue(null);
+		  		     
 		  		      
 		   		   }
 	    	}	
@@ -258,6 +343,11 @@ public class DeleteStudentFromCourseController extends QueryController implement
     		 
     }//SaveHandler
     //--------------------------------------------------------//
+	  /**
+	 * 
+	 * The function FinishHandler return's to the main screen of the secretary.
+	 * @param event
+	 */
     @FXML
     void FinishHandler(ActionEvent event)
     {

@@ -1,138 +1,113 @@
 package Secretary;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.Timer;
 
+import Login.LoginController;
+import Entity.Class;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
-import javafx.scene.text.Text;
+/**
+ * 
+ * This controller handles the action of exceptional registration of a student to course. 
+ */
 
 public class InsertStudentToCourseController extends QueryController implements Initializable{
-		
-    @FXML
-    private Button logout;
+	
+			private Object nextController=null;
+			@FXML
+		    private Button logout;
 
-    @FXML
-    private Text userID;
+		    @FXML
+		    private Text userID;
 
-    @FXML
-    private Button back;
+		    @FXML
+		    private Button back;
 
-    @FXML
-    private Text StudentErr;
+		    @FXML
+		    private Text StudentErr;
 
-    @FXML
-    private ComboBox<?> StudentCombo;
+		    @FXML
+		    private ComboBox<?> StudentCombo;
 
-    @FXML
-    private DialogPane Dialog;
+		    @FXML
+		    private DialogPane Dialog;
 
-    @FXML
-    private Button Save;
+		    @FXML
+		    private Button Save;
 
-    @FXML
-    private ComboBox<?> CourseCombo;
+		    @FXML
+		    private ComboBox<?> CourseCombo;
 
-    @FXML
-    private Text LabText;
+		    @FXML
+		    private Text LabText;
 
-    @FXML
-    private Text CoursesErr;
+		    @FXML
+		    private Text CoursesErr;
 
-    @FXML
-    private Text SuccessMessage;
-    private String ChosenStud;
-    private String ChosenStudent;
-	Object nextController=null;
-	//----------------------------------------------------------------------//
-	public InsertStudentToCourseController(String controllerID)
-	{
-			super(controllerID);
-	} 
-    //----------------------------------------------------------------------//
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) 
-	{
-		User user = User.getCurrentLoggedIn();
-		userID.setText(user.GetUserName());
-		//--------------------------------------//
-		//Students:
-    	ArrayList<ArrayList<String>> AllTheStudents= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student");
-    	if(AllTheStudents==null)
-    	{
-    		StudentErr.setText("There is no students in DB.");	
-    	}
-    	else
-    	{
-    		ArrayList<String> StudentL = new ArrayList<String>();
-        	//Taking the names of the students:
-        	for(int i=0;i<AllTheStudents.size();i++)
-        	{
-            	ArrayList<ArrayList<String>> Name= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + AllTheStudents.get(i).get(0)+"'");
-            	StudentL.add("("+AllTheStudents.get(i).get(0)+") - "+Name.get(0).get(1));
-        	}
-        	ObservableList obList= FXCollections.observableList(StudentL);
-        	StudentCombo.setItems(obList);
-        	StudentCombo.setVisible(true);
-    	}
-    	
-	}
-	//----------------------------------------------------------------------//
-	@FXML
-	void TurningBack(ActionEvent event)
-	{
-		this.nextController = new SecretaryMainController("SecretaryMainController");
-		this.Back("/Secretary/SecretaryMainWindow.fxml",nextController, event);
-	} 
-	//----------------------------------------------------------------------//
-    @FXML
-    void SaveHandler(ActionEvent event) 
-    {
-    	String Course=(String) CourseCombo.getValue();
-    	String ChosenCourse;
-    	if(Course==null)
-    	{
-    		CoursesErr.setText("Please choose a course.");
-    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
-	                @Override
-	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	                	try{
-	                		 CoursesErr.setText("");
-	                	}catch(java.lang.NullPointerException e1){
-	                		
-	                	}
-	                }
-	            });
-	            time.setRepeats(false);
-	            time.start();
-    	}
-    	else
-    	{
-    		
-			ChosenCourse = Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
-	    	ArrayList<ArrayList<String>> IfAlreadyAssigned= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityCourse='"+ChosenCourse+"' AND identityStudent='"+ChosenStudent+"'");
-	    	if(IfAlreadyAssigned!=null)
+		    @FXML
+		    private Text SuccessMessage;
+
+		    private ArrayList<String> StudentsList;
+		    private ArrayList<String> CoursesList;
+		    private Semester sem;
+		    private String StudentID;
+		    private String Course;
+		    private String CourseID;
+		    private String Stud;
+		    private ArrayList<ArrayList<String>> CheckMessage;
+		//------------------------------------------------//
+		    public InsertStudentToCourseController(String controllerID)
+			{
+					super(controllerID);
+			} 
+		//------------------------------------------------// 
+			 /**
+		  	 * 
+		  	 * Initialize function, shows the logged in user, and initialize the courses combobox that open in this current semester.
+		  	 * In addition, initialize the students combobox.
+		  	 * @param arg0
+		  	 * @param arg1
+		  	 */
+		@Override
+		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
+			User user = User.getCurrentLoggedIn();
+			userID.setText(user.GetUserName());
+			sem=Semester.getCurrentSemester();
+			//----------------------------------//
+	    	ArrayList<ArrayList<String>> Students= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM student");
+	    	if(Students==null)
 	    	{
-	    		CoursesErr.setText("The student is already assigned to the course: "+Course );
-	    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
+	    		 CoursesErr.setVisible(true);
+				 CoursesErr.setText("There is no students in the DB.");
+				 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
 		                @Override
 		                public void actionPerformed(java.awt.event.ActionEvent e) {
 		                	try{
-		                		 CoursesErr.setText("");
+		                		CoursesErr.setText("");
 		                	}catch(java.lang.NullPointerException e1){
 		                		
 		                	}
@@ -142,16 +117,26 @@ public class InsertStudentToCourseController extends QueryController implements 
 		            time.start();
 	    	}
 	    	else
-	    	{
-		    	ArrayList<ArrayList<String>> MessageCheck= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messagestudent WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
-		    	if(MessageCheck==null)
+	    	{	
+	    		StudentsList=new ArrayList<String>();
+	    		for(int i=0;i<Students.size();i++)
 		    	{
-		    		CoursesErr.setText("There is no such message.\nCan't make the change.");
-		    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
+			    	ArrayList<ArrayList<String>> StudentsName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" +Students.get(i).get(0)+"'");
+		    		StudentsList.add("( "+Students.get(i).get(0)+" ) - "+StudentsName.get(0).get(1));
+		    	}
+		    	ObservableList L= FXCollections.observableList(StudentsList);
+		    	StudentCombo.setItems(L);
+		    	//-----------------------------------------------------------------------------//
+		    	ArrayList<ArrayList<String>> Courses= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Sem='"+sem.getYear()+':'+sem.getType()+"'");
+		    	if(Courses==null)
+		    	{
+		    		 CoursesErr.setVisible(true);
+					 CoursesErr.setText("There is no courses in this semester: "+sem.getYear()+':'+sem.getType());
+					 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
 			                @Override
 			                public void actionPerformed(java.awt.event.ActionEvent e) {
 			                	try{
-			                		 CoursesErr.setText("");
+			                		CoursesErr.setText("");
 			                	}catch(java.lang.NullPointerException e1){
 			                		
 			                	}
@@ -162,40 +147,114 @@ public class InsertStudentToCourseController extends QueryController implements 
 		    	}
 		    	else
 		    	{
-		    		if(MessageCheck.get(0).get(4).equals("YES")==true)
+		    		CoursesList=new ArrayList<String>();
+		    		for(int i=0;i<Courses.size();i++)
 		    		{
-			    		transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade) VALUES ('" + ChosenStudent + "','" + ChosenCourse + "','" + "" + "')");
-	    		   		transfferQueryToServer("DELETE FROM messagestudent WHERE type='"+"Student Insert"+"' AND CouID='"+ChosenCourse+"' AND StuIdentity='"+ChosenStudent+"'");
-	    		   		ArrayList<ArrayList<String>> c= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinprecourse WHERE childID='" + ChosenStudent + "' AND pCourseID='" +ChosenCourse+"'");
-		 	    		if(c!=null)//If the student doing aggain the course
-		 	    		{
-				    		transfferQueryToServer("DELETE FROM studentinprecourse WHERE childID="+ChosenStudent+" and pCourseID="+ChosenCourse+"");
-		 	    		}
-	    		   		SuccessMessage.setVisible(true);
-	    		   		SuccessMessage.setText("The student: "+ChosenStud+"inserted successfully to the course: "+Course);
-	    		   	 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
-	 	                @Override
-	 	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	 	                	try{
-	 	                		SuccessMessage.setText("");
-	 	                	}catch(java.lang.NullPointerException e1){
-	 	                		
-	 	                	}
-	 	                }
-	 	            });
-	 	            time.setRepeats(false);
-	 	            time.start();
-	    		   		//CourseCombo.setValue(null);
-	    		   		//StudentCombo.setValue(null);
+				    	ArrayList<ArrayList<String>> CourseName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" +Courses.get(i).get(0)+"'");
+		    			CoursesList.add("( "+Courses.get(i).get(0)+" ) - "+ CourseName.get(0).get(1));
+		    			
 		    		}
-		    		else
-		    		{
-			    		CoursesErr.setText("The school director didn't approved this change.\nCan't make the change.");
-			    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
+		    		ObservableList CourseL= FXCollections.observableList(CoursesList);
+		    		CourseCombo.setItems(CourseL);
+		    	}
+	    	}
+		}
+		//------------------------------------------------// 
+		  /**
+			 * 
+			 * The function TurningBack return's to the student change window.
+			 * conditions first.
+			 * @param event
+			 */
+		 @FXML
+		 void TurningBack(ActionEvent event)
+		 {
+		     this.nextController = new StudentChangeController("StudentChangeController");
+		     this.Back("/Secretary/StudentChange.fxml",nextController, event);
+		 } 
+		  /**
+				 * 
+				 * The function SaveHandler register the student to the chosen course.
+				 * @param event
+				 */
+		 @FXML
+		 void SaveHandler(ActionEvent event) 
+		 {
+			 
+			 transfferQueryToServer("INSERT INTO studentincourse (identityStudent,identityCourse,Grade,IdenClas) VALUES ('" + StudentID + "','" + CourseID + "','" +"0"+"','"+CheckMessage.get(0).get(7) +"')");
+		   	 transfferQueryToServer("DELETE FROM messagestudent WHERE num='" + CheckMessage.get(0).get(0)+"'");
+		     SuccessMessage.setVisible(true);
+		     SuccessMessage.setText("The student:  "+Stud+"  inserted successfully to the course:  "+CourseID);
+		     Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+	                @Override
+	                public void actionPerformed(java.awt.event.ActionEvent e) {
+	                	try{
+	                		SuccessMessage.setText("");
+	                	}catch(java.lang.NullPointerException e1){
+	                		
+	                	}
+	                }
+	            });
+	            time.setRepeats(false);
+	            time.start();
+	            StudentCombo.getSelectionModel().clearSelection();
+	            CourseCombo.getSelectionModel().clearSelection();
+	            Dialog.setVisible(false);
+	            Save.setVisible(false);
+	            CourseCombo.setVisible(false);
+	            LabText.setVisible(false);
+	            
+		 }
+		 //------------------------------------------------// 
+		  /**
+			 * 
+			 * The function open to the user the course combobox and the next choosing steps, 
+			 * after choosing the student.
+			 * conditions first.
+			 * @param event
+			 */
+		 @FXML
+		 void StudentChosen(ActionEvent event)
+		 {
+			 Stud=(String) StudentCombo.getValue();
+
+			 
+			 if(Stud!=null)
+			 {
+				 	StudentID = Stud .substring(Stud .indexOf("(") + 1, Stud .indexOf(")"));
+				 	Dialog.setVisible(true);
+				 	CourseCombo.setVisible(true);
+				 	LabText.setVisible(true);
+			 }
+			 
+		 }
+		 //------------------------------------------------// 
+		  /**
+				 * 
+				 * The function ChooseCourseHandler:
+				 * checks if the school director approved the registration by checking the message's, and insert's the student to the course.
+				 * conditions first. 
+				 * @param event
+				 */
+		 @FXML
+		 void ChooseCourseHandler(ActionEvent event)
+		 {
+			 Course=(String) CourseCombo.getValue();
+			 
+			 
+			 if(Course!=null)
+			 {
+				 	CourseID=Course.substring(Course .indexOf("(") + 1, Course .indexOf(")"));
+				 	ArrayList<ArrayList<String>> CheckA= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentincourse WHERE identityStudent='"+StudentID+"' AND identityCourse='"+CourseID+"'");
+				 	if(CheckA!=null)
+				 	{
+				 		 CoursesErr.setVisible(true);
+				 		 CoursesErr.setText("The student is already assigned to this course.");
+						 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
 				                @Override
 				                public void actionPerformed(java.awt.event.ActionEvent e) {
 				                	try{
-				                		 CoursesErr.setText("");
+				                		CoursesErr.setText("");
 				                	}catch(java.lang.NullPointerException e1){
 				                		
 				                	}
@@ -203,99 +262,81 @@ public class InsertStudentToCourseController extends QueryController implements 
 				            });
 				            time.setRepeats(false);
 				            time.start();
-		    		}
-		    	}
-	    	}
-    		
-    		
-    		
-    	}
+				            Dialog.setVisible(false);
+							CourseCombo.setVisible(false);
+							LabText.setVisible(false);
+							Platform.runLater(() -> StudentCombo.getSelectionModel().clearSelection());
+							Platform.runLater(() -> CourseCombo.getSelectionModel().clearSelection());
+				 	}
+				 	else
+				 	{
+				 		CheckMessage= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM messagestudent WHERE StuIdentity='" + StudentID + "' AND CouID='" +CourseID+"' AND type='"+"Student Insert"+"'");
+				    	if(CheckMessage==null)
+				    	{
+				    		 CoursesErr.setVisible(true);
+							 CoursesErr.setText("There is no such request.");
+							 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+					                @Override
+					                public void actionPerformed(java.awt.event.ActionEvent e) {
+					                	try{
+					                		CoursesErr.setText("");
+					                	}catch(java.lang.NullPointerException e1){
+					                		
+					                	}
+					                }
+					            });
+					            time.setRepeats(false);
+					            time.start();
+					            Platform.runLater(() -> StudentCombo.getSelectionModel().clearSelection());
+					            Platform.runLater(() -> CourseCombo.getSelectionModel().clearSelection());
+					            Dialog.setVisible(false);
+					            Save.setVisible(false);
+					            CourseCombo.setVisible(false);
+					            LabText.setVisible(false);
+				    	}
+				    	else
+				    	{
+				    		if(CheckMessage.get(0).get(5).equals("YES"))
+				    		{
+				    			Save.setVisible(true);
+				    		}
+				    		else
+				    		{
+				    			 CoursesErr.setVisible(true);
+								 CoursesErr.setText("The school director didn't approved the request.");
+								 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+						                @Override
+						                public void actionPerformed(java.awt.event.ActionEvent e) {
+						                	try{
+						                		CoursesErr.setText("");
+						                	}catch(java.lang.NullPointerException e1){
+						                		
+						                	}
+						                }
+						            });
+						            time.setRepeats(false);
+						            time.start();
+						            Platform.runLater(() ->StudentCombo.getSelectionModel().clearSelection());
+						            Platform.runLater(() ->CourseCombo.getSelectionModel().clearSelection());
+						            Dialog.setVisible(false);
+						            Save.setVisible(false);
+						            CourseCombo.setVisible(false);
+						            LabText.setVisible(false);
+				    		}
+				    	}	
+				 		
+				 		
+				 	}
 
-    }//Save Handler
-    //----------------------------------------------------------------------//
-    @FXML
-    void StudentChosen(ActionEvent event) 
-    {
-    	
-    	//----------------------------------//
-    	ChosenStud=(String) StudentCombo.getValue();
-		if(ChosenStud==null)
-		{
-    		StudentErr.setText("Please choose a student.");	
-    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
-	                @Override
-	                public void actionPerformed(java.awt.event.ActionEvent e) {
-	                	try{
-	                		StudentErr.setText("");
-	                	}catch(java.lang.NullPointerException e1){
-	                		
-	                	}
-	                }
-	            });
-	            time.setRepeats(false);
-	            time.start();
-		}
-		else
-		{
-			ChosenStudent = ChosenStud.substring(ChosenStud.indexOf("(") + 1, ChosenStud.indexOf(")"));
-			//----------------------------------//
-	    	//Get courses that open this semester:
-			
-	    	ArrayList<ArrayList<String>> Current= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM semester WHERE status='"+"true"+"'");
-	    	if(Current==null)
-	    	{
-	    		StudentErr.setText("There is no current semester's in DB.");
-	    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
-		                @Override
-		                public void actionPerformed(java.awt.event.ActionEvent e) {
-		                	try{
-		                		StudentErr.setText("");
-		                	}catch(java.lang.NullPointerException e1){
-		                		
-		                	}
-		                }
-		            });
-		            time.setRepeats(false);
-		            time.start();
-	    	}
-	    	else
-	    	{
-	    		ArrayList<ArrayList<String>> CoursesInSemester= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM coursesinsemester WHERE Sem='"+Current.get(0).get(0)+"'");
-		    	if(CoursesInSemester==null)
-		    	{
-		    		StudentErr.setText("There is no courses that open in this semester.");
-		    		 Timer time = new Timer(2500, new java.awt.event.ActionListener() {
-			                @Override
-			                public void actionPerformed(java.awt.event.ActionEvent e) {
-			                	try{
-			                		StudentErr.setText("");
-			                	}catch(java.lang.NullPointerException e1){
-			                		
-			                	}
-			                }
-			            });
-			            time.setRepeats(false);
-			            time.start();
-		    	}
-		    	else
-		    	{
-		    		ArrayList<String> CourseL = new ArrayList<String>();
+				 	
+				 	
+				 	
+			    
+			 } 
+		 }
+		//------------------------------------------------//  
+}
 
-		    		for(int i=0;i<CoursesInSemester.size();i++)
-		        	{
-		            	ArrayList<ArrayList<String>> NameCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" + CoursesInSemester.get(i).get(0)+"'");
-		            	CourseL.add("("+CoursesInSemester.get(i).get(0)+") - "+NameCourse.get(0).get(1));
-		        	}
-		        	ObservableList L= FXCollections.observableList(CourseL);
-		        	CourseCombo.setItems(L);
-		        	CourseCombo.setVisible(true);
-		        	Dialog.setVisible(true);
-		        	LabText.setVisible(true);
-		        	Save.setVisible(true);
-		        	CoursesErr.setVisible(true);
-		    	}//Else courses in semester!=null
-	    	}//Else current semester!=null
-		}//Else chosen stud!=null
-    }////Handler
-    //----------------------------------------------------------------------//
-}//Class Controller
+
+
+

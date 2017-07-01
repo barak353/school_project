@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.swing.Timer;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -150,13 +153,8 @@ public class TeacherPlacementController extends QueryController  implements Init
 		int counter=0;
 		int MyFlag=1;
 		String ChosenCourse=(String) CourseCombo.getValue();
-		if(ChosenCourse==null)
-		{
-			ErrText.setText("Please choose a course.");
-			 finishmessage.setText("");
-		}
 		//-----------------------------------------------//
-		else
+		if (ChosenCourse!=null)
 		{
 			 ArrayList<String> listClasses = new ArrayList<String>();
 			 RequiredStringCourse = ChosenCourse.substring(ChosenCourse.indexOf("(") + 1, ChosenCourse.indexOf(")"));
@@ -190,6 +188,18 @@ public class TeacherPlacementController extends QueryController  implements Init
 			 if(counter==TeachersInUnit.size())
 			 {
 				 ErrText.setText("All the teachers in this unit exceed their teaching hours.\nCan't make the change.");
+				 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                	try{
+		                		 ErrText.setText("");
+		                	}catch(java.lang.NullPointerException e1){
+		                		
+		                	}
+		                }
+		            });
+		            time.setRepeats(false);
+		            time.start();
 				 MyFlag=0;
 				 FinishButton.setVisible(true);
 				 Dialog.setVisible(false);
@@ -273,8 +283,22 @@ public class TeacherPlacementController extends QueryController  implements Init
 			 ArrayList<ArrayList<String>> TeacherCheck=	(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='"+ Class + "' AND coID=" +RequiredStringCourse+" AND SemesId='"+CurrentSemester.get(0).get(0)+"'"); 
 			 if(TeacherCheck.get(0).get(3).equals(RequiredStringTeacher)==true)
 			 {
-				 ErrText.setText("The Teacher already teach this class");	
+				 ErrText.setText("The Teacher already teach this class");
+				 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+		                @Override
+		                public void actionPerformed(java.awt.event.ActionEvent e) {
+		                	try{
+		                		 ErrText.setText("");
+		                	}catch(java.lang.NullPointerException e1){
+		                		
+		                	}
+		                }
+		            });
+		            time.setRepeats(false);
+		            time.start();
 				 finishmessage.setText("");
+				 TeacherCombo.getSelectionModel().clearSelection();
+				 FinishButton.setVisible(true);
 			 }
 			 else
 			 {
@@ -283,8 +307,21 @@ public class TeacherPlacementController extends QueryController  implements Init
 		    	 if (hoursteacher<hoursCourse)
 		    	 {
 		    	     ErrText.setText("The Teacher exceed her teaching hours.\nPlease choose another teacher");
+		    	     Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+			                @Override
+			                public void actionPerformed(java.awt.event.ActionEvent e) {
+			                	try{
+			                		 ErrText.setText("");
+			                	}catch(java.lang.NullPointerException e1){
+			                		
+			                	}
+			                }
+			            });
+			            time.setRepeats(false);
+			            time.start();
 		    	     finishmessage.setText("");
 		    	     FinishButton.setVisible(true);
+		    	     TeacherCombo.getSelectionModel().clearSelection();
 		    	 }
 		    	 else
 		    	 {
@@ -295,11 +332,19 @@ public class TeacherPlacementController extends QueryController  implements Init
 				    		ErrText.setText("There is no such message, can't make the change.");
 				    	    finishmessage.setText("");
 				    	    FinishButton.setVisible(true);
-				    	    SaveID.setVisible(true);
+				    	    SaveID.setVisible(false);
+				    	    Dialog.setVisible(false);
+				    	    TeacherLable.setVisible(false);
+				    	    ClassLable.setVisible(false);
+				    	    TeacherCombo.setVisible(false);
+				    	    ClassCombo.setVisible(false);
+				    	    TeacherCombo.getSelectionModel().clearSelection();
+				    	    ClassCombo.getSelectionModel().clearSelection();
+				    	    CourseCombo.getSelectionModel().clearSelection();
 				    	}
 				    	else
 				    	{	
-				    		if(result.get(0).get(4).equals("YES")==true)
+				    		if(result.get(0).get(5).equals("YES")==true)
 				    		{
 				    			int res2;
 				    		    int resAdd;
@@ -312,14 +357,31 @@ public class TeacherPlacementController extends QueryController  implements Init
 			    		   		transfferQueryToServer("DELETE FROM messageteacher WHERE type='" + "Teacher Change" + "' AND TEACHid='"+RequiredStringTeacher +"' AND CLASidentity='"+Class+"' AND CourID='"+ RequiredStringCourse+ "'");
 						    	finishmessage.setText("Teacher placement change succeeded");
 						    	ErrText.setText("");
-						    	FinishButton.setVisible(true);	
+						    	FinishButton.setVisible(true);
+						    	TeacherCombo.getSelectionModel().clearSelection();
+					    	    ClassCombo.getSelectionModel().clearSelection();
+					    	    CourseCombo.getSelectionModel().clearSelection();
+					    	    SaveID.setVisible(false);
+					    	    Dialog.setVisible(false);
+					    	    TeacherLable.setVisible(false);
+					    	    ClassLable.setVisible(false);
+					    	    TeacherCombo.setVisible(false);
+					    	    ClassCombo.setVisible(false);
 				    		}
 				    		else
 				    		{
 				    			ErrText.setText("The school director didn't approved the request.");
 				    			finishmessage.setText("");
 				    			FinishButton.setVisible(true);
-				    			SaveID.setVisible(false);
+					    	    SaveID.setVisible(false);
+					    	    Dialog.setVisible(false);
+					    	    TeacherLable.setVisible(false);
+					    	    ClassLable.setVisible(false);
+					    	    TeacherCombo.setVisible(false);
+					    	    ClassCombo.setVisible(false);
+					    	    TeacherCombo.getSelectionModel().clearSelection();
+					    	    ClassCombo.getSelectionModel().clearSelection();
+					    	    CourseCombo.getSelectionModel().clearSelection();
 				    		}
 				    	}
 				 }	  
