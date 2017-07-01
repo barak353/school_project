@@ -130,7 +130,7 @@ public class LoginController extends QueryController implements Initializable{//
 	                	 nextController=new TeacherMainController("TeacherMainControllerID");
 	                	 break;
 	                 case "ST":
-	                	 nextScreen="/student/MainWindowStudent.fxml";
+	                	 nextScreen="/Student/MainWindowStudent.fxml";
 	                	 nextController=new MainWindowStudentController("StudentControllerID");
 	                	 break;
 	                 case "SM":

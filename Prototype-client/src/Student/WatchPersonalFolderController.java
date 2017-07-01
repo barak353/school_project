@@ -97,7 +97,7 @@ public class WatchPersonalFolderController extends QueryController implements In
   	 void TurningBack(ActionEvent event)
   	    {
   	    	this.nextController = new MainWindowStudentController("StudentMainController");
-  	    	this.Back("/student/MainWindowStudent.fxml",nextController, event);
+  	    	this.Back("/Student/MainWindowStudent.fxml",nextController, event);
   	    }  
 	  
 		@Override

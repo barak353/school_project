@@ -85,7 +85,7 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void SubmitHomeWork(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/SubmitTaskWindow.fxml"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Student/SubmitTaskWindow.fxml"));
 			   SubmitTaskController controller = new SubmitTaskController("SubmitTaskControllerID");
 			   loader.setController(controller);
 			   Pane login_screen_parent = loader.load();
@@ -106,7 +106,7 @@ public class MainWindowStudentController extends QueryController implements Init
     @FXML
     void WatchPersonalFolder(ActionEvent event) {
 		 try {
-			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/WatchPersonalFolder.fxml"));
+			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Student/WatchPersonalFolder.fxml"));
 			   loader.setController(new WatchPersonalFolderController("WatchPersonalFolderController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);

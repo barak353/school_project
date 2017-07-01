@@ -197,7 +197,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	 void TurningBack(ActionEvent event)
 	    {
 	    	this.nextController = new MainWindowStudentController("StudentMainController");
-	    	this.Back("/student/MainWindowStudent.fxml",nextController, event);
+	    	this.Back("/Student/MainWindowStudent.fxml",nextController, event);
 	    } 
 	  
 		@Override
@@ -247,7 +247,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 		 * This function handle with choosing the specific course and presenting its assignments
 		 * @param event
 		 */	
-			
 	@FXML
 	void AfterChooseCourse(ActionEvent event)
 	{
@@ -266,7 +265,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 			 ErrorMSG.setText("There is NO Tasks in this course.");//show error message.
 			 return;
 		}
-		
 		else
 		{
 			//This lines cleans the Task combobox
@@ -281,7 +279,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 			 comboBoxChooseTask.setItems(L);
 		}
 		}
-		
 	 }
 	
 	/**
@@ -317,8 +314,6 @@ public class WatchTaskController extends QueryController implements Initializabl
 		}
 	}
 	
-	
-	
 	/** This function is enabled after the user has chosen a course and a specific task
 	 * handle the watching sub task that the student submit*
 	 * @param event
@@ -326,8 +321,8 @@ public class WatchTaskController extends QueryController implements Initializabl
     @FXML
     void watchStudentTask(ActionEvent event) 
     {
-    	ErrorMSG.setText("");
-		if(isTaskChoosed == true){
+    		ErrorMSG.setText("");
+    		if(isTaskChoosed == true){
 			ErrorMSG.setText("");
 			String choosedCourse = comboBoxChooseCourse.getValue();
 			choosedCourse = choosedCourse.substring(choosedCourse.indexOf("(") + 1, choosedCourse.indexOf(")"));//get the idcourses that is inside a ( ).
@@ -348,7 +343,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 	    	String fileName= res.get(0).get(0);
 	    	downloadFileFromServer(semFile+"//"+choosedCourse+"//"+studentID, fileName);
 	    	ErrorMSG.setText("Download was successful, please check the folder: "+semFile+"//"+choosedCourse+"//"+studentID+"//"+ fileName);
-		}
+    		}
 		else ErrorMSG.setText("Please choose course and task.");
 }
     /**
