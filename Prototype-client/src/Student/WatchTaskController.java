@@ -115,6 +115,9 @@ public class WatchTaskController extends QueryController implements Initializabl
     private	ArrayList<String> TaskList = new ArrayList<String>();
     
     private ObservableList L;
+    private String idTeacher;
+    private String idTClass;
+    private String userID1;
 
 /**This function is enabled after the user has chosen a course and a specific task 
  * handle the watching task that the teacher upload*
@@ -205,7 +208,7 @@ public class WatchTaskController extends QueryController implements Initializabl
 		{//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
-			String userID1=user.GetID();
+			 userID1=user.GetID();
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
@@ -254,10 +257,19 @@ public class WatchTaskController extends QueryController implements Initializabl
 	// save the student's choise//
 		if (isCourseChoosed == true)
 		{
-		isTaskChoosed = false;
 		String chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+		ArrayList<ArrayList<String>> resClass = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT IdenClas FROM studentincourse WHERE identityCourse="+idcourses
+				+" AND identityStudent="+userID1);
+		idTClass = 	resClass.get(0).get(0);
+		System.out.println("idTClass=" +idTClass);
+		ArrayList<ArrayList<String>> resTeacher = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tidentity FROM teacherinclassincourse WHERE coID="+idcourses
+				+" AND clasID='"+idTClass+"'");
+		idTeacher = resTeacher.get(0).get(0);
+		System.out.println("idTeacher=" +idTeacher);
+		isTaskChoosed = false;
+		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses
+				+" AND Teach="+idTeacher);
 		//if task list is empty
 		if(IdTaskInCourseList==null)
 		{

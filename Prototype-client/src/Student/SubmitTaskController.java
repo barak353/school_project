@@ -99,6 +99,9 @@ public class SubmitTaskController extends QueryController implements Initializab
     
     private String chooseCourse;
     private  String choosedTask;
+    private String idTeacher;
+    private String idTClass;
+    private String userID1;
     
     
 /**
@@ -181,7 +184,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 		{//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
-			String userID1=user.GetID();
+			 userID1=user.GetID();
 			ArrayList<ArrayList<String>> StudentInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT identityCourse FROM studentincourse WHERE identityStudent="+userID1);	
 			if(StudentInCourseList == null)
 			{
@@ -221,7 +224,26 @@ public class SubmitTaskController extends QueryController implements Initializab
     	// save the student's choise
 		 chooseCourse = comboBoxChooseCourse.getValue();
 		String idcourses = chooseCourse.substring(chooseCourse.indexOf("(") + 1, chooseCourse.indexOf(")"));//get the idcourses that is inside a ( ).
-		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses);
+		ArrayList<ArrayList<String>> resClass = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT IdenClas FROM studentincourse WHERE identityCourse="+idcourses
+				+" AND identityStudent="+userID1);
+		if(resClass==null)
+		{
+			 ErrorMSG.setText("There is NO class in this course.");//show error message.
+			 return;
+		}
+		idTClass = 	resClass.get(0).get(0);
+		System.out.println("idTClass=" +idTClass);
+		ArrayList<ArrayList<String>> resTeacher = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT Tidentity FROM teacherinclassincourse WHERE coID="+idcourses
+				+" AND clasID='"+idTClass+"'");
+		if(resTeacher==null)
+		{
+			 ErrorMSG.setText("There is NO teacher in this course.");//show error message.
+			 return;
+		}
+		idTeacher = resTeacher.get(0).get(0);
+		System.out.println("idTeacher=" +idTeacher);
+		ArrayList<ArrayList<String>> IdTaskInCourseList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+idcourses
+				+" AND Teach="+idTeacher);
 		
 		if(IdTaskInCourseList==null)
 		{
