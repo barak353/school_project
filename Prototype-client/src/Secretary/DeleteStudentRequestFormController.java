@@ -214,7 +214,7 @@ public class DeleteStudentRequestFormController extends QueryController implemen
 	    	 if (ChosenStudent==null)
 	    	 {
 	    		 StudentErr.setText("Choose a student please!!");
-	    		 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+	    		 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 			                @Override
 			                public void actionPerformed(java.awt.event.ActionEvent e) {
 			                try{
@@ -234,7 +234,7 @@ public class DeleteStudentRequestFormController extends QueryController implemen
 		    	if(result!=null)
 		    	{
 		    		 ErrCourseMessage.setText("The message already exists.");
-		    		 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+		    		 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 			                @Override
 			                public void actionPerformed(java.awt.event.ActionEvent e) {
 			                	try{
@@ -272,10 +272,10 @@ public class DeleteStudentRequestFormController extends QueryController implemen
 		    		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
 		    		  LocalDateTime now = LocalDateTime.now();
 		    		  String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
-			    	  transfferQueryToServer("INSERT INTO messagestudent (StuIdentity,CouID,type,Mdate,Answer,Mess,Cla) VALUES ('"+RequiredStringStudentID+"','"+RequiredStringCourse+"','"+"Student Delete" + "','"+Date+"','"+"NULL"+"','"+"Hello Director!! , Please Answer my delete request.\nStudent:"+RequiredStringStudentID+"\nCourse:"+RequiredStringCourse+"','"+cl.get(0).get(3)+"')");
+			    	  transfferQueryToServer("INSERT INTO messagestudent (StuIdentity,CouID,type,Mdate,Answer,Mess,Cla) VALUES ('"+RequiredStringStudentID+"','"+RequiredStringCourse+"','"+"Student Delete" + "','"+Date+"','"+"NULL"+"','"+"Hello Director!! , Please Answer my delete request.\nStudent: "+ChosenStudent+"\nCourse:"+ ChosenCourse+"','"+cl.get(0).get(3)+"')");
 			    	  SuccessMessage.setVisible(true);
 			    	  SuccessMessage.setText("The message was sended successfully.");
-			    	  Timer time = new Timer(2500, new java.awt.event.ActionListener() {
+			    	  Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 			    	  @Override
 			    	  public void actionPerformed(java.awt.event.ActionEvent e) {
 			         	try{

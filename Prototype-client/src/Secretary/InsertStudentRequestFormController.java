@@ -105,7 +105,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 	    	{
 	    		 CoursesErr.setVisible(true);
 				 CoursesErr.setText("There is no students in the DB.");
-				 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+				 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 		                @Override
 		                public void actionPerformed(java.awt.event.ActionEvent e) {
 		                	try{
@@ -124,7 +124,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 	    		for(int i=0;i<Students.size();i++)
 		    	{
 			    	ArrayList<ArrayList<String>> StudentsName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" +Students.get(i).get(0)+"'");
-		    		StudentsList.add("( "+Students.get(i).get(0)+" ) - "+StudentsName.get(0).get(1));
+		    		StudentsList.add("("+Students.get(i).get(0)+") - "+StudentsName.get(0).get(1));
 		    	}
 		    	ObservableList L= FXCollections.observableList(StudentsList);
 		    	StudentCombo.setItems(L);
@@ -134,7 +134,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 		    	{
 		    		 CoursesErr.setVisible(true);
 					 CoursesErr.setText("There is no courses in this semester:  "+sem.getYear()+':'+sem.getType());
-					 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+					 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 			                @Override
 			                public void actionPerformed(java.awt.event.ActionEvent e) {
 			                	try{
@@ -153,7 +153,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 		    		for(int i=0;i<Courses.size();i++)
 		    		{
 				    	ArrayList<ArrayList<String>> CourseName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses='" +Courses.get(i).get(0)+"'");
-		    			CoursesList.add("( "+Courses.get(i).get(0)+" ) - "+ CourseName.get(0).get(1));
+		    			CoursesList.add("("+Courses.get(i).get(0)+") - "+ CourseName.get(0).get(1));
 		    			
 		    		}
 		    		ObservableList CourseL= FXCollections.observableList(CoursesList);
@@ -194,7 +194,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 				{
 					 CoursesErr.setVisible(true);
 					 CoursesErr.setText("You already requested to insert the student:  "+Stud+"  to the course:  "+Course);
-					 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+					 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 			                @Override
 			                public void actionPerformed(java.awt.event.ActionEvent e) {
 			                	try{
@@ -211,19 +211,19 @@ public class InsertStudentRequestFormController extends QueryController implemen
 	 	    			CourseCombo.setVisible(false);
 	 	    			LabText.setVisible(false);
 	 	    			ClassCombo.setVisible(false);
-	 	    			Platform.runLater(() -> ClassCombo.getSelectionModel().clearSelection());
-	 	    			Platform.runLater(() -> CourseCombo.getSelectionModel().clearSelection());
-	 	    			Platform.runLater(() -> StudentCombo.getSelectionModel().clearSelection());
+	 	    			ClassCombo.getSelectionModel().clearSelection();
+	 	    			CourseCombo.getSelectionModel().clearSelection();
+	 	    			StudentCombo.getSelectionModel().clearSelection();
 				}
 				else
 				{
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/yyyy");
 	    		    LocalDateTime now = LocalDateTime.now();
 	    		    String Date=""+now.getDayOfMonth()+"/"+now.getMonthValue()+"/"+now.getYear();
- 	    			transfferQueryToServer("INSERT INTO messagestudent (StuIdentity,CouID,type,Mdate,Answer,Mess,Cla) VALUES ('" + StudentID + "','" + CourseID + "','" +"Student Insert"+"','"+ Date+"','"+"NULL"+"','"+"Hello,\nStudent Insert Please:\nStudent:"+StudentID+"\nClass:"+ChosenClass+"\nCourse:"+CourseID+"','"+ChosenClass+"')");
+ 	    			transfferQueryToServer("INSERT INTO messagestudent (StuIdentity,CouID,type,Mdate,Answer,Mess,Cla) VALUES ('" + StudentID + "','" + CourseID + "','" +"Student Insert"+"','"+ Date+"','"+"NULL"+"','"+"Hello,\nStudent Insert Please:\nStudent: "+Stud+"\nClass:"+ChosenClass+"\nCourse:"+Course+"','"+ChosenClass+"')");
  	    			SuccessMessage.setVisible(true);
  	    			SuccessMessage.setText("The message was sended successfully.");
- 	    			Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+ 	    			Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 		                @Override
 		                public void actionPerformed(java.awt.event.ActionEvent e) {
 		                	try{
@@ -240,9 +240,9 @@ public class InsertStudentRequestFormController extends QueryController implemen
  	    			CourseCombo.setVisible(false);
  	    			LabText.setVisible(false);
  	    			ClassCombo.setVisible(false);
- 	    			Platform.runLater(() -> ClassCombo.getSelectionModel().clearSelection());
- 	    			Platform.runLater(() -> CourseCombo.getSelectionModel().clearSelection());
- 	    			Platform.runLater(() -> StudentCombo.getSelectionModel().clearSelection());
+ 	    			ClassCombo.getSelectionModel().clearSelection();
+ 	    			CourseCombo.getSelectionModel().clearSelection();
+ 	    			StudentCombo.getSelectionModel().clearSelection();
 				} 
 			 }
 		 }
@@ -291,7 +291,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 				 	{
 				 		 CoursesErr.setVisible(true);
 				 		 CoursesErr.setText("The student is already assigned to this course.");
-						 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+						 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 				                @Override
 				                public void actionPerformed(java.awt.event.ActionEvent e) {
 				                	try{
@@ -319,7 +319,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 					 	{
 					 		 CoursesErr.setVisible(true);
 							 CoursesErr.setText("There is no classes that assgined to the course:  " +Course+"  in this semester:  "+sem.getYear()+':'+sem.getType());
-							 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+							 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 					                @Override
 					                public void actionPerformed(java.awt.event.ActionEvent e) {
 					                	try{
@@ -355,7 +355,7 @@ public class InsertStudentRequestFormController extends QueryController implemen
 					 		{
 					 			 CoursesErr.setVisible(true);
 								 CoursesErr.setText("There is no classes that assgined to the course:  " +Course+"  in the same age of the student.");
-								 Timer time = new Timer(3000, new java.awt.event.ActionListener() {
+								 Timer time = new Timer(5000, new java.awt.event.ActionListener() {
 						                @Override
 						                public void actionPerformed(java.awt.event.ActionEvent e) {
 						                	try{
