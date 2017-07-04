@@ -130,11 +130,12 @@ public TaskOfStudentController(String controllerID)
 					return;
 					}
 				
-					String query="SELECT identityStudent FROM studentincourse WHERE";
+					String query="SELECT identityStudent FROM studentincourse WHERE identityCourse="+courseID+ " AND";
 					for(String c: clas){
 						query += " IdenClas=" +"'"+ c+"'" + " OR";
 					}
 					query = query.substring(0, query.length() - 2);
+					System.out.println("query="+query);
 					ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>)
 							transfferQueryToServer(query);
 						if (res==null)
