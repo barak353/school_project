@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 import SystemManager.SystemManagerMainController;
 import Parent.ParentMainController;
 import SchoolManager.SchoolManagerMainController;
@@ -169,18 +170,14 @@ public class LoginController extends QueryController implements Initializable{//
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {//this method preform when this controller scene is showing up.
-        Timer t = new Timer(4000, new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-            	try{
-            		successfulID.setText("");// make successfulID disappear after 4 seconds.
-            	}catch(java.lang.NullPointerException e1){
-            		Log.print("LoginController: "+e1.getStackTrace().toString());
-            	}
-            }
-        });
-        t.setRepeats(false);
-        t.start();
+		class MyTimeTask extends TimerTask{
+			@Override
+			public void run() {
+        		successfulID.setText("");// make successfulID disappear after 4 seconds.
+			}
+		}
+		Timer timer = new Timer();
+		timer.schedule(new MyTimeTask(), 4000);
 	}
 	
 	public static String getUsernameID(){

@@ -225,18 +225,7 @@ public class QueryController{
 					System.err.println("Missing BackWindow.fxml file");
 					e.printStackTrace();
 				}
-	} 
-	
-    /**
-     * This method finalize the QueryController class.
-     *      * @param event
-     *      @return void
-     */ 
-	protected void finalize(){
-    	controllerHashMap.remove("controllerID");
-    	controllerHashMap.remove(controllerID);
-	}
-	
+	} 	
 
 //-----------------------------------------------------------------------//
 }
