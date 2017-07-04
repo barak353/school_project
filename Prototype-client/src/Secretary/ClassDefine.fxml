@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+      <Label layoutX="496.0" layoutY="5.0" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -51,7 +51,7 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Text>
-            <ComboBox fx:id="ComboClass" layoutX="219.0" layoutY="149.0" onAction="#ChoosenClass" prefWidth="150.0" promptText="Choose Class:" />
+            <ComboBox fx:id="ComboClass" layoutX="236.0" layoutY="149.0" onAction="#ChoosenClass" promptText="Choose Class:" />
          </children>
       </Pane>
    </children>

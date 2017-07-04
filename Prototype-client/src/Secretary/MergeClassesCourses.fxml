@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="635.0" prefWidth="1039.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="933.0" layoutY="3.0" prefHeight="57.0" prefWidth="106.0" text="מ.א.ת.">
+      <Label layoutX="933.0" layoutY="3.0" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -35,7 +35,7 @@
       </Text>
       <Pane layoutY="56.0" prefHeight="582.0" prefWidth="1039.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="131.0" layoutY="17.0" prefHeight="64.0" prefWidth="720.0" text="Assigning classes to courses" textAlignment="CENTER" textFill="#1205ff">
+            <Label layoutX="131.0" layoutY="17.0" text="Assigning classes to courses" textAlignment="CENTER" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>

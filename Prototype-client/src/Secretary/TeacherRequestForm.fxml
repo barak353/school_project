@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="496.0" layoutY="5.0" prefHeight="51.0" prefWidth="106.0" text="מ.א.ת.">
+      <Label layoutX="496.0" layoutY="5.0" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -34,7 +34,7 @@
       </Text>
       <Pane layoutX="3.0" layoutY="61.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="88.0" layoutY="28.0" prefHeight="64.0" prefWidth="441.0" text="Teacher request form" textFill="#1205ff">
+            <Label layoutX="88.0" layoutY="28.0" text="Teacher request form" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="43.0" />
                </font>
