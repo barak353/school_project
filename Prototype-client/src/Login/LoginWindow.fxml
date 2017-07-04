@@ -15,7 +15,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label layoutX="54.0" layoutY="31.0" prefHeight="76.0" prefWidth="254.0" text="Login into   .מ.א.ת">
+      <Label layoutX="54.0" layoutY="31.0" text="Login into   .מ.א.ת">
          <font>
             <Font size="30.0" />
          </font>

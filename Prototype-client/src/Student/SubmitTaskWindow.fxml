@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="465.0" prefWidth="610.0" style="-fx-background-color: #6495ea;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="497.0" layoutY="6.0" prefHeight="51.0" prefWidth="116.0" text="מ.א.ת.">
+      <Label layoutX="497.0" layoutY="6.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="מ.א.ת.">
          <font>
             <Font name="System Bold" size="33.0" />
          </font>
@@ -31,7 +31,7 @@
       </Text>
       <Pane layoutX="3.0" layoutY="56.0" prefHeight="418.0" prefWidth="610.0" style="-fx-background-color: #F0e7FF;">
          <children>
-            <Label layoutX="110.0" layoutY="28.0" prefHeight="64.0" prefWidth="383.0" text="Submit Task in Course" textFill="#1205ff">
+            <Label layoutX="110.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" snapToPixel="false" text="Submit Task in Course" textFill="#1205ff">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
