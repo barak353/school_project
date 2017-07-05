@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.ComboBox;
 import Login.LoginController;
+import Entity.Semester;
 import Entity.User;
 import application.QueryController;
 import javafx.collections.FXCollections;
@@ -118,7 +119,8 @@ public class SetUpTaskController extends QueryController implements Initializabl
     	userID.setText(user.GetUserName());
         
     	String teacherID = user.GetID();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	String semeID = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID + " AND SemesId='" + semeID + "'");
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
     	if(res == null) return;

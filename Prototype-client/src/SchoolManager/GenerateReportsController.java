@@ -134,7 +134,7 @@ public class GenerateReportsController extends QueryController implements Initia
 		    ArrayList<ArrayList<String>> List = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT teacherid FROM teacher");
 		    System.out.println(List);
 	        if(List == null){
-	        	ErrorMSG.setText("No found teacher");//show error message.
+	        	ErrorMSG.setText("Teacher is not found.");//show error message.
 	        	return;
 	        }
 	        else{
@@ -145,7 +145,7 @@ public class GenerateReportsController extends QueryController implements Initia
 	                // put the teacher list at the comboBoxChooseCourse//
 	        		NameList = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT userID,userName FROM user WHERE userID="+row.get(0));
 	        		if (NameList==null){
-	        			ErrorMSG.setText("There is NO found teacher.");//show error message
+	        			ErrorMSG.setText("There is teacher.");//show error message
 	        			return;
 	        		}
 	        		
@@ -166,7 +166,7 @@ public class GenerateReportsController extends QueryController implements Initia
 		    choose.setVisible(true);
 		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT ClassID FROM Class");
 		    if(res==null){
-	        	ErrorMSG.setText("NO found course");//show error message.
+	        	ErrorMSG.setText("Couse is not found.");//show error message.
 	        	return;
 	        }
 	        else{
@@ -184,7 +184,7 @@ public class GenerateReportsController extends QueryController implements Initia
 		    choose.setVisible(true);
 		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses, courseName FROM courses");
 		    if(res==null){
-	        	ErrorMSG.setText("NO found course");//show error message.
+	        	ErrorMSG.setText("Couse is not found.");//show error message.
 	        	return;
 	        }
 	        else{
@@ -299,7 +299,7 @@ public class GenerateReportsController extends QueryController implements Initia
 	    			if(chooseSemester > 0){
 		    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
 		    	        if(res == null){
-		    	        	ErrorMSG.setText("No found semester");//show error message.
+		    	        	ErrorMSG.setText("Senester is not found.");//show error message.
 		    	        	return;
 		    	        }
 		    	        else{
@@ -409,7 +409,7 @@ public class GenerateReportsController extends QueryController implements Initia
 	    			if(chooseSemester > 0){
 		    			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT semID FROM semester GROUP BY semID ORDER BY semID DESC");
 		    	        if(res == null){
-		    	        	ErrorMSG.setText("No found semester");//show error message.
+		    	        	ErrorMSG.setText("Semester is not found");//show error message.
 		    	        	return;
 		    	        }
 		    	        else{	    			
@@ -428,7 +428,7 @@ public class GenerateReportsController extends QueryController implements Initia
 			        		
 			    			ArrayList<ArrayList<String>> avgBetCourse= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT coID,AVG(AVG) FROM teacherinclassincourse WHERE clasID='" + chooseChoose + "' AND (" + semesters +") GROUP BY Tidentity");
 			    	        if(avgBetCourse == null){
-			    	        	ErrorMSG.setText("No found avg Class");//show error message.
+			    	        	ErrorMSG.setText("Clases is not found.");//show error message.
 			    	        	return;
 			    	        }
 		

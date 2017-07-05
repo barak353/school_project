@@ -77,7 +77,8 @@ public class ChecksHomeworkController extends QueryController implements Initial
          teacherID = user.GetID();
 	    ObservableList obList= FXCollections.observableList(new ArrayList());;
 	    CourseList.setItems(obList);
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+	    String semeID = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID + " AND SemesId='" + semeID + "'");
     	System.out.println("res: "+res);
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;

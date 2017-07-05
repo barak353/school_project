@@ -245,8 +245,8 @@ public class FillFinalEvaluationController extends QueryController implements In
     	User user = User.getCurrentLoggedIn();
     	userID.setText(user.GetUserName());
     	 teacherID = user.GetID();
-    	
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID);
+    	 String semeID = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
+     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID + " AND SemesId='" + semeID + "'");
     	if (res==null)
     	{
     		textMSG.setText("there is no courses in the DB.");
