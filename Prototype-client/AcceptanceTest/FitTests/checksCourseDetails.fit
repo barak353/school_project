@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title></title>
+	<meta content="MSHTML 11.00.10570.1001" name="GENERATOR" />
+</head>
+<body>
+<p>&nbsp;</p>
+
+<p>CheckCourseDetails Acceptance Test</p>
+
+<p>Before entering a new course we checks if the course details are correct, and we checks if the course name is already exist in the DB.</p>
+
+<p>So in the first time we enter course name: &#39;Test&#39; and teaching unit and hours and the checkCourseDetails should return true.</p>
+
+<p>after we check 4 wrong inputs, at the first time we enter course name that already exist in the DB then we enter wrong details in the 3 other tests.</p>
+
+<table border="1" cellpadding="5" cellspacing="0" width="765">
+	<tbody>
+		<tr>
+			<td class="style1" colspan="3">fit.ActionFixture</td>
+		</tr>
+		<tr>
+			<td class="style1">start</td>
+			<td class="style1">Fixtures.client.checksCourseDetails<br />
+			&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">start controller<br />
+			&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Test</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">321</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Algebra 1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">321</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">321</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Algebra 1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Algebra 1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">321</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Test</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">321</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">Wrong</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">checksCourseDetails</td>
+			<td class="style1">false</td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="style1">CheckCourseDetails FIT Test &copy; 2017 Barak Segal</p>
+</body>
+</html>

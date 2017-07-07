@@ -38,6 +38,8 @@ import javafx.stage.Stage;
 
 public class SystemManagerAddCourseController extends QueryController implements Initializable{
 	
+
+	
 	//-----------------------------------------------------------//
 	
 	public SystemManagerAddCourseController (String controllerID)
@@ -84,6 +86,58 @@ public class SystemManagerAddCourseController extends QueryController implements
     private String teachingUnit;
     private int flag=0;
 
+    public boolean checksCourseDetails(String nameCourse ,String teachingUnit ,String Hours){//will be checked in fit pro.
+    	boolean isValidInput = true;
+    	try{	//check if the filed hours is only numbers.
+    		Integer.parseInt(Hours);
+    	}
+    	catch(NumberFormatException e){
+	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    		errorID.setText("ERROR:\nHours most contain only numbers."); 
+	    		add.setText("");
+	    		course.setText("");
+	    	}
+    		System.out.println("1");
+    		isValidInput = false;
+    	}
+   	
+    	if(nameCourse.equals("")==true || Hours.equals("")==true){	//checks if there is an empty field
+	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    		errorID.setText("ERROR:\nPlease fill out all fields.");
+	    		add.setText("");
+	    		course.setText("");
+	    	}
+    		System.out.println("2");
+
+    		isValidInput = false;
+    	}
+    	
+    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    	if(flag == 0){	//not choose Teaching Unit.
+	    		errorID.setText("ERROR:\nPlease choose Teaching Unit.");
+	    		add.setText("");
+	    		course.setText("");
+	    		System.out.println("3");
+	
+	    		isValidInput = false;
+	    	}
+    	}
+		
+	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + nameCourse +"'");
+	    System.out.println("res: "+res);
+	    if(res != null){ // check if the name course is already exist in the DB or not exist.
+	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+		    	errorID.setText("ERROR:\nthis Name Course is exist in DB, Choose another name."); 
+	    		add.setText("");
+	    		course.setText("");
+	    	}
+    		System.out.println("4");
+
+    		isValidInput = false;
+		}
+	    System.out.println("isValidInput: "+isValidInput);
+		return isValidInput;
+	}
 	//-----------------------------------------------------------// 
    
     /**
@@ -92,80 +146,56 @@ public class SystemManagerAddCourseController extends QueryController implements
      *  and the system show the ID course,the add Pre-Course Button and the add More Course Button
      * @param event
      */   
-    
     @FXML
     void addCourse(ActionEvent event){
-    	boolean isValidInput = true;
+    	boolean isValidInput;
     	nameCourse = courseName.getText();
     	Hours = hours.getText();
     	errorID.setText("");
 		add.setText("");
 		course.setText("");
 		
-    	try{	//check if the filed hours is only numbers.
-    		Integer.parseInt(Hours);
-    	}
-    	catch(NumberFormatException e){
-    		errorID.setText("ERROR:\nHours most contain only numbers."); 
-    		add.setText("");
-    		course.setText("");
-    		isValidInput = false;
-    	}
-   	
-    	if(nameCourse.equals("")==true || Hours.equals("")==true){	//checks if there is an empty field
-    		errorID.setText("ERROR:\nPlease fill out all fields.");
-    		add.setText("");
-    		course.setText("");
-    		isValidInput = false;
-    	}
-    	
-    	else if(flag == 0){	//not choose Teaching Unit.
-    		errorID.setText("ERROR:\nPlease choose Teaching Unit.");
-    		add.setText("");
-    		course.setText("");
-    		isValidInput = false;
-    	}
-		
-	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + nameCourse +"'");
-	    if(res != null){ // check if the name course is already exist in the DB or not exist.
-			errorID.setText("ERROR:\nthis Name Course is exist in DB, Choose another name."); 
-    		add.setText("");
-    		course.setText("");
-    		isValidInput = false;
-		}
+		isValidInput = checksCourseDetails(nameCourse ,teachingUnit ,Hours);//will be checked in the fit pro.
     	
     	Object obj = null;
     	String idteachingUnit = teachingUnit.substring(teachingUnit.indexOf("(") + 1, teachingUnit.indexOf(")"));//get the idteachingUnit that is inside a ( ).
-    	System.out.println("idteachingUnit: "+ idteachingUnit);
     	
     	if(isValidInput == true){  //if the data were inserted properly, added in DB.
-	 		obj =  transfferQueryToServer("INSERT INTO courses(courseName, teachingUnit, hours) VALUES ('"+courseName.getText()+"','"+idteachingUnit+"',"+hours.getText()+")");
-	    	if(obj == null){ //check if data insert to DB
-				add.setText("The course was successfully added in DB.");
-				addPreCourseButton.setVisible(true);
-				addMoreCourseButton.setVisible(true);
-		    	errorID.setText("");
-		    	
-				//The number the DB gave to the ID course
-				ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + nameCourse +"'");
-		        if(res1==null){
-		        	errorID.setText("NO found name courses");//show error message.
-		    		add.setText("");
-		    		course.setText("");
-		    		isValidInput = false;
-		        }
-		        else{
-		    		ArrayList<String> chooseIDcourse = new ArrayList<String>();
-		    		chooseIDcourse.add(res1.get(0).get(0));
-		    		String[] id = new String[chooseIDcourse.size()];
-		    		id = chooseIDcourse.toArray(id);
-		    		Coursetext.setVisible(true);
-		    		course.setText(id[0]);
-		    		lastCourse=id[0];
-		        }
-	    	}
+	 		insertCourse(idteachingUnit,courseName.getText(),hours.getText(),nameCourse);
     	}
     }
+    
+    
+	private boolean insertCourse(String idteachingUnit,String courseName, String hours,String nameCourse) {//will be checked in fit pro.
+		boolean isInsertSucced = true;
+		Object obj;
+		obj =  transfferQueryToServer("INSERT INTO courses(courseName, teachingUnit, hours) VALUES ('"+courseName+"','"+idteachingUnit+"',"+hours+")");
+		if(obj == null){ //check if data insert to DB
+			//add.setText("The course was successfully added in DB.");
+			//addPreCourseButton.setVisible(true);
+			//addMoreCourseButton.setVisible(true);
+			//errorID.setText("");
+			
+			//The number the DB gave to the ID course
+			ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + nameCourse +"'");
+		    if(res1==null){
+		    	//errorID.setText("NO found name courses");//show error message.
+				//add.setText("");
+				//course.setText("");
+				isInsertSucced = false;
+		    }
+		    else{
+				ArrayList<String> chooseIDcourse = new ArrayList<String>();
+				chooseIDcourse.add(res1.get(0).get(0));
+				String[] id = new String[chooseIDcourse.size()];
+				id = chooseIDcourse.toArray(id);
+				//Coursetext.setVisible(true);
+				//course.setText(id[0]);
+				lastCourse=id[0];
+		    }
+		}
+		return isInsertSucced;
+	}
     
 		//------------------------------------------// 
 		
@@ -246,10 +276,14 @@ public class SystemManagerAddCourseController extends QueryController implements
 		public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
 			User user = User.getCurrentLoggedIn();
 			userID.setText(user.GetUserName());
-			
-		    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teachingunit");
+		    findTeachingUnit();
+		}
+		
+		private boolean findTeachingUnit() {
+			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teachingunit");
 	        if(res==null){
-	        	errorID.setText("NO found teaching unit");//show error message.
+	        	errorID.setText("Teaching unit is not found");//show error message.
+	        	return false;
 	        }
 	        else{
 			    ArrayList<String> teachingunitList = new ArrayList<String>();
@@ -258,6 +292,7 @@ public class SystemManagerAddCourseController extends QueryController implements
 		    	}
 			    ObservableList obList= FXCollections.observableList(teachingunitList);
 			    TeachingUnit.setItems(obList);
+			    return true;
 	        }
 		}
 		

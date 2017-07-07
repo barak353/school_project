@@ -143,7 +143,7 @@ public class QueryController{
      * A static method that connect the client to the server.
      * @param event
      */ 
-    static void connect(String host, int port) throws IOException{//in this method we connect to the server.
+    public static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);
     }
     /**
