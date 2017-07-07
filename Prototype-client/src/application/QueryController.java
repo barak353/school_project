@@ -25,10 +25,10 @@ import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
 
-	private static ClientGui connection;//connection will old the connection to the server.
+	public static ClientGui connection;//connection will old the connection to the server.
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
-   
+    
     public static HashMap <String ,QueryController> controllerHashMap = new HashMap <String ,QueryController>();;//This will hold all the controller by their ID.
     
     private String backScreen="";
@@ -143,7 +143,7 @@ public class QueryController{
      * A static method that connect the client to the server.
      * @param event
      */ 
-    static void connect(String host, int port) throws IOException{//in this method we connect to the server.
+    public static void connect(String host, int port) throws IOException{//in this method we connect to the server.
 			connection = new ClientGui(host, port);
     }
     /**
@@ -154,6 +154,10 @@ public class QueryController{
     protected Object transfferQueryToServer(String strQuery){//Send packaged to server, and wait for answer. And then return the answer.
     	packaged.put("key","Query");
     	packaged.put("strQuery",strQuery);//Send the query to be executed in DB to the server.
+    	packaged.remove("ResultArray");//Remove strQuery from packaged.
+
+    	System.out.println("1packaged-controller: "+packaged);
+
     	connection.handleMessageFromClientUI((Object)packaged);
     	synchronized(connection){//wait for ResultArray from server.
     			try{
@@ -163,7 +167,10 @@ public class QueryController{
     			}
     			connection.setFlagFalse();
     	}
+    	System.out.println("transf-this: " + this);
+    	System.out.println("2packaged-controller: "+packaged);
     	Object result = packaged.get("ResultArray");//Get the resultArray that returned from the server.
+    	System.out.println("result-controller: "+result);
     	packaged.remove("strQuery");//Remove strQuery from packaged.
     	packaged.remove("ResultArray");//Remove ResultArray from packaged.
     	packaged.remove("key");
@@ -172,6 +179,9 @@ public class QueryController{
     
     
     protected void setPackaged(HashMap <String ,Object> packaged){//set packaged.
+    	System.out.println("set packaged: " + packaged);
+    	System.out.println("set-this: " + this);
+    	System.out.println("packaged: " + packaged.get("ControllerID"));
     	this.packaged=packaged;
     }
  

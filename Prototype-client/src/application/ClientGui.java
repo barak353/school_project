@@ -64,7 +64,9 @@ public class ClientGui extends AbstractClient
   {
 	  synchronized(this){
 	  HashMap <String ,Object> packaged=(HashMap <String ,Object>) msg;//the returned packaged from server.
+	  System.out.println("packaged-res: " + packaged.get("ResultArray"));
 	  String controllerID=(String)packaged.get("controllerID");//Get the controller ID that send this packaged to server.
+	  System.out.println("handle-controllerID: "+controllerID);
 	  QueryController cq = (QueryController)QueryController.controllerHashMap.get(controllerID);//Get the controller that send this packaged to server.
 	  cq.setPackaged(packaged);
 		  notify();
@@ -98,7 +100,7 @@ public class ClientGui extends AbstractClient
       closeConnection();
     }
     catch(IOException e) {}
-    System.exit(0);
+    //System.exit(0);
   }
 }
 //End of ClientGui class

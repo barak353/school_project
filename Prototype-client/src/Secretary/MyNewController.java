@@ -75,8 +75,8 @@ public class MyNewController extends QueryController implements Initializable {
     private ArrayList<String> studentsAssigned;
     private ArrayList<String> studentsNotAssigned;
     private ArrayList<ArrayList<String>> SName;
-    private ArrayList<String> PreCoursesOfCourse;
-    private ArrayList<String> AllStudentsInClass;
+    public ArrayList<String> PreCoursesOfCourse;
+    public ArrayList<String> AllStudentsInClass;
     private int counterPrint=0;
     private ArrayList<Teacher> Teacher=new ArrayList<Teacher>();
     private String NotAssigned="";
@@ -90,71 +90,76 @@ public class MyNewController extends QueryController implements Initializable {
   	 * @param arg1
   	 */
 	  public void initialize(URL arg0, ResourceBundle arg1) {//this method perform when this controller scene is showing up.
-		User user = User.getCurrentLoggedIn();
-		userID.setText(user.GetUserName());
-		//------------------------------------------------------------------//
-		sem=Semester.getCurrentSemester();
-		DataField.setText(sem.GetMyString());
-		DataField.setVisible(true);
-		//Checking if there are courses in this semester in DB:
-		if (sem.getCourseList().isEmpty()==true)
+		if(StatusJunit==0)
 		{
-			t.setText("There is no courses in this semester");
-		}
-		//-----------------------------------------//
-		else
-		{
-			ArrayList<String> list = new ArrayList<String>();
-		    for (int i=0;i<sem.getCourseList().size();i++)
-		    {
-		    	list.add(sem.getCourseList().get(i));
-		    }
-		    //------------------------------------------------------------------//
-		    ObservableList obList= FXCollections.observableList(list);
-		    CourseL.setItems(obList);
-		    CourseL.setVisible(true);
-		    //------------------------------------------------------------------//
-		    ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass");
-			if(res==null)
+			
+			 User user = User.getCurrentLoggedIn();
+			userID.setText(user.GetUserName());
+			//------------------------------------------------------------------//
+			sem=Semester.getCurrentSemester();
+			DataField.setText(sem.GetMyString());
+			DataField.setVisible(true);
+			//Checking if there are courses in this semester in DB:
+			if (sem.getCourseList().isEmpty()==true)
 			{
-				t.setText("There is no classes with students in the DB.");
-				 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
-		                @Override
-		                public void actionPerformed(java.awt.event.ActionEvent e) {
-		                	try{
-		                		t.setText("");
-		                	}catch(java.lang.NullPointerException e1){
-		                	}
-		                }
-		            });
-		            time.setRepeats(false);
-		            time.start();
+				t.setText("There is no courses in this semester");
 			}
+			//-----------------------------------------//
 			else
 			{
-				ArrayList<String> list2 = new ArrayList<String>();
-				list2.add(res.get(0).get(1));
-				for(int i=0;i<res.size();i++) //Run on the table
+				ArrayList<String> list = new ArrayList<String>();
+			    for (int i=0;i<sem.getCourseList().size();i++)
+			    {
+			    	list.add(sem.getCourseList().get(i));
+			    }
+			    //------------------------------------------------------------------//
+			    ObservableList obList= FXCollections.observableList(list);
+			    CourseL.setItems(obList);
+			    CourseL.setVisible(true);
+			    //------------------------------------------------------------------//
+			    ArrayList<ArrayList<String>> res= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass");
+				if(res==null)
 				{
-					for(int j=0;j<list2.size();j++) //Run to the list
-					{
-						if(res.get(i).get(1).equals(list2.get(j))==true)
-						{
-							break;
-						}
-						else if (j==list2.size()-1 && res.get(i).get(1).equals(list2.get(j))==false)
-						{
-							list2.add(res.get(i).get(1));
-						}
-					}
-
+					t.setText("There is no classes with students in the DB.");
+					 Timer time = new Timer(1500, new java.awt.event.ActionListener() {
+			                @Override
+			                public void actionPerformed(java.awt.event.ActionEvent e) {
+			                	try{
+			                		t.setText("");
+			                	}catch(java.lang.NullPointerException e1){
+			                	}
+			                }
+			            });
+			            time.setRepeats(false);
+			            time.start();
 				}
-				    //------------------------------------------------------------------//
-				    ObservableList comlist= FXCollections.observableList(list2);
-				    ClassL.setItems(comlist);
-				    ClassL.setVisible(true);
-			}
+				else
+				{
+					ArrayList<String> list2 = new ArrayList<String>();
+					list2.add(res.get(0).get(1));
+					for(int i=0;i<res.size();i++) //Run on the table
+					{
+						for(int j=0;j<list2.size();j++) //Run to the list
+						{
+							if(res.get(i).get(1).equals(list2.get(j))==true)
+							{
+								break;
+							}
+							else if (j==list2.size()-1 && res.get(i).get(1).equals(list2.get(j))==false)
+							{
+								list2.add(res.get(i).get(1));
+							}
+						}
+	
+					}
+					    //------------------------------------------------------------------//
+					    ObservableList comlist= FXCollections.observableList(list2);
+					    ClassL.setItems(comlist);
+					    ClassL.setVisible(true);
+					}
+				}
 		}
+ 
 	}
 	//--------------------------------------------------------------------------//
 	public MyNewController (String controllerID)
@@ -237,6 +242,7 @@ public class MyNewController extends QueryController implements Initializable {
 	    	   }
 	    	   case "Class Already Assigned":
 	    	   {
+	    		  
 	    		   PrintErr("The class: "+ClassChoise+" is already assigned to the course: "+CourseChoise);
 	    		   CourseL.getSelectionModel().clearSelection();
 	    		   ClassL.getSelectionModel().clearSelection();
@@ -258,7 +264,6 @@ public class MyNewController extends QueryController implements Initializable {
 	//--------------------------------------------------------------------------//
 	public String AssignClassToCourse(String Class, String Course)
 	{
-		
 		sem.setMyString2("");
 		if (StatusJunit==0)errorlog.setText(sem.GetMyString2());
 		if (StatusJunit==0)errorlog.setVisible(false);
@@ -296,13 +301,26 @@ public class MyNewController extends QueryController implements Initializable {
 		RequiredStringCourse = Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
     	ArrayList<ArrayList<String>> result= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teacherinclassincourse WHERE clasID='" + Class + "' AND coID='" +RequiredStringCourse+"'");
     	//If already assigned:
-    	if(result!=null) return "Class Already Assigned";
+    	if(result!=null)
+    	{
+    		return "Class Already Assigned";	
+    	}
     	//---------------------------------------------------------------------//
-    	AllStudentsInClass=TakeStudentsFromClass();
+		 ArrayList<String> StudentsArray=new ArrayList<String>();
+		//Taking the students from the class:
+	    ArrayList<ArrayList<String>> StudentsInClass= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass WHERE identityclass='" + Class +"'"); 
+	    System.out.println("StudentsInClass: " + StudentsInClass + ", Class:" + Class);
+		 for(int i=0;i<StudentsInClass.size();i++)
+		 {
+		    	StudentsArray.add(StudentsInClass.get(i).get(0));
+		 }
+	    
+    	AllStudentsInClass=StudentsArray;
     	PreCoursesOfCourse=TakePreCoursesOfCourse();
     	//There is no pre courses 
     	if (PreCoursesOfCourse==null)
     	{
+    		
     		if (StatusJunit==0)sem.setMyString(sem.GetMyString()+"\n---------------------------------------------\n"+"Class: "+ClassChoise+" -->  Course: "+CourseChoise);
     		if (StatusJunit==0)DataField.setText(sem.GetMyString());
 	     	for(int j=0;j<AllStudentsInClass.size();j++)
@@ -458,19 +476,7 @@ public class MyNewController extends QueryController implements Initializable {
            time.setRepeats(false);
            time.start();
 	}
-	//--------------------------------------------------------------------------//
-	 public ArrayList<String> TakeStudentsFromClass ()
-	 {
-		 int i;
-		 ArrayList<String> StudentsArray=new ArrayList<String>();
-		//Taking the students from the class:
-	    ArrayList<ArrayList<String>> StudentsInClass= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass WHERE identityclass='" + ClassChoise +"'"); 
-	    for(i=0;i<StudentsInClass.size();i++)
-		{
-	    	StudentsArray.add(StudentsInClass.get(i).get(0));
-		}
-	    return StudentsArray;
-	 }
+
 	//--------------------------------------------------------------------------//
 	 public ArrayList<String> TakePreCoursesOfCourse()
 	 {
