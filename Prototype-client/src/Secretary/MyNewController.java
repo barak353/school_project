@@ -250,7 +250,11 @@ public class MyNewController extends QueryController implements Initializable {
 	    	   }
 	    	   case "ALL":
 	    	   {
-	    		   PrintErr("All the student's in the class didnt fill the pre courses.");
+	    		   if(PreCoursesOfCourse!=null)PrintErr("All the student's in the class didnt fill the pre courses.");
+	    		   else
+	    		   {
+	    			   PrintErr("All the student's in the class already assigned to the course.");
+	    		   }
 	    		   CourseL.getSelectionModel().clearSelection();
 	    		   ClassL.getSelectionModel().clearSelection();
 	    		   break;
@@ -271,28 +275,34 @@ public class MyNewController extends QueryController implements Initializable {
 		studentsNotAssigned=new ArrayList<String>();
 		studentsAssigned=new ArrayList<String>();
 		NotAssigned="";
-		if(TeacherFlag==1)
-		{		
-			String Check=Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
-			if(Check.equals(RequiredStringCourse)==false)
-			{
-				if (StatusJunit==0)diaID.setVisible(false);
-				if (StatusJunit==0)chooseteachertext.setVisible(false);
-				if (StatusJunit==0)teacherList.setVisible(false);
-				TeacherFlag=0;
-			}
-		}
-		//----------------------------------------------------------------------//
-		//Checking the details:
-		if(TeacherFlag==1)
-		{		
-			String Check=Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
-			if(Check.equals(RequiredStringCourse)==true)
-			{
-				return "Missing Teacher";
+		if(StatusJunit==0)
+		{
+			if(TeacherFlag==1)
+			{		
+				String Check=Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
+				if(Check.equals(RequiredStringCourse)==false)
+				{
+					if (StatusJunit==0)diaID.setVisible(false);
+					if (StatusJunit==0)chooseteachertext.setVisible(false);
+					if (StatusJunit==0)teacherList.setVisible(false);
+					TeacherFlag=0;
+				}
 			}
 		}
 		
+		//----------------------------------------------------------------------//
+		//Checking the details:
+		if(StatusJunit==0)
+		{
+			if(TeacherFlag==1)
+			{		
+				String Check=Course.substring(Course.indexOf("(") + 1, Course.indexOf(")"));
+				if(Check.equals(RequiredStringCourse)==true)
+				{
+					return "Missing Teacher";
+				}
+			}
+		}
 		 if(Class==null && Course!=null)return "Missing Class";
 		 if(Class!=null && Course==null)return "Missing Course";
 		 if (Class==null && Course==null) return "Missing Class and Course";
@@ -309,7 +319,6 @@ public class MyNewController extends QueryController implements Initializable {
 		 ArrayList<String> StudentsArray=new ArrayList<String>();
 		//Taking the students from the class:
 	    ArrayList<ArrayList<String>> StudentsInClass= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM studentinclass WHERE identityclass='" + Class +"'"); 
-	    System.out.println("StudentsInClass: " + StudentsInClass + ", Class:" + Class);
 		 for(int i=0;i<StudentsInClass.size();i++)
 		 {
 		    	StudentsArray.add(StudentsInClass.get(i).get(0));

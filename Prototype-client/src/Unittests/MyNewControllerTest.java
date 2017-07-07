@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import application.ClientGui;
 import application.QueryController;
 import Entity.Semester;
@@ -88,7 +87,7 @@ public class MyNewControllerTest extends TestCase {
 	{
 		String Answer;
 		
-		Answer=ControllerCheck.AssignClassToCourse("A1","(5573) - Physics 1");
+		Answer=ControllerCheck.AssignClassToCourse("A1","(5572) - Misdhif");
 		//System.out.println("end");
 		//QueryController.connection.quit();
 		assertEquals("Class Already Assigned", Answer);
@@ -104,8 +103,86 @@ public class MyNewControllerTest extends TestCase {
 		Answer=ControllerCheck.AssignClassToCourse("A1","(5577) - Tehen Logi");
 		
 		assertEquals("Success", Answer);
-		
-		
 	}
+	//----------------------------------------------------------------//
+	/*Course Without pre course and all the students already assigned:*/
+	@Test
+	public void testCourseWithoutPreCoursesAllTheStudentsAssigned() 
+	{
+		String Answer;
+		
+		Answer=ControllerCheck.AssignClassToCourse("A2","(5577) - Tehen Logi");
+		assertEquals("ALL",Answer);
+	}
+	//----------------------------------------------------------------//
+	      /*Course Without pre course and half students assigned:*/
+	@Test
+	public void testCourseWithoutPreCoursesHalfStudentsAssigned() 
+	{
+		String Answer;
+		
+		Answer=ControllerCheck.AssignClassToCourse("B1","(5577) - Tehen Logi");
+		assertEquals(""+"\nShir",Answer);
+	}
+	//----------------------------------------------------------------//
+            /*Course with pre courses class already assigned:*/
+	@Test
+	public void testCourseWithPreCourseClassArlreadyAssigned() 
+	{
+		String Answer;
+		
+		Answer=ControllerCheck.AssignClassToCourse("B2","(5569) - English 2");
+		assertEquals("Class Already Assigned",Answer);
+	}
+	//----------------------------------------------------------------//
+	    /*Course with pre courses all the students fullfil pre courses*/
+	@Test
+	public void testCourseWithPreCourseAllStudentsOK() 
+	{
+		String Answer;
 	
+		Answer=ControllerCheck.AssignClassToCourse("B1","(5570) - English 3");
+		assertEquals("Success",Answer);
+	}
+	//----------------------------------------------------------------//
+		/*Course with pre courses all the students fullfil pre courses*/
+	@Test
+	public void testCourseWithPreCourseAllNotFullfil() 
+	{
+		String Answer;
+	
+		Answer=ControllerCheck.AssignClassToCourse("B1","(5567) - Matam");
+		assertEquals("ALL",Answer);
+	}
+	//----------------------------------------------------------------//
+	/*Course with pre courses half class is already assigned and the other half not:*/
+	@Test
+	public void testCourseWithPreCourseStudentAlreadyAssigned() 
+	{
+		String Answer;
+	
+		Answer=ControllerCheck.AssignClassToCourse("B2","(5565) - Algebra 2");
+		assertEquals(""+"\nRoi",Answer);
+	}
+	//----------------------------------------------------------------//
+	/*Course with pre courses half class is already assigned and the other half not fullfil
+	  pre courses*/
+	@Test
+	public void testCourseWithPreCourseHalfNotFulfill() 
+	{
+		String Answer;
+	
+		Answer=ControllerCheck.AssignClassToCourse("A1","(5569) - English 2");
+		assertEquals("ALL",Answer);
+	}
+	//----------------------------------------------------------------//
+	/*Course with pre courses half class fullfil pre courses (grades<55)*/
+	@Test
+	public void testCourseWithPreCourseHalffullfil() 
+	{
+		String Answer;
+	
+		Answer=ControllerCheck.AssignClassToCourse("A1","(5566) - Hedva 2");
+		assertEquals(""+"\nnofarT+\nSnir+\n+Michael",Answer);
+	}
 }
