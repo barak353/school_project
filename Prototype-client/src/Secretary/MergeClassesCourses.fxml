@@ -62,12 +62,12 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Text fx:id="t" fill="RED" layoutX="297.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="358.13671420514584">
+            <Text fx:id="t" fill="RED" layoutX="305.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="388.13671420514584">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <DialogPane fx:id="diaID" layoutX="303.0" layoutY="234.0" prefHeight="199.0" prefWidth="376.0" visible="false" />
+            <DialogPane fx:id="diaID" layoutX="303.0" layoutY="237.0" prefHeight="199.0" prefWidth="376.0" visible="false" />
             <Text fx:id="chooseteachertext" fill="#01dd9b" layoutX="430.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Teacher:" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />

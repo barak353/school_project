@@ -243,7 +243,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
 		Semester.setMyString(AllDetails);
 		 try {
 			   FXMLLoader loader = new FXMLLoader(getClass().getResource("/Secretary/MergeClassesCourses.fxml"));
-			   loader.setController(new MergeClassesCoursesController("MergeClassesCoursesController"));
+			   loader.setController(new MyNewController("MergeClassesCoursesController"));
 			   Pane login_screen_parent = loader.load();
 			        Scene login_screen_scene=new Scene(login_screen_parent);
 					Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();//the scene that the event came from.
@@ -251,7 +251,7 @@ public class OpenNewSemesterController extends QueryController implements Initia
 					app_stage.setScene(login_screen_scene);
 					app_stage.show(); 
 		        } catch (IOException e) {
-					System.err.println("Missing MergeClassesCourses.fxml file");
+					System.err.println("Missing MyNewController.fxml file");
 					e.printStackTrace();
 				}
 	}
