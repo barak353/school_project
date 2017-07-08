@@ -11,7 +11,7 @@
 
 <p>Before entering a new course we checks if the course details are correct, and we checks if the course name is already exist in the DB.</p>
 
-<p>So in the first time we enter course name: &#39;Test&#39; and teaching unit and hours and the checkCourseDetails should return true.</p>
+<p>So in the first time we enter course name: &#39;Test&#39; and teaching unit and hours, the checkCourseDetails should return true becouse &#39;Test&#39; name course should not be exist in the DB!!.</p>
 
 <p>after we check 4 wrong inputs, at the first time we enter course name that already exist in the DB then we enter wrong details in the 3 other tests.</p>
 

@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 public class QueryController{ 
 
-	private static ClientGui connection;//connection will old the connection to the server.
+	public static ClientGui connection;//connection will old the connection to the server.
 
     private HashMap <String ,Object> packaged;//This packaged will send to the server with a query and will return back to the client with ResultArray.
    
@@ -35,6 +35,8 @@ public class QueryController{
         
     protected String controllerID;
 
+    public boolean isNotTest = true;
+    
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
 		//controllerHashMap=new HashMap <String ,QueryController>();

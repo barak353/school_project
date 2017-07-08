@@ -92,50 +92,41 @@ public class SystemManagerAddCourseController extends QueryController implements
     		Integer.parseInt(Hours);
     	}
     	catch(NumberFormatException e){
-	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    	if(isNotTest){
 	    		errorID.setText("ERROR:\nHours most contain only numbers."); 
 	    		add.setText("");
 	    		course.setText("");
 	    	}
-    		System.out.println("1");
     		isValidInput = false;
     	}
    	
     	if(nameCourse.equals("")==true || Hours.equals("")==true){	//checks if there is an empty field
-	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    	if(isNotTest){
 	    		errorID.setText("ERROR:\nPlease fill out all fields.");
 	    		add.setText("");
 	    		course.setText("");
 	    	}
-    		System.out.println("2");
-
     		isValidInput = false;
     	}
     	
-    	if(Fixtures.client.checksCourseDetails.isNotTest){
+    	if(isNotTest){
 	    	if(flag == 0){	//not choose Teaching Unit.
 	    		errorID.setText("ERROR:\nPlease choose Teaching Unit.");
 	    		add.setText("");
 	    		course.setText("");
-	    		System.out.println("3");
-	
 	    		isValidInput = false;
 	    	}
     	}
 		
 	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + nameCourse +"'");
-	    System.out.println("res: "+res);
 	    if(res != null){ // check if the name course is already exist in the DB or not exist.
-	    	if(Fixtures.client.checksCourseDetails.isNotTest){
+	    	if(isNotTest){
 		    	errorID.setText("ERROR:\nthis Name Course is exist in DB, Choose another name."); 
 	    		add.setText("");
 	    		course.setText("");
 	    	}
-    		System.out.println("4");
-
     		isValidInput = false;
 		}
-	    System.out.println("isValidInput: "+isValidInput);
 		return isValidInput;
 	}
 	//-----------------------------------------------------------// 
@@ -161,27 +152,34 @@ public class SystemManagerAddCourseController extends QueryController implements
     	String idteachingUnit = teachingUnit.substring(teachingUnit.indexOf("(") + 1, teachingUnit.indexOf(")"));//get the idteachingUnit that is inside a ( ).
     	
     	if(isValidInput == true){  //if the data were inserted properly, added in DB.
-	 		insertCourse(idteachingUnit,courseName.getText(),hours.getText(),nameCourse);
+	 		insertCourse(idteachingUnit,nameCourse,hours.getText());
     	}
     }
     
     
-	private boolean insertCourse(String idteachingUnit,String courseName, String hours,String nameCourse) {//will be checked in fit pro.
+	public boolean insertCourse(String idteachingUnit,String courseName, String hours) {//will be checked in fit pro.
 		boolean isInsertSucced = true;
 		Object obj;
+		obj = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + courseName +"'");
+		if(obj != null){//course name already exist.
+			return isInsertSucced=false;
+		}
 		obj =  transfferQueryToServer("INSERT INTO courses(courseName, teachingUnit, hours) VALUES ('"+courseName+"','"+idteachingUnit+"',"+hours+")");
 		if(obj == null){ //check if data insert to DB
-			//add.setText("The course was successfully added in DB.");
-			//addPreCourseButton.setVisible(true);
-			//addMoreCourseButton.setVisible(true);
-			//errorID.setText("");
-			
+			if(isNotTest){
+				add.setText("The course was successfully added in DB.");
+				addPreCourseButton.setVisible(true);
+				addMoreCourseButton.setVisible(true);
+				errorID.setText("");
+			}
 			//The number the DB gave to the ID course
-			ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + nameCourse +"'");
+			ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + courseName +"'");
 		    if(res1==null){
-		    	//errorID.setText("NO found name courses");//show error message.
-				//add.setText("");
-				//course.setText("");
+				if(isNotTest){
+			    	errorID.setText("NO found name courses");//show error message.
+					add.setText("");
+					course.setText("");
+				}
 				isInsertSucced = false;
 		    }
 		    else{
@@ -189,10 +187,14 @@ public class SystemManagerAddCourseController extends QueryController implements
 				chooseIDcourse.add(res1.get(0).get(0));
 				String[] id = new String[chooseIDcourse.size()];
 				id = chooseIDcourse.toArray(id);
-				//Coursetext.setVisible(true);
-				//course.setText(id[0]);
+				if(isNotTest){
+					Coursetext.setVisible(true);
+					course.setText(id[0]);
+				}
 				lastCourse=id[0];
 		    }
+		}else{
+			isInsertSucced = false;
 		}
 		return isInsertSucced;
 	}

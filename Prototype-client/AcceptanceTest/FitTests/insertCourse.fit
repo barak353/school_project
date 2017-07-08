@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title></title>
+	<meta content="MSHTML 11.00.10570.1001" name="GENERATOR" />
+</head>
+<body>
+<p>&nbsp;</p>
+
+<p>insertCourse Acceptance Test</p>
+
+<p>In this test we assumed that the inserted values are correct, so we just checks if the data is inserted succesfuly to the DB.</p>
+
+<p>in the first test we insert an not existing data but with correct fields so it succed.</p>
+
+<p>in the second test we insert an existing data in the DB so it return false.</p>
+
+<table border="1" cellpadding="5" cellspacing="0" width="765">
+	<tbody>
+		<tr>
+			<td class="style1" colspan="3">fit.ActionFixture</td>
+		</tr>
+		<tr>
+			<td class="style1">start</td>
+			<td class="style1">Fixtures.client.insertCourse<br />
+			&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">start controller</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Test</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">123</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">insertCourse</td>
+			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setnameCourse</td>
+			<td class="style1">Algebra 1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeachingUnit</td>
+			<td class="style1">123</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setHours</td>
+			<td class="style1">15</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">insertCourse</td>
+			<td class="style1">false</td>
+		</tr>
+
+	</tbody>
+</table>
+
+<p class="style1">CheckCourseDetails FIT Test &copy; 2017 Barak Segal</p>
+</body>
+</html>
