@@ -110,6 +110,13 @@ public class SetUpTaskController extends QueryController implements Initializabl
 				}
     }
     
+    
+	public boolean isCourseExist(String teacherID, String semeID) {
+    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID + " AND SemesId='" + semeID + "'");
+    	if( res == null )return false;
+    	else return true;
+	}
+    
     /**
      * this function initialize the screen white the name of the user, and the combobox  of course
      */
@@ -123,7 +130,7 @@ public class SetUpTaskController extends QueryController implements Initializabl
     	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT DISTINCT coID FROM teacherinclassincourse WHERE Tidentity="+teacherID + " AND SemesId='" + semeID + "'");
     	ArrayList<String> courseNameList = new ArrayList<String>();
     	ArrayList<ArrayList<String>> res2;
-    	if(res == null) return;
+    	if(isCourseExist(teacherID,semeID) == false) return;
     	for(ArrayList<String> row:res){
         	res2 = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName,idcourses FROM courses WHERE idcourses="+row.get(0));
     		courseNameList.add(res2.get(0).get(0)+"("+res2.get(0).get(1)+")");
@@ -170,3 +177,6 @@ public class SetUpTaskController extends QueryController implements Initializabl
     
 
 }
+
+
+
