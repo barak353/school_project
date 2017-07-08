@@ -48,9 +48,4 @@ public class insertCourse extends ActionFixture {
 		controllerTest = new SystemManagerAddCourseController("ControllerTestID");
 		controllerTest.isNotTest = false;
 	}
-  
-	public void endController() {
-			QueryController.connection.quit();
-	}
-	
 }

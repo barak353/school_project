@@ -71,7 +71,11 @@
 			<td class="style1">insertCourse</td>
 			<td class="style1">false</td>
 		</tr>
-
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">end controller</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
 	</tbody>
 </table>
 

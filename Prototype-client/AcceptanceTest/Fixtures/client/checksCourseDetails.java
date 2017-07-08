@@ -51,6 +51,4 @@ public class checksCourseDetails extends ActionFixture {
 		controllerTest = new SystemManagerAddCourseController("ControllerTestID");
 		controllerTest.isNotTest = false;
 	}
-  
-
 }
