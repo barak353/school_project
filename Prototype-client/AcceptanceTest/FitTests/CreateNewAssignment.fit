@@ -61,6 +61,26 @@
 			<td class="style1">isCourseExist</td>
 			<td class="style1">false</td>
 		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">startNextController</td>
+			<td class="style1">5572</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isDateSetted</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">setDate</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isDateSetted</td>
+			<td class="style1">true</td>
+		</tr>
 	</tbody>
 </table>
 

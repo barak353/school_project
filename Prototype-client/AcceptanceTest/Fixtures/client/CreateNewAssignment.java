@@ -5,6 +5,7 @@ package Fixtures.client;
 
 import java.io.IOException;
 import Teacher.SetUpTaskController;
+import Teacher.UploadTaskController;
 import application.QueryController;
 import fit.ActionFixture;
 
@@ -13,7 +14,7 @@ import fit.ActionFixture;
  */
 public class CreateNewAssignment extends ActionFixture {
 	SetUpTaskController controllerTest;
-	//SystemManagerAddPreCourseController nextControllerTest;
+	UploadTaskController nextControllerTest;
 	private String teacherID;
 	private String semID;
 	//private String Hours;
@@ -24,13 +25,20 @@ public class CreateNewAssignment extends ActionFixture {
 		this.teacherID = teacherID;
 	}
   
-    
 	public void setSemeID(String semID) {
 		this.semID = semID;
 	}
 	
 	public String isCourseExist() {
 		return String.valueOf(controllerTest.isCourseExist(teacherID,semID));
+	}
+	
+	public void setDate(){
+		nextControllerTest.setDate(null);
+	}
+	
+	public String isDateSetted(){
+		return String.valueOf(nextControllerTest.isDateSetted());
 	}
 	
 	/*public void setnameCourse(String semID) {
@@ -67,10 +75,9 @@ public class CreateNewAssignment extends ActionFixture {
 		controllerTest.isNotTest = false;
 	}
 	
-	/*public void startNextController() {
-		nextControllerTest = new SystemManagerAddPreCourseController("ControllerTestID");
+	public void startNextController(String courseID) {
+		nextControllerTest = new UploadTaskController("ControllerTestID");
 		nextControllerTest.isNotTest = false;
-		nextControllerTest.setCourseID(controllerTest.lastCourse);//set current course id.
-		nextControllerTest.preCourses(null);
-	}*/
+		nextControllerTest.setCourseID(courseID);//set current course id.
+	}
 }

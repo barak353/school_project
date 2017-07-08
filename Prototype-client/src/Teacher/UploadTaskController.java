@@ -111,7 +111,6 @@ public class UploadTaskController extends QueryController implements Initializab
     void LogOut(ActionEvent event) {//return to the log in screen
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
@@ -138,10 +137,25 @@ public class UploadTaskController extends QueryController implements Initializab
      */
     
     @FXML
-    void setDate(ActionEvent event) {
-		textMSG.setText("");
+	public void setDate(ActionEvent event) {
+    	if(isNotTest) textMSG.setText("");
     	isDateSetted = true;
     }
+    
+    boolean isDateValid(Object date){
+    	if(date==null){
+    		if(isNotTest)textMSG.setText("Please insert submission date of task");
+    		if(isNotTest)textMSG.setVisible(true);
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean isDateSetted(){
+    	return isDateSetted;
+    }
+    
+    
     /**
      * this function save in the DB a new task in course that the teacher upload, 
      * the information that save : name of task, submission date ,and file 
@@ -149,14 +163,14 @@ public class UploadTaskController extends QueryController implements Initializab
      */
     @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
-		textMSG.setText("");
-    	if(setDate.getValue()==null){
-    		textMSG.setText("Please insert submission date of task");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    	if(isUploaded == false){textMSG.setText("Please upload file.");return;}
-    	if(isDateSetted == false){textMSG.setText("Please set date.");return;}
+    	if(isNotTest)textMSG.setText("");
+    	System.out.println("isDateSetted: "+isDateSetted);
+    	System.out.println("isUploaded: "+isUploaded);
+
+    	if(isDateValid(setDate.getValue())) return;
+    	System.out.println("isDateSetted: "+isDateSetted);
+    	if(isUploaded == false){if(isNotTest)textMSG.setText("Please upload file.");return;}
+    	if(isDateSetted() == false){if(isNotTest)textMSG.setText("Please set date.");return;}
         LocalDate now = LocalDate.now();
     	LocalDate choseDate =(LocalDate)setDate.getValue();
     	if(TaskName.getText().trim().isEmpty()){
