@@ -176,17 +176,12 @@ public class UploadTaskController extends QueryController implements Initializab
     	String task = TaskName.getText();
     	Semester semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-    	isUploadSucceded(choseDate, task, IDsem);
+    	isUploadSucceded(choseDate, task, IDsem,User.getCurrentLoggedIn().GetID(),file.getName());
     	textMSG.setVisible(true);
-    	String[] parts = IDsem.split(":");
-    	String part1 = parts[0]; // year
-    	String part2 = parts[1]; // type
-    	IDsem = parts[0]+parts[1];
-		Object ans = uploadFileToServer(file,IDsem+"//"+courseID);
 		isDateSetted = false;
     }
 
-	public boolean isUploadSucceded(LocalDate choseDate, String task, String IDsem) {
+	public boolean isUploadSucceded(LocalDate choseDate, String task, String IDsem,String userID,String fileName) {
 		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"' AND "
     			+ "Teach="+teacherID);
     	if(res != null){
@@ -200,10 +195,15 @@ public class UploadTaskController extends QueryController implements Initializab
         	if(isNotTest)textMSG.setVisible(true);
     		return false;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + TaskName.getText() + "', " 
-    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"','" + file.getName() + "',"+ User.getCurrentLoggedIn().GetID() +")");
+    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +choseDate+"','" + fileName + "',"+ userID +")");
     	if(isNotTest) textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
+    	String[] parts = IDsem.split(":");
+    	String part1 = parts[0]; // year
+    	String part2 = parts[1]; // type
+    	IDsem = parts[0]+parts[1];
+    	if(isNotTest){Object ans = uploadFileToServer(file,IDsem+"//"+courseID);}
 	return true;
 	}
     

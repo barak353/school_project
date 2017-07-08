@@ -23,9 +23,9 @@ public class CreateNewAssignment extends ActionFixture {
 	private String choseDate;
 	private String task;
 	private String IDsem;
+	private String fileName;
 	
-	
-	public void setSemID(String IDsem) {
+	public void setSemID(String IDsem){
 		this.IDsem = IDsem;
 	}
 	
@@ -45,6 +45,10 @@ public class CreateNewAssignment extends ActionFixture {
 		this.semID = semID;
 	}
 	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 	public String isCourseExist() {
 		return String.valueOf(controllerTest.isCourseExist(teacherID,semID));
 	}
@@ -57,37 +61,13 @@ public class CreateNewAssignment extends ActionFixture {
 		return String.valueOf(nextControllerTest.isDateSetted());
 	}
 	
-	public String isUploadSucceded(String choseDate, String task, String IDsem){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	public String isUploadSucceded(){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String date = choseDate;
 		//convert String to LocalDate
 		LocalDate localDate = LocalDate.parse(date, formatter);
-		return String.valueOf(nextControllerTest.isUploadSucceded(localDate,task,IDsem));
+		return String.valueOf(nextControllerTest.isUploadSucceded(localDate,task,IDsem,"1",fileName));
 	}
-	
-	/*public void setnameCourse(String semID) {
-		this.semID = semID;
-	}
-    
-	public void setPreCourse(String preCourse) {
-		this.preCourse = preCourse;
-	}
-	
-    public String findTeachingUnit(){
-    	return String.valueOf(controllerTest.findTeachingUnit());
-    }
-	
-	public String checksCourseDetails() {
-		return String.valueOf(controllerTest.checksCourseDetails(nameCourse,nameCourse,Hours));
-	}
-  
-	public String insertCourse() {
-		return String.valueOf(controllerTest.insertCourse(TeachingUnit,nameCourse,Hours));
-	}
-	
-	public String insertPreCourse() {
-		return String.valueOf(nextControllerTest.insertPreCourse(preCourse));
-	}*/
 	
 	public void startController() {
 		try {
