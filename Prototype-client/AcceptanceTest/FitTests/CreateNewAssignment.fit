@@ -81,6 +81,36 @@
 			<td class="style1">isDateSetted</td>
 			<td class="style1">true</td>
 		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setSemID</td>
+			<td class="style1">2017:B</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isTaskExist</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isTaskExist</td>
+			<td class="style1">false</td>
+		</tr>
 	</tbody>
 </table>
 

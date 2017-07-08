@@ -4,6 +4,9 @@
 package Fixtures.client;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import Teacher.SetUpTaskController;
 import Teacher.UploadTaskController;
 import application.QueryController;
@@ -17,9 +20,22 @@ public class CreateNewAssignment extends ActionFixture {
 	UploadTaskController nextControllerTest;
 	private String teacherID;
 	private String semID;
-	//private String Hours;
-	//private String preCourse;
-	//public static boolean isNotTest = false;
+	private String choseDate;
+	private String task;
+	private String IDsem;
+	
+	
+	public void setSemID(String IDsem) {
+		this.IDsem = IDsem;
+	}
+	
+	public void setTask(String task) {
+		this.task = task;
+	}
+	
+	public void setDate(String choseDate) {
+		this.choseDate = choseDate;
+	}
 	
 	public void setTeacherID(String teacherID) {
 		this.teacherID = teacherID;
@@ -39,6 +55,14 @@ public class CreateNewAssignment extends ActionFixture {
 	
 	public String isDateSetted(){
 		return String.valueOf(nextControllerTest.isDateSetted());
+	}
+	
+	public String isUploadSucceded(String choseDate, String task, String IDsem){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = choseDate;
+		//convert String to LocalDate
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		return String.valueOf(nextControllerTest.isUploadSucceded(localDate,task,IDsem));
 	}
 	
 	/*public void setnameCourse(String semID) {
