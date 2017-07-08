@@ -80,7 +80,7 @@ public class SystemManagerAddCourseController extends QueryController implements
     @FXML
     private Button addMoreCourseButton;
     
-    private String lastCourse = "";
+    public String lastCourse = "";
     private String nameCourse = "";
     private String Hours = "";
     private String teachingUnit;
@@ -159,12 +159,15 @@ public class SystemManagerAddCourseController extends QueryController implements
     
 	public boolean insertCourse(String idteachingUnit,String courseName, String hours) {//will be checked in fit pro.
 		boolean isInsertSucced = true;
+		System.out.println("test");
 		Object obj;
 		obj = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT courseName FROM courses WHERE courseName='" + courseName +"'");
 		if(obj != null){//course name already exist.
+			System.out.println("already, courseName: "+courseName);
 			return isInsertSucced=false;
 		}
 		obj =  transfferQueryToServer("INSERT INTO courses(courseName, teachingUnit, hours) VALUES ('"+courseName+"','"+idteachingUnit+"',"+hours+")");
+		System.out.println("before before,obj: "+obj);
 		if(obj == null){ //check if data insert to DB
 			if(isNotTest){
 				add.setText("The course was successfully added in DB.");
@@ -172,9 +175,11 @@ public class SystemManagerAddCourseController extends QueryController implements
 				addMoreCourseButton.setVisible(true);
 				errorID.setText("");
 			}
+			System.out.println("before");
 			//The number the DB gave to the ID course
 			ArrayList<ArrayList<String>> res1= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT idcourses FROM courses WHERE courseName='" + courseName +"'");
-		    if(res1==null){
+		    System.out.println("res1: "+res1);
+			if(res1==null){
 				if(isNotTest){
 			    	errorID.setText("NO found name courses");//show error message.
 					add.setText("");
@@ -192,6 +197,7 @@ public class SystemManagerAddCourseController extends QueryController implements
 					course.setText(id[0]);
 				}
 				lastCourse=id[0];
+				System.out.println("lastCourse: "+lastCourse);
 		    }
 		}else{
 			isInsertSucced = false;

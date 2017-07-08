@@ -9,6 +9,7 @@ package Fixtures.client;
 import java.io.IOException;
 
 import SystemManager.SystemManagerAddCourseController;
+import SystemManager.SystemManagerAddPreCourseController;
 import application.QueryController;
 import fit.ActionFixture;
 
@@ -17,9 +18,11 @@ import fit.ActionFixture;
  */
 public class DefineCourse extends ActionFixture {
 	SystemManagerAddCourseController controllerTest;
+	SystemManagerAddPreCourseController nextControllerTest;
 	private String TeachingUnit;
 	private String nameCourse;
 	private String Hours;
+	private String preCourse;
 	public static boolean isNotTest = false;
 	
 	public void setHours(String setHours) {
@@ -37,6 +40,10 @@ public class DefineCourse extends ActionFixture {
 		this.nameCourse = setnameCourse;
 	}
     
+	public void setPreCourse(String preCourse) {
+		this.preCourse = preCourse;
+	}
+	
     public String findTeachingUnit(){
     	return String.valueOf(controllerTest.findTeachingUnit());
     }
@@ -49,6 +56,11 @@ public class DefineCourse extends ActionFixture {
 		return String.valueOf(controllerTest.insertCourse(TeachingUnit,nameCourse,Hours));
 	}
     
+	
+	public String insertPreCourse() {
+		return String.valueOf(nextControllerTest.insertPreCourse(preCourse));
+	}
+	
 	public void startController() {
 		try {
 			QueryController.connect("localhost", 5555);
@@ -57,5 +69,12 @@ public class DefineCourse extends ActionFixture {
 		}
 		controllerTest = new SystemManagerAddCourseController("ControllerTestID");
 		controllerTest.isNotTest = false;
+	}
+	
+	public void startNextController() {
+		nextControllerTest = new SystemManagerAddPreCourseController("ControllerTestID");
+		nextControllerTest.isNotTest = false;
+		nextControllerTest.setCourseID(controllerTest.lastCourse);//set current course id.
+		nextControllerTest.preCourses(null);
 	}
 }

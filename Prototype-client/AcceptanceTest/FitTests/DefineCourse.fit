@@ -5,8 +5,6 @@
 	<meta content="MSHTML 11.00.10570.1001" name="GENERATOR" />
 </head>
 <body>
-<p>&nbsp;</p>
-
 <p><strong>Define courses - Acceptance Test</strong></p>
 
 <p><u>part 1: findTeachingUnit</u></p>
@@ -27,6 +25,12 @@
 in the first test we insert an not existing data but with correct fields so it succed.</p>
 
 <p>in the second test we insert an existing data in the DB so it return false.</p>
+
+<p><u>part 4: insertPreCourse</u><br />
+In first row we ensert an existing pre course: 123<br type="_moz" />
+in the second row we enter an not existing row: 969</p>
+
+<p>* be sure you deleted &quot;test&quot; course from courses table and deleted 5578 course id from precourse.*</p>
 
 <table border="1" cellpadding="5" cellspacing="0" width="765">
 	<tbody>
@@ -169,7 +173,6 @@ in the first test we insert an not existing data but with correct fields so it s
 			<td class="style1">checksCourseDetails</td>
 			<td class="style1">false</td>
 		</tr>
-
 		<tr>
 			<td class="style1">enter</td>
 			<td class="style1">setnameCourse</td>
@@ -209,6 +212,21 @@ in the first test we insert an not existing data but with correct fields so it s
 			<td class="style1">check</td>
 			<td class="style1">insertCourse</td>
 			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">start next controller</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">set pre course</td>
+			<td class="style1">5562</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">insert pre course</td>
+			<td class="style1">true</td>
 		</tr>
 	</tbody>
 </table>
