@@ -35,7 +35,7 @@
 
 <p>so we excpect to get false.</p>
 
-<p>&nbsp;</p>
+<p>*becouse we using combox there are alot of edge cases&nbsp;that we don&#39;t need to check. such as wrong semester or wrong teacher ID, and&nbsp;etc..*</p>
 
 <p>&nbsp;</p>
 
