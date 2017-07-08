@@ -176,14 +176,14 @@ public class UploadTaskController extends QueryController implements Initializab
     	String task = TaskName.getText();
     	Semester semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-    	isUploadSucceded(choseDate, task, IDsem,User.getCurrentLoggedIn().GetID(),file.getName());
+    	isUploadSucceded(choseDate, task, IDsem,User.getCurrentLoggedIn().GetID(),file.getName(),teacherID);
     	textMSG.setVisible(true);
 		isDateSetted = false;
     }
 
-	public boolean isUploadSucceded(LocalDate choseDate, String task, String IDsem,String userID,String fileName) {
+	public boolean isUploadSucceded(LocalDate choseDate, String task, String IDsem,String userID,String fileName,String teacherID) {
 		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"' AND "
-    			+ "Teach="+teacherID);
+    			+ "Teach="+teacherID+" AND TaskName='"+task+"'");
     	if(res != null){
     		for(ArrayList<String> row: res){
     			if(((String)row.get(0)).equals(task)){if(isNotTest)textMSG.setText("This task name is already exists.");return false;}
@@ -195,8 +195,15 @@ public class UploadTaskController extends QueryController implements Initializab
         	if(isNotTest)textMSG.setVisible(true);
     		return false;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
+        System.out.println("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
     							+ "'"+IDsem+"'," + courseID + ",'" +choseDate+"','" + fileName + "',"+ userID +")");
+    	Object res1 = transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +choseDate+"','" + fileName + "',"+ userID +")");
+    	if(res1 != null){
+    		System.out.println("res1: " +res1);
+    		int check = (int)res1;
+    		if(check == -1)return false;
+    	}
     	if(isNotTest) textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
     	String[] parts = IDsem.split(":");
@@ -204,7 +211,7 @@ public class UploadTaskController extends QueryController implements Initializab
     	String part2 = parts[1]; // type
     	IDsem = parts[0]+parts[1];
     	if(isNotTest){Object ans = uploadFileToServer(file,IDsem+"//"+courseID);}
-	return true;
+    	return true;
 	}
     
     /**

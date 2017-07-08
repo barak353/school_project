@@ -66,7 +66,7 @@ public class CreateNewAssignment extends ActionFixture {
 		String date = choseDate;
 		//convert String to LocalDate
 		LocalDate localDate = LocalDate.parse(date, formatter);
-		return String.valueOf(nextControllerTest.isUploadSucceded(localDate,task,IDsem,"1",fileName));
+		return String.valueOf(nextControllerTest.isUploadSucceded(localDate,task,IDsem,"1",fileName,teacherID));
 	}
 	
 	public void startController() {

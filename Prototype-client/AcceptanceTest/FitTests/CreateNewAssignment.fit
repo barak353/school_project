@@ -13,6 +13,30 @@
 
 <p>we will enter an existing teacher and not existing teacher just to be sure.</p>
 
+<p>in the first row we will enter an existing teacher and semester and axpect to get true.</p>
+
+<p>value: 2017:A,1</p>
+
+<p>in the second row we enter not existing teacher: 2 so we get false.</p>
+
+<p><u>part 2: isDateSetted:</u></p>
+
+<p>first row date not choosed so we excpect to get false, then we set date and we excpest to get true in the second row.</p>
+
+<p><u>part 3: isUploadSucceded</u>:</p>
+
+<p>in the first row we enter: sem: 2016:B, teacher id: 1 , date:2017-08-03, file name and task name: sub1.</p>
+
+<p>all field are correct we excpect from isUpload.. to return true.</p>
+
+<p>in the second row we enter again the same atask so we excpect to get false.</p>
+
+<p>in third row we enter task name sub2 with date that as passed: 2016-08-03</p>
+
+<p>so we excpect to get false.</p>
+
+<p>&nbsp;</p>
+
 <p>&nbsp;</p>
 
 <table border="1" cellpadding="5" cellspacing="0" width="765">
@@ -63,6 +87,11 @@
 		</tr>
 		<tr>
 			<td class="style1">enter</td>
+			<td class="style1">setTeacherID</td>
+			<td class="style1">1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
 			<td class="style1">startNextController</td>
 			<td class="style1">5572</td>
 		</tr>
@@ -110,6 +139,31 @@
 			<td class="style1">check</td>
 			<td class="style1">isUploadSucceded</td>
 			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isUploadSucceded</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setDate</td>
+			<td class="style1">2016-08-03</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setFileName</td>
+			<td class="style1">sub2</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTask</td>
+			<td class="style1">sub2</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isUploadSucceded</td>
+			<td class="style1">false</td>
 		</tr>
 	</tbody>
 </table>
