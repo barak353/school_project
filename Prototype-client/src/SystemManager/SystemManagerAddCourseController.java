@@ -281,19 +281,23 @@ public class SystemManagerAddCourseController extends QueryController implements
 		    findTeachingUnit();
 		}
 		
-		private boolean findTeachingUnit() {
+		public boolean findTeachingUnit() {
 			ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM teachingunit");
 	        if(res==null){
-	        	errorID.setText("Teaching unit is not found");//show error message.
+				if(isNotTest){
+					errorID.setText("Teaching unit is not found");//show error message.
+				}
 	        	return false;
 	        }
 	        else{
-			    ArrayList<String> teachingunitList = new ArrayList<String>();
-		    	for(ArrayList<String> row:res){
-		    		teachingunitList.add(row.get(1)+" ("+row.get(0)+")");
-		    	}
-			    ObservableList obList= FXCollections.observableList(teachingunitList);
-			    TeachingUnit.setItems(obList);
+				if(isNotTest){
+		        	ArrayList<String> teachingunitList = new ArrayList<String>();
+			    	for(ArrayList<String> row:res){
+			    		teachingunitList.add(row.get(1)+" ("+row.get(0)+")");
+			    	}
+				    ObservableList obList= FXCollections.observableList(teachingunitList);
+				    TeachingUnit.setItems(obList);
+				}
 			    return true;
 	        }
 		}

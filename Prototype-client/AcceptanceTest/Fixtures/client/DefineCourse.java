@@ -15,18 +15,13 @@ import fit.ActionFixture;
 /*
  * TODO: modify class to match the FIT test - edit and add methods as required.
  */
-public class checksCourseDetails extends ActionFixture {
+public class DefineCourse extends ActionFixture {
 	SystemManagerAddCourseController controllerTest;
 	private String TeachingUnit;
 	private String nameCourse;
 	private String Hours;
 	public static boolean isNotTest = false;
-    
-	public String checksCourseDetails() {
-		return String.valueOf(controllerTest.checksCourseDetails(nameCourse,nameCourse,Hours));
-	}
-  
-    
+	
 	public void setHours(String setHours) {
 		this.Hours = setHours;
 	}
@@ -36,11 +31,23 @@ public class checksCourseDetails extends ActionFixture {
 		this.TeachingUnit = setTeachingUnit;
 	}
   
-    
+
+	
 	public void setnameCourse(String setnameCourse) {
 		this.nameCourse = setnameCourse;
 	}
+    
+    public String findTeachingUnit(){
+    	return String.valueOf(controllerTest.findTeachingUnit());
+    }
+	
+	public String checksCourseDetails() {
+		return String.valueOf(controllerTest.checksCourseDetails(nameCourse,nameCourse,Hours));
+	}
   
+	public String insertCourse() {
+		return String.valueOf(controllerTest.insertCourse(TeachingUnit,nameCourse,Hours));
+	}
     
 	public void startController() {
 		try {
