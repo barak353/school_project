@@ -27,12 +27,12 @@ public class SubmitTaskControllerTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		QueryController.connect("localhost",5555);
-		 IDNcourse = new String("5565");
+		 IDNcourse = new String("5572");
 		 TaskName = new String("sub1");
 		 IDstudent= new String("8");
-		 IDsem = new String("2017:B");
-		 IDsemQ= new String("2017:B");
-		 courseID=new String("5565");
+		 IDsem = new String("2017:A");
+		 IDsemQ= new String("2017:A");
+		 courseID=new String("5572");
 		 studentID=new String("8");
 		 
 		 
