@@ -111,7 +111,6 @@ public class UploadTaskController extends QueryController implements Initializab
     void LogOut(ActionEvent event) {//return to the log in screen
 		 try 
 		 {
-			
 			    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login/LoginWindow.fxml"));
 		        loader.setController(new LoginController("LoginController"));
 			    Pane login_screen_parent = loader.load();
@@ -138,10 +137,25 @@ public class UploadTaskController extends QueryController implements Initializab
      */
     
     @FXML
-    void setDate(ActionEvent event) {
-		textMSG.setText("");
+	public void setDate(ActionEvent event) {
+    	if(isNotTest) textMSG.setText("");
     	isDateSetted = true;
     }
+    
+    boolean isDateValid(Object date){
+    	if(date==null){
+    		if(isNotTest)textMSG.setText("Please insert submission date of task");
+    		if(isNotTest)textMSG.setVisible(true);
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean isDateSetted(){
+    	return isDateSetted;
+    }
+    
+    
     /**
      * this function save in the DB a new task in course that the teacher upload, 
      * the information that save : name of task, submission date ,and file 
@@ -149,15 +163,10 @@ public class UploadTaskController extends QueryController implements Initializab
      */
     @FXML
     void saveB(ActionEvent event) {//func insert information into the DB
-		textMSG.setText("");
-    	if(setDate.getValue()==null){
-    		textMSG.setText("Please insert submission date of task");
-    		textMSG.setVisible(true);
-    		return;
-    	}
-    	if(isUploaded == false){textMSG.setText("Please upload file.");return;}
-    	if(isDateSetted == false){textMSG.setText("Please set date.");return;}
-        LocalDate now = LocalDate.now();
+    	if(isNotTest)textMSG.setText("");
+    	if(isDateValid(setDate.getValue())) return;
+    	if(isUploaded == false){if(isNotTest)textMSG.setText("Please upload file.");return;}
+    	if(isDateSetted() == false){if(isNotTest)textMSG.setText("Please set date.");return;}
     	LocalDate choseDate =(LocalDate)setDate.getValue();
     	if(TaskName.getText().trim().isEmpty()){
     		textMSG.setText("Please insert task name.");
@@ -167,31 +176,43 @@ public class UploadTaskController extends QueryController implements Initializab
     	String task = TaskName.getText();
     	Semester semester = Semester.getCurrentSemester();
     	String IDsem = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-    	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"' AND "
-    			+ "Teach="+teacherID);
+    	isUploadSucceded(choseDate, task, IDsem,User.getCurrentLoggedIn().GetID(),file.getName(),teacherID);
+    	textMSG.setVisible(true);
+		isDateSetted = false;
+    }
+
+	public boolean isUploadSucceded(LocalDate choseDate, String task, String IDsem,String userID,String fileName,String teacherID) {
+		ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT TaskName FROM task WHERE idcorse="+courseID+" AND IDsem='"+IDsem+"' AND "
+    			+ "Teach="+teacherID+" AND TaskName='"+task+"'");
     	if(res != null){
     		for(ArrayList<String> row: res){
-    			System.out.println(row.get(0)+", task:" + task);
-    			if(((String)row.get(0)).equals(task)){textMSG.setText("This task name is already exists.");return;}
+    			if(((String)row.get(0)).equals(task)){if(isNotTest)textMSG.setText("This task name is already exists.");return false;}
     		}
     	}
+        LocalDate now = LocalDate.now();
         if (now.compareTo(choseDate) > 0) {//check if the date is pass
-    		textMSG.setText("the submmision date is pass");
-    		textMSG.setVisible(true);
-    		return;
+        	if(isNotTest)textMSG.setText("the submmision date is pass");
+        	if(isNotTest)textMSG.setVisible(true);
+    		return false;
    	} 
-    	transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + TaskName.getText() + "', " 
-    							+ "'"+IDsem+"'," + courseID + ",'" +setDate.getValue()+"','" + file.getName() + "',"+ User.getCurrentLoggedIn().GetID() +")");
-    	textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
+        System.out.println("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +choseDate+"','" + fileName + "',"+ userID +")");
+    	Object res1 = transfferQueryToServer("INSERT INTO task (TaskName,IDsem,idcorse,SubDate,fileExtN,Teach) VALUES ('" + task + "', " 
+    							+ "'"+IDsem+"'," + courseID + ",'" +choseDate+"','" + fileName + "',"+ userID +")");
+    	if(res1 != null){
+    		System.out.println("res1: " +res1);
+    		int check = (int)res1;
+    		if(check == -1)return false;
+    	}
+    	if(isNotTest) textMSG.setText("You have successfully inserted the data into DB:\ntask " +TaskName.getText()
     					+" to course: "+courseID );
-    	textMSG.setVisible(true);
     	String[] parts = IDsem.split(":");
     	String part1 = parts[0]; // year
     	String part2 = parts[1]; // type
     	IDsem = parts[0]+parts[1];
-		Object ans = uploadFileToServer(file,IDsem+"//"+courseID);
-		isDateSetted = false;
-    }
+    	if(isNotTest){Object ans = uploadFileToServer(file,IDsem+"//"+courseID);}
+    	return true;
+	}
     
     /**
      * This function uploads a file to the system and check if the user upload file

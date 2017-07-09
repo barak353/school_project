@@ -35,6 +35,8 @@ public class QueryController{
         
     protected String controllerID;
 
+    public boolean isNotTest = true;
+    
     public QueryController(String controllerID){
     	this.controllerID = controllerID;
 		//controllerHashMap=new HashMap <String ,QueryController>();

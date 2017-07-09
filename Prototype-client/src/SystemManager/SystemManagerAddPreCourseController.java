@@ -63,12 +63,9 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     private Button finishButton;
     @FXML
     private Text addpreCourses;
-
-
     private String lastCourse;
     private String PreCourses;
     private int flag=0;
-
 	
 	//-----------------------------------------------------------//
     
@@ -93,13 +90,12 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
      *  the system Continue to the next screen -  add Pre course
      * @param event
      */   
-		
     @FXML
     void addPrecourse(ActionEvent event) 
     {    
     	errorID.setText("");
     	addpreCourses.setText("");
-
+    	
     	
     	if(flag==0){ //checks if not choose Pre-course.
     		errorID.setText("ERROR:\nPlease choose Pre-course.");
@@ -108,26 +104,8 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
     	
     	Object obj = null;
     	String idPreCourses = PreCourses.substring(PreCourses.indexOf("(") + 1, PreCourses.indexOf(")"));//get the idteachingUnit that is inside a ( ).
-    	System.out.println("idteachingUnit: "+ idPreCourses);
-    	
-    	if(flag==1){ 
-	 		obj =  transfferQueryToServer("INSERT INTO precourse(precourse, currCourse) VALUES ('"+idPreCourses+"',"+lastCourse+")");
-	    	if(obj == null){ //check if pre-course was successfully added in DB
-	    		addpreCourses.setText("The pre-course was successfully added in DB.");
-				errorID.setText("");
-	    	}
-	    	
-	    	int r=0;
-	    	if(obj != null){  //check if Data exists in DB
-	    		r = (int)obj;
-	    		if(r == -1)//if we encounter a error let's check which error it was.
-			        	errorID.setText("ERROR: this pre-course ID is already in DB."); 
-	    	}
-    	}
+    	insertPreCourse(idPreCourses);
 	    //PreCourses.clear();
-    	
-    	
-    	
 		try {
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/SystemManager/SystemManagerAddPreCourseWindow.fxml"));
 	    	SystemManagerAddPreCourseController controller = new SystemManagerAddPreCourseController("SystemManagerAddPreCourseController");
@@ -144,20 +122,39 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 			System.err.println("Missing SystemManagerAddPreCourseWindow.fxml file");
 			e.printStackTrace();
 		}
+    }
 
-		
-		
-		
-    } 
+	public boolean insertPreCourse(String idPreCourses) {
+		Object obj;
+		boolean isInserted = true ;
+		if(flag==1){ 
+	 		obj =  transfferQueryToServer("INSERT INTO precourse(precourse, currCourse) VALUES ('"+idPreCourses+"',"+lastCourse+")");
+	    	if(obj == null){ //check if pre-course was successfully added in DB
+				if(isNotTest){
+		    		addpreCourses.setText("The pre-course was successfully added in DB.");
+					errorID.setText("");
+				}
+	    	}
+	    	int r=0;
+	    	if(obj != null){  //check if Data exists in DB
+	    		r = (int)obj;
+	    		if(r == -1){//if we encounter a error let's check which error it was.
+					if(isNotTest){
+			        	errorID.setText("ERROR: this pre-course ID is already in DB."); 
+					}
+						isInserted = false;
+	    		}
+	    	}
+    	}
+		return 	isInserted;
+	} 
     
 	//------------------------------------------// 
-    
     /**
      *  After pressing the finish button,
      *  the system Continue to the next screen -  add course
      * @param event
      */   
-  
     @FXML
     void finish(ActionEvent event) {
 		 try {
@@ -186,7 +183,6 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
   		User user = User.getCurrentLoggedIn();
   		userID.setText(user.GetUserName());
   		ID.setText(lastCourse);
-
 	    ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM courses WHERE idcourses!='" + lastCourse +"'");
         if(res==null){
         	errorID.setText("NO found courses");//show error message.
@@ -199,7 +195,6 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
 		    ObservableList obList= FXCollections.observableList(precourses);
 		    preCourses.setItems(obList);
         }
-
   	}
   
   	
@@ -211,16 +206,14 @@ public class SystemManagerAddPreCourseController extends QueryController impleme
      */
 
     @FXML
-    void preCourses(ActionEvent event) {
+    public void preCourses(ActionEvent event) {
 		flag = 1;
-		PreCourses = preCourses.getValue();
-
+		if(isNotTest){
+			PreCourses = preCourses.getValue();
+		}
     }
-
 	
 	//------------------------------------------// 
-
-    
 	public void setCourseID(String lastCourse) {
 		// TODO Auto-generated method stub
 		this.lastCourse = lastCourse;

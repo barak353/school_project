@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title></title>
+	<meta content="MSHTML 11.00.10570.1001" name="GENERATOR" />
+</head>
+<body>
+<p><strong>Create New Assignment- Acceptance Test</strong></p>
+
+<p><u>part 1: isCourseExist</u></p>
+
+<p>this method get the current semester and an existing teacher that was choosed from the combobox.</p>
+
+<p>we will enter an existing teacher and not existing teacher just to be sure.</p>
+
+<p>in the first row we will enter an existing teacher and semester and axpect to get true.</p>
+
+<p>value: 2017:A,1</p>
+
+<p>in the second row we enter not existing teacher: 2 so we get false.</p>
+
+<p><u>part 2: isDateSetted:</u></p>
+
+<p>first row date not choosed so we excpect to get false, then we set date and we excpest to get true in the second row.</p>
+
+<p><u>part 3: isUploadSucceded</u>:</p>
+
+<p>in the first row we enter: sem: 2016:B, teacher id: 1 , date:2017-08-03, file name and task name: sub1.</p>
+
+<p>all field are correct we excpect from isUpload.. to return true.</p>
+
+<p>in the second row we enter again the same atask so we excpect to get false.</p>
+
+<p>in third row we enter task name sub2 with date that as passed: 2016-08-03</p>
+
+<p>so we excpect to get false.</p>
+
+<p>*becouse we using combox there are alot of edge cases&nbsp;that we don&#39;t need to check. such as wrong semester or wrong teacher ID, and&nbsp;etc..*</p>
+
+<p>&nbsp;</p>
+
+<table border="1" cellpadding="5" cellspacing="0" width="765">
+	<tbody>
+		<tr>
+			<td class="style1" colspan="3">fit.ActionFixture</td>
+		</tr>
+		<tr>
+			<td class="style1">start</td>
+			<td class="style1">Fixtures.client.CreateNewAssignment<br />
+			&nbsp;</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">start controller</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeacherID</td>
+			<td class="style1">1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setSemeID</td>
+			<td class="style1">2017:A</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isCourseExist</td>
+			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeacherID</td>
+			<td class="style1">2</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setSemeID</td>
+			<td class="style1">2017:A</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isCourseExist</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeacherID</td>
+			<td class="style1">1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">startNextController</td>
+			<td class="style1">5572</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isDateSetted</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">press</td>
+			<td class="style1">setDate</td>
+			<td class="style1">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isDateSetted</td>
+			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setSemID</td>
+			<td class="style1">2016:B</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTeacherID</td>
+			<td class="style1">1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setDate</td>
+			<td class="style1">2017-08-03</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setFileName</td>
+			<td class="style1">sub1</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTask</td>
+			<td class="style1">sub1</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isUploadSucceded</td>
+			<td class="style1">true</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isUploadSucceded</td>
+			<td class="style1">false</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setDate</td>
+			<td class="style1">2016-08-03</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setFileName</td>
+			<td class="style1">sub2</td>
+		</tr>
+		<tr>
+			<td class="style1">enter</td>
+			<td class="style1">setTask</td>
+			<td class="style1">sub2</td>
+		</tr>
+		<tr>
+			<td class="style1">check</td>
+			<td class="style1">isUploadSucceded</td>
+			<td class="style1">false</td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="style1">CreateNewAssignment FIT Test &copy; 2017 Barak Segal</p>
+</body>
+</html>
