@@ -1,4 +1,4 @@
-package Unittests;
+package Unitests;
 import Student.SubmitTaskController;
 import application.QueryController;
 import junit.framework.TestCase;
