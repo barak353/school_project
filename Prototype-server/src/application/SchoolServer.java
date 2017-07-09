@@ -200,6 +200,7 @@ public class SchoolServer extends AbstractServer
 		    try{
 		    	packaged.remove("ResultArray");
 		    	packaged.put("ResultArray", result);
+		    	System.out.println("result: " + result);
 		    	client.sendToClient((Object)packaged);
 		    }catch (IOException e) {
 				writer.println(date+": Unable to send Select msg to client from Server.");
