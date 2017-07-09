@@ -118,6 +118,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     private String idTeacher;
     private String idTClass;
     private String userID1;
+    private String fileName;
 
 /**This function is enabled after the user has chosen a course and a specific task 
  * handle the watching task that the teacher upload*
@@ -126,6 +127,7 @@ public class WatchTaskController extends QueryController implements Initializabl
     @FXML
     void watchTeacherTask(ActionEvent event) {
     	ErrorMSG.setText("");
+    	boolean isOpen;
     	if(isTaskChoosed == true){
     		System.out.println("2");
     		isTaskChoosed = false;
@@ -138,22 +140,27 @@ public class WatchTaskController extends QueryController implements Initializabl
         	String studentID = User.getCurrentLoggedIn().GetID();
         	ArrayList<ArrayList<String>> res = (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM  task WHERE IDsem='"+sem
     								+"' AND TaskName='"+choosedTask+"' AND idcorse="+idcourses);
-        	String fileName;
         	if(res == null)ErrorMSG.setText("Teacher didnt upload task for this course.");
         	else {
         		ArrayList<String> row = res.get(0);
         		if(row != null ){
         			fileName = row.get(0);
         			if(fileName != null && !fileName.equals("")){
-        			     downloadFileFromServer(semFile+"//"+idcourses,fileName );
-        			     ErrorMSG.setText("Download was successful, please check foler: "+semFile+"//"+idcourses+"//"+fileName);
+        				isOpen = OpenFile(semFile,idcourses,fileName);
+        			     if(isOpen) ErrorMSG.setText("Download was successful, please check foler: "+semFile+"//"+idcourses+"//"+fileName);
         				}
+        			
         			else ErrorMSG.setText("Teacher didn't upload a task.");
         		}else ErrorMSG.setText("Teacher didn't upload a task.");
         	}
     	}else{
     		ErrorMSG.setText("Please choose course and task.");
     	}
+    }
+    
+    public boolean OpenFile(String sem,String idCourse,String fileName ){
+    	downloadFileFromServer(sem+"//"+idCourse,fileName );
+    	return true;
     }
     
     @FXML

@@ -102,7 +102,7 @@ public class SubmitTaskController extends QueryController implements Initializab
     private String idTeacher;
     private String idTClass;
     private String userID1;
-    
+    public boolean isNotTest=true;
     
 /**
  * After pressing the appropriate button, this function enters the details of the submitted  task to the DB
@@ -126,31 +126,7 @@ public class SubmitTaskController extends QueryController implements Initializab
 	    		String v = comboBoxChooseCourse.getValue();
 	    		String courseID = v.substring(v.indexOf("(") + 1, v.indexOf(")"));
 	    		String studentID = User.getCurrentLoggedIn().GetID();
-	    		String semQ = Semester.getCurrentSemester().getYear()+":"+Semester.getCurrentSemester().getType();
-	            ArrayList<ArrayList<String>> res =(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM subtask WHERE semesterName='"+ semQ +"' AND mytaskname='" 
-						+ TaskName + "' AND IDNcourse=" + courseID 
-							+ " AND stIDENT=" + studentID);
-	            if(res != null && (res.get(0) != null || res.get(0).get(0) != null)){
-	            	ErrorMSG.setText("Override submmited file.");
-	            	deleteFileFromServer(IDsemQ+"//"+courseID+"//"+studentID, res.get(0).get(0));
-        		}
-	    		String semYT = Semester.getCurrentSemester().getYear()+Semester.getCurrentSemester().getType();
-	    		Object ans = uploadFileToServer(file,semYT + "//" +courseID + "//" + studentID);
-				//add the sub task details to the db
-                 //--------------------------------------------------------------------------------------------------------
-	    		Object obj1 =transfferQueryToServer("DELETE FROM subtask WHERE stIDENT=" + IDstudent + " AND mytaskname='" + TaskName + "' AND semesterName='" 
-	    										+ IDsem + "' AND IDNcourse=" + IDNcourse);
-                Object obj =transfferQueryToServer("INSERT INTO subtask (stIDENT,mytaskname,semesterName,IDNcourse,Mark,fileExtN) VALUES (" + studentID + ",'" + TaskName + "','" + IDsem + "'," + IDNcourse + "," 
-                									+ mark + ",'"+ file.getName() +"')");
-                if( obj==null )//if INSERT operation had failed
-     	    		ErrorMSG.setText("You succeed, task was upload.");
-                else if((int)obj==-1 )//if INSERT operation had failed
-                		ErrorMSG.setText("You have already inserted this data into DB.");
-                	 else{
-         	    		ErrorMSG.setText("You have successfully inserted the data into DB.");
-         	    		isFileUploaded = false;
-         	    		isTaskChoosed = false;
-                	 }
+	            uploadFile(IDNcourse, TaskName, IDstudent, IDsem, IDsemQ, courseID, studentID,file);
     	}//isFileUploaded
         else ErrorMSG.setText("Please upload a file for submition.");
     }//isTaskChoosed
@@ -158,6 +134,38 @@ public class SubmitTaskController extends QueryController implements Initializab
 		ErrorMSG.setText("Please choose a task.");
     	}
     }
+    
+  public boolean uploadFile(String IDNcourse, String TaskName, String IDstudent, String IDsem, String IDsemQ,
+		String courseID, String studentID,File file) {
+    	boolean isUploaded = true;
+	ArrayList<ArrayList<String>> res =(ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT fileExtN FROM subtask WHERE semesterName='"+ IDsemQ +"' AND mytaskname='" 
+			+ TaskName + "' AND IDNcourse=" + courseID 
+				+ " AND stIDENT=" + studentID);
+	if(res != null && (res.get(0) != null || res.get(0).get(0) != null)){
+		if(isNotTest)ErrorMSG.setText("Override submmited file.");
+		deleteFileFromServer(IDsemQ+"//"+courseID+"//"+studentID, res.get(0).get(0));
+	}
+	
+	Object ans = uploadFileToServer(file,IDsem + "//" +courseID + "//" + studentID);
+	//add the sub task details to the db
+	 //--------------------------------------------------------------------------------------------------------
+	Object obj1 =transfferQueryToServer("DELETE FROM subtask WHERE stIDENT=" + IDstudent + " AND mytaskname='" + TaskName + "' AND semesterName='" 
+									+ IDsem + "' AND IDNcourse=" + IDNcourse);
+	Object obj =transfferQueryToServer("INSERT INTO subtask (stIDENT,mytaskname,semesterName,IDNcourse,Mark,fileExtN) VALUES (" + studentID + ",'" + TaskName + "','" + IDsem + "'," + IDNcourse + "," 
+										+ mark + ",'"+ file.getName() +"')");
+	if( obj==null ){//if INSERT operation had failed
+		if(isNotTest)ErrorMSG.setText("You succeed, task was upload.");
+	}else if((int)obj==-1 ){//if INSERT operation had failed
+		if(isNotTest)ErrorMSG.setText("You have already inserted this data into DB.");
+			return false;
+		}
+		 else{
+			 if(isNotTest)ErrorMSG.setText("You have successfully inserted the data into DB.");
+			isFileUploaded = false;
+			isTaskChoosed = false;
+		 }
+	return true;
+}
 /**
  * After pressing the appropriate button, this function loads the task file    
  * @param event
