@@ -401,11 +401,11 @@ public class MyNewController extends QueryController implements Initializable {
     			 {
     				 if (StatusJunit==0)errorlog.setVisible(true);
     	     	    SName= (ArrayList<ArrayList<String>>) transfferQueryToServer("SELECT * FROM user WHERE userID='" + AllStudentsInClass.get(j) +"'");
-    	     	    NotAssigned=NotAssigned+"\n"+SName.get(0).get(1)+"\n Pre Courses:"; 
-    	     	   if (StatusJunit==0)sem.setMyString2(sem.GetMyString2()+"\n---------------------------------------------\n"+"\nThe student: ("+AllStudentsInClass.get(j)+") - "+SName.get(0).get(1)+"\n didn't fill the pre courses:");
+    	     	    NotAssigned=NotAssigned+"\n"+SName.get(0).get(1); 
+    	     	    System.out.println("NotAssigned="+ NotAssigned);
+    	     	    if (StatusJunit==0)sem.setMyString2(sem.GetMyString2()+"\n---------------------------------------------\n"+"\nThe student: ("+AllStudentsInClass.get(j)+") - "+SName.get(0).get(1)+"\n didn't fill the pre courses:");
     	     	    for(int t=0;t<PreDidntFill.size();t++)
     				{
-    	     	    	NotAssigned=NotAssigned+"\n"+PreDidntFill.get(t);
     	     	    	if (StatusJunit==0)sem.setMyString2(sem.GetMyString2()+"\n"+PreDidntFill.get(t));
     	     	    	if (StatusJunit==0)errorlog.setText(sem.GetMyString2());
     				}

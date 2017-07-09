@@ -183,6 +183,6 @@ public class MyNewControllerTest extends TestCase {
 		String Answer;
 	
 		Answer=ControllerCheck.AssignClassToCourse("A1","(5566) - Hedva 2");
-		assertEquals(""+"\nnofarT+\nSnir+\n+Michael",Answer);
+		assertEquals(""+"\nnofarT\nSnir\nMichael",Answer);
 	}
 }
